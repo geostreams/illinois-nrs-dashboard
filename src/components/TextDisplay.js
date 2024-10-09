@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { Grid, Typography, Link, Box } from '@mui/material';
-import { useScreenSize } from '../context/ScreenSizeContext';
+import React, { useState } from "react";
+import { Grid, Typography, Link, Box } from "@mui/material";
+import { useScreenSize } from "../context/ScreenSizeContext";
 // This component displays text content with an optional additional component, such as an image or chart.
-// TODO: Maybe hardcode maxChars to a specific number, like 100, to avoid passing it as a prop.
-
-
+// TODO: Maybe change hardcoded maxChars to a specific number
 const TextDisplay = ({
-                         text,
-                         additionalComponent,
-                         truncate = false,
-                         componentPosition = 'right',
-                     }) => {
+    text,
+    additionalComponent,
+    truncate = false,
+    componentPosition = "right",
+}) => {
     const [showFullText, setShowFullText] = useState(!truncate);
+    // Take screen size into account to adjust the max number of characters displayed.
     const { isSmallScreen } = useScreenSize();
 
     const maxChars = isSmallScreen ? 150 : 200;
-    const truncatedText = truncate && text.length > maxChars
-        ? text.slice(0, maxChars) + '...'
-        : text;
+    const truncatedText =
+        truncate && text.length > maxChars
+            ? `${text.slice(0, maxChars)}...`
+            : text;
 
     const handleToggleText = () => {
         setShowFullText(!showFullText);
@@ -31,9 +31,9 @@ const TextDisplay = ({
                     <Link
                         component="span"
                         onClick={handleToggleText}
-                        sx={{ cursor: 'pointer', color: 'primary.main', ml: 1 }}
+                        sx={{ cursor: "pointer", color: "primary.main", ml: 1 }}
                     >
-                        {showFullText ? 'Show Less' : 'Show More'}
+                        {showFullText ? "Show Less" : "Show More"}
                     </Link>
                 )}
             </Typography>
@@ -41,21 +41,101 @@ const TextDisplay = ({
     );
 
     const additionalContent = additionalComponent && (
-        <Box sx={{ width: '100%', height: isSmallScreen ? 300 : 400, minHeight: 300 }}>
+        <Box
+            sx={{
+                width: "100%",
+                height: isSmallScreen ? 300 : 400,
+                minHeight: 300,
+            }}
+        >
             {additionalComponent}
         </Box>
     );
 
-    return (
-        <Grid container spacing={2} alignItems="stretch" direction={isSmallScreen ? 'column' : 'row'}>
-            <Grid item xs={12} md={componentPosition === 'right' ? 5 : 7}>
-                {componentPosition === 'left' || isSmallScreen ? additionalContent : textContent}
+    // Handle the layout if additional prop is not provided
+    if (!additionalComponent) {
+        return (
+            <Grid
+                container
+                spacing={2}
+                alignItems="stretch"
+                direction={isSmallScreen ? "column" : "row"}
+            >
+                <Grid item xs={12}>
+                    {textContent}
+                </Grid>
             </Grid>
-            <Grid item xs={12} md={componentPosition === 'right' ? 7 : 5}>
-                {componentPosition === 'right' && !isSmallScreen ? additionalContent : textContent}
-            </Grid>
-        </Grid>
-    );
+        );
+    }
+
+    switch (componentPosition) {
+        case "top":
+            return (
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems="stretch"
+                    direction="column"
+                >
+                    <Grid item xs={12}>
+                        {additionalContent}
+                    </Grid>
+                    <Grid item xs={12}>
+                        {textContent}
+                    </Grid>
+                </Grid>
+            );
+        case "bottom":
+            return (
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems="stretch"
+                    direction="column"
+                >
+                    <Grid item xs={12}>
+                        {textContent}
+                    </Grid>
+                    <Grid item xs={12}>
+                        {additionalContent}
+                    </Grid>
+                </Grid>
+            );
+
+        case "left":
+            return (
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems="stretch"
+                    direction="column"
+                >
+                    <Grid item xs={12}>
+                        {additionalContent}
+                    </Grid>
+                    <Grid item xs={12}>
+                        {textContent}
+                    </Grid>
+                </Grid>
+            );
+        case "right":
+        default:
+            return (
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems="stretch"
+                    direction={isSmallScreen ? "column" : "row"}
+                >
+                    <Grid item xs={12} md={5}>
+                        {textContent}
+                    </Grid>
+                    <Grid item xs={12} md={7}>
+                        {additionalContent}
+                    </Grid>
+                </Grid>
+            );
+    }
 };
 
 export default TextDisplay;
