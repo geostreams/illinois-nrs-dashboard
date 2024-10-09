@@ -7,7 +7,9 @@ const TextDisplay = ({
     text,
     additionalComponent,
     truncate = false,
-    componentPosition = "right",
+    componentPosition = "top",
+    textComponentSize = { xs: 12, md: 5 },
+    propComponentSize = { xs: 12, md: 7 },
 }) => {
     const [showFullText, setShowFullText] = useState(!truncate);
     // Take screen size into account to adjust the max number of characters displayed.
@@ -108,12 +110,20 @@ const TextDisplay = ({
                     container
                     spacing={2}
                     alignItems="stretch"
-                    direction="column"
+                    direction={isSmallScreen ? "column" : "row"}
                 >
-                    <Grid item xs={12}>
+                    <Grid
+                        item
+                        xs={propComponentSize.xs}
+                        md={propComponentSize.md}
+                    >
                         {additionalContent}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid
+                        item
+                        xs={textComponentSize.xs}
+                        md={textComponentSize.md}
+                    >
                         {textContent}
                     </Grid>
                 </Grid>
@@ -127,10 +137,18 @@ const TextDisplay = ({
                     alignItems="stretch"
                     direction={isSmallScreen ? "column" : "row"}
                 >
-                    <Grid item xs={12} md={5}>
+                    <Grid
+                        item
+                        xs={textComponentSize.xs}
+                        md={textComponentSize.md}
+                    >
                         {textContent}
                     </Grid>
-                    <Grid item xs={12} md={7}>
+                    <Grid
+                        item
+                        xs={propComponentSize.xs}
+                        md={propComponentSize.md}
+                    >
                         {additionalContent}
                     </Grid>
                 </Grid>
