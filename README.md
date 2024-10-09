@@ -1,5 +1,5 @@
 # illinois-nrs-dashboard
-Dashboard Representation (SPA) of the Illinois Nutrient Loss Reduction Strategy Biennial Report 
+Dashboard Representation (SPA) of the Illinois Nutrient Loss Reduction Strategy Biennial Report
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

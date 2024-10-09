@@ -1,10 +1,10 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
-import Layout from './components/layout/Layout';
-import ReportPage from './components/PointSource';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import Layout from "./components/layout/Layout";
+import ReportPage from "./pages/PointSource";
 
 const theme = createTheme();
 
