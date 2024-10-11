@@ -98,73 +98,33 @@ const ps_reference_lines = [
 const ReportPage = () => {
     const chart = StackedBarChart({
         data: ps_data,
-        width: 600,
+        width: 800,
         height: 400,
         barColors: ps_bar_colors,
-        fontSize: 9,
+        fontSize: 14,
         referenceLines: ps_reference_lines,
     });
 
+    const ps_ptg_text =
+        "The total phosphorus loads since 2021 have decreased below the interim 25% reduction goal set for 2025. \n" +
+        "Facilities are continually optimizing processes to reduce nutrient losses. Further nutrient loss reductions are anticipated when all facilities achieve lower phosphorus discharge limits of 1.0 mg/L and, eventually, 0.5 mg/L. Eventually, point source sector nutrient losses will be well below the overall, long-term goal of a 45% reduction in phosphorus losses. \n";
+
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
             <Typography variant="h4" gutterBottom align="center" sx={{ my: 4 }}>
-                Annual Performance Report
+                Point Sources Report
             </Typography>
 
             <Box sx={{ mb: 4 }}>
                 <Typography variant="h5" gutterBottom>
-                    Overview
+                    Progress Toward Goals
                 </Typography>
                 <TextDisplay
-                    text="This report provides an overview of our company's performance over the past year. We've seen significant growth in several key areas, despite facing challenges in the global market. As we can see from the chart, our performance has been volatile but generally trending upward. The peak in March represents our successful product launch, while the dip in May reflects the temporary setback due to supply chain issues. Despite these fluctuations, we've managed to maintain a strong overall growth trajectory, which positions us well for the coming year. Our team's resilience and adaptability have been key factors in navigating the complex business landscape and achieving these results."
+                    text={ps_ptg_text}
                     additionalComponent={chart}
                     truncate={true}
                     componentPosition="right"
                 />
-                <Typography variant="body1" paragraph align="right">
-                    As we can see from the chart above, our performance has been
-                    volatile but generally trending upward. The peak in March
-                    represents our successful product launch, while the dip in
-                    May reflects the temporary setback due to supply chain
-                    issues.
-                </Typography>
-            </Box>
-
-            {/* Achievements Section */}
-            <Box sx={{ mb: 6 }}>
-                <Typography variant="h5" gutterBottom align="center">
-                    Key Achievements
-                </Typography>
-
-                <Typography variant="body1" component="ul" align="left">
-                    <li>
-                        Launched 3 new product lines, expanding our market reach
-                    </li>
-                    <li>Increased customer satisfaction ratings by 15%</li>
-                    <li>
-                        Implemented cost-saving measures, resulting in a 10%
-                        reduction in operational expenses
-                    </li>
-                </Typography>
-            </Box>
-
-            {/* Future Plans Section */}
-            <Box sx={{ mb: 6 }}>
-                <Typography variant="h5" gutterBottom align="center">
-                    Future Plans
-                </Typography>
-
-                <Typography variant="body1" paragraph align="right">
-                    Moving forward, we aim to capitalize on these successes and
-                    address the challenges we've identified. Our focus for the
-                    coming year will be on:
-                </Typography>
-
-                <Typography variant="body1" component="ul" align="left">
-                    <li>Stabilizing our supply chain</li>
-                    <li>Further expanding our product range</li>
-                    <li>Investing in employee development programs</li>
-                </Typography>
             </Box>
         </Container>
     );
