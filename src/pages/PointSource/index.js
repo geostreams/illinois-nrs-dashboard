@@ -12,15 +12,7 @@ import {
 } from "recharts";
 import TextDisplay from "../../components/TextDisplay";
 import StackedBarChart from "../../components/charts/StackedBarChart";
-
-const data = [
-    { name: "Jan", value: 4000 },
-    { name: "Feb", value: 3000 },
-    { name: "Mar", value: 5000 },
-    { name: "Apr", value: 2780 },
-    { name: "May", value: 1890 },
-    { name: "Jun", value: 2390 },
-];
+import FilledPieChart from "../../components/charts/FilledPieChart";
 
 const ps_data = [
     {
@@ -85,6 +77,20 @@ const ps_data = [
     },
 ];
 
+const pie_data = [
+    { name: "Category A", value: 400 },
+    { name: "Category B", value: 300 },
+    { name: "Category C", value: 200 },
+    { name: "Category D", value: 100 },
+];
+
+const pie_colors = {
+    "Category A": "#0088FE",
+    "Category B": "#00C49F",
+    "Category C": "#FFBB28",
+    "Category D": "#FF8042",
+};
+
 const ps_bar_colors = {
     majorMunicipalFacilities: "#8884d8",
     minorMunicipalFacilities: "#82ca9d",
@@ -98,11 +104,19 @@ const ps_reference_lines = [
 const ReportPage = () => {
     const chart = StackedBarChart({
         data: ps_data,
-        width: 800,
+        width: 650,
         height: 400,
         barColors: ps_bar_colors,
         fontSize: 14,
         referenceLines: ps_reference_lines,
+    });
+
+    const pieChart = FilledPieChart({
+        data: pie_data,
+        width: "100%",
+        height: 400,
+        colors: pie_colors,
+        fontSize: 14,
     });
 
     const ps_ptg_text =
@@ -122,6 +136,18 @@ const ReportPage = () => {
                 <TextDisplay
                     text={ps_ptg_text}
                     additionalComponent={chart}
+                    truncate={true}
+                    componentPosition="left"
+                />
+            </Box>
+
+            <Box sx={{ mb: 4 }}>
+                <Typography variant="h5" gutterBottom>
+                    Progress Toward Goals
+                </Typography>
+                <TextDisplay
+                    text={ps_ptg_text}
+                    additionalComponent={pieChart}
                     truncate={true}
                     componentPosition="right"
                 />
