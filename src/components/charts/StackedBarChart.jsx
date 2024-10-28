@@ -1,4 +1,3 @@
-import React from "react";
 import {
     BarChart,
     Bar,
@@ -18,6 +17,7 @@ const StackedBarChart = ({
     barColors,
     fontSize = 12,
     referenceLines,
+    legend = true,
 }) => {
     // Convert data keys to legend names
     const getLegendName = (key) => {
@@ -41,7 +41,7 @@ const StackedBarChart = ({
                 <XAxis dataKey="name" tick={{ fontSize }} />
                 <YAxis tick={{ fontSize }} />
                 <Tooltip contentStyle={{ fontSize }} />
-                <Legend wrapperStyle={{ fontSize }} />
+                {legend && <Legend wrapperStyle={{ fontSize }} />}
                 {data[0] &&
                     Object.keys(data[0])
                         .filter((key) => key !== "name")

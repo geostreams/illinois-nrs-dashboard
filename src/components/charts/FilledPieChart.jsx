@@ -1,4 +1,3 @@
-import React from "react";
 import {
     PieChart,
     Pie,
@@ -18,6 +17,7 @@ const CustomPieChart = ({
     outerRadius = "80%",
     dataKey = "value",
     nameKey = "name",
+    legend = true,
 }) => {
     // Function to get legend name, works with both object and array data
     const getLegendName = (entry) => {
@@ -52,7 +52,12 @@ const CustomPieChart = ({
                     ))}
                 </Pie>
                 <Tooltip contentStyle={{ fontSize }} />
-                <Legend wrapperStyle={{ fontSize }} formatter={getLegendName} />
+                {legend && (
+                    <Legend
+                        wrapperStyle={{ fontSize }}
+                        formatter={getLegendName}
+                    />
+                )}
             </PieChart>
         </ResponsiveContainer>
     );

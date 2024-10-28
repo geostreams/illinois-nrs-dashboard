@@ -1,19 +1,10 @@
-import React from "react";
 import { Typography, Box, Container } from "@mui/material";
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-} from "recharts";
 import TextDisplay from "../../components/TextDisplay";
 import StackedBarChart from "../../components/charts/StackedBarChart";
 import FilledPieChart from "../../components/charts/FilledPieChart";
+import LineChart from "../../components/charts/LineCharts";
 
+// Stacked Bar Chart
 const ps_data = [
     {
         name: "2011",
@@ -76,14 +67,23 @@ const ps_data = [
         industrialFacilities: 0.4,
     },
 ];
+const ps_bar_colors = {
+    majorMunicipalFacilities: "#8884d8",
+    minorMunicipalFacilities: "#82ca9d",
+    industrialFacilities: "#ffc658",
+};
+const ps_reference_lines = [
+    { value: 13.58, label: "25% Reduction" },
+    { value: 9.96, label: "45% Reduction" },
+];
 
+// Pie Chart
 const pie_data = [
     { name: "Category A", value: 400 },
     { name: "Category B", value: 300 },
     { name: "Category C", value: 200 },
     { name: "Category D", value: 100 },
 ];
-
 const pie_colors = {
     "Category A": "#0088FE",
     "Category B": "#00C49F",
@@ -91,15 +91,34 @@ const pie_colors = {
     "Category D": "#FF8042",
 };
 
-const ps_bar_colors = {
-    majorMunicipalFacilities: "#8884d8",
-    minorMunicipalFacilities: "#82ca9d",
-    industrialFacilities: "#ffc658",
-};
+// Line Chart
+const line_data = [
+    { name: "Jan", sales: 4000, revenue: 2400, profit: 1200 },
+    { name: "Feb", sales: 3000, revenue: 1398, profit: 900 },
+    { name: "Mar", sales: 2000, revenue: 9800, profit: 2800 },
+    { name: "Apr", sales: 2780, revenue: 3908, profit: 1908 },
+    { name: "May", sales: 1890, revenue: 4800, profit: 2300 },
+    { name: "Jun", sales: 2390, revenue: 3800, profit: 2500 },
+];
 
-const ps_reference_lines = [
-    { value: 13.58, label: "25% Reduction" },
-    { value: 9.96, label: "45% Reduction" },
+// Line configurations
+const lines = [
+    {
+        dataKey: "sales",
+        color: "#8884d8",
+        strokeWidth: 2,
+    },
+    {
+        dataKey: "revenue",
+        color: "#82ca9d",
+        strokeWidth: 2,
+    },
+    {
+        dataKey: "profit",
+        color: "#ffc658",
+        strokeWidth: 2,
+        dot: false, // Optional: disable dots for this line
+    },
 ];
 const ReportPage = () => {
     const chart = StackedBarChart({
@@ -117,6 +136,14 @@ const ReportPage = () => {
         height: 400,
         colors: pie_colors,
         fontSize: 14,
+    });
+
+    const lineChart = LineChart({
+        data: line_data,
+        lines: lines,
+        width: "100%",
+        height: 400,
+        fontSize: 12,
     });
 
     const ps_ptg_text =
@@ -148,6 +175,18 @@ const ReportPage = () => {
                 <TextDisplay
                     text={ps_ptg_text}
                     additionalComponent={pieChart}
+                    truncate={true}
+                    componentPosition="right"
+                />
+            </Box>
+
+            <Box sx={{ mb: 4 }}>
+                <Typography variant="h5" gutterBottom>
+                    Progress Toward Goals
+                </Typography>
+                <TextDisplay
+                    text={ps_ptg_text}
+                    additionalComponent={lineChart}
                     truncate={true}
                     componentPosition="right"
                 />
