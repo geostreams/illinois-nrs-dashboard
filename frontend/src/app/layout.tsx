@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
+import {ScreenSizeProvider} from "@/app/context/ScreenSizeContext";
 import theme from "../theme";
 
 // Font
@@ -34,9 +35,11 @@ export default function RootLayout({
             <body className={inter.variable}>
                 <AppRouterCacheProvider>
                     <ThemeProvider theme={theme}>
-                        <Navbar />
-                        {children}
-                        <Footer />
+                        <ScreenSizeProvider>
+                            <Navbar />
+                            {children}
+                            <Footer />
+                        </ScreenSizeProvider>
                     </ThemeProvider>
                 </AppRouterCacheProvider>
             </body>

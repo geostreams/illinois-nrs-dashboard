@@ -7,7 +7,7 @@ import {
     ResponsiveContainer,
 } from "recharts";
 
-const CustomPieChart = ({
+const FilledPieChart = ({
     data,
     width,
     height,
@@ -63,4 +63,4 @@ const CustomPieChart = ({
     );
 };
 
-export default CustomPieChart;
+export default FilledPieChart;
