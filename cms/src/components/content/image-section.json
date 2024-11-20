@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_content_image_sections",
+  "info": {
+    "displayName": "Image Section",
+    "icon": "brush",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "base": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.base-content-section",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "altText": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

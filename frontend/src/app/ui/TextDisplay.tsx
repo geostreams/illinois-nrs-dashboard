@@ -21,37 +21,17 @@ interface TextDisplayProps {
 const TextDisplay: React.FC<TextDisplayProps> = ({
     text,
     additionalComponent,
-    truncate = false,
     componentPosition = "top",
     textComponentSize = { xs: 12, md: 5 },
     propComponentSize = { xs: 12, md: 7 },
 }) => {
-    const [showFullText, setShowFullText] = useState(!truncate);
     const { isSmallScreen } = useScreenSize();
 
-    const maxChars = isSmallScreen ? 150 : 200;
-    const truncatedText =
-        truncate && text.length > maxChars
-            ? `${text.slice(0, maxChars)}...`
-            : text;
-
-    const handleToggleText = (): void => {
-        setShowFullText(!showFullText);
-    };
 
     const textContent = (
         <Box sx={{ mb: isSmallScreen ? 2 : 0 }}>
             <Typography variant="body1">
-                {showFullText ? text : truncatedText}
-                {truncate && (
-                    <Link
-                        component="span"
-                        onClick={handleToggleText}
-                        sx={{ cursor: "pointer", color: "primary.main", ml: 1 }}
-                    >
-                        {showFullText ? "Show Less" : "Show More"}
-                    </Link>
-                )}
+                {text}
             </Typography>
         </Box>
     );
