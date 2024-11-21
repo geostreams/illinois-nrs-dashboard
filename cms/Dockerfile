@@ -6,14 +6,13 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /opt/
 COPY package.json ./
-RUN yarn global add node-gyp
-RUN yarn config set network-timeout 600000 -g && yarn install
+RUN npm install
 ENV PATH=/opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
 COPY . .
 RUN chown -R node:node /opt/app
 USER node
-RUN ["yarn", "build"]
+RUN ["npm", "run", "build"]
 EXPOSE 1337
-CMD ["yarn", "develop"]
+CMD ["npm", "run", "develop"]
