@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_content_chart_sections",
+  "info": {
+    "displayName": "Chart Section"
+  },
+  "options": {},
+  "attributes": {
+    "base": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.base-content-section"
+    },
+    "chartType": {
+      "type": "enumeration",
+      "enum": [
+        "line",
+        "bar",
+        "pie"
+      ]
+    },
+    "chartData": {
+      "type": "json"
+    },
+    "chartColors": {
+      "type": "json"
+    }
+  }
+}

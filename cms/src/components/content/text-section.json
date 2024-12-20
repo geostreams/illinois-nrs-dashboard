@@ -12,7 +12,7 @@
       "component": "content.base-content-section",
       "required": true
     },
-    "textcontent": {
+    "content": {
       "type": "blocks",
       "required": true
     }

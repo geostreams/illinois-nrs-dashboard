@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_link_groups",
+  "info": {
+    "displayName": "Link Groups"
+  },
+  "options": {},
+  "attributes": {
+    "link": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link"
+    }
+  }
+}
