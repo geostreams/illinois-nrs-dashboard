@@ -6,12 +6,12 @@ import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 
 // import components and tools
-import Navbar from '@/components/navbar';
+import {Navbar} from '@/components/navbar';
 import fetchContentType from '@/lib/strapi/fetchContentType';
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
 
-
+  const pageData = await fetchContentType('global', ``, true);
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -20,6 +20,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
+            <Navbar linkGroups={pageData?.navbar.navbar_link_groups} />
             {props.children}
           </ThemeProvider>
         </AppRouterCacheProvider>

@@ -25,6 +25,18 @@ type Props = {
 
 export const Navbar = ({linkGroups}: Props) => {
 
+    type AnchorElNavState = { anchor: HTMLElement, groupIndex: number } | null;
+    const [anchorElNav, setAnchorElNav] = React.useState<AnchorElNavState>(null);
+
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>, groupIndex: number) => {
+        setAnchorElNav({ anchor: event.currentTarget, groupIndex });
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+
     return (
         <AppBar position="static" color="default">
             <Container>
@@ -45,26 +57,24 @@ export const Navbar = ({linkGroups}: Props) => {
                         {linkGroups.map((group, index) => (
                             <Box key={index} sx={{ display: 'flex' }}>
                                 <Tooltip title={group.group_name}>
-                                    <Button color="inherit">{group.group_name}</Button>
+                                    <Button color="inherit" onClick={(event) => handleOpenNavMenu(event, index)}>{group.group_name}</Button>
                                 </Tooltip>
                                 <Menu
                                     id="menu-appbar"
-                                    anchorEl={null}
+                                    anchorEl={anchorElNav?.anchor}
                                     anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
+                                        vertical: "bottom",
+                                        horizontal: "center",
                                     }}
                                     keepMounted
                                     transformOrigin={{
                                         vertical: 'top',
-                                        horizontal: 'right',
+                                        horizontal: 'center',
                                     }}
-                                    open={false}
-                                    onClose={() => {
-                                        // do nothing
-                                    }}
+                                    open={Boolean(anchorElNav)}
+                                    onClose={handleCloseNavMenu}
                                 >
-                                    {group.links.map((link, index) => (
+                                    {anchorElNav && linkGroups[anchorElNav.groupIndex].links.map((link, index) => (
                                         <MenuItem key={index} onClick={() => window.open(link.URL, link.target)}>
                                             {link.text}
                                         </MenuItem>
