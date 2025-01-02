@@ -12,6 +12,7 @@ import fetchContentType from '@/lib/strapi/fetchContentType';
 export default async function RootLayout(props: { children: React.ReactNode }) {
 
   const pageData = await fetchContentType('global', ``, true);
+  console.log(pageData.navbar);
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -20,7 +21,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Navbar linkGroups={pageData?.navbar.navbar_link_groups} />
+            <Navbar navbar={pageData?.navbar} />
             {props.children}
           </ThemeProvider>
         </AppRouterCacheProvider>

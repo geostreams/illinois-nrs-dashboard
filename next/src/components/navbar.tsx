@@ -1,19 +1,33 @@
-"use client"
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+"use client";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import Logo from "*.png";
+import * as process from "node:process";
 
 type Props = {
-    linkGroups: {
+    navbar:{
+        logo: any
+        navbar_link_groups: {
         group_name: string;
         links: {
             text: string;
@@ -21,14 +35,23 @@ type Props = {
             target: string;
         }[];
     }[];
+        }
 };
 
-export const Navbar = ({linkGroups}: Props) => {
-
-    type AnchorElNavState = { anchor: HTMLElement, groupIndex: number } | null;
+export const Navbar: React.FC<Props> = ({ navbar }) => {
+    type AnchorElNavState = { anchor: HTMLElement; groupIndex: number } | null;
     const [anchorElNav, setAnchorElNav] = React.useState<AnchorElNavState>(null);
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(
+        new Set()
+    );
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>, groupIndex: number) => {
+    const handleOpenNavMenu = (
+        event: React.MouseEvent<HTMLElement>,
+        groupIndex: number
+    ) => {
         setAnchorElNav({ anchor: event.currentTarget, groupIndex });
     };
 
@@ -36,28 +59,49 @@ export const Navbar = ({linkGroups}: Props) => {
         setAnchorElNav(null);
     };
 
+    const handleDrawerToggle = () => {
+        setDrawerOpen(!drawerOpen);
+    };
+
+    const toggleGroup = (groupIndex: number) => {
+        setExpandedGroups((prev) => {
+            const newSet = new Set(prev);
+            if (newSet.has(groupIndex)) {
+                newSet.delete(groupIndex);
+            } else {
+                newSet.add(groupIndex);
+            }
+            return newSet;
+        });
+    };
 
     return (
         <AppBar position="static" color="default">
             <Container>
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    {/*Add logo image*/}
+                    <img
+                        src={process.env.CMS_API_URL + navbar.logo.image.formats.thumbnail.url}
+                        alt="logo"
+                        style={{
+                            width: "100px",
+                            height: "100px",
+                            marginRight: "16px",
+                        }}
+                    />
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Company Name
+                        {navbar.logo.company_name}
                     </Typography>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {linkGroups.map((group, index) => (
-                            <Box key={index} sx={{ display: 'flex' }}>
+                    <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                        {navbar.navbar_link_groups.map((group, index) => (
+                            <Box key={index} sx={{ display: "flex" }}>
                                 <Tooltip title={group.group_name}>
-                                    <Button color="inherit" onClick={(event) => handleOpenNavMenu(event, index)}>{group.group_name}</Button>
+                                    <Button
+                                        color="inherit"
+                                        onClick={(event) => handleOpenNavMenu(event, index)}
+                                    >
+                                        {group.group_name}
+                                    </Button>
                                 </Tooltip>
                                 <Menu
                                     id="menu-appbar"
@@ -68,23 +112,83 @@ export const Navbar = ({linkGroups}: Props) => {
                                     }}
                                     keepMounted
                                     transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'center',
+                                        vertical: "top",
+                                        horizontal: "center",
                                     }}
                                     open={Boolean(anchorElNav)}
                                     onClose={handleCloseNavMenu}
                                 >
-                                    {anchorElNav && linkGroups[anchorElNav.groupIndex].links.map((link, index) => (
-                                        <MenuItem key={index} onClick={() => window.open(link.URL, link.target)}>
-                                            {link.text}
-                                        </MenuItem>
-                                    ))}
+                                    {anchorElNav &&
+                                        navbar.navbar_link_groups[anchorElNav.groupIndex].links.map(
+                                            (link, index) => (
+                                                <MenuItem
+                                                    key={index}
+                                                    onClick={() => window.open(link.URL, link.target)}
+                                                >
+                                                    {link.text}
+                                                </MenuItem>
+                                            )
+                                        )}
                                 </Menu>
                             </Box>
                         ))}
                     </Box>
+                    <IconButton
+                        sx={{ display: { md: "none" } }}
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        onClick={handleDrawerToggle}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Drawer
+                        anchor="right"
+                        open={drawerOpen}
+                        onClose={handleDrawerToggle}
+                        sx={{ display: { xs: "block", md: "none" } }}
+                    >
+                        <Box sx={{ width: 250 }}>
+                            <List>
+                                {navbar.navbar_link_groups.map((group, index) => (
+                                    <React.Fragment key={index}>
+                                        <ListItem button onClick={() => toggleGroup(index)}>
+                                            <ListItemText
+                                                primary={group.group_name}
+                                                primaryTypographyProps={{
+                                                    variant: "h6",
+                                                    fontWeight: "bold",
+                                                }}
+                                            />
+                                            {expandedGroups.has(index) ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse
+                                            in={expandedGroups.has(index)}
+                                            timeout="auto"
+                                            unmountOnExit
+                                        >
+                                            <List component="div" disablePadding>
+                                                {group.links.map((link, linkIndex) => (
+                                                    <ListItem
+                                                        button
+                                                        key={linkIndex}
+                                                        onClick={() => window.open(link.URL, link.target)}
+                                                        sx={{ pl: 4 }}
+                                                    >
+                                                        <ListItemText primary={link.text} />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        </Collapse>
+                                        <Divider />
+                                    </React.Fragment>
+                                ))}
+                            </List>
+                        </Box>
+                    </Drawer>
                 </Toolbar>
             </Container>
         </AppBar>
     );
-}
+};

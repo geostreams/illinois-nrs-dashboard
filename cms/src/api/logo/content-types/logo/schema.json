@@ -4,7 +4,8 @@
   "info": {
     "singularName": "logo",
     "pluralName": "logos",
-    "displayName": "Logos"
+    "displayName": "Logos",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,16 +13,17 @@
   "pluginOptions": {},
   "attributes": {
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
-    "company": {
+    "company_name": {
       "type": "string"
     }
   }
