@@ -96,4 +96,3 @@ export default (config, { strapi }: { strapi: Core.Strapi }) => {
         await next();
     };
 };
-

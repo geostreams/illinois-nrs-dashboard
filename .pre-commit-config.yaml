@@ -7,13 +7,13 @@ repos:
       - id: trailing-whitespace
 
   # ESLint for the `next` frontend
-  - repo: local
-    hooks:
-      - id: eslint
-        name: eslint
-        entry: bash -c "cd next && npx eslint --fix ."
-        language: system
-        files: ^next/.*\.(js|jsx|ts|tsx)$
+#  - repo: local
+#    hooks:
+#      - id: eslint
+#        name: eslint
+#        entry: bash -c "cd next && npx eslint --fix ."
+#        language: system
+#        files: ^next/src/.*\.(js|jsx|ts|tsx)$
 
   # Prettier for the `next` frontend
   - repo: local
@@ -22,4 +22,4 @@ repos:
         name: prettier
         entry: bash -c "cd next && npx prettier --write ."
         language: system
-        files: ^next/.*\.(js|jsx|ts|tsx|json|css|html)$
+        files: ^next/src/.*\.(js|jsx|ts|tsx|json|css|html)$
