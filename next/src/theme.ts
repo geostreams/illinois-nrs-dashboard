@@ -15,18 +15,23 @@ const theme = createTheme({
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
+  palette: {
+    primary: {
+      main: '#1976d2', // Default primary color
+      light: '#42a5f5', // Light version
+      dark: '#385587',  // Custom dark version
+    },
+    secondary: {
+      main: '#9c27b0', // Example secondary color
+    },
+  },
   components: {
     MuiAlert: {
       styleOverrides: {
         root: {
-          variants: [
-            {
-              props: { severity: 'info' },
-              style: {
-                backgroundColor: '#60a5fa',
-              },
-            },
-          ],
+          '&.MuiAlert-standardInfo': {
+            backgroundColor: '#60a5fa',
+          },
         },
       },
     },
