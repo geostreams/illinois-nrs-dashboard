@@ -5,7 +5,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 
+// import components and tools
+import Navbar from '@/components/navbar';
+import fetchContentType from '@/lib/strapi/fetchContentType';
+
 export default function RootLayout(props: { children: React.ReactNode }) {
+
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
