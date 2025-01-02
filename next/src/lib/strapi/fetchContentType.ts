@@ -33,7 +33,7 @@ interface StrapiData {
   ): Promise<any> {
     try {
       // Construct the full URL for the API request
-      const url = new URL(`api/${contentType}`, process.env.CMS_API_URL);
+      const url = new URL(`api/${contentType}`, process.env.NEXT_PUBLIC_CMS_API_URL);
   
       // Perform the fetch request with the provided query parameters
       const response = await fetch(`${url.href}?${params}`, {

@@ -12,7 +12,6 @@ import fetchContentType from '@/lib/strapi/fetchContentType';
 export default async function RootLayout(props: { children: React.ReactNode }) {
 
   const pageData = await fetchContentType('global', ``, true);
-  console.log(pageData.navbar);
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
