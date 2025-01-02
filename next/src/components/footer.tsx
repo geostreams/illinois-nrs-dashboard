@@ -1,12 +1,14 @@
 import React from 'react';
-import { Box, Typography, Link, Grid } from '@mui/material';
+import { Box, Typography, Link } from '@mui/material';
 
-export const Footer = ()=> {
+export const Footer = () => {
     return (
+        <>
         <Box sx={{ bgcolor: 'primary.dark', color: 'white', p: 4 }}>
-            <Grid container spacing={4}>
+            {/* Main Container */}
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                 {/* Left Section */}
-                <Grid item xs={12} md={8}>
+                <Box sx={{ flex: '1 1 60%', minWidth: '300px' }}>
                     <Typography variant="h6" sx={{ mb: 2 }}>
                         ILLINOIS NUTRIENT LOSS REDUCTION STRATEGY
                     </Typography>
@@ -19,12 +21,12 @@ export const Footer = ()=> {
                         Agency, Illinois Department of Agriculture, and many other
                         organizations.
                     </Typography>
-                </Grid>
+                </Box>
 
                 {/* Right Section */}
-                <Grid item xs={12} md={4}>
+                <Box sx={{ flex: '1 1 35%', minWidth: '300px' }}>
                     {/* Social Media Icons */}
-                    <Box sx={{ display: 'flex', gap: 2, mb: 3, justifyContent: 'flex-start' }}>
+                    <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                         <Box sx={{ width: 24, height: 24, bgcolor: 'gray', borderRadius: '50%' }} />
                         <Box sx={{ width: 24, height: 24, bgcolor: 'gray', borderRadius: '50%' }} />
                         <Box sx={{ width: 24, height: 24, bgcolor: 'gray', borderRadius: '50%' }} />
@@ -54,24 +56,23 @@ export const Footer = ()=> {
                             go.illinois.edu/NutrientLoss
                         </Link>
                     </Typography>
-                </Grid>
-
-                {/* Bottom Section for Logos */}
-                <Grid item xs={12}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-around',
-                            alignItems: 'center',
-                            mt: 4,
-                        }}
-                    >
-                        <Box sx={{ width: 120, height: 60, bgcolor: 'gray' }} />
-                        <Box sx={{ width: 120, height: 60, bgcolor: 'gray' }} />
-                        <Box sx={{ width: 120, height: 60, bgcolor: 'gray' }} />
-                    </Box>
-                </Grid>
-            </Grid>
+                </Box>
+            </Box>
         </Box>
+            {/* Bottom Section for Logos */}
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                mt: 4,
+                flexWrap: 'wrap',
+            }}
+        >
+            <Box sx={{ width: 120, height: 60, bgcolor: 'gray', mb: 2 }} />
+            <Box sx={{ width: 120, height: 60, bgcolor: 'gray', mb: 2 }} />
+            <Box sx={{ width: 120, height: 60, bgcolor: 'gray', mb: 2 }} />
+        </Box>
+        </>
     );
-}
+};
