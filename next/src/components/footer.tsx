@@ -13,10 +13,7 @@ type FooterProps = {
 };
 
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
-    console.log(footerData?.social_media_links);
-
     const footerLeftCardImage = `${process.env.NEXT_PUBLIC_CMS_API_URL}${footerData?.left_card?.image?.url}`;
-
     const iconMap = {
         facebook: (
             <FacebookIcon sx={{ width: 24, height: 24, color: 'white' }} />
@@ -30,7 +27,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
             <InstagramIcon sx={{ width: 24, height: 24, color: 'white' }} />
         ),
     };
-
     const partnerImageUrls = footerData?.partners.partner_image.map(
         (partner) => {
             return `${process.env.NEXT_PUBLIC_CMS_API_URL}${partner.formats?.thumbnail.url}`;
@@ -60,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                         <Box
                             sx={{
                                 mb: 1,
-                                width: '150%', // Stretch the width beyond the container
+                                width: '100%', // Stretch the width beyond the container
                                 height: '140px', // Adjust the height for a larger image
                                 position: 'relative',
                             }}
@@ -92,7 +88,25 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     target={link.target}
                                     rel="noopener noreferrer"
                                     aria-label={link.text}
+                                    // hover effect
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: '50%',
+                                        backgroundColor:
+                                            'rgba(255,255,255,0.2)',
+                                        transition:
+                                            'background-color 0.3s ease-in-out',
+                                        '&:hover': {
+                                            backgroundColor:
+                                                'rgba(255,255,255,0.4)',
+                                        },
+                                    }}
                                 >
+                                    {console.log(link.URL)}
                                     {iconMap[link.text.toLowerCase()]}
                                 </a>
                             ))}
