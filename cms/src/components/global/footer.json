@@ -2,22 +2,26 @@
   "collectionName": "components_global_footers",
   "info": {
     "displayName": "Footer",
-    "description": ""
+    "icon": "arrowDown"
   },
   "options": {},
   "attributes": {
+    "left_card": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.footer-left-card"
+    },
+    "partners": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.partners"
+    },
     "social_media_links": {
       "type": "component",
       "repeatable": true,
       "component": "shared.link"
     },
-    "footer_left_card": {
-      "displayName": "footer-left-card",
-      "type": "component",
-      "repeatable": false,
-      "component": "content.footer-left-card"
-    },
-    "footer_right_card": {
+    "right_card": {
       "type": "blocks"
     }
   }

@@ -31,7 +31,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
                         <Navbar navbar={pageData?.navbar} />
                         {/* Main content area: Grow to fill the remaining space */}
                         <main style={{ flex: 1 }}>{props.children}</main>
-                        <Footer data={pageData?.footer} locale="en" />
+                        <Footer footerData={pageData?.footer} />
                     </ThemeProvider>
                 </AppRouterCacheProvider>
             </body>

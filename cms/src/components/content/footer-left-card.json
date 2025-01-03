@@ -19,12 +19,6 @@
         "videos",
         "audios"
       ]
-    },
-    "partners": {
-      "displayName": "partners",
-      "type": "component",
-      "repeatable": false,
-      "component": "content.partners"
     }
   }
 }
