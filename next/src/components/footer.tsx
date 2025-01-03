@@ -31,6 +31,12 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
         ),
     };
 
+    const partnerImageUrls = footerData?.partners.partner_image.map(
+        (partner) => {
+            return `${process.env.NEXT_PUBLIC_CMS_API_URL}${partner.formats?.thumbnail.url}`;
+        }
+    );
+
     return (
         <>
             {/*Small height box for a colored line*/}
@@ -103,13 +109,43 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                     display: 'flex',
                     justifyContent: 'space-around',
                     alignItems: 'center',
-                    mt: 4,
-                    flexWrap: 'wrap',
+                    mt: 1,
+                    gap: 1,
+                    p: 1,
+                    flexDirection: { xs: 'column', md: 'row' },
+                    flexWrap: { md: 'wrap' },
+                    maxWidth: '2400px', // Prevent from stretching too wide
                 }}
             >
-                <Box sx={{ width: 120, height: 60, bgcolor: 'gray', mb: 2 }} />
-                <Box sx={{ width: 120, height: 60, bgcolor: 'gray', mb: 2 }} />
-                <Box sx={{ width: 120, height: 60, bgcolor: 'gray', mb: 2 }} />
+                {partnerImageUrls.map((url, index) => (
+                    <Box
+                        key={`partner-${index}`}
+                        sx={{
+                            width: { xs: '280px', md: '320px' },
+                            height: { xs: '140px', md: '160px' },
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
+                            transition: 'transform 0.3s ease-in-out', // Smooth transition for hover
+                            '&:hover': {
+                                transform: 'scale(1.05)', // Scale up by 5% on hover
+                                cursor: 'pointer', // Optional: change cursor to pointer
+                            },
+                        }}
+                    >
+                        <Image
+                            src={url}
+                            alt={`Partner`}
+                            fill
+                            sizes="(max-width: 600px) 280px, 320px"
+                            style={{
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </Box>
+                ))}
             </Box>
         </>
     );
