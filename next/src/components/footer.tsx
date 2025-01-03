@@ -8,8 +8,37 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Image from 'next/image';
 
+type SocialMediaLink = {
+    id: string | number;
+    URL: string;
+    target: string;
+    text: string;
+};
+
+type PartnerImage = {
+    formats: {
+        thumbnail: {
+            url: string;
+        };
+    };
+};
+
+type FooterData = {
+    left_card: {
+        image: {
+            url: string;
+        };
+        text: any;
+    };
+    right_card: any; // Content to render in the right card (BlocksRenderer-compatible)
+    social_media_links: SocialMediaLink[];
+    partners: {
+        partner_image: PartnerImage[];
+    };
+};
+
 type FooterProps = {
-    footerData: any;
+    footerData: FooterData;
 };
 
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
@@ -98,15 +127,8 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                         borderRadius: '50%',
                                         backgroundColor:
                                             'rgba(255,255,255,0.2)',
-                                        transition:
-                                            'background-color 0.3s ease-in-out',
-                                        '&:hover': {
-                                            backgroundColor:
-                                                'rgba(255,255,255,0.4)',
-                                        },
                                     }}
                                 >
-                                    {console.log(link.URL)}
                                     {iconMap[link.text.toLowerCase()]}
                                 </a>
                             ))}
