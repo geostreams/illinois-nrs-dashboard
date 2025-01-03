@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_content_footer_left_cards",
+  "info": {
+    "displayName": "footer-left-card",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "blocks"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "partners": {
+      "displayName": "partners",
+      "type": "component",
+      "repeatable": false,
+      "component": "content.partners"
+    }
+  }
+}
