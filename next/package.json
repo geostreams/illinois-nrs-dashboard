@@ -10,6 +10,8 @@
         "post-update": "echo \"codesandbox preview only, need an update\" && pnpm update --latest"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^44.1.0",
+        "@ckeditor/ckeditor5-react": "^9.4.0",
         "@emotion/cache": "latest",
         "@emotion/react": "latest",
         "@emotion/styled": "latest",
@@ -17,6 +19,7 @@
         "@mui/material": "latest",
         "@mui/material-nextjs": "latest",
         "@strapi/blocks-react-renderer": "^1.0.1",
+        "ckeditor5": "^44.1.0",
         "eslint-plugin-react": "^7.37.3",
         "next": "15.1.2",
         "react": "19.0.0",

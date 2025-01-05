@@ -5,7 +5,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import NextLink from 'next/link';
 
-export default function About() {
+import fetchContentType from '@/lib/strapi/fetchContentType';
+import CKReader from '@/components/ck-reader';
+
+export default async function About() {
+    const pageData = await fetchContentType('test', ``, true);
+
     return (
         <Container maxWidth="lg">
             <Box
@@ -24,6 +29,9 @@ export default function About() {
                     <Button variant="contained" component={NextLink} href="/">
                         Go to the home page
                     </Button>
+                </Box>
+                <Box sx={{ mt: 4 }}>
+                    <CKReader content={pageData?.ck_editor} />
                 </Box>
             </Box>
         </Container>
