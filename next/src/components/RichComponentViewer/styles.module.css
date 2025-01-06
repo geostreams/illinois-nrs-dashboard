@@ -65,6 +65,7 @@
 .container img {
     max-width: 100%;
     height: auto;
+    float: center;
 }
 
 .container :global(.image-style-align-left) {
@@ -77,6 +78,15 @@
     float: right;
     margin-left: 1rem;
     margin-bottom: 1rem;
+}
+.container figure {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0; /* Optional: Add some spacing above and below the figure */
+}
+
+.container figure img {
+    display: block; /* Ensures the image behaves like a block-level element */
 }
 
 /* Inline Elements */
