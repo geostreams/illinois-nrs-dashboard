@@ -14,8 +14,13 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
     baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
 }) => {
     const processContent = (htmlContent: string) => {
-        const processedContent = content;
+        const processedContent = htmlContent.replace(
+            /src="\/uploads/g,
+            `src="${baseImageUrl}/uploads`
+        );
 
+        // DOMPurify ensures that the HTML content is safe to render
+        // by removing any malicious code that could lead to XSS attacks
         return DOMPurify.sanitize(processedContent, {
             ADD_TAGS: ['iframe'],
             ADD_ATTR: ['target', 'style'],
