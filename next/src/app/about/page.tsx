@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import NextLink from 'next/link';
 
 import fetchContentType from '@/lib/strapi/fetchContentType';
-import CKReader from '@/components/ck-reader';
+import RichContentViewer from '@/components/RichComponentViewer';
 
 export default async function About() {
     const pageData = await fetchContentType('test', ``, true);
@@ -31,7 +31,7 @@ export default async function About() {
                     </Button>
                 </Box>
                 <Box sx={{ mt: 4 }}>
-                    <CKReader content={pageData?.ck_editor} />
+                    <RichContentViewer content={pageData?.ck_editor} />
                 </Box>
             </Box>
         </Container>
