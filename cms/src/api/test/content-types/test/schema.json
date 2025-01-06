@@ -18,6 +18,11 @@
         "preset": "defaultHtml"
       },
       "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "pie_chart": {
+      "type": "component",
+      "repeatable": false,
+      "component": "charts.filled-pie-chart"
     }
   }
 }

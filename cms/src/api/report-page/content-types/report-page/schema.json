@@ -21,11 +21,7 @@
     },
     "sections": {
       "type": "dynamiczone",
-      "components": [
-        "content.text-section",
-        "content.image-section",
-        "content.chart-section"
-      ]
+      "components": []
     }
   }
 }

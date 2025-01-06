@@ -7,9 +7,12 @@ import NextLink from 'next/link';
 
 import fetchContentType from '@/lib/strapi/fetchContentType';
 import RichContentViewer from '@/components/RichComponentViewer';
+import FilledPieChart from '@/components/charts/FilledPieChart';
 
 export default async function About() {
     const pageData = await fetchContentType('test', ``, true);
+    const chart = pageData?.pie_chart;
+    console.log(chart);
 
     return (
         <Container maxWidth="lg">
@@ -30,8 +33,14 @@ export default async function About() {
                         Go to the home page
                     </Button>
                 </Box>
-                <Box sx={{ mt: 4 }}>
+                <Box>
                     <RichContentViewer content={pageData?.ck_editor} />
+                    <FilledPieChart
+                        chart_data={chart?.chartData}
+                        chart_colors={chart?.chartColors}
+                        heading={chart?.heading}
+                        subheading={chart?.subheading}
+                    />
                 </Box>
             </Box>
         </Container>
