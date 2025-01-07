@@ -8,11 +8,12 @@ import NextLink from 'next/link';
 import fetchContentType from '@/lib/strapi/fetchContentType';
 import RichContentViewer from '@/components/RichComponentViewer';
 import FilledPieChart from '@/components/charts/FilledPieChart';
+import StackedBarChart from '@/components/charts/StackedBarChart';
 
 export default async function About() {
     const pageData = await fetchContentType('test', ``, true);
-    const chart = pageData?.pie_chart;
-    console.log(chart);
+    const pieChart = pageData?.pie_chart;
+    const stackedBarChart = pageData?.stacked_line_chart;
 
     return (
         <Container maxWidth="lg">
@@ -36,10 +37,19 @@ export default async function About() {
                 <Box>
                     <RichContentViewer content={pageData?.ck_editor} />
                     <FilledPieChart
-                        chart_data={chart?.chartData}
-                        chart_colors={chart?.chartColors}
-                        heading={chart?.heading}
-                        subheading={chart?.subheading}
+                        chart_data={pieChart?.chartData}
+                        chart_colors={pieChart?.chartColors}
+                        heading={pieChart?.heading}
+                        subheading={pieChart?.subheading}
+                    />
+                    <StackedBarChart
+                        chartData={stackedBarChart?.chartData}
+                        chartReferenceLines={
+                            stackedBarChart?.chartReferenceLines
+                        }
+                        chartColors={stackedBarChart?.chartColors}
+                        heading={stackedBarChart?.heading}
+                        subheading={stackedBarChart?.subheading}
                     />
                 </Box>
             </Box>
