@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid"
+    },
+    "pageContents": {
+      "type": "dynamiczone",
+      "components": [
+        "charts.stacked-line-chart",
+        "charts.line-chart",
+        "charts.filled-pie-chart",
+        "charts.dual-chart",
+        "content.content-block"
+      ]
+    }
+  }
+}
