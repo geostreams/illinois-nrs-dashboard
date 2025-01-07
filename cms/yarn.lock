@@ -2444,7 +2444,7 @@
     react-redux "8.1.3"
     yup "0.32.9"
 
-"@strapi/strapi@^5.0.0", "@strapi/strapi@5.4.0":
+"@strapi/strapi@^5.0.0", "@strapi/strapi@^5.4.0":
   version "5.4.0"
   resolved "https://registry.npmjs.org/@strapi/strapi/-/strapi-5.4.0.tgz"
   integrity sha512-DF+F5vyzifxCuHDREOv8sUwhk48kmBup9aMQp1+z6TV07U7tMKTOETeE6IpJG5ZP8afnSzNMmDgUgv6iVfSQRQ==
