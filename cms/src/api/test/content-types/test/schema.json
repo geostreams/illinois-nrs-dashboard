@@ -38,6 +38,16 @@
       "type": "component",
       "repeatable": false,
       "component": "charts.dual-chart"
+    },
+    "pageContents": {
+      "type": "dynamiczone",
+      "components": [
+        "charts.dual-chart",
+        "charts.filled-pie-chart",
+        "charts.stacked-line-chart",
+        "charts.line-chart",
+        "content.content-block"
+      ]
     }
   }
 }
