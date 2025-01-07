@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_charts_line_charts",
+  "info": {
+    "displayName": "LineChart",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "subheading": {
+      "type": "string"
+    },
+    "chartData": {
+      "type": "json"
+    },
+    "chartConfig": {
+      "type": "json"
+    }
+  }
+}

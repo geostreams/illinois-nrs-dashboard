@@ -24,10 +24,15 @@
       "repeatable": false,
       "component": "charts.filled-pie-chart"
     },
-    "stacked_line_chart": {
+    "stacked_bar_chart": {
       "type": "component",
       "repeatable": false,
       "component": "charts.stacked-line-chart"
+    },
+    "line_chart": {
+      "type": "component",
+      "repeatable": false,
+      "component": "charts.line-chart"
     }
   }
 }

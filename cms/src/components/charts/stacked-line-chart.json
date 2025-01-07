@@ -1,8 +1,9 @@
 {
-  "collectionName": "components_charts_stacked_line_charts",
+  "collectionName": "components_charts_stacked_bar_charts",
   "info": {
-    "displayName": "StackedLineChart",
-    "icon": "chartBubble"
+    "displayName": "StackedBarChart",
+    "icon": "chartBubble",
+    "description": ""
   },
   "options": {},
   "attributes": {

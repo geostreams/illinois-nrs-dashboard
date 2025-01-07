@@ -9,11 +9,13 @@ import fetchContentType from '@/lib/strapi/fetchContentType';
 import RichContentViewer from '@/components/RichComponentViewer';
 import FilledPieChart from '@/components/charts/FilledPieChart';
 import StackedBarChart from '@/components/charts/StackedBarChart';
+import LineChart from '@/components/charts/LineChart';
 
 export default async function About() {
     const pageData = await fetchContentType('test', ``, true);
     const pieChart = pageData?.pie_chart;
-    const stackedBarChart = pageData?.stacked_line_chart;
+    const stackedBarChart = pageData?.stacked_bar_chart;
+    const lineChart = pageData?.line_chart;
 
     return (
         <Container maxWidth="lg">
@@ -50,6 +52,12 @@ export default async function About() {
                         chartColors={stackedBarChart?.chartColors}
                         heading={stackedBarChart?.heading}
                         subheading={stackedBarChart?.subheading}
+                    />
+                    <LineChart
+                        chartData={lineChart?.chartData}
+                        chartConfig={lineChart?.chartConfig}
+                        heading={lineChart?.heading}
+                        subheading={lineChart?.subheading}
                     />
                 </Box>
             </Box>
