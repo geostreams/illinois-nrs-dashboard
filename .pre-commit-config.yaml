@@ -1,0 +1,25 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  # ESLint for the `next` frontend
+#  - repo: local
+#    hooks:
+#      - id: eslint
+#        name: eslint
+#        entry: bash -c "cd next && npx eslint --fix ."
+#        language: system
+#        files: ^next/src/.*\.(js|jsx|ts|tsx)$
+
+  # Prettier for the `next` frontend
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: bash -c "cd next && npx prettier --write ."
+        language: system
+        files: ^next/src/.*\.(js|jsx|ts|tsx|json|css|html)$

@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_global_footers",
+  "info": {
+    "displayName": "Footer",
+    "icon": "arrowDown"
+  },
+  "options": {},
+  "attributes": {
+    "left_card": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.footer-left-card"
+    },
+    "partners": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.partners"
+    },
+    "social_media_links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link"
+    },
+    "right_card": {
+      "type": "blocks"
+    }
+  }
+}

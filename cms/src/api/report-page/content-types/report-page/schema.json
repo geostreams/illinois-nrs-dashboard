@@ -4,7 +4,8 @@
   "info": {
     "singularName": "report-page",
     "pluralName": "report-pages",
-    "displayName": "report-page"
+    "displayName": "report-page",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -20,11 +21,7 @@
     },
     "sections": {
       "type": "dynamiczone",
-      "components": [
-        "content.image-section",
-        "content.text-section",
-        "content.chart-sections"
-      ]
+      "components": []
     }
   }
 }
