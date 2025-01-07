@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import styles from './styles.module.css';
 
 interface RichContentViewerProps {
