@@ -33,6 +33,11 @@
       "type": "component",
       "repeatable": false,
       "component": "charts.line-chart"
+    },
+    "dual_chart": {
+      "type": "component",
+      "repeatable": false,
+      "component": "charts.dual-chart"
     }
   }
 }

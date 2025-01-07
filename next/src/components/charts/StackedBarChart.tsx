@@ -72,52 +72,63 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                 </Typography>
             )}
             {/* Stacked Bar Chart */}
-            <ResponsiveContainer width="100%" height={400}>
-                <BarChart
-                    data={chartData}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} />
-                    <Tooltip contentStyle={{ fontSize: 12 }} />
-                    <Legend wrapperStyle={{ fontSize: 12 }} />
+            <Box
+                sx={{
+                    width: {
+                        xs: '100%',
+                        md: '80%',
+                    },
+                    height: 400,
+                    margin: 'auto',
+                }}
+            >
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                        data={chartData}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <Tooltip contentStyle={{ fontSize: 12 }} />
+                        <Legend wrapperStyle={{ fontSize: 12 }} />
 
-                    {/* Render Bars */}
-                    {chartData[0] &&
-                        Object.keys(chartData[0])
-                            .filter((key) => key !== 'name')
-                            .map((key) => (
-                                <Bar
-                                    key={key}
-                                    dataKey={key}
-                                    stackId="a"
-                                    fill={chartColors[key]}
-                                    name={getLegendName(key)}
-                                />
-                            ))}
+                        {/* Render Bars */}
+                        {chartData[0] &&
+                            Object.keys(chartData[0])
+                                .filter((key) => key !== 'name')
+                                .map((key) => (
+                                    <Bar
+                                        key={key}
+                                        dataKey={key}
+                                        stackId="a"
+                                        fill={chartColors[key]}
+                                        name={getLegendName(key)}
+                                    />
+                                ))}
 
-                    {/* Render Reference Lines */}
-                    {chartReferenceLines.map((line) => (
-                        <ReferenceLine
-                            key={line.value}
-                            y={line.value}
-                            label={{
-                                value: line.label,
-                                position: 'insideTopRight',
-                                fontSize: 12,
-                                fill: 'black',
-                            }}
-                            stroke="red"
-                        />
-                    ))}
-                </BarChart>
-            </ResponsiveContainer>
+                        {/* Render Reference Lines */}
+                        {chartReferenceLines.map((line) => (
+                            <ReferenceLine
+                                key={line.value}
+                                y={line.value}
+                                label={{
+                                    value: line.label,
+                                    position: 'insideTopRight',
+                                    fontSize: 12,
+                                    fill: 'black',
+                                }}
+                                stroke="red"
+                            />
+                        ))}
+                    </BarChart>
+                </ResponsiveContainer>
+            </Box>
         </Box>
     );
 };

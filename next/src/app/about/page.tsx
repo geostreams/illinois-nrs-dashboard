@@ -10,12 +10,14 @@ import RichContentViewer from '@/components/RichComponentViewer';
 import FilledPieChart from '@/components/charts/FilledPieChart';
 import StackedBarChart from '@/components/charts/StackedBarChart';
 import LineChart from '@/components/charts/LineChart';
+import DualChart from '@/components/charts/DualChart';
 
 export default async function About() {
     const pageData = await fetchContentType('test', ``, true);
     const pieChart = pageData?.pie_chart;
     const stackedBarChart = pageData?.stacked_bar_chart;
     const lineChart = pageData?.line_chart;
+    const dualChart = pageData?.dual_chart;
 
     return (
         <Container maxWidth="lg">
@@ -58,6 +60,10 @@ export default async function About() {
                         chartConfig={lineChart?.chartConfig}
                         heading={lineChart?.heading}
                         subheading={lineChart?.subheading}
+                    />
+                    <DualChart
+                        left_chart={dualChart?.leftChart}
+                        right_chart={dualChart?.rightChart}
                     />
                 </Box>
             </Box>

@@ -75,38 +75,49 @@ const LineChart: React.FC<LineChartProps> = ({
             )}
 
             {/* Line Chart */}
-            <ResponsiveContainer width="100%" height={400}>
-                <RechartsLineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} />
-                    <Tooltip contentStyle={{ fontSize: 12 }} />
-                    <Legend
-                        wrapperStyle={{ fontSize: 12 }}
-                        formatter={(value: string) => getLegendName(value)}
-                    />
-                    {chartConfig.map((lineConfig) => (
-                        <Line
-                            key={lineConfig.dataKey}
-                            dataKey={lineConfig.dataKey}
-                            stroke={lineConfig.color}
-                            strokeWidth={lineConfig.strokeWidth || 2}
-                            dot={
-                                lineConfig.dot !== false
-                                    ? { strokeWidth: 2 }
-                                    : false
-                            }
-                            activeDot={
-                                lineConfig.activeDot !== false
-                                    ? { r: 6 }
-                                    : false
-                            }
-                            name={getLegendName(lineConfig.dataKey)}
-                            connectNulls={lineConfig.connectNulls || false}
+            <Box
+                sx={{
+                    width: {
+                        xs: '100%',
+                        md: '80%',
+                    },
+                    height: 400,
+                    margin: 'auto',
+                }}
+            >
+                <ResponsiveContainer width="100%" height="100%">
+                    <RechartsLineChart data={chartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <Tooltip contentStyle={{ fontSize: 12 }} />
+                        <Legend
+                            wrapperStyle={{ fontSize: 12 }}
+                            formatter={(value: string) => getLegendName(value)}
                         />
-                    ))}
-                </RechartsLineChart>
-            </ResponsiveContainer>
+                        {chartConfig.map((lineConfig) => (
+                            <Line
+                                key={lineConfig.dataKey}
+                                dataKey={lineConfig.dataKey}
+                                stroke={lineConfig.color}
+                                strokeWidth={lineConfig.strokeWidth || 2}
+                                dot={
+                                    lineConfig.dot !== false
+                                        ? { strokeWidth: 2 }
+                                        : false
+                                }
+                                activeDot={
+                                    lineConfig.activeDot !== false
+                                        ? { r: 6 }
+                                        : false
+                                }
+                                name={getLegendName(lineConfig.dataKey)}
+                                connectNulls={lineConfig.connectNulls || false}
+                            />
+                        ))}
+                    </RechartsLineChart>
+                </ResponsiveContainer>
+            </Box>
         </Box>
     );
 };

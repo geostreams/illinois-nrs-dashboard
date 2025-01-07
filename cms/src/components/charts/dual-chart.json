@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_charts_dual_charts",
+  "info": {
+    "displayName": "DualChart",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "leftChart": {
+      "type": "component",
+      "repeatable": false,
+      "component": "charts.chart-selector"
+    },
+    "rightChart": {
+      "type": "component",
+      "repeatable": false,
+      "component": "charts.chart-selector"
+    }
+  }
+}
