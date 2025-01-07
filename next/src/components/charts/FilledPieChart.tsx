@@ -34,18 +34,26 @@ const FilledPieChart: React.FC<PieChartProps> = ({
             }}
         >
             {/* Heading and Subheading */}
-            <Typography variant="h5" component="h1" align="center" gutterBottom>
-                {heading}
-            </Typography>
-            <Typography
-                variant="subtitle1"
-                component="h2"
-                align="center"
-                gutterBottom
-            >
-                {subheading}
-            </Typography>
-
+            {heading && (
+                <Typography
+                    variant="h5"
+                    component="h1"
+                    align="center"
+                    gutterBottom
+                >
+                    {heading}
+                </Typography>
+            )}
+            {subheading && (
+                <Typography
+                    variant="subtitle1"
+                    component="h2"
+                    align="center"
+                    gutterBottom
+                >
+                    {subheading}
+                </Typography>
+            )}
             {/* Pie Chart */}
             <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
