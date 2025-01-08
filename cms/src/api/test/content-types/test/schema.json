@@ -24,11 +24,6 @@
       "repeatable": false,
       "component": "charts.filled-pie-chart"
     },
-    "stacked_bar_chart": {
-      "type": "component",
-      "repeatable": false,
-      "component": "charts.stacked-line-chart"
-    },
     "line_chart": {
       "type": "component",
       "repeatable": false,
@@ -44,7 +39,6 @@
       "components": [
         "charts.dual-chart",
         "charts.filled-pie-chart",
-        "charts.stacked-line-chart",
         "charts.line-chart",
         "content.content-block"
       ]

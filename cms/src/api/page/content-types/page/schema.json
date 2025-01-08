@@ -21,12 +21,16 @@
     "pageContents": {
       "type": "dynamiczone",
       "components": [
-        "charts.stacked-line-chart",
         "charts.line-chart",
         "charts.filled-pie-chart",
         "charts.dual-chart",
-        "content.content-block"
+        "content.content-block",
+        "charts.stacked-bar-chart",
+        "content.page-group"
       ]
+    },
+    "pageGroup": {
+      "type": "string"
     }
   }
 }

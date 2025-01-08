@@ -35,6 +35,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
     subheading,
 }) => {
     // Function to convert data keys to readable legend names
+    console.log('StackedBarChart');
     const getLegendName = (key: string): string =>
         key
             .replace(/([A-Z])/g, ' $1')

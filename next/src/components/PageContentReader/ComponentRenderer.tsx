@@ -50,6 +50,8 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
         case 'content.content-block':
             return <RichContentViewer content={component.content} />;
         default:
+            console.log('Component not found');
+            console.log(component);
             return null;
     }
 };
