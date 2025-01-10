@@ -83,7 +83,8 @@
 .container figure {
     display: flex;
     justify-content: center;
-    margin: 1rem 0; /* Optional: Add some spacing above and below the figure */
+    align-items: center;
+    margin: 1rem auto; /* Optional: Add some spacing above and below the figure */
 }
 
 .container figure img {

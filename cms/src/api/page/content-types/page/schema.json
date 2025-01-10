@@ -25,8 +25,7 @@
         "charts.filled-pie-chart",
         "charts.dual-chart",
         "content.content-block",
-        "charts.stacked-bar-chart",
-        "content.page-group"
+        "charts.stacked-bar-chart"
       ]
     },
     "pageGroup": {
