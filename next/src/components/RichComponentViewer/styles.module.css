@@ -90,7 +90,18 @@
     flex-direction: column; /* Stack the image and caption vertically */
     margin: 1rem auto; /* Center the figure with spacing */
     max-width: 100%; /* Prevent the figure from exceeding container width */
-    min-width: 50%;
+}
+/*css for tablets*/
+@media (max-width: 768px) {
+    .container figure {
+        min-width: 15em;
+    }
+}
+/*css for mobiles*/
+@media (max-width: 480px) {
+    .container figure {
+        min-width: 50%;
+    }
 }
 
 .container figure img {
