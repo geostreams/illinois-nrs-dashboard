@@ -33,7 +33,6 @@ type Props = {
                     };
                 };
             };
-            company_name: string;
         };
         navbar_link_groups: {
             group_name: string;
@@ -100,161 +99,267 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
     const logoURL = `${process.env.NEXT_PUBLIC_CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
     return (
-        <AppBar position="static" color="default">
-            <Toolbar>
-                <Box
-                    component={Link}
-                    href="/"
-                    display="flex"
-                    alignItems="center"
+        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100 }}>
+            <AppBar position="static" color="default">
+                {/* Top Section with Logo */}
+                <Toolbar
                     sx={{
-                        marginRight: 'auto',
-                        textDecoration: 'none',
-                        color: 'inherit',
+                        borderBottom: 1,
+                        borderColor: 'divider',
+                        justifyContent: 'flex-start',
+                        background:
+                            'linear-gradient(to right, #0C4377 , #4395bc)',
+                    }}
+                >
+                    <Box
+                        component={Link}
+                        href="/"
+                        display="flex"
+                        alignItems="center"
+                        sx={{
+                            textDecoration: 'none',
+                            color: 'inherit',
+                            padding: '0.25em',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                width: '65px',
+                                height: '65px',
+                                marginRight: '16px',
+                            }}
+                        >
+                            <Image
+                                src={logoURL}
+                                alt="logo"
+                                fill
+                                style={{ objectFit: 'contain' }}
+                            />
+                        </Box>
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            sx={{
+                                fontFamily: 'Montserrat, sans-serif',
+                                fontWeight: 'bold',
+                                fontSize: '1.5em',
+                                color: '#ffffff',
+                            }}
+                        >
+                            Illinois NLRS{' '}
+                            <span style={{ color: '#6FB9E4' }}>
+                                Data Dashboard
+                            </span>
+                        </Typography>
+                    </Box>
+                </Toolbar>
+
+                {/* Bottom Section with Navigation */}
+                <Toolbar
+                    sx={{
+                        justifyContent: 'flex-start',
+                        minHeight: '32px !important',
+                        backgroundColor: '#002849',
+                        color: 'primary.contrastText',
+                        padding: 0,
                     }}
                 >
                     <Box
                         sx={{
-                            position: 'relative',
-                            width: '100px',
-                            height: '100px',
-                            marginRight: '16px',
+                            display: { xs: 'none', md: 'flex' },
+                            width: '100%',
+                            height: '100%',
+                            alignItems: 'stretch',
+                            margin: 0,
+                            padding: 0,
                         }}
                     >
-                        <Image
-                            src={logoURL}
-                            alt="logo"
-                            fill
-                            style={{ objectFit: 'contain' }}
-                        />
-                    </Box>
-                    <Typography variant="h6" component="div">
-                        {navbar.logo.company_name}
-                    </Typography>
-                </Box>
-
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    {navbar.navbar_link_groups.map((group, index) => (
-                        <Box key={index} sx={{ display: 'flex' }}>
-                            <Tooltip title={group.group_name}>
-                                <Button
-                                    color="inherit"
-                                    onClick={(event) =>
-                                        handleOpenNavMenu(event, index)
-                                    }
+                        {navbar.navbar_link_groups.map((group, index) => (
+                            <React.Fragment key={index}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        height: '100%',
+                                    }}
                                 >
-                                    {group.group_name}
-                                </Button>
-                            </Tooltip>
-                            <Menu
-                                id={`menu-appbar-${index}`}
-                                anchorEl={
-                                    anchorElNav?.groupIndex === index
-                                        ? anchorElNav.anchor
-                                        : null
-                                }
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'center',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'center',
-                                }}
-                                open={anchorElNav?.groupIndex === index}
-                                onClose={handleCloseNavMenu}
-                            >
-                                {group.links.map((link, linkIndex) => (
-                                    <MenuItem
-                                        key={linkIndex}
-                                        onClick={() =>
-                                            handleNavigation(
-                                                link.URL,
-                                                link.target
-                                            )
+                                    <Tooltip title={group.group_name}>
+                                        <Button
+                                            color="inherit"
+                                            onClick={(event) =>
+                                                handleOpenNavMenu(event, index)
+                                            }
+                                            sx={{
+                                                color: 'inherit',
+                                                height: '100%',
+                                            }}
+                                        >
+                                            {group.group_name}
+                                        </Button>
+                                    </Tooltip>
+                                    <Menu
+                                        id={`menu-appbar-${index}`}
+                                        anchorEl={
+                                            anchorElNav?.groupIndex === index
+                                                ? anchorElNav.anchor
+                                                : null
                                         }
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'center',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'center',
+                                        }}
+                                        open={anchorElNav?.groupIndex === index}
+                                        onClose={handleCloseNavMenu}
+                                        sx={{
+                                            marginTop: '1px',
+                                            '& .MuiMenu-paper': {
+                                                backgroundColor: '#002849',
+                                                color: 'primary.contrastText',
+                                                borderRadius: '0',
+                                            },
+                                        }}
                                     >
-                                        {link.text}
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                    ))}
-                </Box>
+                                        {group.links.map((link, linkIndex) => (
+                                            <MenuItem
+                                                key={linkIndex}
+                                                onClick={() =>
+                                                    handleNavigation(
+                                                        link.URL,
+                                                        link.target
+                                                    )
+                                                }
+                                                sx={{
+                                                    '&:hover': {
+                                                        backgroundColor:
+                                                            '#1A1A1A',
+                                                    },
+                                                }}
+                                            >
+                                                {link.text}
+                                            </MenuItem>
+                                        ))}
+                                    </Menu>
+                                </Box>
+                                {index <
+                                    navbar.navbar_link_groups.length - 1 && (
+                                    <Divider
+                                        orientation="vertical"
+                                        flexItem
+                                        sx={{ bgcolor: 'white' }}
+                                    />
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </Box>
 
-                <IconButton
-                    sx={{ display: { md: 'none' } }}
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    onClick={handleDrawerToggle}
-                >
-                    <MenuIcon />
-                </IconButton>
+                    <IconButton
+                        sx={{
+                            display: { md: 'none' },
+                            position: 'absolute',
+                            right: 16,
+                            color: 'inherit',
+                        }}
+                        size="large"
+                        edge="start"
+                        aria-label="menu"
+                        onClick={handleDrawerToggle}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
 
-                <Drawer
-                    anchor="right"
-                    open={drawerOpen}
-                    onClose={handleDrawerToggle}
-                    sx={{ display: { xs: 'block', md: 'none' } }}
-                >
-                    <Box sx={{ width: 250 }}>
-                        <List>
-                            {navbar.navbar_link_groups.map((group, index) => (
-                                <React.Fragment key={index}>
-                                    <ListItem
-                                        button
-                                        onClick={() => toggleGroup(index)}
-                                    >
-                                        <ListItemText
-                                            primary={group.group_name}
-                                            primaryTypographyProps={{
-                                                variant: 'h6',
-                                                fontWeight: 'bold',
+            {/* Mobile Navigation Drawer */}
+            <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={handleDrawerToggle}
+                sx={{
+                    display: { xs: 'block', md: 'none' },
+                    '& .MuiDrawer-paper': {
+                        backgroundColor: '#002849',
+                        color: 'primary.contrastText',
+                    },
+                }}
+            >
+                <Box sx={{ width: 250 }}>
+                    <List>
+                        {navbar.navbar_link_groups.map((group, index) => (
+                            <React.Fragment key={index}>
+                                <ListItem
+                                    button
+                                    onClick={() => toggleGroup(index)}
+                                    sx={{ color: 'primary.contrastText' }}
+                                >
+                                    <ListItemText
+                                        primary={group.group_name}
+                                        primaryTypographyProps={{
+                                            variant: 'h6',
+                                            fontWeight: 'bold',
+                                            sx: {
+                                                color: 'primary.contrastText',
+                                            },
+                                        }}
+                                    />
+                                    {expandedGroups.has(index) ? (
+                                        <ExpandLess
+                                            sx={{
+                                                color: 'primary.contrastText',
                                             }}
                                         />
-                                        {expandedGroups.has(index) ? (
-                                            <ExpandLess />
-                                        ) : (
-                                            <ExpandMore />
-                                        )}
-                                    </ListItem>
-                                    <Collapse
-                                        in={expandedGroups.has(index)}
-                                        timeout="auto"
-                                        unmountOnExit
-                                    >
-                                        <List component="div" disablePadding>
-                                            {group.links.map(
-                                                (link, linkIndex) => (
-                                                    <ListItem
-                                                        button
-                                                        key={linkIndex}
-                                                        onClick={() =>
-                                                            handleNavigation(
-                                                                link.URL,
-                                                                link.target
-                                                            )
-                                                        }
-                                                        sx={{ pl: 4 }}
-                                                    >
-                                                        <ListItemText
-                                                            primary={link.text}
-                                                        />
-                                                    </ListItem>
-                                                )
-                                            )}
-                                        </List>
-                                    </Collapse>
-                                    <Divider />
-                                </React.Fragment>
-                            ))}
-                        </List>
-                    </Box>
-                </Drawer>
-            </Toolbar>
-        </AppBar>
+                                    ) : (
+                                        <ExpandMore
+                                            sx={{
+                                                color: 'primary.contrastText',
+                                            }}
+                                        />
+                                    )}
+                                </ListItem>
+                                <Collapse
+                                    in={expandedGroups.has(index)}
+                                    timeout="auto"
+                                    unmountOnExit
+                                >
+                                    <List component="div" disablePadding>
+                                        {group.links.map((link, linkIndex) => (
+                                            <ListItem
+                                                button
+                                                key={linkIndex}
+                                                onClick={() =>
+                                                    handleNavigation(
+                                                        link.URL,
+                                                        link.target
+                                                    )
+                                                }
+                                                sx={{
+                                                    pl: 4,
+                                                    color: 'primary.contrastText',
+                                                }}
+                                            >
+                                                <ListItemText
+                                                    primary={link.text}
+                                                    primaryTypographyProps={{
+                                                        sx: {
+                                                            color: 'primary.contrastText',
+                                                        },
+                                                    }}
+                                                />
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </Collapse>
+                                <Divider sx={{ bgcolor: 'white' }} />
+                            </React.Fragment>
+                        ))}
+                    </List>
+                </Box>
+            </Drawer>
+        </Box>
     );
 };
