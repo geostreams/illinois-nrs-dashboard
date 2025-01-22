@@ -22,6 +22,10 @@ import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
 import Image from 'next/image';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import { ListItemButton } from '@mui/material';
 
 type Props = {
     navbar: {
@@ -153,6 +157,44 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             </span>
                         </Typography>
                     </Box>
+
+                    {/* Search Bar */}
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: 'none', md: 'flex' },
+                            justifyContent: 'flex-end',
+                        }}
+                    >
+                        <TextField
+                            variant="outlined"
+                            placeholder="SEARCH..."
+                            size="small"
+                            sx={{
+                                backgroundColor: 'transparent',
+                                borderRadius: '20px',
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '20px',
+                                    '& fieldset': {
+                                        borderColor: 'white',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: 'white',
+                                    },
+                                },
+                                '& .MuiInputBase-input': {
+                                    color: 'white',
+                                },
+                            }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon sx={{ color: 'white' }} />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
                 </Toolbar>
 
                 {/* Bottom Section with Navigation */}
@@ -193,6 +235,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                             sx={{
                                                 color: 'inherit',
                                                 height: '100%',
+                                                fontSize: '0.9em',
                                             }}
                                         >
                                             {group.group_name}
@@ -288,12 +331,18 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     },
                 }}
             >
-                <Box sx={{ width: 250 }}>
+                <Box
+                    sx={{
+                        width: 250,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: '100%',
+                    }}
+                >
                     <List>
                         {navbar.navbar_link_groups.map((group, index) => (
                             <React.Fragment key={index}>
-                                <ListItem
-                                    button
+                                <ListItemButton
                                     onClick={() => toggleGroup(index)}
                                     sx={{ color: 'primary.contrastText' }}
                                 >
@@ -320,7 +369,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                             }}
                                         />
                                     )}
-                                </ListItem>
+                                </ListItemButton>
                                 <Collapse
                                     in={expandedGroups.has(index)}
                                     timeout="auto"
@@ -328,8 +377,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 >
                                     <List component="div" disablePadding>
                                         {group.links.map((link, linkIndex) => (
-                                            <ListItem
-                                                button
+                                            <ListItemButton
                                                 key={linkIndex}
                                                 onClick={() =>
                                                     handleNavigation(
@@ -344,13 +392,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                             >
                                                 <ListItemText
                                                     primary={link.text}
-                                                    primaryTypographyProps={{
-                                                        sx: {
-                                                            color: 'primary.contrastText',
-                                                        },
-                                                    }}
                                                 />
-                                            </ListItem>
+                                            </ListItemButton>
                                         ))}
                                     </List>
                                 </Collapse>
@@ -358,6 +401,39 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             </React.Fragment>
                         ))}
                     </List>
+
+                    {/* Search Bar at the Bottom of the Drawer */}
+                    <Box sx={{ p: 2, mt: 'auto' }}>
+                        <TextField
+                            variant="outlined"
+                            placeholder="SEARCH..."
+                            size="small"
+                            sx={{
+                                backgroundColor: 'white', // Set background to white
+                                borderRadius: '20px', // Make the background rounded
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '20px', // Match the border radius
+                                    '& fieldset': {
+                                        borderColor: 'white', // Set border color to white
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: 'white', // Keep border color white on hover
+                                    },
+                                },
+                                '& .MuiInputBase-input': {
+                                    color: 'black', // Set font color to black for visibility
+                                },
+                            }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon sx={{ color: 'black' }} />{' '}
+                                        {/* Set icon color to black for visibility */}
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
                 </Box>
             </Drawer>
         </Box>
