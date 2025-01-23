@@ -11,6 +11,30 @@ export const Sidebar: React.FC = () => {
     const theme = useTheme();
     const [activeHeading, setActiveHeading] = React.useState<string>('');
     const [headings, setHeadings] = React.useState<string[]>([]);
+    const [maxHeight, setMaxHeight] = React.useState('calc(100vh - 110px)');
+
+    React.useEffect(() => {
+        const updateSidebarHeight = () => {
+            const footer = document.querySelector('.footer-container');
+            if (footer) {
+                const footerTop = footer.getBoundingClientRect().top;
+                const sidebarTop = 110; // Navbar height
+                const newHeight = footerTop - sidebarTop;
+                setMaxHeight(`${newHeight}px`);
+            } else {
+                setMaxHeight('calc(100vh - 110px)');
+            }
+        };
+
+        updateSidebarHeight();
+        window.addEventListener('scroll', updateSidebarHeight);
+        window.addEventListener('resize', updateSidebarHeight);
+
+        return () => {
+            window.removeEventListener('scroll', updateSidebarHeight);
+            window.removeEventListener('resize', updateSidebarHeight);
+        };
+    }, []);
 
     React.useEffect(() => {
         const headingElements = Array.from(document.querySelectorAll('h1, h2'));
@@ -26,7 +50,7 @@ export const Sidebar: React.FC = () => {
         ).find((h) => h.textContent?.trim() === title.trim());
 
         if (headingElement) {
-            const offset = 140; // Adjust this to match your header/navbar height
+            const offset = 110; // To offset the navbar height
             const elementPosition =
                 headingElement.getBoundingClientRect().top + window.pageYOffset;
             window.scrollTo({
@@ -39,7 +63,7 @@ export const Sidebar: React.FC = () => {
 
     React.useEffect(() => {
         const handleScroll = () => {
-            const offset = 140; // Same offset as in handleClick
+            const offset = 110; // To offset the navbar height
             const headingElements = Array.from(
                 document.querySelectorAll('h1, h2')
             );
@@ -63,10 +87,11 @@ export const Sidebar: React.FC = () => {
                 width: 240,
                 position: 'fixed',
                 top: 110,
-                bottom: 0,
+                height: maxHeight,
                 overflowY: 'auto',
-                backgroundColor: '#f5f5f5',
+                backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
+                transition: 'height 0.2s ease-out',
             }}
         >
             <List component="nav">
@@ -77,25 +102,23 @@ export const Sidebar: React.FC = () => {
                         onClick={() => handleClick(heading)}
                         sx={{
                             '&.Mui-selected': {
-                                backgroundColor: '#0C457B',
+                                backgroundColor: '#4AA6DC',
                                 color: 'white',
                                 '&:hover': {
-                                    backgroundColor: '#0C457B',
+                                    backgroundColor: '#4AA6DC',
                                 },
                             },
                             '&:hover': {
-                                backgroundColor: 'rgba(12, 69, 123, 0.08)',
+                                backgroundColor: '#4AA6DC',
                             },
                         }}
                     >
                         <ListItemText
                             primary={heading}
-                            primaryTypographyProps={{
+                            sx={{
                                 fontSize: '0.9rem',
-                                fontWeight:
-                                    activeHeading === heading
-                                        ? 'bold'
-                                        : 'normal',
+                                color: 'white',
+                                fontWeight: '100',
                             }}
                         />
                     </ListItemButton>
