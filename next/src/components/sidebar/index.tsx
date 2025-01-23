@@ -6,23 +6,99 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
+
+interface Section {
+    id: string;
+    title: string;
+    element: HTMLElement;
+    start: number;
+    end: number;
+}
 
 export const Sidebar: React.FC = () => {
     const theme = useTheme();
-    const [activeHeading, setActiveHeading] = React.useState<string>('');
-    const [headings, setHeadings] = React.useState<string[]>([]);
+    const [activeSection, setActiveSection] = React.useState<string>('');
+    const [sections, setSections] = React.useState<Section[]>([]);
     const [maxHeight, setMaxHeight] = React.useState('calc(100vh - 110px)');
 
+    // Create sections based on headings
+    React.useEffect(() => {
+        const createSections = () => {
+            const headingElements = Array.from(
+                document.querySelectorAll('h1, h2')
+            );
+            const newSections: Section[] = headingElements.map(
+                (heading, index) => {
+                    const nextHeading = headingElements[index + 1];
+                    const id = `section-${index}`;
+
+                    // Add id to heading if it doesn't exist
+                    if (!heading.id) {
+                        heading.id = id;
+                    }
+
+                    // Calculate section boundaries
+                    const start =
+                        heading.getBoundingClientRect().top + window.scrollY;
+                    const end = nextHeading
+                        ? nextHeading.getBoundingClientRect().top +
+                          window.scrollY
+                        : document.documentElement.scrollHeight;
+
+                    return {
+                        id,
+                        title: heading.textContent || '',
+                        element: heading,
+                        start,
+                        end,
+                    };
+                }
+            );
+
+            setSections(newSections);
+        };
+
+        createSections();
+        // Recalculate sections when content changes
+        const observer = new MutationObserver(createSections);
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        return () => observer.disconnect();
+    }, []);
+
+    // Handle scroll and update active section
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY + 150; // Account for navbar offset
+
+            // Find the current section
+            const currentSection = sections.find(
+                (section) =>
+                    scrollPosition >= section.start &&
+                    scrollPosition < section.end
+            );
+
+            if (currentSection) {
+                setActiveSection(currentSection.id);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll(); // Initial check
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [sections]);
+
+    // Handle sidebar height
     React.useEffect(() => {
         const updateSidebarHeight = () => {
             const footer = document.querySelector('.footer-container');
             if (footer) {
                 const footerTop = footer.getBoundingClientRect().top;
-                const sidebarTop = 110; // Navbar height
+                const sidebarTop = 110;
                 const newHeight = footerTop - sidebarTop;
                 setMaxHeight(`${newHeight}px`);
-            } else {
-                setMaxHeight('calc(100vh - 110px)');
             }
         };
 
@@ -36,50 +112,17 @@ export const Sidebar: React.FC = () => {
         };
     }, []);
 
-    React.useEffect(() => {
-        const headingElements = Array.from(document.querySelectorAll('h1, h2'));
-        const headingTexts = headingElements
-            .map((h) => h.textContent || '')
-            .filter(Boolean);
-        setHeadings(headingTexts);
-    }, []);
-
-    const handleClick = (title: string) => {
-        const headingElement = Array.from(
-            document.querySelectorAll('h1, h2')
-        ).find((h) => h.textContent?.trim() === title.trim());
-
-        if (headingElement) {
-            const offset = 110; // To offset the navbar height
-            const elementPosition =
-                headingElement.getBoundingClientRect().top + window.pageYOffset;
+    const handleClick = (sectionId: string) => {
+        const section = sections.find((s) => s.id === sectionId);
+        if (section) {
+            const offset = 110;
             window.scrollTo({
-                top: elementPosition - offset,
+                top: section.start - offset,
                 behavior: 'smooth',
             });
-            setActiveHeading(title);
+            setActiveSection(sectionId);
         }
     };
-
-    React.useEffect(() => {
-        const handleScroll = () => {
-            const offset = 110; // To offset the navbar height
-            const headingElements = Array.from(
-                document.querySelectorAll('h1, h2')
-            );
-            const currentHeading = headingElements.find((element) => {
-                const rect = element.getBoundingClientRect();
-                return rect.top <= offset && rect.bottom >= offset;
-            });
-
-            if (currentHeading) {
-                setActiveHeading(currentHeading.textContent || '');
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     return (
         <Box
@@ -87,41 +130,46 @@ export const Sidebar: React.FC = () => {
                 width: 240,
                 position: 'fixed',
                 top: 110,
+                left: 0,
+                bottom: 0,
                 height: maxHeight,
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
-                transition: 'height 0.2s ease-out',
             }}
         >
             <List component="nav">
-                {headings.map((heading, index) => (
-                    <ListItemButton
-                        key={`${heading}-${index}`}
-                        selected={activeHeading === heading}
-                        onClick={() => handleClick(heading)}
-                        sx={{
-                            '&.Mui-selected': {
-                                backgroundColor: '#4AA6DC',
-                                color: 'white',
+                {sections.map((section, index) => (
+                    <React.Fragment key={section.id}>
+                        <ListItemButton
+                            selected={activeSection === section.id}
+                            onClick={() => handleClick(section.id)}
+                            sx={{
+                                '&.Mui-selected': {
+                                    backgroundColor: '#4AA6DC',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#4AA6DC',
+                                    },
+                                },
                                 '&:hover': {
                                     backgroundColor: '#4AA6DC',
                                 },
-                            },
-                            '&:hover': {
-                                backgroundColor: '#4AA6DC',
-                            },
-                        }}
-                    >
-                        <ListItemText
-                            primary={heading}
-                            sx={{
-                                fontSize: '0.9rem',
-                                color: 'white',
-                                fontWeight: '100',
                             }}
-                        />
-                    </ListItemButton>
+                        >
+                            <ListItemText
+                                primary={section.title}
+                                sx={{
+                                    fontSize: '0.9rem',
+                                    color: 'white',
+                                    fontWeight: '100',
+                                }}
+                            />
+                        </ListItemButton>
+                        {index < sections.length && (
+                            <Divider sx={{ backgroundColor: 'white' }} />
+                        )}
+                    </React.Fragment>
                 ))}
             </List>
         </Box>
