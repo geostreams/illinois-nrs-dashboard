@@ -23,24 +23,17 @@ interface StackedBarChartProps {
         value: number;
     }[];
     chartColors: { [key: string]: string };
-    heading: string;
-    subheading?: string;
+    isVisible: boolean;
 }
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
     chartData,
-    chartReferenceLines,
+    chartReferenceLines = [],
     chartColors,
-    heading,
-    subheading,
+    isVisible,
 }) => {
     // Function to convert data keys to readable legend names
-    console.log('StackedBarChart');
     const getLegendName = (key: string): string => key;
-
-    if (chartReferenceLines == null) {
-        chartReferenceLines = [];
-    }
 
     return (
         <Box
@@ -52,27 +45,6 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                 padding: 2,
             }}
         >
-            {/* Heading and Subheading */}
-            {heading && (
-                <Typography
-                    variant="h5"
-                    component="h1"
-                    align="center"
-                    gutterBottom
-                >
-                    {heading}
-                </Typography>
-            )}
-            {subheading && (
-                <Typography
-                    variant="subtitle1"
-                    component="h2"
-                    align="center"
-                    gutterBottom
-                >
-                    {subheading}
-                </Typography>
-            )}
             {/* Stacked Bar Chart */}
             <Box
                 sx={{
@@ -111,23 +83,25 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                                         stackId="a"
                                         fill={chartColors[key]}
                                         name={getLegendName(key)}
+                                        isAnimationActive={isVisible}
                                     />
                                 ))}
 
                         {/* Render Reference Lines */}
-                        {chartReferenceLines.map((line) => (
-                            <ReferenceLine
-                                key={line.value}
-                                y={line.value}
-                                label={{
-                                    value: line.label,
-                                    position: 'insideTopRight',
-                                    fontSize: 12,
-                                    fill: 'black',
-                                }}
-                                stroke="red"
-                            />
-                        ))}
+                        {chartReferenceLines !== null &&
+                            chartReferenceLines.map((line) => (
+                                <ReferenceLine
+                                    key={line.value}
+                                    y={line.value}
+                                    label={{
+                                        value: line.label,
+                                        position: 'insideTopRight',
+                                        fontSize: 12,
+                                        fill: 'black',
+                                    }}
+                                    stroke="red"
+                                />
+                            ))}
                     </BarChart>
                 </ResponsiveContainer>
             </Box>

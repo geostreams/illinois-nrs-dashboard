@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import FilledPieChart from './FilledPieChart';
-import LineChart from './LineChart';
-import StackedBarChart from './StackedBarChart';
+import BaseChart from './BaseChart';
 
 // Define props interface for charts
 interface ChartDataProps {
@@ -25,16 +23,18 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
         switch (chart.chartType) {
             case 'filled_pie':
                 return (
-                    <FilledPieChart
-                        chart_data={chart.chartData}
-                        chart_colors={chart.chartColors!}
+                    <BaseChart
+                        chartType="filled_pie"
+                        chartData={chart.chartData}
+                        chartColors={chart.chartColors!}
                         heading={chart.heading}
                         subheading={chart.subheading || ''}
                     />
                 );
             case 'line':
                 return (
-                    <LineChart
+                    <BaseChart
+                        chartType="line"
                         chartData={chart.chartData}
                         chartConfig={chart.chartConfig!}
                         heading={chart.heading}
@@ -43,7 +43,8 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 );
             case 'stacked_bar':
                 return (
-                    <StackedBarChart
+                    <BaseChart
+                        chartType="stacked_bar"
                         chartData={chart.chartData}
                         chartReferenceLines={chart.chartReferenceLines || []}
                         chartColors={chart.chartColors!}
@@ -69,8 +70,8 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 },
             }}
         >
-            <Box>{renderChart(left_chart)}</Box>
-            <Box>{renderChart(right_chart)}</Box>
+            {renderChart(left_chart)}
+            {renderChart(right_chart)}
         </Box>
     );
 };
