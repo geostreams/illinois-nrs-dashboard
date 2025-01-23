@@ -63,7 +63,10 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
     );
 
     return (
-        <>
+        <div
+            className="footer-container"
+            style={{ position: 'relative', bottom: 0, width: '100%' }}
+        >
             {/*Small height box for a colored line*/}
             <Box sx={{ height: 4, bgcolor: '#88B147' }} />
             {/*Main Footer Container*/}
@@ -183,6 +186,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                     </Box>
                 ))}
             </Box>
-        </>
+        </div>
     );
 };

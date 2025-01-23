@@ -147,14 +147,14 @@ const BaseChart: FC<BaseChartProps> = ({
             >
                 <Box sx={{ textAlign: 'center' }}>
                     {heading && (
-                        <Typography variant="h5" component="h1" gutterBottom>
+                        <Typography variant="h5" component="h5" gutterBottom>
                             {heading}
                         </Typography>
                     )}
                     {subheading && (
                         <Typography
                             variant="subtitle1"
-                            component="h2"
+                            component="h6"
                             color="text.secondary"
                         >
                             {subheading}

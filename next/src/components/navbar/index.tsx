@@ -103,7 +103,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
     const logoURL = `${process.env.NEXT_PUBLIC_CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
     return (
-        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100 }}>
+        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, height: '90px' }}>
             <AppBar position="static" color="default">
                 {/* Top Section with Logo */}
                 <Toolbar
