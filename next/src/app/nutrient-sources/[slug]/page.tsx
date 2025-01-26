@@ -6,8 +6,12 @@ import * as React from 'react';
 import { Sidebar } from '@/components/sidebar';
 import Box from '@mui/material/Box';
 
-export default async function Page({ params }: { params: { slug: string } }) {
-    const { slug } = params;
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
     const pageData = await fetchContentType(
         'pages',
         `filters[slug][$eq]=${slug}`,
