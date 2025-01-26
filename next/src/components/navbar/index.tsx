@@ -103,7 +103,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
     const logoURL = `${process.env.NEXT_PUBLIC_CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
     return (
-        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100 }}>
+        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, height: '110px' }}>
             <AppBar position="static" color="default">
                 {/* Top Section with Logo */}
                 <Toolbar
@@ -199,6 +199,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
                 {/* Bottom Section with Navigation */}
                 <Toolbar
+                    disableGutters
                     sx={{
                         justifyContent: 'flex-start',
                         minHeight: '32px !important',
@@ -224,6 +225,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         height: '100%',
+                                        paddingLeft: '0',
                                     }}
                                 >
                                     <Tooltip title={group.group_name}>
@@ -235,7 +237,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                             sx={{
                                                 color: 'inherit',
                                                 height: '100%',
-                                                fontSize: '0.9em',
+                                                fontSize: '1.0em',
                                             }}
                                         >
                                             {group.group_name}
