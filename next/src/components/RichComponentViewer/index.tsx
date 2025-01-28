@@ -14,9 +14,15 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
     baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
 }) => {
     const processContent = (htmlContent: string) => {
-        const processedContent = htmlContent.replace(
+        let processedContent = htmlContent.replace(
             /src="\/uploads/g,
             `src="${baseImageUrl}/uploads`
+        );
+
+        // Remove font-family declarations including HTML entities and escaped quotes
+        processedContent = processedContent.replace(
+            /font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g,
+            '$3'
         );
 
         // DOMPurify ensures that the HTML content is safe to render
