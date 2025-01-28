@@ -1,9 +1,15 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
-import { Roboto } from 'next/font/google';
+import { Source_Sans_3, Bebas_Neue } from 'next/font/google';
 
-const roboto = Roboto({
-    weight: ['300', '400', '500', '700'],
+const sourceSansPro = Source_Sans_3({
+    weight: ['400', '600'],
+    subsets: ['latin'],
+    display: 'swap',
+});
+
+const bebasNeue = Bebas_Neue({
+    weight: ['400'],
     subsets: ['latin'],
     display: 'swap',
 });
@@ -13,7 +19,25 @@ const theme = createTheme({
         colorSchemeSelector: 'class',
     },
     typography: {
-        fontFamily: roboto.style.fontFamily,
+        fontFamily: `${sourceSansPro.style.fontFamily}`,
+        h1: {
+            fontFamily: bebasNeue.style.fontFamily,
+        },
+        h2: {
+            fontFamily: bebasNeue.style.fontFamily,
+        },
+        h3: {
+            fontFamily: bebasNeue.style.fontFamily,
+        },
+        h4: {
+            fontFamily: bebasNeue.style.fontFamily,
+        },
+        h5: {
+            fontFamily: bebasNeue.style.fontFamily,
+        },
+        h6: {
+            fontFamily: bebasNeue.style.fontFamily,
+        },
     },
     palette: {
         primary: {
