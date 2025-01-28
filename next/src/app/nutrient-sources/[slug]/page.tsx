@@ -5,6 +5,7 @@ import { PageContentReader } from '@/components/PageContentReader';
 import * as React from 'react';
 import { Sidebar } from '@/components/sidebar';
 import Box from '@mui/material/Box';
+import { notFound } from 'next/navigation';
 
 export default async function Page({
     params,
@@ -19,6 +20,11 @@ export default async function Page({
     );
 
     const pageContents = pageData?.pageContents;
+
+    // if pageContents is empty, return 404
+    if (!pageContents) {
+        return notFound();
+    }
 
     return (
         <>
