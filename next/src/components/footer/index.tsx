@@ -43,7 +43,7 @@ type FooterProps = {
 
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
     const footerLeftCardImage = `${process.env.NEXT_PUBLIC_CMS_API_URL}${footerData?.left_card?.image?.url}`;
-    const iconMap = {
+    const iconMap: { [key: string]: React.ReactNode } = {
         facebook: (
             <FacebookIcon sx={{ width: 24, height: 24, color: 'white' }} />
         ),

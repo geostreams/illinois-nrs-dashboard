@@ -7,17 +7,26 @@ import { Sidebar } from '@/components/sidebar';
 import Box from '@mui/material/Box';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
+
 export default async function Page({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const pageData = await fetchContentType(
-        'pages',
-        `filters[slug][$eq]=${slug}`,
-        true
-    );
+    let pageData = null;
+    try {
+        pageData = await fetchContentType(
+            'pages',
+            `filters[slug][$eq]=${slug}`,
+            true
+        );
+    } catch (error) {
+        console.error('Error fetching page data:', error);
+        return notFound();
+    }
 
     const pageContents = pageData?.pageContents;
 
@@ -52,13 +61,15 @@ export default async function Page({
 }
 
 export async function generateStaticParams() {
-    const pageData = await fetchPageSlugs('pages');
-    console.log(pageData);
-    return pageData.map((page: { slug: string }) => {
-        return {
-            params: {
-                slug: page.slug,
-            },
-        };
-    });
+    try {
+        const pageData = await fetchPageSlugs('pages');
+        if (!pageData) return [];
+
+        return pageData.map((page: { slug: string }) => ({
+            slug: page.slug,
+        }));
+    } catch (error) {
+        console.error('Error generating static params:', error);
+        return []; // Return empty array if fetch fails
+    }
 }

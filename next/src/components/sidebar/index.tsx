@@ -33,23 +33,26 @@ export const Sidebar: React.FC = () => {
                     const nextHeading = headingElements[index + 1];
                     const id = `section-${index}`;
 
-                    // Add id to heading if it doesn't exist
-                    if (!heading.id) {
-                        heading.id = id;
+                    // Cast heading to HTMLElement
+                    const headingElement = heading as HTMLElement;
+
+                    if (!headingElement.id) {
+                        headingElement.id = id;
                     }
 
                     // Calculate section boundaries
                     const start =
-                        heading.getBoundingClientRect().top + window.scrollY;
+                        headingElement.getBoundingClientRect().top +
+                        window.scrollY;
                     const end = nextHeading
-                        ? nextHeading.getBoundingClientRect().top +
-                          window.scrollY
+                        ? (nextHeading as HTMLElement).getBoundingClientRect()
+                              .top + window.scrollY
                         : document.documentElement.scrollHeight;
 
                     return {
                         id,
-                        title: heading.textContent || '',
-                        element: heading,
+                        title: headingElement.textContent || '',
+                        element: headingElement,
                         start,
                         end,
                     };
@@ -70,7 +73,7 @@ export const Sidebar: React.FC = () => {
     // Handle scroll and update active section
     React.useEffect(() => {
         const handleScroll = () => {
-            const scrollPosition = window.scrollY + 150; // Account for navbar offset
+            const scrollPosition = window.scrollY + 140; // Account for navbar offset
 
             // Find the current section
             const currentSection = sections.find(

@@ -54,6 +54,7 @@ export default async function fetchContentType(
     } catch (error) {
         // Log any errors that occur during the fetch process
         console.error('FetchContentTypeError', error);
+        return null;
     }
 }
 

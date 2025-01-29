@@ -5,9 +5,17 @@ import fetchContentType from '@/lib/strapi/fetchContentType';
 import { PageContentReader } from '@/components/PageContentReader';
 
 export default async function About() {
-    const pageData = await fetchContentType('test', ``, true);
+    let pageData = null;
+    try {
+        pageData = await fetchContentType('test', ``, true);
+    } catch (error) {
+        console.error('Error fetching page data:', error);
+    }
 
     const pageContents = pageData?.pageContents;
+    if (!pageContents) {
+        return <></>;
+    }
 
     return (
         <Container maxWidth="lg">

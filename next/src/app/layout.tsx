@@ -11,7 +11,16 @@ import fetchContentType from '@/lib/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-    const pageData = await fetchContentType('global', ``, true);
+    let pageData = null;
+    try {
+        pageData = await fetchContentType('global', ``, true);
+    } catch (error) {
+        console.error('Error fetching page data:', error);
+    }
+
+    if (!pageData) {
+        return <></>;
+    }
 
     return (
         <html lang="en" suppressHydrationWarning>
