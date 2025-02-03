@@ -106,7 +106,7 @@ services:
       - traefik.http.routers.frontend.entrypoints=websecure
       - traefik.http.routers.frontend.rule=Host(`${SITE_URL}`) && PathPrefix(`/`)
       - traefik.http.services.frontend.loadbalancer.server.port=3000
-      - traefik.http.rotuers.frontend.tls=true
+      - traefik.http.routers.frontend.tls=true
       - traefik.http.routers.frontend.tls.certresolver=letsencrypt
 
 volumes:
