@@ -49,7 +49,7 @@ services:
     networks:
       - ilnrs
 
-  nextjs:
+  frontend:
     build:
       context: next/.
       dockerfile: Dockerfile
