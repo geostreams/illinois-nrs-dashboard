@@ -1,5 +1,36 @@
 version: "3"
 services:
+  traefik:
+    image: traefik:v3.2
+    restart: unless-stopped
+    command:
+      - "--log.level=DEBUG"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"     
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      # Optional: Use staging server during testing
+      - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+    ports:
+      # The HTTP port
+      - "80:80"
+      - "443:443"
+    networks:
+      - ilnrs
+    volumes:
+    # So that Traefik can listen to the Docker events
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ${LETSENCRYPT_DIR}/acme.json:/acme.json:rw
+
+
   strapi:
     container_name: strapi
     build: cms/.
@@ -14,6 +45,9 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${STRAPI_NODE_ENV}
       LOG_LEVEL: debug
@@ -28,11 +62,11 @@ services:
     depends_on:
       - strapiDB
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.strapi.rule=Host(`strapi.localhost`)"
-      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
-      - "traefik.http.routers.strapi.entrypoints=web"
-      - "traefik.http.routers.strapi.priority=10"
+      - traefik.enable=true
+      - traefik.http.routers.strapi.entrypoints=websecure
+      - traefik.http.routers.strapi.rule=Host(`strapi.${SITE_URL}`)
+      - traefik.http.services.strapi.loadbalancer.server.port=1337
+      - traefik.http.routers.strapi.tls.certresolver=letsencrypt
 
   strapiDB:
     container_name: strapiDB
@@ -48,6 +82,11 @@ services:
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
     networks:
       - ilnrs
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DATABASE_USERNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build:
@@ -61,30 +100,12 @@ services:
     networks:
       - ilnrs
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
-      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
-      - "traefik.http.routers.frontend.priority=1"
-      - "traefik.http.routers.frontend.entrypoints=web"
-
-  traefik:
-    image: traefik:v2.5
-    restart: unless-stopped
-    command:
-      - --api.insecure=true
-      - --providers.docker
-      - --entryPoints.web.address=:80
-    ports:
-      # The HTTP port
-      - "80:80"
-      # The Web UI (enabled by --api.insecure=true)
-      - "8081:8080"
-    networks:
-      - ilnrs
-    volumes:
-    # So that Traefik can listen to the Docker events
-    - /var/run/docker.sock:/var/run/docker.sock
-
+      - traefik.enable=true
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.rule=PathPrefix(`/`)
+      - traefik.http.services.frontend.loadbalancer.server.port=3000
+      - traefik.http.routers.frontend.priority=1
+      - traefik.http.routers.frontend.tls.certresolver=letsencrypt
 
 volumes:
   strapi-data:
