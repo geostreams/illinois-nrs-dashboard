@@ -23,12 +23,16 @@ services:
       - ./cms/package.json:/opt/package.json
       - ./cms/.env:/opt/app/.env
       - ./cms/public/uploads:/opt/app/public/uploads
-    ports:
-      - "1337:1337"
     networks:
-      - strapi
+      - ilnrs
     depends_on:
       - strapiDB
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.strapi.rule=Host(`strapi.localhost`)"
+      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
+      - "traefik.http.routers.strapi.entrypoints=web"
+      - "traefik.http.routers.strapi.priority=10"
 
   strapiDB:
     container_name: strapiDB
@@ -42,11 +46,8 @@ services:
     volumes:
       - strapi-data:/var/lib/postgresql/data/ #using a volume
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
-
-    ports:
-      - "5432:5432"
     networks:
-      - strapi
+      - ilnrs
 
   nextjs:
     build:
@@ -55,16 +56,38 @@ services:
       args:
         - NEXT_PUBLIC_CMS_API_URL=http://strapi:1337
         - NODE_ENV=${NEXT_NODE_ENV}
-    ports:
-      - "3000:3000"
     depends_on:
       - strapi
     networks:
-      - strapi
+      - ilnrs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+      - "traefik.http.routers.frontend.priority=1"
+      - "traefik.http.routers.frontend.entrypoints=web"
+
+  traefik:
+    image: traefik:v2.5
+    restart: unless-stopped
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entryPoints.web.address=:80
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8081:8080"
+    networks:
+      - ilnrs
+    volumes:
+    # So that Traefik can listen to the Docker events
+    - /var/run/docker.sock:/var/run/docker.sock
+
 
 volumes:
   strapi-data:
 
 networks:
-  strapi:
-    driver: bridge
+  ilnrs:
