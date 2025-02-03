@@ -47,7 +47,6 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       API_TOKEN_SALT: ${API_TOKEN_SALT}
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
-
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${STRAPI_NODE_ENV}
       LOG_LEVEL: debug
@@ -55,7 +54,6 @@ services:
       - ./cms/config:/opt/app/config
       - ./cms/src:/opt/app/src
       - ./cms/package.json:/opt/package.json
-      - ./cms/.env:/opt/app/.env
       - ./cms/public/uploads:/opt/app/public/uploads
     networks:
       - ilnrs
@@ -79,6 +77,8 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+    # ports:
+    #   - "5432:5432"
     volumes:
       - strapi-data:/var/lib/postgresql/data/ #using a volume
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
