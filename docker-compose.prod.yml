@@ -64,9 +64,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.strapi.entrypoints=websecure
-      - traefik.http.routers.strapi.rule=Host(`strapi.${SITE_URL}`)
+      - traefik.http.routers.strapi.rule=Host(`strapi.${SITE_URL}`) && PathPrefix(`/`)
       - traefik.http.services.strapi.loadbalancer.server.port=1337
+      - traefik.http.routers.strapi.tls=true
       - traefik.http.routers.strapi.tls.certresolver=letsencrypt
+    
 
   strapiDB:
     container_name: strapiDB
@@ -102,9 +104,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.frontend.entrypoints=websecure
-      - traefik.http.routers.frontend.rule=PathPrefix(`/`)
+      - traefik.http.routers.frontend.rule=Host(`${SITE_URL}`) && PathPrefix(`/`)
       - traefik.http.services.frontend.loadbalancer.server.port=3000
-      - traefik.http.routers.frontend.priority=1
+      - traefik.http.rotuers.frontend.tls=true
       - traefik.http.routers.frontend.tls.certresolver=letsencrypt
 
 volumes:
