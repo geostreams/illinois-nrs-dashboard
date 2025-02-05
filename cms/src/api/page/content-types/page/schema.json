@@ -21,11 +21,9 @@
     "pageContents": {
       "type": "dynamiczone",
       "components": [
-        "charts.line-chart",
-        "charts.filled-pie-chart",
         "charts.dual-chart",
         "content.content-block",
-        "charts.stacked-bar-chart"
+        "charts.chart-selector"
       ]
     },
     "pageGroup": {
