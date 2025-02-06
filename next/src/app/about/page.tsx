@@ -2,7 +2,7 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 
 import fetchContentType from '@/lib/strapi/fetchContentType';
-import { PageContentReader } from '@/components/PageContentReader';
+import { PageContentGenerator } from '@/components/PageContentGenerator';
 
 export default async function About() {
     let pageData = null;
@@ -19,7 +19,7 @@ export default async function About() {
 
     return (
         <Container maxWidth="lg">
-            <PageContentReader pageContents={pageContents} />
+            <PageContentGenerator pageContents={pageContents} />
         </Container>
     );
 }

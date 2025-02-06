@@ -1,7 +1,7 @@
 import fetchContentType from '@/lib/strapi/fetchContentType';
 import { fetchPageSlugs } from '@/lib/strapi/fetchContentType';
 import Container from '@mui/material/Container';
-import { PageContentReader } from '@/components/PageContentReader';
+import { PageContentGenerator } from '@/components/PageContentGenerator';
 import * as React from 'react';
 import { Sidebar } from '@/components/sidebar';
 import Box from '@mui/material/Box';
@@ -53,7 +53,7 @@ export default async function Page({
                 }}
             >
                 <Container maxWidth="lg">
-                    <PageContentReader pageContents={pageContents} />
+                    <PageContentGenerator pageContents={pageContents} />
                 </Container>
             </Box>
         </>

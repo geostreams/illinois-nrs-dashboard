@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_content_heading1s",
+  "info": {
+    "displayName": "heading1"
+  },
+  "options": {},
+  "attributes": {
+    "headingText": {
+      "type": "string",
+      "required": true
+    },
+    "headingColor": {
+      "type": "string"
+    }
+  }
+}
