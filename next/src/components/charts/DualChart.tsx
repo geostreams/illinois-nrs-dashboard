@@ -19,44 +19,6 @@ interface DualChartProps {
 }
 
 const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
-    const renderChart = (chart: ChartDataProps) => {
-        switch (chart.chartType) {
-            case 'filled_pie':
-                return (
-                    <BaseChart
-                        chartType="filled_pie"
-                        chartData={chart.chartData}
-                        chartColors={chart.chartColors!}
-                        heading={chart.heading}
-                        subheading={chart.subheading || ''}
-                    />
-                );
-            case 'line':
-                return (
-                    <BaseChart
-                        chartType="line"
-                        chartData={chart.chartData}
-                        chartConfig={chart.chartConfig!}
-                        heading={chart.heading}
-                        subheading={chart.subheading || ''}
-                    />
-                );
-            case 'stacked_bar':
-                return (
-                    <BaseChart
-                        chartType="stacked_bar"
-                        chartData={chart.chartData}
-                        chartReferenceLines={chart.chartReferenceLines || []}
-                        chartColors={chart.chartColors!}
-                        heading={chart.heading}
-                        subheading={chart.subheading || ''}
-                    />
-                );
-            default:
-                return null;
-        }
-    };
-
     return (
         <Box
             sx={{
@@ -70,8 +32,8 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 },
             }}
         >
-            {renderChart(left_chart)}
-            {renderChart(right_chart)}
+            <BaseChart {...left_chart} />
+            <BaseChart {...right_chart} />
         </Box>
     );
 };

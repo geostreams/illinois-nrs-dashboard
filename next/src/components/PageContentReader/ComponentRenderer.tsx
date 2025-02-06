@@ -48,6 +48,17 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     right_chart={component.rightChart}
                 />
             );
+        case 'charts.chart-selector':
+            return (
+                <BaseChart
+                    chartType={component.chartType}
+                    chartData={component.chartData}
+                    chartColors={component.chartColors}
+                    heading={component.heading}
+                    subheading={component.subheading}
+                    altText={component.altText}
+                />
+            );
         case 'content.content-block':
             return <RichContentViewer content={component.content} />;
         default:

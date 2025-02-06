@@ -1,7 +1,8 @@
 {
   "collectionName": "components_charts_chart_selectors",
   "info": {
-    "displayName": "Chart Selector"
+    "displayName": "Chart Selector",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -30,6 +31,9 @@
     },
     "chartReferenceLines": {
       "type": "json"
+    },
+    "altText": {
+      "type": "text"
     }
   }
 }
