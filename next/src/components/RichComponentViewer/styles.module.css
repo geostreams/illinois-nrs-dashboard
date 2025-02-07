@@ -162,7 +162,7 @@
     font-size: 15px;
     line-height: 1.75;
     /* Justify text */
-    text-align: justify;
+    text-align: left;
 }
 
 /* Hyperlinks */
