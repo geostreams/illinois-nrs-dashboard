@@ -17,7 +17,7 @@ export const PageContentGenerator: React.FC<PageContentGeneratorProps> = ({
     return (
         <Box>
             {pageContents.map((component, index) => (
-                <Box key={index} sx={{ my: 4 }}>
+                <Box key={index}>
                     <ComponentRenderer component={component} />
                 </Box>
             ))}

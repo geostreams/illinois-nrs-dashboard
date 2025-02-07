@@ -36,8 +36,11 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
         <Box
             sx={{
                 display: 'grid',
+                maxWidth: '720px',
+                margin: '0 0',
                 gridTemplateColumns: {
                     xs: '1fr',
+                    sm: '3fr 2fr',
                     md: '3fr 2fr',
                 },
                 gap: 3,
@@ -55,12 +58,11 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             {/* Right column - 40% */}
             <Box
                 sx={{
+                    height: 'fit-content',
                     display: 'flex',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'center',
                     alignItems: 'flex-start',
-                    height: '100%',
                     position: 'relative',
-                    minHeight: '300px',
                     flexDirection: 'column',
                     gap: 2,
                 }}
@@ -68,10 +70,11 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                 <Box
                     sx={{
                         width: '100%',
+                        maxHeight: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'flex-end',
-                        gap: 3,
+                        gap: 0,
                     }}
                 >
                     {/* Pull Quote */}
@@ -88,9 +91,14 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         sx={{
                             width: '100%',
                             maxWidth: '400px',
-                            height: '200px',
+                            height: '150px',
                             position: 'relative',
-                            marginLeft: 'auto',
+                            overflow: 'visible',
+                            objectPosition: {
+                                xs: 'center',
+                                md: 'right',
+                            },
+                            marginBottom: { xs: '1em', md: '0' },
                         }}
                     >
                         {imageUrl && (
@@ -98,10 +106,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 src={imageUrl}
                                 alt={image?.alternativeText || 'Content image'}
                                 fill
-                                style={{
-                                    objectFit: 'contain',
-                                    objectPosition: 'right',
-                                }}
+                                style={{ objectFit: 'contain' }}
                                 sizes="(max-width: 768px) 100vw, 40vw"
                             />
                         )}

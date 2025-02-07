@@ -53,7 +53,10 @@ export default async function Page({
                 }}
             >
                 <Container maxWidth="lg">
-                    <PageContentGenerator pageContents={pageContents} />
+                    {/* Center the page content */}
+                    <Box display="flex" justifyContent="center">
+                        <PageContentGenerator pageContents={pageContents} />
+                    </Box>
                 </Container>
             </Box>
         </>
