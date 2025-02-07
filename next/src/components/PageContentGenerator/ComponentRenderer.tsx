@@ -88,6 +88,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 <BaseContentSection
                     textContent={component.textContent}
                     image={component.image}
+                    imagePullQuote={component.imagePullQuote}
                 />
             );
         default:

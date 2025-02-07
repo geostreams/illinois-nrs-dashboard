@@ -24,8 +24,8 @@
         "charts.dual-chart",
         "content.content-block",
         "charts.chart-selector",
-        "content.heading1",
-        "content.base-content-section"
+        "content.base-content-section",
+        "content.heading"
       ]
     },
     "pageGroup": {
