@@ -24,8 +24,10 @@
       },
       "customField": "plugin::ckeditor5.CKEditor"
     },
-    "imagePullQuote": {
-      "type": "text"
+    "pullQuote": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.pullquote"
     }
   }
 }

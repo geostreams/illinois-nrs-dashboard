@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_content_pullquotes",
+  "info": {
+    "displayName": "Pullquote",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "largeText": {
+      "type": "text"
+    },
+    "largeTextColor": {
+      "type": "string"
+    },
+    "quoteText": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    }
+  }
+}

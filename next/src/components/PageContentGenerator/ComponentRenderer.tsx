@@ -1,7 +1,7 @@
 import RichContentViewer from '@/components/RichComponentViewer';
 import DualChart from '@/components/charts/DualChart';
 import BaseChart from '@/components/charts/BaseChart';
-import { Heading1, Heading2, Heading3 } from './Headings';
+import Heading from './Headings';
 import { BaseContentSection } from './BaseContentSection';
 interface ComponentRendererProps {
     component: any;
@@ -62,25 +62,12 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
             );
         case 'content.content-block':
             return <RichContentViewer content={component.content} />;
-        case 'content.heading1':
+        case 'content.heading':
             return (
-                <Heading1
+                <Heading
                     headingText={component.headingText}
                     headingColor={component.headingColor}
-                />
-            );
-        case 'content.heading2':
-            return (
-                <Heading2
-                    headingText={component.headingText}
-                    headingColor={component.headingColor}
-                />
-            );
-        case 'content.heading3':
-            return (
-                <Heading3
-                    headingText={component.headingText}
-                    headingColor={component.headingColor}
+                    headingType={component.headingType}
                 />
             );
         case 'content.base-content-section':
@@ -88,7 +75,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 <BaseContentSection
                     textContent={component.textContent}
                     image={component.image}
-                    imagePullQuote={component.imagePullQuote}
+                    pullQuote={component.pullQuote}
                 />
             );
         default:

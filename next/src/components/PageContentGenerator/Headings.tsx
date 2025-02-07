@@ -1,54 +1,57 @@
 interface HeadingProps {
     headingText: string;
     headingColor?: string;
+    headingType: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
-const Heading1 = ({ headingText, headingColor }: HeadingProps) => {
-    return (
-        <h1
-            style={{
-                color: headingColor ? headingColor : '#003D6D',
-                fontFamily: "'Bebas Neue', sans-serif",
-                lineHeight: 1.2,
-                margin: '1.5rem 0 1rem',
-                fontSize: '2.5rem',
-            }}
-        >
-            {headingText}
-        </h1>
-    );
+const Heading = ({ headingText, headingColor, headingType }: HeadingProps) => {
+    switch (headingType) {
+        case 'h1':
+            return (
+                <h1
+                    style={{
+                        color: headingColor ? headingColor : '#0A3977',
+                        fontFamily: "'Bebas Neue', 'Open Sans', sans-serif",
+                        fontSize: '80px',
+                        fontWeight: 500,
+                        textTransform: 'uppercase',
+                        marginBottom: '-34px',
+                    }}
+                >
+                    {headingText}
+                </h1>
+            );
+        case 'h2':
+            return (
+                <h2
+                    style={{
+                        color: headingColor ? headingColor : '#006400',
+                        fontFamily: "'Open Sans', sans-serif",
+                        fontSize: '28px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        marginBottom: '-25px',
+                    }}
+                >
+                    {headingText}
+                </h2>
+            );
+        case 'h3':
+            return (
+                <h3
+                    style={{
+                        color: headingColor ? headingColor : '#0A3977',
+                        fontFamily: "'Open Sans', sans-serif",
+                        fontSize: '24px',
+                        fontWeight: 600,
+                    }}
+                >
+                    {headingText}
+                </h3>
+            );
+        default:
+            return null;
+    }
 };
 
-const Heading2 = ({ headingText, headingColor }: HeadingProps) => {
-    return (
-        <h2
-            style={{
-                color: headingColor ? headingColor : '#008BC7',
-                fontFamily: "'Bebas Neue', sans-serif",
-                lineHeight: 1.2,
-                margin: '1.5rem 0 1rem',
-                fontSize: '2rem',
-            }}
-        >
-            {headingText}
-        </h2>
-    );
-};
-
-const Heading3 = ({ headingText, headingColor }: HeadingProps) => {
-    return (
-        <h3
-            style={{
-                color: headingColor ? headingColor : '#003D6D',
-                fontFamily: "'Bebas Neue', sans-serif",
-                lineHeight: 1.2,
-                margin: '1.5rem 0 1rem',
-                fontSize: '1.75rem',
-            }}
-        >
-            {headingText}
-        </h3>
-    );
-};
-
-export { Heading1, Heading2, Heading3 };
+export default Heading;

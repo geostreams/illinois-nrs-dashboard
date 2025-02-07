@@ -3,9 +3,9 @@
 import RichContentViewer from '../RichComponentViewer';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
+import PullQuote from './PullQuote';
 
 interface BaseContentSectionProps {
     textContent: string;
@@ -14,14 +14,18 @@ interface BaseContentSectionProps {
         url: string;
         alternativeText?: string | null;
     };
-    imagePullQuote?: string;
+    pullQuote?: {
+        largeText?: string;
+        largeTextColor?: string;
+        quoteText?: string;
+    };
 }
 
 export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     textContent,
     baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
     image,
-    imagePullQuote,
+    pullQuote,
 }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -52,8 +56,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-start',
                     height: '100%',
                     position: 'relative',
                     minHeight: '300px',
@@ -66,29 +70,27 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
+                        alignItems: 'flex-end',
                         gap: 3,
                     }}
                 >
-                    {imagePullQuote && (
-                        <Typography
-                            sx={{
-                                color: '#003D6D',
-                                fontFamily: 'sans-serif',
-                                fontWeight: 400,
-                                lineHeight: 1.2,
-                                fontSize: '1.5rem',
-                                textAlign: 'right',
-                                width: '100%',
-                            }}
-                        >
-                            {imagePullQuote}
-                        </Typography>
+                    {/* Pull Quote */}
+                    {pullQuote && (
+                        <PullQuote
+                            largeText={pullQuote.largeText || ''}
+                            largeTextColor={
+                                pullQuote.largeTextColor || '#003D6D'
+                            }
+                            quoteText={pullQuote.quoteText || ''}
+                        />
                     )}
                     <Box
                         sx={{
                             width: '100%',
-                            height: '300px',
+                            maxWidth: '400px',
+                            height: '200px',
                             position: 'relative',
+                            marginLeft: 'auto',
                         }}
                     >
                         {imageUrl && (
@@ -96,7 +98,10 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 src={imageUrl}
                                 alt={image?.alternativeText || 'Content image'}
                                 fill
-                                style={{ objectFit: 'contain' }}
+                                style={{
+                                    objectFit: 'contain',
+                                    objectPosition: 'right',
+                                }}
                                 sizes="(max-width: 768px) 100vw, 40vw"
                             />
                         )}
