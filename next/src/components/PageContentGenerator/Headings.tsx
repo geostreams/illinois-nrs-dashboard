@@ -44,6 +44,7 @@ const Heading = ({ headingText, headingColor, headingType }: HeadingProps) => {
                         fontFamily: "'Open Sans', sans-serif",
                         fontSize: '24px',
                         fontWeight: 600,
+                        maxWidth: '60%',
                     }}
                 >
                     {headingText}

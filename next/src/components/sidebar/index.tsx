@@ -7,6 +7,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 interface Section {
     id: string;
@@ -14,6 +17,8 @@ interface Section {
     element: HTMLElement;
     start: number;
     end: number;
+    level: number;
+    children: Section[];
 }
 
 export const Sidebar: React.FC = () => {
@@ -21,49 +26,59 @@ export const Sidebar: React.FC = () => {
     const [activeSection, setActiveSection] = React.useState<string>('');
     const [sections, setSections] = React.useState<Section[]>([]);
     const [maxHeight, setMaxHeight] = React.useState('calc(100vh - 110px)');
+    const [openSections, setOpenSections] = React.useState<Set<string>>(
+        new Set()
+    );
 
-    // Create sections based on headings
+    // Modified section creation logic
     React.useEffect(() => {
         const createSections = () => {
             const headingElements = Array.from(
-                document.querySelectorAll('h1, h2')
+                document.querySelectorAll('h2, h3')
             );
-            const newSections: Section[] = headingElements.map(
-                (heading, index) => {
-                    const nextHeading = headingElements[index + 1];
-                    const id = `section-${index}`;
 
-                    // Cast heading to HTMLElement
-                    const headingElement = heading as HTMLElement;
+            let currentH2Section: Section | null = null;
+            const topLevelSections: Section[] = [];
 
-                    if (!headingElement.id) {
-                        headingElement.id = id;
-                    }
+            headingElements.forEach((heading, index) => {
+                const nextHeading = headingElements[index + 1];
+                const id = `section-${index}`;
+                const headingElement = heading as HTMLElement;
+                const level = headingElement.tagName === 'H2' ? 2 : 3;
 
-                    // Calculate section boundaries
-                    const start =
-                        headingElement.getBoundingClientRect().top +
-                        window.scrollY;
-                    const end = nextHeading
-                        ? (nextHeading as HTMLElement).getBoundingClientRect()
-                              .top + window.scrollY
-                        : document.documentElement.scrollHeight;
-
-                    return {
-                        id,
-                        title: headingElement.textContent || '',
-                        element: headingElement,
-                        start,
-                        end,
-                    };
+                if (!headingElement.id) {
+                    headingElement.id = id;
                 }
-            );
 
-            setSections(newSections);
+                const start =
+                    headingElement.getBoundingClientRect().top + window.scrollY;
+                const end = nextHeading
+                    ? (nextHeading as HTMLElement).getBoundingClientRect().top +
+                      window.scrollY
+                    : document.documentElement.scrollHeight;
+
+                const section: Section = {
+                    id,
+                    title: headingElement.textContent || '',
+                    element: headingElement,
+                    start,
+                    end,
+                    level,
+                    children: [],
+                };
+
+                if (level === 2) {
+                    currentH2Section = section;
+                    topLevelSections.push(section);
+                } else if (level === 3 && currentH2Section) {
+                    currentH2Section.children.push(section);
+                }
+            });
+
+            setSections(topLevelSections);
         };
 
         createSections();
-        // Recalculate sections when content changes
         const observer = new MutationObserver(createSections);
         observer.observe(document.body, { childList: true, subtree: true });
 
@@ -115,8 +130,8 @@ export const Sidebar: React.FC = () => {
         };
     }, []);
 
-    const handleClick = (sectionId: string) => {
-        const section = sections.find((s) => s.id === sectionId);
+    const handleClick = (sectionId: string, hasChildren: boolean) => {
+        const section = findSection(sections, sectionId);
         if (section) {
             const offset = 110;
             window.scrollTo({
@@ -124,7 +139,31 @@ export const Sidebar: React.FC = () => {
                 behavior: 'smooth',
             });
             setActiveSection(sectionId);
+
+            // Toggle accordion if section has children
+            if (hasChildren) {
+                setOpenSections((prev) => {
+                    const newSet = new Set(prev);
+                    if (newSet.has(sectionId)) {
+                        newSet.delete(sectionId);
+                    } else {
+                        newSet.add(sectionId);
+                    }
+                    return newSet;
+                });
+            }
         }
+    };
+
+    // Helper function to find a section by ID
+    const findSection = (sections: Section[], id: string): Section | null => {
+        for (const section of sections) {
+            if (section.id === id) return section;
+            for (const child of section.children) {
+                if (child.id === id) return child;
+            }
+        }
+        return null;
     };
 
     return (
@@ -146,7 +185,12 @@ export const Sidebar: React.FC = () => {
                     <React.Fragment key={section.id}>
                         <ListItemButton
                             selected={activeSection === section.id}
-                            onClick={() => handleClick(section.id)}
+                            onClick={() =>
+                                handleClick(
+                                    section.id,
+                                    section.children.length > 0
+                                )
+                            }
                             sx={{
                                 '&.Mui-selected': {
                                     backgroundColor: '#4AA6DC',
@@ -168,8 +212,62 @@ export const Sidebar: React.FC = () => {
                                     fontWeight: '100',
                                 }}
                             />
+                            {section.children.length > 0 &&
+                                (openSections.has(section.id) ? (
+                                    <ExpandLess sx={{ color: 'white' }} />
+                                ) : (
+                                    <ExpandMore sx={{ color: 'white' }} />
+                                ))}
                         </ListItemButton>
-                        {index < sections.length && (
+                        {section.children.length > 0 && (
+                            <Collapse
+                                in={openSections.has(section.id)}
+                                timeout="auto"
+                                unmountOnExit
+                            >
+                                <List component="div" disablePadding>
+                                    {section.children.map((childSection) => (
+                                        <ListItemButton
+                                            key={childSection.id}
+                                            selected={
+                                                activeSection ===
+                                                childSection.id
+                                            }
+                                            onClick={() =>
+                                                handleClick(
+                                                    childSection.id,
+                                                    false
+                                                )
+                                            }
+                                            sx={{
+                                                pl: 4,
+                                                '&.Mui-selected': {
+                                                    backgroundColor: '#4AA6DC',
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor:
+                                                            '#4AA6DC',
+                                                    },
+                                                },
+                                                '&:hover': {
+                                                    backgroundColor: '#4AA6DC',
+                                                },
+                                            }}
+                                        >
+                                            <ListItemText
+                                                primary={childSection.title}
+                                                sx={{
+                                                    fontSize: '0.85rem',
+                                                    color: 'white',
+                                                    fontWeight: '100',
+                                                }}
+                                            />
+                                        </ListItemButton>
+                                    ))}
+                                </List>
+                            </Collapse>
+                        )}
+                        {index < sections.length - 1 && (
                             <Divider sx={{ backgroundColor: 'white' }} />
                         )}
                     </React.Fragment>
