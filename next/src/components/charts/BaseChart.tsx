@@ -23,6 +23,15 @@ interface BaseChartProps {
     altText?: string;
 }
 
+const styles = {
+    caption: {
+        fontSize: '16px',
+        color: '#0A3977',
+        textAlign: 'left',
+        fontStyle: 'italic',
+    },
+};
+
 const BaseChart: FC<BaseChartProps> = ({
     chartType,
     heading,
@@ -40,6 +49,10 @@ const BaseChart: FC<BaseChartProps> = ({
     const [isCapturing, setIsCapturing] = useState(false);
 
     const [isVisible, setIsVisible] = useState(false);
+
+    const headingParts = heading?.split(':');
+    const boldHeading = headingParts?.[0];
+    const regularHeading = headingParts?.[1];
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -70,7 +83,7 @@ const BaseChart: FC<BaseChartProps> = ({
             await new Promise((resolve) => setTimeout(resolve, 50));
 
             const canvas = await html2canvas(chartRef.current, {
-                scale: 1,
+                scale: 2,
                 backgroundColor: '#ffffff',
                 logging: false,
                 useCORS: true,
@@ -127,110 +140,76 @@ const BaseChart: FC<BaseChartProps> = ({
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'left',
                 justifyContent: 'center',
-                padding: 2,
                 width: width,
                 position: 'relative',
             }}
         >
-            {altText && (
-                <Tooltip title={altText} placement="top">
-                    <IconButton
-                        sx={{
-                            position: 'absolute',
-                            top: 16,
-                            right: 16,
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                            '&:hover': {
-                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            },
-                        }}
-                        size="small"
-                    >
-                        <InfoIcon fontSize="small" />
-                    </IconButton>
-                </Tooltip>
-            )}
-
-            <Box
-                sx={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    mb: 2,
-                }}
-            >
-                <Box sx={{ textAlign: 'center' }}>
-                    {heading && (
-                        <Typography variant="h5" component="h5" gutterBottom>
-                            {heading}
-                        </Typography>
-                    )}
-                    {subheading && (
-                        <Typography
-                            variant="subtitle1"
-                            component="h6"
-                            color="text.secondary"
-                        >
-                            {subheading}
-                        </Typography>
-                    )}
-                </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        width: '100%',
-                    }}
-                >
-                    {/* Hide button when downloading chart so it doesn't get captured */}
-                    {!isCapturing && (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                mt: 2,
-                            }}
-                        >
-                            <Button
-                                variant="outlined"
-                                startIcon={<DownloadIcon />}
-                                onClick={handleDownload}
-                                disabled={isLoading}
-                                size="small"
-                                sx={{ mb: 1, minWidth: 165 }}
-                            >
-                                {isLoading
-                                    ? 'Downloading...'
-                                    : 'Download Chart'}
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                startIcon={<DownloadIcon />}
-                                disabled={isLoading}
-                                size="small"
-                                sx={{ minWidth: 165 }}
-                            >
-                                {isLoading ? 'Downloading...' : 'Download Data'}
-                            </Button>
-                        </Box>
-                    )}
-                </Box>
-            </Box>
-
             <Box
                 sx={{
                     width: '100%',
                     height: height,
                     bgcolor: 'white',
+                    marginBottom: 1,
                 }}
                 role="img"
                 aria-label={altText}
             >
                 {chartComponent}
+            </Box>
+            <Box>
+                <Typography sx={styles.caption}>
+                    <strong>{boldHeading}:</strong>
+                    {regularHeading}
+                </Typography>
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    width: '100%',
+                }}
+            >
+                {/* Hide button when downloading chart so it doesn't get captured */}
+                {!isCapturing && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: 0.5,
+                            alignItems: 'center',
+                            mt: 2,
+                        }}
+                    >
+                        {altText && (
+                            <Tooltip title={altText} placement="top">
+                                <IconButton color="primary" size="small">
+                                    <InfoIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                        <Button
+                            variant="outlined"
+                            startIcon={<DownloadIcon />}
+                            onClick={handleDownload}
+                            disabled={isLoading}
+                            size="small"
+                            sx={{ minWidth: 165 }}
+                        >
+                            {isLoading ? 'Downloading...' : 'Download Chart'}
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            startIcon={<DownloadIcon />}
+                            disabled={isLoading}
+                            size="small"
+                            sx={{ minWidth: 165 }}
+                        >
+                            {isLoading ? 'Downloading...' : 'Download Data'}
+                        </Button>
+                    </Box>
+                )}
             </Box>
         </Box>
     );

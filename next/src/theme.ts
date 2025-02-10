@@ -41,7 +41,7 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#1976d2', // Default primary color
+            main: '#0A3977', // Default primary color
             light: '#42a5f5', // Light version
             dark: '#385587', // Custom dark version
         },
