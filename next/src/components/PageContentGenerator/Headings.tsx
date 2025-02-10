@@ -40,7 +40,7 @@ const Heading = ({ headingText, headingColor, headingType }: HeadingProps) => {
             return (
                 <h3
                     style={{
-                        color: headingColor ? headingColor : '#0A3977',
+                        color: headingColor ? headingColor : '#00516F',
                         fontFamily: "'Open Sans', sans-serif",
                         fontSize: '24px',
                         fontWeight: 600,
@@ -53,7 +53,7 @@ const Heading = ({ headingText, headingColor, headingType }: HeadingProps) => {
             return (
                 <h4
                     style={{
-                        color: headingColor ? headingColor : '#0A3977',
+                        color: headingColor ? headingColor : '#00516F',
                         fontFamily: "'Open Sans', sans-serif",
                         fontSize: '20px',
                         fontWeight: 600,
@@ -67,7 +67,7 @@ const Heading = ({ headingText, headingColor, headingType }: HeadingProps) => {
             return (
                 <h5
                     style={{
-                        color: headingColor ? headingColor : '#0A3977',
+                        color: headingColor ? headingColor : '#0516F',
                         fontFamily: "'Open Sans', sans-serif",
                         fontSize: '16px',
                         fontWeight: 600,

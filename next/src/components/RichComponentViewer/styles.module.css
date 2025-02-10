@@ -178,7 +178,6 @@
 .container h4,
 .container h5,
 .container h6 {
-    font-family: 'Bebas Neue', sans-serif;
     line-height: 1.2;
     margin: 1.5rem 0 1rem;
 }
@@ -186,29 +185,35 @@
 .container h1 {
     font-size: 40px;
     color: #003d6d;
+    font-family: 'Bebas Neue';
 }
 
 .container h2 {
     font-size: 28px;
     color: #008bc7;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .container h3 {
     font-size: 24px;
     color: #003d6d;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .container h4 {
     font-size: 20px;
-    color: #008bc7;
+    color: #003d6d;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .container h5 {
     font-size: 18px;
     color: #003d6d;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .container h6 {
     font-size: 16px;
-    color: #008bc7;
+    color: #003d6d;
+    font-family: 'Open Sans', sans-serif;
 }
