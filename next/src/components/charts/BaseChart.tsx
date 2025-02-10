@@ -29,6 +29,7 @@ const styles = {
         color: '#0A3977',
         textAlign: 'left',
         fontStyle: 'italic',
+        width: '100%',
     },
 };
 
@@ -140,8 +141,6 @@ const BaseChart: FC<BaseChartProps> = ({
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'left',
-                justifyContent: 'center',
                 width: width,
                 position: 'relative',
             }}
@@ -151,14 +150,14 @@ const BaseChart: FC<BaseChartProps> = ({
                     width: '100%',
                     height: height,
                     bgcolor: 'white',
-                    marginBottom: 1,
+                    marginBottom: 0.5,
                 }}
                 role="img"
                 aria-label={altText}
             >
                 {chartComponent}
             </Box>
-            <Box>
+            <Box sx={{ width: '100%' }}>
                 <Typography sx={styles.caption}>
                     <strong>{boldHeading}:</strong>
                     {regularHeading}
@@ -171,7 +170,6 @@ const BaseChart: FC<BaseChartProps> = ({
                     width: '100%',
                 }}
             >
-                {/* Hide button when downloading chart so it doesn't get captured */}
                 {!isCapturing && (
                     <Box
                         sx={{

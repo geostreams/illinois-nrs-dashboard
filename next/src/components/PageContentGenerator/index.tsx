@@ -16,10 +16,8 @@ export const PageContentGenerator: React.FC<PageContentGeneratorProps> = ({
 }) => {
     return (
         <Box>
-            {pageContents.map((component, index) => (
-                <Box key={index}>
-                    <ComponentRenderer component={component} />
-                </Box>
+            {pageContents.map((component) => (
+                <ComponentRenderer component={component} />
             ))}
         </Box>
     );

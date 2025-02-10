@@ -56,63 +56,69 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             </Box>
 
             {/* Right column - 40% */}
-            <Box
-                sx={{
-                    height: 'fit-content',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                    position: 'relative',
-                    flexDirection: 'column',
-                    gap: 2,
-                }}
-            >
+            {/* Conditionally render the image */}
+            {(imageUrl || pullQuote) && (
                 <Box
                     sx={{
-                        width: '100%',
-                        maxHeight: '100%',
+                        height: 'fit-content',
                         display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        position: 'relative',
                         flexDirection: 'column',
-                        alignItems: 'flex-end',
-                        gap: 0,
+                        gap: 2,
                     }}
                 >
-                    {/* Pull Quote */}
-                    {pullQuote && (
-                        <PullQuote
-                            largeText={pullQuote.largeText || ''}
-                            largeTextColor={
-                                pullQuote.largeTextColor || '#003D6D'
-                            }
-                            quoteText={pullQuote.quoteText || ''}
-                        />
-                    )}
                     <Box
                         sx={{
                             width: '100%',
-                            maxWidth: '400px',
-                            height: '150px',
-                            position: 'relative',
-                            overflow: 'visible',
-                            objectPosition: {
-                                xs: 'center',
-                                md: 'right',
-                            },
-                            marginBottom: { xs: '1em', md: '0' },
+                            maxHeight: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-end',
+                            gap: 0,
                         }}
                     >
-                        {imageUrl && (
-                            <Image
-                                src={imageUrl}
-                                alt={image?.alternativeText || 'Content image'}
-                                fill
-                                style={{ objectFit: 'contain' }}
-                                sizes="(max-width: 768px) 100vw, 40vw"
+                        {/* Pull Quote */}
+                        {pullQuote && (
+                            <PullQuote
+                                largeText={pullQuote.largeText || ''}
+                                largeTextColor={
+                                    pullQuote.largeTextColor || '#003D6D'
+                                }
+                                quoteText={pullQuote.quoteText || ''}
                             />
                         )}
+                        <Box
+                            sx={{
+                                width: '100%',
+                                maxWidth: '400px',
+                                height: '150px',
+                                position: 'relative',
+                                overflow: 'visible',
+                                objectPosition: {
+                                    xs: 'center',
+                                    md: 'right',
+                                },
+                                marginBottom: { xs: '1em', md: '0' },
+                            }}
+                        >
+                            {imageUrl && (
+                                <Image
+                                    src={imageUrl}
+                                    alt={
+                                        image?.alternativeText ||
+                                        'Content image'
+                                    }
+                                    fill
+                                    style={{ objectFit: 'contain' }}
+                                    sizes="(max-width: 768px) 100vw, 40vw"
+                                />
+                            )}
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
+            )}
         </Box>
     );
 };

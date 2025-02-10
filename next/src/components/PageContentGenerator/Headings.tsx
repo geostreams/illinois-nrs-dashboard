@@ -44,11 +44,38 @@ const Heading = ({ headingText, headingColor, headingType }: HeadingProps) => {
                         fontFamily: "'Open Sans', sans-serif",
                         fontSize: '24px',
                         fontWeight: 600,
-                        maxWidth: '60%',
                     }}
                 >
                     {headingText}
                 </h3>
+            );
+        case 'h4':
+            return (
+                <h4
+                    style={{
+                        color: headingColor ? headingColor : '#0A3977',
+                        fontFamily: "'Open Sans', sans-serif",
+                        fontSize: '20px',
+                        fontWeight: 600,
+                        maxWidth: '60%',
+                    }}
+                >
+                    {headingText}
+                </h4>
+            );
+        case 'h5':
+            return (
+                <h5
+                    style={{
+                        color: headingColor ? headingColor : '#0A3977',
+                        fontFamily: "'Open Sans', sans-serif",
+                        fontSize: '16px',
+                        fontWeight: 600,
+                        maxWidth: '60%',
+                    }}
+                >
+                    {headingText}
+                </h5>
             );
         default:
             return null;

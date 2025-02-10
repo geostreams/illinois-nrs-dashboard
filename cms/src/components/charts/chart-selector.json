@@ -9,9 +9,6 @@
     "heading": {
       "type": "string"
     },
-    "subheading": {
-      "type": "string"
-    },
     "chartType": {
       "type": "enumeration",
       "enum": [
