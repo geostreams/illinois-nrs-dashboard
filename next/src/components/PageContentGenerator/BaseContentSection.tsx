@@ -27,9 +27,6 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     image,
     pullQuote,
 }) => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
     const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
 
     return (
@@ -37,14 +34,15 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             sx={{
                 display: 'grid',
                 maxWidth: '720px',
-                margin: '0 0',
+                my: 0,
+                marginRight: 0,
                 gridTemplateColumns: {
                     xs: '1fr',
                     sm: '3fr 2fr',
                     md: '3fr 2fr',
                 },
                 gap: 3,
-                alignItems: 'start',
+                alignItems: 'center',
             }}
         >
             {/* Left column - 60% */}
@@ -56,54 +54,48 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             </Box>
 
             {/* Right column - 40% */}
-            {/* Conditionally render the image */}
+            {/* Conditionally render the image and pull quote */}
             {(imageUrl || pullQuote) && (
                 <Box
                     sx={{
-                        height: 'fit-content',
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'flex-start',
-                        position: 'relative',
                         flexDirection: 'column',
+                        justifyContent: 'center', // Centers vertically
+                        alignItems: 'center', // Centers horizontally
                         gap: 2,
+                        textAlign: 'center',
+                        height: '100%',
                     }}
                 >
-                    <Box
-                        sx={{
-                            width: '100%',
-                            maxHeight: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-end',
-                            gap: 0,
-                        }}
-                    >
-                        {/* Pull Quote */}
-                        {pullQuote && (
-                            <PullQuote
-                                largeText={pullQuote.largeText || ''}
-                                largeTextColor={
-                                    pullQuote.largeTextColor || '#003D6D'
-                                }
-                                quoteText={pullQuote.quoteText || ''}
-                            />
-                        )}
+                    {/* Pull Quote */}
+                    {pullQuote && (
+                        <PullQuote
+                            largeText={pullQuote.largeText || ''}
+                            largeTextColor={
+                                pullQuote.largeTextColor || '#003D6D'
+                            }
+                            quoteText={pullQuote.quoteText || ''}
+                        />
+                    )}
+                    {/* Image Container */}
+                    {imageUrl && (
                         <Box
                             sx={{
                                 width: '100%',
                                 maxWidth: '400px',
-                                height: '150px',
+                                height: 'auto',
+                                display: 'flex',
+                                justifyContent: 'flex-end',
                                 position: 'relative',
-                                overflow: 'visible',
-                                objectPosition: {
-                                    xs: 'center',
-                                    md: 'right',
-                                },
-                                marginBottom: { xs: '1em', md: '0' },
                             }}
                         >
-                            {imageUrl && (
+                            <Box
+                                sx={{
+                                    position: 'relative',
+                                    width: '70%',
+                                    aspectRatio: '1/1',
+                                }}
+                            >
                                 <Image
                                     src={imageUrl}
                                     alt={
@@ -111,12 +103,15 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                         'Content image'
                                     }
                                     fill
-                                    style={{ objectFit: 'contain' }}
-                                    sizes="(max-width: 768px) 100vw, 40vw"
+                                    sizes="(max-width: 768px) 100vw, 320px"
+                                    style={{
+                                        objectFit: 'contain',
+                                    }}
+                                    priority={false}
                                 />
-                            )}
+                            </Box>
                         </Box>
-                    </Box>
+                    )}
                 </Box>
             )}
         </Box>
