@@ -27,9 +27,6 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     image,
     pullQuote,
 }) => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
     const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
 
     return (
@@ -37,7 +34,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             sx={{
                 display: 'grid',
                 maxWidth: '720px',
-                margin: '0 auto',
+                my: 0,
+                marginRight: 0,
                 gridTemplateColumns: {
                     xs: '1fr',
                     sm: '3fr 2fr',
@@ -87,19 +85,31 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 maxWidth: '400px',
                                 height: 'auto',
                                 display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
+                                justifyContent: 'flex-end',
                                 position: 'relative',
-                                overflow: 'visible',
                             }}
                         >
-                            <Image
-                                src={imageUrl}
-                                alt={image?.alternativeText || 'Content image'}
-                                width={400}
-                                height={150}
-                                style={{ objectFit: 'contain' }}
-                            />
+                            <Box
+                                sx={{
+                                    position: 'relative',
+                                    width: '70%',
+                                    aspectRatio: '1/1',
+                                }}
+                            >
+                                <Image
+                                    src={imageUrl}
+                                    alt={
+                                        image?.alternativeText ||
+                                        'Content image'
+                                    }
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 320px"
+                                    style={{
+                                        objectFit: 'contain',
+                                    }}
+                                    priority={false}
+                                />
+                            </Box>
                         </Box>
                     )}
                 </Box>
