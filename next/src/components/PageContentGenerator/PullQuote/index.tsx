@@ -34,7 +34,7 @@ const PullQuote = ({
         <div className={styles.pullQuoteContainer}>
             {largeText && (
                 <div className={styles.pullQuote}>
-                    <p style={{ margin: '0 0' }}>
+                    <p>
                         <span
                             className={styles.largeText}
                             style={{ color: largeTextColor || '#0E4A5D' }}

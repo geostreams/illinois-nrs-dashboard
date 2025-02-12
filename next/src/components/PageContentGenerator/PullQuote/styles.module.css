@@ -9,7 +9,7 @@
 .pullQuote {
     font-family: 'Poppins', sans-serif;
     color: #0e4a5d;
-    max-width: 185px;
+    width: 100%;
     text-align: right;
 }
 
@@ -24,7 +24,9 @@
 .quoteText {
     line-height: 1.4;
     text-align: right;
-    max-width: 185px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: 0;
 }
 
 .highlight {
