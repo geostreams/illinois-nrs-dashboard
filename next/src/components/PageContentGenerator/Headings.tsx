@@ -20,6 +20,7 @@ const styles = {
         textTransform: 'uppercase',
         display: 'flex',
         gap: '12px', // Adds consistent spacing between icon and text
+        marginBottom: '8px',
     },
     heading2: {
         color: '#006400',
@@ -29,6 +30,7 @@ const styles = {
         textTransform: 'uppercase',
         display: 'flex',
         gap: '8px',
+        marginBottom: '8px',
     },
     heading3: {
         color: '#00516F',
@@ -37,6 +39,7 @@ const styles = {
         fontWeight: 600,
         display: 'flex',
         gap: '8px',
+        marginBottom: '8px',
     },
     heading4: {
         color: '#00516F',
@@ -46,6 +49,7 @@ const styles = {
         maxWidth: '60%',
         display: 'flex',
         gap: '8px',
+        marginBottom: '8px',
     },
     heading5: {
         color: '#0516F',
@@ -55,6 +59,7 @@ const styles = {
         maxWidth: '60%',
         display: 'flex',
         gap: '8px',
+        marginBottom: '8px',
     },
 };
 
