@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 interface FullSpanImageProps {
     image: any;
     caption: string;
+    baseImageUrl?: string;
 }
 const styles = {
     container: {
@@ -27,14 +28,9 @@ const styles = {
 export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     image,
     caption,
+    baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
 }) => {
-    let imageUrl = '';
-
-    if (image.formats?.large?.url) {
-        imageUrl = `${process.env.NEXT_PUBLIC_CMS_API_URL}${image.formats.large.url}`;
-    } else {
-        imageUrl = `${process.env.NEXT_PUBLIC_CMS_API_URL}${image.formats.small.url}`;
-    }
+    const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
 
     // Break caption along colon, everything before colon is bold
     const captionParts = caption.split(':');
