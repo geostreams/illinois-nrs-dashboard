@@ -5,21 +5,19 @@ import FilledPieChart from '@/components/charts/FilledPieChart';
 import StackedBarChart from '@/components/charts/StackedBarChart';
 import LineChart from '@/components/charts/LineChart';
 import DualChart from '@/components/charts/DualChart';
-import { ComponentRenderer } from '@/components/PageContentReader/ComponentRenderer';
+import { ComponentRenderer } from '@/components/PageContentGenerator/ComponentRenderer';
 
-interface PageContentReaderProps {
+interface PageContentGeneratorProps {
     pageContents: any[];
 }
 
-export const PageContentReader: React.FC<PageContentReaderProps> = ({
+export const PageContentGenerator: React.FC<PageContentGeneratorProps> = ({
     pageContents,
 }) => {
     return (
         <Box>
             {pageContents.map((component, index) => (
-                <Box key={index} sx={{ my: 4 }}>
-                    <ComponentRenderer component={component} />
-                </Box>
+                <ComponentRenderer key={index} component={component} />
             ))}
         </Box>
     );

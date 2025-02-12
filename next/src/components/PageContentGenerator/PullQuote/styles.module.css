@@ -1,0 +1,32 @@
+/* next/src/components/PageContentGenerator/PullQuote/styles.module.css */
+.pullQuoteContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.pullQuote {
+    font-family: 'Poppins', sans-serif;
+    color: #0e4a5d;
+    max-width: 185px;
+    text-align: right;
+}
+
+.largeText {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #bd4a3d;
+    display: block;
+    margin-bottom: -25px;
+}
+
+.quoteText {
+    line-height: 1.4;
+    text-align: right;
+    max-width: 185px;
+}
+
+.highlight {
+    font-weight: 600;
+}

@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_content_headings",
+  "info": {
+    "displayName": "Heading"
+  },
+  "options": {},
+  "attributes": {
+    "headingText": {
+      "type": "string"
+    },
+    "headingColor": {
+      "type": "string"
+    },
+    "headingType": {
+      "type": "enumeration",
+      "enum": [
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ]
+    }
+  }
+}

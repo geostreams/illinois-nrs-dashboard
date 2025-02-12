@@ -23,7 +23,10 @@
       "components": [
         "charts.dual-chart",
         "content.content-block",
-        "charts.chart-selector"
+        "charts.chart-selector",
+        "content.base-content-section",
+        "content.heading",
+        "content.full-span-image"
       ]
     },
     "pageGroup": {

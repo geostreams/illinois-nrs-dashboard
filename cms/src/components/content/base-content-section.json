@@ -1,28 +1,33 @@
 {
   "collectionName": "components_content_base_content_sections",
   "info": {
-    "displayName": "Base Content Section"
+    "displayName": "Base Content Section",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "title": {
-      "type": "string"
-    },
-    "alignment": {
-      "type": "enumeration",
-      "enum": [
-        "left",
-        "center",
-        "right"
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
       ]
     },
-    "width": {
-      "type": "enumeration",
-      "enum": [
-        "full",
-        "half",
-        "third"
-      ]
+    "textContent": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "pullQuote": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.pullquote"
     }
   }
 }
