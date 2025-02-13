@@ -1,52 +1,33 @@
+import styles from './styles.module.css';
+import DOMPurify from 'isomorphic-dompurify';
+
 interface PullQuoteProps {
-    largeText: string;
-    largeTextColor: string;
     quoteText: string;
 }
-
-import styles from './styles.module.css';
-
 // Helper function to parse and style the quote text
-const parseQuoteText = (text: string) => {
-    // Remove the <p> tags
-    const textWithoutParagraphs = text.replace(/<p>/g, '').replace('</p>', '');
-    // Split the text by <strong> and </strong> tags
-    const parts = textWithoutParagraphs.split(/<\/?strong>/);
 
-    return parts.map((part, index) => {
-        // Even indices are normal text, odd indices were inside <strong> tags
-        return index % 2 === 0 ? (
-            part
-        ) : (
-            <span key={index} className={styles.highlight}>
-                {part}
-            </span>
+const PullQuote = ({ quoteText }: PullQuoteProps) => {
+    const processContent = (htmlContent: string) => {
+        // Remove font-family declarations including HTML entities and escaped quotes
+        let processedContent = htmlContent.replace(
+            /font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g,
+            '$3'
         );
-    });
-};
 
-const PullQuote = ({
-    largeText,
-    largeTextColor,
-    quoteText,
-}: PullQuoteProps) => {
+        // DOMPurify ensures that the HTML content is safe to render
+        // by removing any malicious code that could lead to XSS attacks
+        return DOMPurify.sanitize(processedContent, {
+            ADD_TAGS: ['iframe'],
+            ADD_ATTR: ['target', 'style'],
+        });
+    };
     return (
         <div className={styles.pullQuoteContainer}>
-            {largeText && (
-                <div className={styles.pullQuote}>
-                    <p>
-                        <span
-                            className={styles.largeText}
-                            style={{ color: largeTextColor || '#0E4A5D' }}
-                        >
-                            {largeText}
-                        </span>
-                    </p>
-                </div>
-            )}
-            {quoteText && (
-                <p className={styles.quoteText}>{parseQuoteText(quoteText)}</p>
-            )}
+            <div
+                dangerouslySetInnerHTML={{
+                    __html: processContent(quoteText),
+                }}
+            />
         </div>
     );
 };

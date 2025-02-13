@@ -15,8 +15,6 @@ interface BaseContentSectionProps {
         alternativeText?: string | null;
     };
     pullQuote?: {
-        largeText?: string;
-        largeTextColor?: string;
         quoteText?: string;
     };
 }
@@ -69,13 +67,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                 >
                     {/* Pull Quote */}
                     {pullQuote && (
-                        <PullQuote
-                            largeText={pullQuote.largeText || ''}
-                            largeTextColor={
-                                pullQuote.largeTextColor || '#003D6D'
-                            }
-                            quoteText={pullQuote.quoteText || ''}
-                        />
+                        <PullQuote quoteText={pullQuote.quoteText || ''} />
                     )}
                     {/* Image Container */}
                     {imageUrl && (

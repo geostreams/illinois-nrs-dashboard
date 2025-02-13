@@ -2,16 +2,11 @@
   "collectionName": "components_content_pullquotes",
   "info": {
     "displayName": "Pullquote",
-    "icon": "quote"
+    "icon": "quote",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "largeText": {
-      "type": "text"
-    },
-    "largeTextColor": {
-      "type": "string"
-    },
     "quoteText": {
       "type": "customField",
       "options": {
