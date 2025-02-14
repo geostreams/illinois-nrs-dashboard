@@ -13,11 +13,9 @@ import { FC } from 'react';
 interface BaseChartProps {
     chartType: string;
     heading?: string;
-    subheading?: string;
     chartData: any;
     chartColors?: Record<string, string>;
-    chartConfig?: any[];
-    chartReferenceLines?: any[];
+    miscChartData: any;
     width?: string | number;
     height?: number;
     altText?: string;
@@ -36,11 +34,9 @@ const styles = {
 const BaseChart: FC<BaseChartProps> = ({
     chartType,
     heading,
-    subheading,
     chartData,
     chartColors = {},
-    chartConfig = [],
-    chartReferenceLines = [],
+    miscChartData,
     width = '100%',
     height = 400,
     altText,
@@ -121,14 +117,14 @@ const BaseChart: FC<BaseChartProps> = ({
               line: (
                   <LineChart
                       chartData={chartData}
-                      chartConfig={chartConfig}
+                      chartConfig={miscChartData.chartConfig}
                       isVisible={isVisible}
                   />
               ),
               stacked_bar: (
                   <StackedBarChart
                       chartData={chartData}
-                      chartReferenceLines={chartReferenceLines}
+                      chartReferenceLines={miscChartData.chartReferenceLines}
                       chartColors={chartColors}
                       isVisible={isVisible}
                   />

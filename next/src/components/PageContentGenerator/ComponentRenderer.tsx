@@ -12,37 +12,6 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
     component,
 }) => {
     switch (component.__component) {
-        case 'charts.filled-pie-chart':
-            return (
-                <BaseChart
-                    chartType="filled_pie"
-                    chartData={component.chartData}
-                    chartColors={component.chartColors}
-                    heading={component.heading}
-                    subheading={component.subheading}
-                />
-            );
-        case 'charts.stacked-bar-chart':
-            return (
-                <BaseChart
-                    chartType="stacked_bar"
-                    chartData={component.chartData}
-                    chartReferenceLines={component.chartReferenceLines}
-                    chartColors={component.chartColors}
-                    heading={component.heading}
-                    subheading={component.subheading}
-                />
-            );
-        case 'charts.line-chart':
-            return (
-                <BaseChart
-                    chartType="line"
-                    chartData={component.chartData}
-                    chartConfig={component.chartConfig}
-                    heading={component.heading}
-                    subheading={component.subheading}
-                />
-            );
         case 'charts.dual-chart':
             return (
                 <DualChart
@@ -53,12 +22,12 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
         case 'charts.chart-selector':
             return (
                 <BaseChart
-                    chartType={component.chartType}
-                    chartData={component.chartData}
-                    chartColors={component.chartColors}
-                    heading={component.heading}
-                    subheading={component.subheading}
-                    altText={component.altText}
+                    chartType={component.chart.chartType}
+                    chartData={component.chart.chartData}
+                    chartColors={component.chart.chartColors}
+                    miscChartData={component.chart.miscChartData}
+                    heading={component.chart.caption}
+                    altText={component.chart.altText}
                 />
             );
         case 'content.content-block':
