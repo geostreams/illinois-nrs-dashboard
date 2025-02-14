@@ -3,32 +3,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-}
-
-.pullQuote {
-    font-family: 'Poppins', sans-serif;
-    color: #0e4a5d;
-    width: 100%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: 0;
     text-align: right;
+    font-family: 'Poppins', sans-serif;
 }
 
-.largeText {
+.pullQuoteContainer h1 {
     font-size: 3rem;
     font-weight: 700;
-    color: #bd4a3d;
     display: block;
     margin-bottom: -25px;
 }
 
-.quoteText {
+.pullQuoteContainer h4 {
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: -30px;
+}
+.pullQuoteContainer p {
     line-height: 1.4;
     text-align: right;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: 0;
-}
-
-.highlight {
-    font-weight: 600;
 }
