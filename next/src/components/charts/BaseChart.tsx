@@ -117,14 +117,14 @@ const BaseChart: FC<BaseChartProps> = ({
               line: (
                   <LineChart
                       chartData={chartData}
-                      chartConfig={miscChartData.chartConfig}
+                      chartConfig={miscChartData?.chartConfig}
                       isVisible={isVisible}
                   />
               ),
               stacked_bar: (
                   <StackedBarChart
                       chartData={chartData}
-                      chartReferenceLines={miscChartData.chartReferenceLines}
+                      chartReferenceLines={miscChartData?.chartReferenceLines}
                       chartColors={chartColors}
                       isVisible={isVisible}
                   />

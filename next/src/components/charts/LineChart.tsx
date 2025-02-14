@@ -31,7 +31,7 @@ interface LineConfig {
 // Define props interface
 interface LineChartProps {
     chartData: DataPoint[];
-    chartConfig: LineConfig[];
+    chartConfig: { [key: string]: LineConfig };
     isVisible: boolean;
 }
 
