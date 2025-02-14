@@ -6,7 +6,7 @@ import BaseChart from './BaseChart';
 interface ChartDataProps {
     chart: {
         chartType: 'filled_pie' | 'line' | 'stacked_bar';
-        heading: string;
+        caption: string;
         subheading?: string;
         chartData: any;
         chartColors?: { [key: string]: string };
@@ -30,7 +30,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
                 gap: 4,
-                width: '100%',
+                width: '70%',
                 '& > div': {
                     width: { xs: '100%', md: '50%' },
                     minWidth: '300px',
@@ -42,7 +42,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 chartData={left_chart.chart.chartData}
                 chartColors={left_chart.chart.chartColors}
                 miscChartData={left_chart.chart.miscChartData}
-                heading={left_chart.chart.heading}
+                heading={left_chart.chart.caption}
                 dataFile={left_chart.chart.dataFile[0]}
             />
             <BaseChart
@@ -50,7 +50,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 chartData={right_chart.chart.chartData}
                 chartColors={right_chart.chart.chartColors}
                 miscChartData={right_chart.chart.miscChartData}
-                heading={right_chart.chart.heading}
+                heading={right_chart.chart.caption}
                 dataFile={right_chart.chart.dataFile[0]}
             />
         </Box>

@@ -31,7 +31,7 @@ const styles = {
         color: '#0A3977',
         textAlign: 'left',
         fontStyle: 'italic',
-        width: '100%',
+        width: '75%',
     },
 };
 
