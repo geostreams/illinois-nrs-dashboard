@@ -19,6 +19,10 @@ interface BaseChartProps {
     width?: string | number;
     height?: number;
     altText?: string;
+    dataFile?: {
+        url: string;
+        name: string;
+    };
 }
 
 const styles = {
@@ -40,6 +44,7 @@ const BaseChart: FC<BaseChartProps> = ({
     width = '100%',
     height = 400,
     altText,
+    dataFile,
 }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -50,6 +55,7 @@ const BaseChart: FC<BaseChartProps> = ({
     const headingParts = heading?.split(':');
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
+    let fileUrl = `${process.env.NEXT_PUBLIC_CMS_API_URL}${dataFile?.url}`;
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -101,6 +107,27 @@ const BaseChart: FC<BaseChartProps> = ({
             setIsLoading(false);
         }
     }, [heading]);
+
+    const handleDataDownload = useCallback(async () => {
+        if (!dataFile?.url) return;
+
+        setIsLoading(true);
+        try {
+            const response = await fetch(fileUrl);
+            if (!response.ok) throw new Error('Download failed');
+
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = dataFile?.name || 'data.csv';
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error('Error downloading data:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [dataFile?.url, fileUrl]);
 
     const chartComponent = !isVisible
         ? null
@@ -196,7 +223,8 @@ const BaseChart: FC<BaseChartProps> = ({
                         <Button
                             variant="outlined"
                             startIcon={<DownloadIcon />}
-                            disabled={isLoading}
+                            onClick={handleDataDownload}
+                            disabled={isLoading || !dataFile?.url}
                             size="small"
                             sx={{ minWidth: 165 }}
                         >
