@@ -20,7 +20,8 @@
       "enum": [
         "filled_pie",
         "stacked_bar",
-        "line"
+        "line",
+        "bar"
       ]
     },
     "chartData": {

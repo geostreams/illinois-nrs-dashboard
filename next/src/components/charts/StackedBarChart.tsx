@@ -11,7 +11,6 @@ import {
     ResponsiveContainer,
     ReferenceLine,
 } from 'recharts';
-import { Box, Typography } from '@mui/material';
 
 interface StackedBarChartProps {
     chartData: {

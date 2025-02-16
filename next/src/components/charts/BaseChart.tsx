@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas';
 import FilledPieChart from './FilledPieChart';
 import LineChart from './LineChart';
 import StackedBarChart from './StackedBarChart';
+import BarChart from './BarChart';
 import { FC } from 'react';
 
 interface BaseChartProps {
@@ -152,6 +153,14 @@ const BaseChart: FC<BaseChartProps> = ({
                       chartData={chartData}
                       chartReferenceLines={miscChartData?.chartReferenceLines}
                       chartColors={chartColors}
+                      isVisible={isVisible}
+                  />
+              ),
+              bar: (
+                  <BarChart
+                      chartData={chartData}
+                      chartColors={chartColors}
+                      chartReferenceLines={miscChartData?.chartReferenceLines}
                       isVisible={isVisible}
                   />
               ),
