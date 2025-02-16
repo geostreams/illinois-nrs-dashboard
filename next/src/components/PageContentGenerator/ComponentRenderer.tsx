@@ -29,7 +29,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     heading={component.chart.caption}
                     altText={component.chart.altText}
                     dataFile={component.chart.dataFile}
-                    width={'70%'}
+                    width={'75%'}
                 />
             );
         case 'content.content-block':

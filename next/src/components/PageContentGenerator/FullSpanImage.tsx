@@ -47,7 +47,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                     alt={image.alternativeText}
                     style={{
                         objectFit: 'contain',
-                        width: '100%',
+                        width: '75%',
                         height: 'auto',
                     }}
                 />
