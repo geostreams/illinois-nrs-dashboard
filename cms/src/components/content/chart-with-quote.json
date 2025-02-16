@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_content_chart_with_quotes",
+  "info": {
+    "displayName": "ChartWithQuote",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "chart": {
+      "type": "component",
+      "repeatable": false,
+      "component": "charts.chart-selector"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "pullQuote": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.pullquote"
+    }
+  }
+}

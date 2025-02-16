@@ -49,7 +49,8 @@ export default async function Page({
                 sx={{
                     flex: 1,
                     p: 3,
-                    marginLeft: { xs: 0, md: '240px' },
+                    marginLeft: { xs: 0, md: '30%' },
+                    marginRight: { xs: 0, md: '15%' },
                 }}
             >
                 <Container maxWidth="lg">

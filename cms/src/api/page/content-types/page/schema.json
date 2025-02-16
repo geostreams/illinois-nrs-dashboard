@@ -26,7 +26,8 @@
         "charts.chart-selector",
         "content.base-content-section",
         "content.heading",
-        "content.full-span-image"
+        "content.full-span-image",
+        "content.chart-with-quote"
       ]
     },
     "pageGroup": {
