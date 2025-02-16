@@ -23,7 +23,7 @@ const styles = {
         marginBottom: '8px',
     },
     heading2: {
-        color: '#006400',
+        color: '#0A3977',
         fontFamily: "'Open Sans', sans-serif",
         fontSize: '28px',
         fontWeight: 700,
