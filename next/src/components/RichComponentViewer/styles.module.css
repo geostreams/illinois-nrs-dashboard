@@ -202,8 +202,13 @@
 
 .container h4 {
     font-size: 20px;
-    color: #003d6d;
+    color: #00516f;
     font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    line-height: 1.2;
 }
 
 .container h5 {
