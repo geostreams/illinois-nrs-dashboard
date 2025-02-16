@@ -6,31 +6,10 @@
   },
   "options": {},
   "attributes": {
-    "heading": {
-      "type": "string"
-    },
-    "chartType": {
-      "type": "enumeration",
-      "enum": [
-        "filled_pie",
-        "stacked_bar",
-        "line"
-      ]
-    },
-    "chartData": {
-      "type": "json"
-    },
-    "chartColors": {
-      "type": "json"
-    },
-    "chartConfig": {
-      "type": "json"
-    },
-    "chartReferenceLines": {
-      "type": "json"
-    },
-    "altText": {
-      "type": "text"
+    "chart": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::chart.chart"
     }
   }
 }
