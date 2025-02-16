@@ -4,6 +4,8 @@ import BaseChart from '@/components/charts/BaseChart';
 import Heading from './Headings';
 import { BaseContentSection } from './BaseContentSection';
 import { FullSpanImage } from './FullSpanImage';
+import { ChartWithQuote } from './ChartWithQuote';
+
 interface ComponentRendererProps {
     component: any;
 }
@@ -28,7 +30,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     miscChartData={component.chart.miscChartData}
                     heading={component.chart.caption}
                     altText={component.chart.altText}
-                    dataFile={component.chart.dataFile}
+                    dataFile={component.chart.dataFile?.[0]}
                     width={'75%'}
                 />
             );
@@ -56,6 +58,14 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 <FullSpanImage
                     image={component.image}
                     caption={component.caption}
+                />
+            );
+        case 'content.chart-with-quote':
+            return (
+                <ChartWithQuote
+                    chart={component.chart.chart}
+                    image={component.image}
+                    pullQuote={component.pullQuote}
                 />
             );
         default:
