@@ -4,3 +4,4 @@ cms/node_modules
 cms/.env
 letsencrypt/
 .DS_Store
+cms/public/
