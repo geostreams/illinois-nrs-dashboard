@@ -31,6 +31,10 @@
     },
     "aspectRatio": {
       "type": "string"
+    },
+    "bordered": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

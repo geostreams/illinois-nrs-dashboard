@@ -6,16 +6,18 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import PullQuote from './PullQuote';
-
+import Typography from '@mui/material/Typography';
 interface BaseContentSectionProps {
     textContent: string;
     baseImageUrl?: string;
     image?: {
         width: string;
         aspectRatio: string;
+        bordered: boolean;
         image?: {
             url: string;
             alternativeText?: string | null;
+            caption?: string | null;
         };
     };
     pullQuote?: {
@@ -42,7 +44,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             sx={{
                 display: 'grid',
                 maxWidth: '720px',
-                my: 0,
+                my: 1,
                 marginRight: 0,
                 gridTemplateColumns: {
                     xs: '1fr',
@@ -98,7 +100,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 maxWidth: '400px',
                                 height: 'auto',
                                 display: 'flex',
-                                justifyContent: 'flex-end',
+                                flexDirection: 'column', // Stack children vertically
+                                alignItems: 'flex-end', // Align items to the right
                                 position: 'relative',
                             }}
                         >
@@ -107,6 +110,14 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     position: 'relative',
                                     width: image?.width || '70%',
                                     aspectRatio: image?.aspectRatio || '1/1',
+                                    flexDirection: 'column',
+                                    display: 'flex',
+                                    alignItems: 'flex-end',
+                                    ...(image?.bordered && {
+                                        border: '1px solid #0a3977',
+                                        borderRadius: 1,
+                                        overflow: 'hidden',
+                                    }),
                                 }}
                             >
                                 <Image
@@ -123,6 +134,19 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     priority={false}
                                 />
                             </Box>
+                            {image?.image?.caption && (
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    sx={{
+                                        mt: 0,
+                                        textAlign: 'right',
+                                        width: image?.width || '70%',
+                                    }}
+                                >
+                                    {image?.image?.caption}
+                                </Typography>
+                            )}
                         </Box>
                     )}
                     {pullQuote && quotePlacement === 'below' && (
