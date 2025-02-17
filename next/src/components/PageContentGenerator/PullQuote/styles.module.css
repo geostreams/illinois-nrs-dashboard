@@ -29,3 +29,27 @@
     font-family: 'Open Sans', sans-serif;
     color: #0a3977;
 }
+.pullQuoteContainer ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+    margin-left: 50px;
+}
+
+.pullQuoteContainer ul li {
+    margin: 0;
+    padding: 8px;
+    line-height: 1.2;
+    gap: 8px;
+    color: #0a3977;
+    font-family: 'Open Sans', sans-serif;
+    text-indent: -28px;
+}
+
+.pullQuoteContainer ul li::before {
+    content: '▶';
+    color: #0a3977;
+    font-size: 0.8em;
+    margin-top: 4px;
+    margin-right: 16px;
+}
