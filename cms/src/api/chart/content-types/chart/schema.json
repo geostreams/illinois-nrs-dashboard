@@ -48,7 +48,7 @@
       ]
     },
     "chartID": {
-      "type": "string"
+      "type": "uid"
     }
   }
 }
