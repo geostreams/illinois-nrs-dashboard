@@ -17,6 +17,7 @@ interface BaseContentSectionProps {
     pullQuote?: {
         quoteText?: string;
     };
+    quotePlacement?: 'above' | 'below';
 }
 
 export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
@@ -24,6 +25,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
     image,
     pullQuote,
+    quotePlacement = 'above',
 }) => {
     const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
 
@@ -60,15 +62,16 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         flexDirection: 'column',
                         justifyContent: 'center', // Centers vertically
                         alignItems: 'center', // Centers horizontally
-                        gap: 2,
                         textAlign: 'center',
                         height: '100%',
                     }}
                 >
                     {/* Pull Quote */}
-                    {pullQuote && (
-                        <PullQuote quoteText={pullQuote.quoteText || ''} />
-                    )}
+                    {pullQuote &&
+                        (quotePlacement === 'above' ||
+                            quotePlacement === null) && (
+                            <PullQuote quoteText={pullQuote.quoteText || ''} />
+                        )}
                     {/* Image Container */}
                     {imageUrl && (
                         <Box
@@ -103,6 +106,9 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 />
                             </Box>
                         </Box>
+                    )}
+                    {pullQuote && quotePlacement === 'below' && (
+                        <PullQuote quoteText={pullQuote.quoteText || ''} />
                     )}
                 </Box>
             )}

@@ -51,6 +51,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     textContent={component.textContent}
                     image={component.image}
                     pullQuote={component.pullQuote}
+                    quotePlacement={component.quotePlacement}
                 />
             );
         case 'content.full-span-image':

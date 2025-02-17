@@ -28,6 +28,13 @@
       "type": "component",
       "repeatable": false,
       "component": "content.pullquote"
+    },
+    "quotePlacement": {
+      "type": "enumeration",
+      "enum": [
+        "above",
+        "below"
+      ]
     }
   }
 }
