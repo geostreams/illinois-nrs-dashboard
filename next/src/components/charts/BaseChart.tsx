@@ -174,6 +174,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 flexDirection: 'column',
                 width: width,
                 position: 'relative',
+                my: 1.5,
             }}
         >
             <Box

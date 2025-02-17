@@ -35,6 +35,10 @@
         "above",
         "below"
       ]
+    },
+    "borderedTextBox": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
