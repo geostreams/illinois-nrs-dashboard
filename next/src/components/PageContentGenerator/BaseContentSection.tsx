@@ -18,6 +18,7 @@ interface BaseContentSectionProps {
         quoteText?: string;
     };
     quotePlacement?: 'above' | 'below';
+    borderedTextBox?: boolean;
 }
 
 export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
@@ -26,6 +27,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     image,
     pullQuote,
     quotePlacement = 'above',
+    borderedTextBox = false,
 }) => {
     const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
 
@@ -46,7 +48,17 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             }}
         >
             {/* Left column - 60% */}
-            <Box>
+            <Box
+                sx={{
+                    ...(borderedTextBox && {
+                        borderRadius: 2,
+                        border: '1px solid #0a3977',
+                        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.9)',
+                        padding: 1,
+                        marginBottom: 1,
+                    }),
+                }}
+            >
                 <RichContentViewer
                     content={textContent}
                     baseImageUrl={baseImageUrl}
