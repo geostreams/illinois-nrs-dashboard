@@ -21,6 +21,7 @@ interface DataPoint {
 // Define type for line configuration
 interface LineConfig {
     dataKey: string;
+    name: string;
     color: string;
     strokeWidth?: number;
     dot?: boolean;
@@ -41,11 +42,9 @@ const LineChart: React.FC<LineChartProps> = ({
     isVisible,
 }) => {
     // Convert data keys to legend names
-    const getLegendName = (key: string): string =>
-        key
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, (str) => str.toUpperCase());
-
+    const getLegendName = (key: string): string => {
+        return key;
+    };
     return (
         <ResponsiveContainer width="100%" height="100%">
             <RechartsLineChart data={chartData}>
@@ -55,9 +54,9 @@ const LineChart: React.FC<LineChartProps> = ({
                 <Tooltip contentStyle={{ fontSize: 12 }} />
                 <Legend
                     wrapperStyle={{ fontSize: 12 }}
-                    formatter={(value: string) => getLegendName(value)}
+                    formatter={(value: string) => value}
                 />
-                {chartConfig.map((lineConfig) => (
+                {Object.values(chartConfig).map((lineConfig) => (
                     <Line
                         key={lineConfig.dataKey}
                         dataKey={lineConfig.dataKey}
@@ -71,7 +70,7 @@ const LineChart: React.FC<LineChartProps> = ({
                         activeDot={
                             lineConfig.activeDot !== false ? { r: 6 } : false
                         }
-                        name={getLegendName(lineConfig.dataKey)}
+                        name={lineConfig.name}
                         connectNulls={lineConfig.connectNulls || false}
                         isAnimationActive={isVisible}
                     />

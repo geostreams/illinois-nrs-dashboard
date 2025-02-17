@@ -100,9 +100,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 maxWidth: '400px',
                                 height: 'auto',
                                 display: 'flex',
-                                flexDirection: 'column', // Stack children vertically
-                                alignItems: 'flex-end', // Align items to the right
-                                position: 'relative',
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
                             }}
                         >
                             <Box
@@ -110,13 +109,14 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     position: 'relative',
                                     width: image?.width || '70%',
                                     aspectRatio: image?.aspectRatio || '1/1',
-                                    flexDirection: 'column',
                                     display: 'flex',
-                                    alignItems: 'flex-end',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
                                     ...(image?.bordered && {
-                                        border: '1px solid #0a3977',
-                                        borderRadius: 1,
-                                        overflow: 'hidden',
+                                        border: '1.5px solid #0a3977',
+                                        borderRadius: '4px',
+                                        padding: '2px',
+                                        backgroundColor: 'background.paper',
                                     }),
                                 }}
                             >
@@ -129,7 +129,12 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     fill
                                     sizes="(max-width: 768px) 100vw, 320px"
                                     style={{
-                                        objectFit: 'contain',
+                                        objectFit: image?.bordered
+                                            ? 'cover'
+                                            : 'contain',
+                                        borderRadius: image?.bordered
+                                            ? '4px'
+                                            : '0',
                                     }}
                                     priority={false}
                                 />
