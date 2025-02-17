@@ -6,17 +6,6 @@
   },
   "options": {},
   "attributes": {
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "textContent": {
       "type": "customField",
       "options": {
@@ -39,6 +28,11 @@
     "borderedTextBox": {
       "type": "boolean",
       "default": false
+    },
+    "image": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::image.image"
     }
   }
 }

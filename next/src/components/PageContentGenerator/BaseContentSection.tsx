@@ -11,8 +11,12 @@ interface BaseContentSectionProps {
     textContent: string;
     baseImageUrl?: string;
     image?: {
-        url: string;
-        alternativeText?: string | null;
+        width: string;
+        aspectRatio: string;
+        image?: {
+            url: string;
+            alternativeText?: string | null;
+        };
     };
     pullQuote?: {
         quoteText?: string;
@@ -29,7 +33,9 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     quotePlacement = 'above',
     borderedTextBox = false,
 }) => {
-    const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
+    const imageUrl = image?.image?.url
+        ? `${baseImageUrl}${image.image.url}`
+        : '';
 
     return (
         <Box
@@ -99,14 +105,14 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                             <Box
                                 sx={{
                                     position: 'relative',
-                                    width: '70%',
-                                    aspectRatio: '1/1',
+                                    width: image?.width || '70%',
+                                    aspectRatio: image?.aspectRatio || '1/1',
                                 }}
                             >
                                 <Image
                                     src={imageUrl}
                                     alt={
-                                        image?.alternativeText ||
+                                        image?.image?.alternativeText ||
                                         'Content image'
                                     }
                                     fill
