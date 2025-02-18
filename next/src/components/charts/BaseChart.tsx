@@ -10,6 +10,7 @@ import LineChart from './LineChart';
 import StackedBarChart from './StackedBarChart';
 import BarChart from './BarChart';
 import { FC } from 'react';
+import TableComponent from './Table';
 
 interface BaseChartProps {
     chartType: string;
@@ -18,12 +19,12 @@ interface BaseChartProps {
     chartColors?: Record<string, string>;
     miscChartData: any;
     width?: string | number;
-    height?: number;
     altText?: string;
     dataFile?: {
         url: string;
         name: string;
     };
+    aspectRatio?: string;
 }
 
 const styles = {
@@ -42,9 +43,9 @@ const BaseChart: FC<BaseChartProps> = ({
     chartColors = {},
     miscChartData,
     width = '100%',
-    height = 400,
     altText,
     dataFile,
+    aspectRatio,
 }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -164,6 +165,7 @@ const BaseChart: FC<BaseChartProps> = ({
                       isVisible={isVisible}
                   />
               ),
+              table: <TableComponent tableData={chartData} />,
           }[chartType];
 
     return (
@@ -177,18 +179,40 @@ const BaseChart: FC<BaseChartProps> = ({
                 my: 1.5,
             }}
         >
-            <Box
-                sx={{
-                    width: '100%',
-                    height: height,
-                    bgcolor: 'white',
-                    marginBottom: 0.5,
-                }}
-                role="img"
-                aria-label={altText}
-            >
-                {chartComponent}
-            </Box>
+            {chartType !== 'table' ? (
+                <Box
+                    sx={{
+                        width: '100%',
+                        height: 'auto',
+                        bgcolor: 'white',
+                        marginBottom: 0.5,
+                        position: 'relative',
+                        '&::before': {
+                            content: '""',
+                            display: 'block',
+                            paddingTop: aspectRatio || '56.25%',
+                        },
+                    }}
+                    role="img"
+                    aria-label={altText}
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                        }}
+                    >
+                        {chartComponent}
+                    </Box>
+                </Box>
+            ) : (
+                <Box sx={{ width: '100%' }}>
+                    <TableComponent tableData={chartData} />
+                </Box>
+            )}
             <Box sx={{ width: '100%' }}>
                 <Typography sx={styles.caption}>
                     <strong>{boldHeading}:</strong>
