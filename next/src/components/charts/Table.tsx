@@ -24,8 +24,6 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
     // Get all unique columns from the data for columns
     const columns = tableData.columns.slice(1);
     const indexColumn = tableData.columns[0];
-    console.log(columns);
-    console.log(typeof columns);
 
     // Calculate column width based on total number of columns (including Category column)
     const columnWidth = `${100 / (columns.length + 1)}%`;
