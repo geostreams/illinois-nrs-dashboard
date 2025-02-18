@@ -21,7 +21,8 @@
         "filled_pie",
         "stacked_bar",
         "line",
-        "bar"
+        "bar",
+        "table"
       ]
     },
     "chartData": {
