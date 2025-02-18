@@ -43,7 +43,6 @@ const BaseChart: FC<BaseChartProps> = ({
     chartColors = {},
     miscChartData,
     width = '100%',
-    height = 400,
     altText,
     dataFile,
     aspectRatio,
