@@ -7,23 +7,27 @@
   },
   "options": {},
   "attributes": {
-    "left_card": {
-      "type": "component",
-      "repeatable": false,
-      "component": "content.footer-left-card"
-    },
     "partners": {
       "type": "component",
       "repeatable": false,
       "component": "content.partners"
     },
-    "social_media_links": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.link"
+    "leftCard": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
     },
-    "right_card": {
-      "type": "blocks"
+    "rightCard": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "facebookURL": {
+      "type": "string"
     }
   }
 }

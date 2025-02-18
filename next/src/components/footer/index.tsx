@@ -1,20 +1,9 @@
 import * as React from 'react';
 import { Box, Typography, Link } from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@/assets/icons/facebook.svg';
 import Divider from '@mui/material/Divider';
 import Image from 'next/image';
 import RichContentViewer from '@/components/RichComponentViewer';
-
-type SocialMediaLink = {
-    id: string | number;
-    URL: string;
-    target: string;
-    text: string;
-};
 
 type PartnerImage = {
     formats: {
@@ -25,18 +14,13 @@ type PartnerImage = {
 };
 
 type FooterData = {
-    left_card: {
-        image: {
-            url: string;
-        };
-        text: any;
-    };
-    right_card: any; // Content to render in the right card (BlocksRenderer-compatible)
-    social_media_links: SocialMediaLink[];
+    leftCard: string;
+    rightCard: string;
     partners: {
         partnerImages: PartnerImage[];
         partnersText: string;
     };
+    facebookURL: string;
 };
 
 type FooterProps = {
@@ -44,20 +28,6 @@ type FooterProps = {
 };
 
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
-    const footerLeftCardImage = `${process.env.NEXT_PUBLIC_CMS_API_URL}${footerData?.left_card?.image?.url}`;
-    const iconMap: { [key: string]: React.ReactNode } = {
-        facebook: (
-            <FacebookIcon sx={{ width: 24, height: 24, color: 'white' }} />
-        ),
-        twitter: <TwitterIcon sx={{ width: 24, height: 24, color: 'white' }} />,
-        youtube: <YouTubeIcon sx={{ width: 24, height: 24, color: 'white' }} />,
-        linkedin: (
-            <LinkedInIcon sx={{ width: 24, height: 24, color: 'white' }} />
-        ),
-        instagram: (
-            <InstagramIcon sx={{ width: 24, height: 24, color: 'white' }} />
-        ),
-    };
     const partnerImageUrls = footerData?.partners.partnerImages.map(
         (partner) => {
             return `${process.env.NEXT_PUBLIC_CMS_API_URL}${partner.formats?.thumbnail.url}`;
@@ -112,25 +82,20 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             <Box
                                 key={`partner-${index}`}
                                 sx={{
-                                    width: { xs: '200px', md: '180px' },
+                                    width: { xs: '200px', md: '200px' },
                                     height: { xs: '100px', md: '90px' },
                                     flexShrink: 0,
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     position: 'relative',
-                                    transition: 'transform 0.3s ease-in-out',
-                                    '&:hover': {
-                                        transform: 'scale(1.05)',
-                                        cursor: 'pointer',
-                                    },
                                 }}
                             >
                                 <Image
                                     src={url}
                                     alt={`Partner`}
                                     fill
-                                    sizes="(max-width: 600px) 200px, 180px"
+                                    sizes="(max-width: 600px) 240px, 220px"
                                     style={{
                                         objectFit: 'contain',
                                     }}
@@ -170,6 +135,69 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             marginBottom: 0,
                         }}
                     />
+
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: { xs: 'column', md: 'row' },
+                            gap: 4,
+                            maxWidth: '1200px',
+                            width: '100%',
+                            mx: 'auto',
+                            padding: '24px',
+                            position: 'relative',
+                        }}
+                    >
+                        {/* Left Card */}
+                        <Box
+                            sx={{
+                                flex: 1,
+                                padding: '16px',
+                                borderRadius: '8px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <RichContentViewer content={footerData.leftCard} />
+                            <Link
+                                href={footerData.facebookURL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    textDecoration: 'none',
+                                    marginTop: '16px',
+                                    '&:hover': {
+                                        opacity: 0.8,
+                                    },
+                                }}
+                            >
+                                <FacebookIcon
+                                    width={24}
+                                    height={24}
+                                    fill={'#000'}
+                                    style={{ flexShrink: 0 }}
+                                />
+                            </Link>
+                        </Box>
+                        {/* Right Card */}
+                        <Box
+                            sx={{
+                                flex: 1,
+                                padding: '16px',
+                                borderRadius: '8px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'flex-end',
+                                alignItems: 'flex-end',
+                                minHeight: '100%',
+                            }}
+                        >
+                            <RichContentViewer content={footerData.rightCard} />
+                        </Box>
+                    </Box>
                 </Box>
             </Box>
         </div>
