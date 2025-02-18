@@ -30,7 +30,7 @@ type FooterProps = {
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
     const partnerImageUrls = footerData?.partners.partnerImages.map(
         (partner) => {
-            return `${process.env.NEXT_PUBLIC_CMS_API_URL}${partner.formats?.thumbnail.url}`;
+            return `${process.env.CMS_API_URL}${partner.formats?.thumbnail.url}`;
         }
     );
 

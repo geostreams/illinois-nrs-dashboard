@@ -28,7 +28,7 @@ const styles = {
 export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     image,
     caption,
-    baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
+    baseImageUrl = process.env.CMS_API_URL,
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
 

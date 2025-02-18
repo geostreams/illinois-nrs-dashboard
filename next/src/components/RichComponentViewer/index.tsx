@@ -11,7 +11,7 @@ interface RichContentViewerProps {
 
 const RichContentViewer: React.FC<RichContentViewerProps> = ({
     content,
-    baseImageUrl = process.env.NEXT_PUBLIC_CMS_API_URL,
+    baseImageUrl = process.env.CMS_API_URL,
 }) => {
     const processContent = (htmlContent: string) => {
         let processedContent = htmlContent.replace(

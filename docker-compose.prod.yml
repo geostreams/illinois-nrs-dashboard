@@ -15,7 +15,7 @@ services:
       - "--api.dashboard=true"
       - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"     
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
       # Optional: Use staging server during testing
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
@@ -66,7 +66,7 @@ services:
       - traefik.http.services.strapi.loadbalancer.server.port=1337
       - traefik.http.routers.strapi.tls=true
       - traefik.http.routers.strapi.tls.certresolver=letsencrypt
-    
+
 
   strapiDB:
     container_name: strapiDB
@@ -95,7 +95,8 @@ services:
       context: next/.
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_CMS_API_URL=http://strapi:1337
+        - CMS_API_URL=${CMS_API_URL}
+        - CMS_DATA_URL=${CMS_DATA_URL}
         - NODE_ENV=${NEXT_NODE_ENV}
     depends_on:
       - strapi

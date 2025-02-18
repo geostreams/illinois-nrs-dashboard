@@ -9,7 +9,8 @@ const nextConfig = {
         ], // Replace 'strapi' with your production Strapi domain
     },
     env: {
-        NEXT_PUBLIC_CMS_API_URL: process.env.NEXT_PUBLIC_CMS_API_URL,
+        CMS_API_URL: process.env.CMS_API_URL,
+        CMS_DATA_URL: process.env.CMS_DATA_URL,
     },
     webpack: (config) => {
         config.module.rules.push({

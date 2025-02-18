@@ -12,8 +12,12 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Set environment variable for build time
-ARG NEXT_PUBLIC_CMS_API_URL
-ENV NEXT_PUBLIC_CMS_API_URL=${NEXT_PUBLIC_CMS_API_URL}
+ARG CMS_API_URL
+ENV CMS_API_URL=${CMS_API_URL}
+
+ARG CMS_DATA_URL
+ENV CMS_DATA_URL=${CMS_DATA_URL}
+
 ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
@@ -32,7 +36,8 @@ COPY --from=builder /app/package.json ./package.json
 
 # Set environment variable for runtime
 ENV NODE_ENV=${NODE_ENV}
-ENV NEXT_PUBLIC_CMS_API_URL=${NEXT_PUBLIC_CMS_API_URL}
+ENV CMS_API_URL=${CMS_API_URL}
+ENV CMS_DATA_URL=${CMS_DATA_URL}
 
 # Start the application
 CMD ["node", "server.js"]
