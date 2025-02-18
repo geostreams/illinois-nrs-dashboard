@@ -6,13 +6,19 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import PullQuote from './PullQuote';
-
+import Typography from '@mui/material/Typography';
 interface BaseContentSectionProps {
     textContent: string;
     baseImageUrl?: string;
     image?: {
-        url: string;
-        alternativeText?: string | null;
+        width: string;
+        aspectRatio: string;
+        bordered: boolean;
+        image?: {
+            url: string;
+            alternativeText?: string | null;
+            caption?: string | null;
+        };
     };
     pullQuote?: {
         quoteText?: string;
@@ -29,14 +35,16 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     quotePlacement = 'above',
     borderedTextBox = false,
 }) => {
-    const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
+    const imageUrl = image?.image?.url
+        ? `${baseImageUrl}${image.image.url}`
+        : '';
 
     return (
         <Box
             sx={{
                 display: 'grid',
                 maxWidth: '720px',
-                my: 0,
+                my: 1,
                 marginRight: 0,
                 gridTemplateColumns: {
                     xs: '1fr',
@@ -92,31 +100,58 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                 maxWidth: '400px',
                                 height: 'auto',
                                 display: 'flex',
-                                justifyContent: 'flex-end',
-                                position: 'relative',
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
                             }}
                         >
                             <Box
                                 sx={{
                                     position: 'relative',
-                                    width: '70%',
-                                    aspectRatio: '1/1',
+                                    width: image?.width || '70%',
+                                    aspectRatio: image?.aspectRatio || '1/1',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    ...(image?.bordered && {
+                                        border: '1.5px solid #0a3977',
+                                        borderRadius: '4px',
+                                        padding: '2px',
+                                        backgroundColor: 'background.paper',
+                                    }),
                                 }}
                             >
                                 <Image
                                     src={imageUrl}
                                     alt={
-                                        image?.alternativeText ||
+                                        image?.image?.alternativeText ||
                                         'Content image'
                                     }
                                     fill
                                     sizes="(max-width: 768px) 100vw, 320px"
                                     style={{
-                                        objectFit: 'contain',
+                                        objectFit: image?.bordered
+                                            ? 'cover'
+                                            : 'contain',
+                                        borderRadius: image?.bordered
+                                            ? '4px'
+                                            : '0',
                                     }}
                                     priority={false}
                                 />
                             </Box>
+                            {image?.image?.caption && (
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    sx={{
+                                        mt: 0,
+                                        textAlign: 'right',
+                                        width: image?.width || '70%',
+                                    }}
+                                >
+                                    {image?.image?.caption}
+                                </Typography>
+                            )}
                         </Box>
                     )}
                     {pullQuote && quotePlacement === 'below' && (
