@@ -63,6 +63,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                     altText={chart.altText}
                     dataFile={chart?.dataFile?.[0]}
                     width={'75%'}
+                    aspectRatio={'110%'}
                 />
             </Box>
 
