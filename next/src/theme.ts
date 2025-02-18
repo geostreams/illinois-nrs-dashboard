@@ -1,6 +1,7 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 import { Source_Sans_3, Bebas_Neue } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 
 const sourceSansPro = Source_Sans_3({
     weight: ['400', '600'],
@@ -14,6 +15,12 @@ const bebasNeue = Bebas_Neue({
     display: 'swap',
 });
 
+const poppins = Poppins({
+    weight: ['400', '600', '700'],
+    subsets: ['latin'],
+    display: 'swap',
+});
+
 const theme = createTheme({
     cssVariables: {
         colorSchemeSelector: 'class',
@@ -21,7 +28,7 @@ const theme = createTheme({
     typography: {
         fontFamily: `${sourceSansPro.style.fontFamily}`,
         h1: {
-            fontFamily: bebasNeue.style.fontFamily,
+            fontFamily: `${bebasNeue.style.fontFamily}, ${poppins.style.fontFamily}`,
         },
         h2: {
             fontFamily: bebasNeue.style.fontFamily,
