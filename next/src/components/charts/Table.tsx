@@ -16,19 +16,16 @@ interface DataRow {
 interface TableProps {
     tableData: {
         data: DataRow[];
-        indexColumnHeader: string | undefined;
+        columns: string[];
     };
 }
 
 const TableComponent: React.FC<TableProps> = ({ tableData }) => {
     // Get all unique columns from the data for columns
-    const columns = Array.from(
-        new Set(
-            tableData.data.flatMap((row) =>
-                Object.keys(row).filter((key) => key !== 'row')
-            )
-        )
-    ).sort();
+    const columns = tableData.columns.slice(1);
+    const indexColumn = tableData.columns[0];
+    console.log(columns);
+    console.log(typeof columns);
 
     // Calculate column width based on total number of columns (including Category column)
     const columnWidth = `${100 / (columns.length + 1)}%`;
@@ -62,7 +59,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                                 borderLeft: '1px solid #1B5C7C',
                             }}
                         >
-                            {tableData.indexColumnHeader || 'Category'}
+                            {indexColumn !== '' ? indexColumn : 'Category'}
                         </TableCell>
                         {columns.map((column, index) => (
                             <TableCell
