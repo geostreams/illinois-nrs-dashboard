@@ -5,8 +5,9 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import Divider from '@mui/material/Divider';
 import Image from 'next/image';
+import RichContentViewer from '@/components/RichComponentViewer';
 
 type SocialMediaLink = {
     id: string | number;
@@ -33,7 +34,8 @@ type FooterData = {
     right_card: any; // Content to render in the right card (BlocksRenderer-compatible)
     social_media_links: SocialMediaLink[];
     partners: {
-        partner_image: PartnerImage[];
+        partnerImages: PartnerImage[];
+        partnersText: string;
     };
 };
 
@@ -56,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
             <InstagramIcon sx={{ width: 24, height: 24, color: 'white' }} />
         ),
     };
-    const partnerImageUrls = footerData?.partners.partner_image.map(
+    const partnerImageUrls = footerData?.partners.partnerImages.map(
         (partner) => {
             return `${process.env.NEXT_PUBLIC_CMS_API_URL}${partner.formats?.thumbnail.url}`;
         }
@@ -73,123 +75,102 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
             }}
         >
             {/*Small height box for a colored line*/}
-            <Box sx={{ height: 4, bgcolor: '#88B147' }} />
-            {/*Main Footer Container*/}
-            <Box sx={{ bgcolor: 'primary.dark', color: 'white', p: 4 }}>
-                {/* Main Container */}
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {/* Left Section */}
-                    <Box
-                        sx={{
-                            flex: '1 1 60%',
-                            minWidth: '300px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            p: 2,
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                mb: 1,
-                                width: '100%', // Stretch the width beyond the container
-                                height: '140px', // Adjust the height for a larger image
-                                position: 'relative',
-                            }}
-                        >
-                            <Image
-                                src={footerLeftCardImage}
-                                alt="logo"
-                                fill
-                                style={{
-                                    objectFit: 'cover', // Stretches the image while covering the area
-                                }}
-                            />
-                        </Box>
-                        <Box sx={{ maxWidth: 700, textAlign: 'left', p: 2 }}>
-                            <BlocksRenderer
-                                content={footerData?.left_card.text}
-                            />
-                        </Box>
-                    </Box>
-
-                    {/* Right Section */}
-                    <Box sx={{ flex: '1 1 35%', minWidth: '300px', pt: 2 }}>
-                        {/* Social Media Icons */}
-                        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                            {footerData.social_media_links.map((link) => (
-                                <a
-                                    key={link.id}
-                                    href={link.URL}
-                                    target={link.target}
-                                    rel="noopener noreferrer"
-                                    aria-label={link.text}
-                                    // hover effect
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: '50%',
-                                        backgroundColor:
-                                            'rgba(255,255,255,0.2)',
-                                    }}
-                                >
-                                    {iconMap[link.text.toLowerCase()]}
-                                </a>
-                            ))}
-                        </Box>
-
-                        {/* Contact Info */}
-                        <BlocksRenderer content={footerData?.right_card} />
-                    </Box>
-                </Box>
+            <Box sx={{ display: 'flex', width: '100%' }}>
+                <Box sx={{ height: 4, bgcolor: '#2E5EA3', width: '50%' }} />
+                <Box sx={{ height: 4, bgcolor: '#88B147', width: '50%' }} />
             </Box>
+
             {/* Bottom Section for Logos */}
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'space-around',
+                    flexDirection: 'column',
                     alignItems: 'center',
                     mt: 1,
-                    gap: 1,
-                    p: 1,
-                    flexDirection: { xs: 'column', md: 'row' },
-                    flexWrap: { md: 'wrap' },
-                    maxWidth: '2400px', // Prevent from stretching too wide
+                    px: 4,
                 }}
             >
-                {partnerImageUrls.map((url, index) => (
+                <Box
+                    sx={{
+                        maxWidth: '1200px',
+                        width: '100%',
+                        mx: 'auto',
+                        padding: '24px',
+                    }}
+                >
                     <Box
-                        key={`partner-${index}`}
                         sx={{
-                            width: { xs: '280px', md: '320px' },
-                            height: { xs: '140px', md: '160px' },
-                            flexShrink: 0,
                             display: 'flex',
-                            alignItems: 'center',
                             justifyContent: 'center',
-                            position: 'relative',
-                            transition: 'transform 0.3s ease-in-out', // Smooth transition for hover
-                            '&:hover': {
-                                transform: 'scale(1.05)', // Scale up by 5% on hover
-                                cursor: 'pointer', // Optional: change cursor to pointer
+                            alignItems: 'center',
+                            gap: 4,
+                            flexDirection: { xs: 'column', md: 'row' },
+                            flexWrap: { md: 'wrap' },
+                        }}
+                    >
+                        {partnerImageUrls.map((url, index) => (
+                            <Box
+                                key={`partner-${index}`}
+                                sx={{
+                                    width: { xs: '200px', md: '180px' },
+                                    height: { xs: '100px', md: '90px' },
+                                    flexShrink: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    position: 'relative',
+                                    transition: 'transform 0.3s ease-in-out',
+                                    '&:hover': {
+                                        transform: 'scale(1.05)',
+                                        cursor: 'pointer',
+                                    },
+                                }}
+                            >
+                                <Image
+                                    src={url}
+                                    alt={`Partner`}
+                                    fill
+                                    sizes="(max-width: 600px) 200px, 180px"
+                                    style={{
+                                        objectFit: 'contain',
+                                    }}
+                                />
+                            </Box>
+                        ))}
+                    </Box>
+                    <Box
+                        sx={{
+                            mt: 3,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            color: 'text.secondary',
+                            fontSize: '0.875rem',
+                            lineHeight: 1.5,
+                            '& a': {
+                                color: '#2E5EA3',
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    textDecoration: 'underline',
+                                },
                             },
                         }}
                     >
-                        <Image
-                            src={url}
-                            alt={`Partner`}
-                            fill
-                            sizes="(max-width: 600px) 280px, 320px"
-                            style={{
-                                objectFit: 'contain',
-                            }}
+                        <RichContentViewer
+                            content={footerData.partners.partnersText}
                         />
                     </Box>
-                ))}
+                    <Divider
+                        sx={{
+                            width: '100%',
+                            borderColor: '#B0BEC5',
+                            borderWidth: 1,
+                            opacity: 1,
+                            marginTop: 2,
+                            marginBottom: 0,
+                        }}
+                    />
+                </Box>
             </Box>
         </div>
     );
