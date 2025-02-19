@@ -5,19 +5,13 @@ import Divider from '@mui/material/Divider';
 import Image from 'next/image';
 import RichContentViewer from '@/components/RichComponentViewer';
 
-type PartnerImage = {
-    formats: {
-        thumbnail: {
-            url: string;
-        };
-    };
-};
-
 type FooterData = {
     leftCard: string;
     rightCard: string;
     partners: {
-        partnerImages: PartnerImage[];
+        partnerImages: {
+            url: string;
+        }[];
         partnersText: string;
     };
     facebookURL: string;
@@ -30,7 +24,7 @@ type FooterProps = {
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
     const partnerImageUrls = footerData?.partners.partnerImages.map(
         (partner) => {
-            return `${process.env.CMS_API_URL}${partner.formats?.thumbnail.url}`;
+            return `${process.env.CMS_API_URL}${partner?.url}`;
         }
     );
 
@@ -82,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             <Box
                                 key={`partner-${index}`}
                                 sx={{
-                                    width: { xs: '200px', md: '200px' },
+                                    width: { xs: '200px', md: '260px' },
                                     height: { xs: '100px', md: '90px' },
                                     flexShrink: 0,
                                     display: 'flex',
