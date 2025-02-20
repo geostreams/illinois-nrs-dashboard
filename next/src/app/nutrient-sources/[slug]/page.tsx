@@ -20,7 +20,7 @@ export default async function Page({
     try {
         pageData = await fetchContentType(
             'pages',
-            `filters[slug][$eq]=${slug}`,
+            `filters[slug][$eq]=${slug}&filters[pageGroup][$eq]=nutrient-sources`,
             true
         );
     } catch (error) {
@@ -66,7 +66,7 @@ export default async function Page({
 
 export async function generateStaticParams() {
     try {
-        const pageData = await fetchPageSlugs('pages');
+        const pageData = await fetchPageSlugs('pages', 'nutrient-sources');
         if (!pageData) return [];
 
         return pageData.map((page: { slug: string }) => ({

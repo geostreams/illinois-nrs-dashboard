@@ -15,9 +15,6 @@
     "title": {
       "type": "string"
     },
-    "slug": {
-      "type": "uid"
-    },
     "pageContents": {
       "type": "dynamiczone",
       "components": [
@@ -31,6 +28,9 @@
       ]
     },
     "pageGroup": {
+      "type": "uid"
+    },
+    "slug": {
       "type": "string"
     }
   }

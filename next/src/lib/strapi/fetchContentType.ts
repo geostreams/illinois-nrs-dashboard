@@ -55,11 +55,14 @@ export default async function fetchContentType(
     }
 }
 
-export async function fetchPageSlugs(contentType: string): Promise<any> {
+export async function fetchPageSlugs(
+    contentType: string,
+    pageGroup: string
+): Promise<any> {
     try {
         // Construct the full URL for the API request
         const url = new URL(
-            `api/${contentType}?fields[0]=slug&fields[1]=id&fields[2]=title`,
+            `api/${contentType}?filters[pageGroup][$eq]=${pageGroup}`,
             process.env.CMS_API_URL
         );
 
