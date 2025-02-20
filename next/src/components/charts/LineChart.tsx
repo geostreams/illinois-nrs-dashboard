@@ -33,14 +33,9 @@ interface LineConfig {
 interface LineChartProps {
     chartData: DataPoint[];
     chartConfig: { [key: string]: LineConfig };
-    isVisible: boolean;
 }
 
-const LineChart: React.FC<LineChartProps> = ({
-    chartData,
-    chartConfig,
-    isVisible,
-}) => {
+const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig }) => {
     // Convert data keys to legend names
     const getLegendName = (key: string): string => {
         return key;
@@ -72,7 +67,7 @@ const LineChart: React.FC<LineChartProps> = ({
                         }
                         name={lineConfig.name}
                         connectNulls={lineConfig.connectNulls || false}
-                        isAnimationActive={isVisible}
+                        isAnimationActive={false}
                     />
                 ))}
             </RechartsLineChart>

@@ -8,18 +8,15 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
-import { Box, Typography } from '@mui/material';
 
 interface PieChartProps {
     chart_data: { name: string; value: number }[];
     chart_colors: { [key: string]: string };
-    isVisible: boolean;
 }
 
 const FilledPieChart: React.FC<PieChartProps> = ({
     chart_data,
     chart_colors,
-    isVisible,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%">
@@ -33,7 +30,7 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                     innerRadius={0}
                     outerRadius="80%"
                     label
-                    isAnimationActive={isVisible}
+                    isAnimationActive={false}
                 >
                     {chart_data.map((entry, index) => (
                         <Cell

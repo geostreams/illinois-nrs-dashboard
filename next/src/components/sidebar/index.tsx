@@ -178,6 +178,9 @@ export const Sidebar: React.FC = () => {
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
+                '@media print': {
+                    display: 'none',
+                },
             }}
         >
             <List component="nav">

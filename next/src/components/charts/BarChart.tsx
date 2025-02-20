@@ -22,7 +22,6 @@ interface BarChartProps {
         label: string;
         value: number;
     }[];
-    isVisible: boolean;
     barSize?: number;
 }
 
@@ -30,7 +29,6 @@ const BarChart: React.FC<BarChartProps> = ({
     chartData,
     chartColors,
     chartReferenceLines = [],
-    isVisible,
     barSize = 60,
 }) => {
     // Get the first data key that isn't 'name'
@@ -59,7 +57,7 @@ const BarChart: React.FC<BarChartProps> = ({
                     dataKey={dataKey}
                     fill={barColor}
                     barSize={barSize}
-                    isAnimationActive={isVisible}
+                    isAnimationActive={false}
                 />
 
                 {/* Render Reference Lines */}

@@ -22,14 +22,12 @@ interface StackedBarChartProps {
         value: number;
     }[];
     chartColors: { [key: string]: string };
-    isVisible: boolean;
 }
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
     chartData,
     chartReferenceLines = [],
     chartColors,
-    isVisible,
 }) => {
     // Function to convert data keys to readable legend names
     const getLegendName = (key: string): string => key;
@@ -62,7 +60,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                                 stackId="a"
                                 fill={chartColors[key]}
                                 name={getLegendName(key)}
-                                isAnimationActive={isVisible}
+                                isAnimationActive={false}
                             />
                         ))}
 
