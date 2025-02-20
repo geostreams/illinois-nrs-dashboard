@@ -103,7 +103,23 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
     const logoURL = `${process.env.CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
     return (
-        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, height: '110px' }}>
+        <Box
+            sx={{
+                position: 'sticky',
+                top: 0,
+                zIndex: 1100,
+                height: '110px',
+                '@media print': {
+                    position: 'static',
+                    height: 'auto',
+                    marginBottom: '20px',
+                    // Hide the second toolbar (navigation menu) when printing
+                    '& > .MuiAppBar-root > :nth-of-type(2)': {
+                        display: 'none',
+                    },
+                },
+            }}
+        >
             <AppBar position="static" color="default">
                 {/* Top Section with Logo */}
                 <Toolbar
@@ -113,6 +129,14 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                         justifyContent: 'flex-start',
                         background:
                             'linear-gradient(to right, #0C4377 , #4395bc)',
+                        '@media print': {
+                            borderBottom: 'none',
+                            // Ensure logo and text are visible in print
+                            background: 'none !important',
+                            '& .MuiTypography-root': {
+                                color: '#000 !important',
+                            },
+                        },
                     }}
                 >
                     <Box

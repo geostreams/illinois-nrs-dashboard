@@ -51,30 +51,10 @@ const BaseChart: FC<BaseChartProps> = ({
     const [isLoading, setIsLoading] = useState(false);
     const [isCapturing, setIsCapturing] = useState(false);
 
-    const [isVisible, setIsVisible] = useState(false);
-
     const headingParts = heading?.split(':');
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
     let fileUrl = `${process.env.CMS_DATA_URL}${dataFile?.url}`;
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.2 }
-        );
-
-        if (chartRef.current) {
-            observer.observe(chartRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
 
     const handleDownload = useCallback(async () => {
         if (!chartRef.current) return;
@@ -130,43 +110,35 @@ const BaseChart: FC<BaseChartProps> = ({
         }
     }, [dataFile?.url, fileUrl]);
 
-    const chartComponent = !isVisible
-        ? null
-        : {
-              filled_pie: (
-                  <FilledPieChart
-                      chart_data={
-                          chartData as { name: string; value: number }[]
-                      }
-                      chart_colors={chartColors}
-                      isVisible={isVisible}
-                  />
-              ),
-              line: (
-                  <LineChart
-                      chartData={chartData}
-                      chartConfig={miscChartData?.chartConfig}
-                      isVisible={isVisible}
-                  />
-              ),
-              stacked_bar: (
-                  <StackedBarChart
-                      chartData={chartData}
-                      chartReferenceLines={miscChartData?.chartReferenceLines}
-                      chartColors={chartColors}
-                      isVisible={isVisible}
-                  />
-              ),
-              bar: (
-                  <BarChart
-                      chartData={chartData}
-                      chartColors={chartColors}
-                      chartReferenceLines={miscChartData?.chartReferenceLines}
-                      isVisible={isVisible}
-                  />
-              ),
-              table: <TableComponent tableData={chartData} />,
-          }[chartType];
+    const chartComponent = {
+        filled_pie: (
+            <FilledPieChart
+                chart_data={chartData as { name: string; value: number }[]}
+                chart_colors={chartColors}
+            />
+        ),
+        line: (
+            <LineChart
+                chartData={chartData}
+                chartConfig={miscChartData?.chartConfig}
+            />
+        ),
+        stacked_bar: (
+            <StackedBarChart
+                chartData={chartData}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                chartColors={chartColors}
+            />
+        ),
+        bar: (
+            <BarChart
+                chartData={chartData}
+                chartColors={chartColors}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+            />
+        ),
+        table: <TableComponent tableData={chartData} />,
+    }[chartType];
 
     return (
         <Box
@@ -177,6 +149,12 @@ const BaseChart: FC<BaseChartProps> = ({
                 width: width,
                 position: 'relative',
                 my: 1.5,
+                '@media print': {
+                    pageBreakInside: 'avoid',
+                    breakInside: 'avoid',
+                    marginTop: '20px',
+                    marginBottom: '20px',
+                },
             }}
         >
             {chartType !== 'table' ? (
@@ -187,11 +165,18 @@ const BaseChart: FC<BaseChartProps> = ({
                         bgcolor: 'white',
                         marginBottom: 0.5,
                         position: 'relative',
-                        '&::before': {
-                            content: '""',
-                            display: 'block',
-                            paddingTop: aspectRatio || '56.25%',
-                        },
+                        ...(chartType === 'filled_pie'
+                            ? {
+                                  aspectRatio: '1 / 1',
+                                  maxHeight: '400px',
+                              }
+                            : {
+                                  '&::before': {
+                                      content: '""',
+                                      display: 'block',
+                                      paddingTop: aspectRatio || '56.25%',
+                                  },
+                              }),
                     }}
                     role="img"
                     aria-label={altText}
