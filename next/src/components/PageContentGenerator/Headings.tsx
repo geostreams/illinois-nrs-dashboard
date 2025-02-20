@@ -61,6 +61,16 @@ const styles = {
         gap: '8px',
         marginBottom: '8px',
     },
+    focusStyles: {
+        '&:focus': {
+            outline: '2px solid currentColor',
+            outlineOffset: '2px',
+            borderRadius: '2px',
+        },
+        '&:focus:not(:focus-visible)': {
+            outline: 'none',
+        },
+    },
 };
 
 const Heading = ({
@@ -141,8 +151,11 @@ const Heading = ({
             return (
                 <Typography
                     variant="h1"
+                    component="h1"
+                    tabIndex={0}
                     sx={{
                         ...styles.heading1,
+                        ...styles.focusStyles,
                         color: headingColor || styles.heading1.color,
                     }}
                 >
@@ -154,8 +167,11 @@ const Heading = ({
             return (
                 <Typography
                     variant="h2"
+                    component="h2"
+                    tabIndex={0}
                     sx={{
                         ...styles.heading2,
+                        ...styles.focusStyles,
                         color: headingColor || styles.heading2.color,
                     }}
                 >
@@ -167,8 +183,11 @@ const Heading = ({
             return (
                 <Typography
                     variant="h3"
+                    component="h3"
+                    tabIndex={0}
                     sx={{
                         ...styles.heading3,
+                        ...styles.focusStyles,
                         color: headingColor || styles.heading3.color,
                     }}
                 >
@@ -180,8 +199,11 @@ const Heading = ({
             return (
                 <Typography
                     variant="h4"
+                    component="h4"
+                    tabIndex={0}
                     sx={{
                         ...styles.heading4,
+                        ...styles.focusStyles,
                         color: headingColor || styles.heading4.color,
                     }}
                 >
@@ -193,8 +215,10 @@ const Heading = ({
             return (
                 <Typography
                     variant="h5"
+                    component="h5"
                     sx={{
                         ...styles.heading5,
+                        ...styles.focusStyles,
                         color: headingColor || styles.heading5.color,
                     }}
                 >

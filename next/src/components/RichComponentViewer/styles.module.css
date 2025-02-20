@@ -211,6 +211,24 @@
     line-height: 1.2;
 }
 
+/* Add focus styles for h1-h4 */
+.container h1:focus,
+.container h2:focus,
+.container h3:focus,
+.container h4:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Only show focus styles when using keyboard navigation */
+.container h1:focus:not(:focus-visible),
+.container h2:focus:not(:focus-visible),
+.container h3:focus:not(:focus-visible),
+.container h4:focus:not(:focus-visible) {
+    outline: none;
+}
+
 .container h5 {
     font-size: 18px;
     color: #003d6d;
