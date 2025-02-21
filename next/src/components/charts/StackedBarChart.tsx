@@ -61,6 +61,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                                 fill={chartColors[key]}
                                 name={getLegendName(key)}
                                 isAnimationActive={false}
+                                barSize={60}
                             />
                         ))}
 
