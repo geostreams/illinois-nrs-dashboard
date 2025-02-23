@@ -6,6 +6,7 @@ interface FullSpanImageProps {
     image: any;
     caption: string;
     baseImageUrl?: string;
+    imageWidth?: number;
 }
 const styles = {
     container: {
@@ -29,13 +30,19 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     image,
     caption,
     baseImageUrl = process.env.CMS_API_URL,
+    imageWidth = 75,
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
 
+    let boldCaption = '';
+    let regularCaption = '';
+
     // Break caption along colon, everything before colon is bold
-    const captionParts = caption.split(':');
-    const boldCaption = captionParts[0];
-    const regularCaption = captionParts[1];
+    if (caption) {
+        const captionParts = caption.split(':');
+        boldCaption = captionParts[0];
+        regularCaption = captionParts[1];
+    }
 
     return (
         <Box sx={{ ...styles.container, position: 'relative', height: 'auto' }}>
@@ -47,15 +54,17 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                     alt={image.alternativeText}
                     style={{
                         objectFit: 'contain',
-                        width: '75%',
+                        width: `${imageWidth}%`,
                         height: 'auto',
                     }}
                 />
             </div>
-            <Typography sx={styles.caption}>
-                <strong>{boldCaption}:</strong>
-                {regularCaption}
-            </Typography>
+            {caption && (
+                <Typography sx={styles.caption}>
+                    <strong>{boldCaption}:</strong>
+                    {regularCaption}
+                </Typography>
+            )}
         </Box>
     );
 };

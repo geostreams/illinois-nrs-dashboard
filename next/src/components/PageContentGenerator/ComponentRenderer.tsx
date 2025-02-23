@@ -60,6 +60,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 <FullSpanImage
                     image={component.image}
                     caption={component.caption}
+                    imageWidth={component.imageWidth}
                 />
             );
         case 'content.chart-with-quote':

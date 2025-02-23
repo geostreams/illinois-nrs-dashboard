@@ -148,7 +148,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 flexDirection: 'column',
                 width: width,
                 position: 'relative',
-                my: 1.5,
+                my: 4,
                 '@media print': {
                     pageBreakInside: 'avoid',
                     breakInside: 'avoid',

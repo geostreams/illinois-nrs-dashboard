@@ -2,22 +2,28 @@
   "collectionName": "components_content_full_span_images",
   "info": {
     "displayName": "FullSpanImage",
-    "icon": "picture"
+    "icon": "picture",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "caption": {
       "type": "string"
+    },
+    "imageWidth": {
+      "type": "integer",
+      "default": 75
     }
   }
 }
