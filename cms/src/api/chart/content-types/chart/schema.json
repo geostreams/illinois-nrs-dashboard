@@ -50,6 +50,10 @@
     },
     "chartID": {
       "type": "uid"
+    },
+    "currency": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

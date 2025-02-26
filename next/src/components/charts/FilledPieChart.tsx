@@ -12,15 +12,17 @@ import {
 interface PieChartProps {
     chart_data: { name: string; value: number }[];
     chart_colors: { [key: string]: string };
+    currency?: boolean;
 }
 
 const FilledPieChart: React.FC<PieChartProps> = ({
     chart_data,
     chart_colors,
+    currency = false,
 }) => {
     return (
-        <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+        <ResponsiveContainer width="100%" height="100%" debounce={1}>
+            <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                 <Pie
                     data={chart_data}
                     dataKey="value"
@@ -29,7 +31,11 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                     cy="50%"
                     innerRadius={0}
                     outerRadius="80%"
-                    label
+                    label={(entry) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(entry.value)}`
+                            : Intl.NumberFormat('en-US').format(entry.value)
+                    }
                     isAnimationActive={false}
                 >
                     {chart_data.map((entry, index) => (
@@ -39,7 +45,17 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                         />
                     ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                    formatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value as number)}`
+                            : Intl.NumberFormat('en-US').format(value as number)
+                    }
+                    wrapperStyle={{
+                        zIndex: 100,
+                        outline: 'none',
+                    }}
+                />
                 <Legend />
             </PieChart>
         </ResponsiveContainer>

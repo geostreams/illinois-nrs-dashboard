@@ -22,31 +22,46 @@ interface StackedBarChartProps {
         value: number;
     }[];
     chartColors: { [key: string]: string };
+    currency?: boolean;
 }
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
     chartData,
     chartReferenceLines = [],
     chartColors,
+    currency = false,
 }) => {
     // Function to convert data keys to readable legend names
     const getLegendName = (key: string): string => key;
 
     return (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <BarChart
                 data={chartData}
-                margin={{
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
-                }}
+                margin={{ top: 20, right: 20, bottom: 20, left: 25 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip contentStyle={{ fontSize: 12 }} />
+                <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value)}`
+                            : Intl.NumberFormat('en-US').format(value)
+                    }
+                />
+                <Tooltip
+                    contentStyle={{ fontSize: 12 }}
+                    formatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value as number)}`
+                            : Intl.NumberFormat('en-US').format(value as number)
+                    }
+                    wrapperStyle={{
+                        zIndex: 100,
+                        outline: 'none',
+                    }}
+                />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
 
                 {/* Render Bars */}

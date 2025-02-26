@@ -40,6 +40,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 heading={left_chart.chart.caption}
                 dataFile={left_chart.chart.dataFile?.[0]}
                 aspectRatio={'100%'}
+                currency={left_chart.chart.currency}
             />
             <BaseChart
                 chartType={right_chart.chart.chartType}
@@ -49,6 +50,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 heading={right_chart.chart.caption}
                 dataFile={right_chart.chart.dataFile?.[0]}
                 aspectRatio={'100%'}
+                currency={right_chart.chart.currency}
             />
         </Box>
     );

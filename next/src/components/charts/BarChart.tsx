@@ -23,6 +23,7 @@ interface BarChartProps {
         value: number;
     }[];
     barSize?: number;
+    currency?: boolean;
 }
 
 const BarChart: React.FC<BarChartProps> = ({
@@ -30,37 +31,47 @@ const BarChart: React.FC<BarChartProps> = ({
     chartColors,
     chartReferenceLines = [],
     barSize = 60,
+    currency = false,
 }) => {
-    // Get the first data key that isn't 'name'
     const dataKey =
         Object.keys(chartData[0]).find((key) => key !== 'name') || '';
     const barColor = chartColors[dataKey] || '#8884d8';
 
     return (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <RechartsBarChart
                 data={chartData}
-                margin={{
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
-                }}
+                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip contentStyle={{ fontSize: 12 }} />
+                <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value)}`
+                            : Intl.NumberFormat('en-US').format(value)
+                    }
+                />
+                <Tooltip
+                    contentStyle={{ fontSize: 12 }}
+                    formatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value as number)}`
+                            : Intl.NumberFormat('en-US').format(value as number)
+                    }
+                    wrapperStyle={{
+                        zIndex: 100,
+                        outline: 'none',
+                    }}
+                />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
-
                 <Bar
                     dataKey={dataKey}
                     fill={barColor}
                     barSize={barSize}
                     isAnimationActive={false}
                 />
-
-                {/* Render Reference Lines */}
                 {chartReferenceLines.map((line) => (
                     <ReferenceLine
                         key={line.value}

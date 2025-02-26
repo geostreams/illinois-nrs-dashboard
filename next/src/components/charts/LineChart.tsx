@@ -33,20 +33,42 @@ interface LineConfig {
 interface LineChartProps {
     chartData: DataPoint[];
     chartConfig: { [key: string]: LineConfig };
+    currency?: boolean;
 }
 
-const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig }) => {
-    // Convert data keys to legend names
-    const getLegendName = (key: string): string => {
-        return key;
-    };
+const LineChart: React.FC<LineChartProps> = ({
+    chartData,
+    chartConfig,
+    currency = false,
+}) => {
     return (
-        <ResponsiveContainer width="100%" height="100%">
-            <RechartsLineChart data={chartData}>
+        <ResponsiveContainer width="100%" height="100%" debounce={1}>
+            <RechartsLineChart
+                data={chartData}
+                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip contentStyle={{ fontSize: 12 }} />
+                <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value)}`
+                            : Intl.NumberFormat('en-US').format(value)
+                    }
+                />
+                <Tooltip
+                    contentStyle={{ fontSize: 12 }}
+                    formatter={(value) =>
+                        currency
+                            ? `$${Intl.NumberFormat('en-US').format(value as number)}`
+                            : Intl.NumberFormat('en-US').format(value as number)
+                    }
+                    wrapperStyle={{
+                        zIndex: 100,
+                        outline: 'none',
+                    }}
+                />
                 <Legend
                     wrapperStyle={{ fontSize: 12 }}
                     formatter={(value: string) => value}
