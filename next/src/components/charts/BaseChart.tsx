@@ -18,7 +18,7 @@ interface BaseChartProps {
     chartData: any;
     chartColors?: Record<string, string>;
     miscChartData: any;
-    width?: string | number;
+    width?: { xs: string; sm: string };
     altText?: string;
     dataFile?: {
         url: string;
@@ -43,7 +43,7 @@ const BaseChart: FC<BaseChartProps> = ({
     chartData,
     chartColors = {},
     miscChartData,
-    width = '100%',
+    width = { xs: '100%', sm: '75%' },
     altText,
     dataFile,
     aspectRatio,

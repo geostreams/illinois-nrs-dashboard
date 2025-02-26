@@ -15,6 +15,7 @@ interface ChartDataProps {
             url: string;
             name: string;
         }[];
+        currency: boolean;
     };
 }
 

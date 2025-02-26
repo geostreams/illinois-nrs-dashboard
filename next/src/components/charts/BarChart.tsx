@@ -11,6 +11,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
 } from 'recharts';
+import { formatLargeNumber } from '@/utils/formatters';
 
 interface BarChartProps {
     chartData: {
@@ -41,24 +42,21 @@ const BarChart: React.FC<BarChartProps> = ({
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <RechartsBarChart
                 data={chartData}
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                // margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) =>
-                        currency
-                            ? `$${Intl.NumberFormat('en-US').format(value)}`
-                            : Intl.NumberFormat('en-US').format(value)
+                        formatLargeNumber(value, currency)
                     }
+                    width={40}
                 />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     formatter={(value) =>
-                        currency
-                            ? `$${Intl.NumberFormat('en-US').format(value as number)}`
-                            : Intl.NumberFormat('en-US').format(value as number)
+                        formatLargeNumber(value as number, currency)
                     }
                     wrapperStyle={{
                         zIndex: 100,

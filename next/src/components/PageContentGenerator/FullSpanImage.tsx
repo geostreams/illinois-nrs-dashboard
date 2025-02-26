@@ -1,30 +1,20 @@
+'use client';
+
 import Image from 'next/image';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box, Typography } from '@mui/material';
+import { useState } from 'react';
 
 interface FullSpanImageProps {
-    image: any;
+    image: {
+        url?: string;
+        alternativeText?: string;
+        width?: number;
+        height?: number;
+    };
     caption: string;
     baseImageUrl?: string;
     imageWidth?: number;
 }
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        my: 2,
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-    },
-    caption: {
-        fontSize: '16px',
-        color: '#0A3977',
-        textAlign: 'left',
-        fontStyle: 'italic',
-    },
-};
 
 export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     image,
@@ -34,6 +24,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
 
+    // Parse caption - everything before colon is bold
     let boldCaption = '';
     let regularCaption = '';
 
@@ -45,9 +36,22 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     }
 
     return (
-        <Box sx={{ ...styles.container, position: 'relative', height: 'auto' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                my: 2,
+                position: 'relative',
+                height: 'auto',
+            }}
+        >
             <div
-                style={{ width: '100%', height: 'auto', position: 'relative' }}
+                style={{
+                    width: '100%',
+                    height: 'auto',
+                    position: 'relative',
+                    textAlign: 'left',
+                }}
             >
                 <img
                     src={imageUrl}
@@ -56,11 +60,20 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                         objectFit: 'contain',
                         width: `${imageWidth}%`,
                         height: 'auto',
+                        maxWidth: '100%', // Ensure image doesn't overflow on mobile
                     }}
                 />
             </div>
             {caption && (
-                <Typography sx={styles.caption}>
+                <Typography
+                    sx={{
+                        fontSize: '16px',
+                        color: '#0A3977',
+                        textAlign: 'left',
+                        fontStyle: 'italic',
+                        maxWidth: { xs: '100%', sm: `${imageWidth}%` }, // Adjust caption width on mobile
+                    }}
+                >
                     <strong>{boldCaption}:</strong>
                     {regularCaption}
                 </Typography>

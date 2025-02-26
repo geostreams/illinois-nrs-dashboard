@@ -242,6 +242,34 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             padding: 0,
                         }}
                     >
+                        {/* Homepage Link button */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                height: '100%',
+                                paddingLeft: '0',
+                            }}
+                        >
+                            <Button
+                                color="inherit"
+                                onClick={() => handleNavigation('/', '_self')}
+                                sx={{
+                                    color: 'inherit',
+                                    height: '100%',
+                                    fontSize: '1.0em',
+                                }}
+                            >
+                                Home
+                            </Button>
+                        </Box>
+                        <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{ bgcolor: 'white' }}
+                        />
+
+                        {/* Navigation Link Buttons */}
                         {navbar.navbar_link_groups.map((group, index) => (
                             <React.Fragment key={index}>
                                 <Box
