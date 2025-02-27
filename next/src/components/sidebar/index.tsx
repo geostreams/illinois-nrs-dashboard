@@ -29,6 +29,9 @@ export const Sidebar: React.FC = () => {
         new Set()
     );
     const sidebarRef = React.useRef<HTMLDivElement>(null);
+    const activeSectionRef = React.useRef<Record<string, HTMLLIElement | null>>(
+        {}
+    );
 
     // Modified section creation logic
     React.useEffect(() => {
@@ -138,6 +141,21 @@ export const Sidebar: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [sections]);
 
+    // Add effect to scroll active section into view when it changes
+    React.useEffect(() => {
+        if (
+            activeSection &&
+            activeSectionRef.current[activeSection] &&
+            sidebarRef.current
+        ) {
+            // Use scrollIntoView with options for smooth scrolling within the sidebar
+            activeSectionRef.current[activeSection].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+            });
+        }
+    }, [activeSection]);
+
     const handleClick = (sectionId: string, hasChildren: boolean) => {
         const section = findSection(sections, sectionId);
         if (section) {
@@ -206,6 +224,9 @@ export const Sidebar: React.FC = () => {
                 {sections.map((section, index) => (
                     <React.Fragment key={section.id}>
                         <ListItemButton
+                            ref={(el) => {
+                                activeSectionRef.current[section.id] = el;
+                            }}
                             selected={activeSection === section.id}
                             onClick={() =>
                                 handleClick(
@@ -251,6 +272,11 @@ export const Sidebar: React.FC = () => {
                                     {section.children.map((childSection) => (
                                         <ListItemButton
                                             key={childSection.id}
+                                            ref={(el) => {
+                                                activeSectionRef.current[
+                                                    childSection.id
+                                                ] = el;
+                                            }}
                                             selected={
                                                 activeSection ===
                                                 childSection.id
