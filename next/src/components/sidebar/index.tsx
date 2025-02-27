@@ -28,12 +28,58 @@ export const Sidebar: React.FC = () => {
     const [openSections, setOpenSections] = React.useState<Set<string>>(
         new Set()
     );
+    const [sidebarHeight, setSidebarHeight] = React.useState<string>(
+        'calc(100vh - 110px)'
+    );
     const sidebarRef = React.useRef<HTMLDivElement>(null);
-    const activeSectionRef = React.useRef<Record<string, HTMLLIElement | null>>(
+    const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>(
         {}
     );
 
-    // Modified section creation logic
+    // Effect to handle footer position and adjust sidebar height
+    React.useEffect(() => {
+        const updateSidebarHeight = () => {
+            const footer = document.querySelector('.footer-container');
+            if (!footer || !sidebarRef.current) return;
+
+            const footerRect = footer.getBoundingClientRect();
+            const navbarHeight = 110; // Height of the navbar
+            const viewportHeight = window.innerHeight;
+
+            // Check if footer is in the viewport
+            const isFooterVisible = footerRect.top < viewportHeight;
+
+            if (isFooterVisible) {
+                // Calculate the available height when footer is visible
+                const availableHeight = footerRect.top - navbarHeight;
+                setSidebarHeight(`${availableHeight}px`);
+            } else {
+                // Use the default height when footer is not visible
+                setSidebarHeight('calc(100vh - 110px)');
+            }
+        };
+
+        // Initial update
+        updateSidebarHeight();
+
+        // Set up ResizeObserver to detect changes in the footer position
+        const resizeObserver = new ResizeObserver(updateSidebarHeight);
+        const footer = document.querySelector('.footer-container');
+        if (footer) {
+            resizeObserver.observe(footer);
+        }
+
+        // Also listen for scroll events as they can change the relative position
+        window.addEventListener('scroll', updateSidebarHeight);
+        window.addEventListener('resize', updateSidebarHeight);
+
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener('scroll', updateSidebarHeight);
+            window.removeEventListener('resize', updateSidebarHeight);
+        };
+    }, []);
+
     React.useEffect(() => {
         const createSections = () => {
             const headingElements = Array.from(
@@ -149,17 +195,24 @@ export const Sidebar: React.FC = () => {
             sidebarRef.current
         ) {
             // Use scrollIntoView with options for smooth scrolling within the sidebar
-            activeSectionRef.current[activeSection].scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-            });
+            // Add a small delay to ensure the sidebar height has been updated
+            const timeoutId = setTimeout(() => {
+                if (activeSectionRef.current[activeSection]) {
+                    activeSectionRef.current[activeSection].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                    });
+                }
+            }, 100);
+
+            return () => clearTimeout(timeoutId);
         }
-    }, [activeSection]);
+    }, [activeSection, sidebarHeight]);
 
     const handleClick = (sectionId: string, hasChildren: boolean) => {
         const section = findSection(sections, sectionId);
         if (section) {
-            const offset = 120;
+            const offset = 110;
             window.scrollTo({
                 top: section.start - offset,
                 behavior: 'smooth',
@@ -199,7 +252,8 @@ export const Sidebar: React.FC = () => {
                 width: 240,
                 position: 'sticky',
                 top: 110,
-                height: 'calc(100vh - 110px)',
+                height: sidebarHeight, // Use dynamic height
+                maxHeight: 'calc(100vh - 110px)',
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,

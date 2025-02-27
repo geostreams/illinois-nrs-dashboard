@@ -55,13 +55,6 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
                 anchor.style.textDecoration = 'none';
                 anchor.style.color = 'inherit';
 
-                // Add # or another symbol to the anchor
-                anchor.textContent = '#';
-
-                // Make the heading position relative to properly position the anchor
-                heading.style.position = 'relative';
-                heading.style.scrollMarginTop = '120px';
-
                 // Insert the anchor as the first child of the heading
                 heading.insertBefore(anchor, heading.firstChild);
             });
