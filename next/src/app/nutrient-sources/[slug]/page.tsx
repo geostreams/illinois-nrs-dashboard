@@ -1,5 +1,5 @@
-import fetchContentType from '@/lib/strapi/fetchContentType';
-import { fetchPageSlugs } from '@/lib/strapi/fetchContentType';
+import fetchContentType from '@/utils/strapi/fetchContentType';
+import { fetchPageSlugs } from '@/utils/strapi/fetchContentType';
 import Container from '@mui/material/Container';
 import { PageContentGenerator } from '@/components/PageContentGenerator';
 import * as React from 'react';

@@ -5,6 +5,7 @@ import Heading from './Headings';
 import { BaseContentSection } from './BaseContentSection';
 import { FullSpanImage } from './FullSpanImage';
 import { ChartWithQuote } from './ChartWithQuote';
+import { PageDivider } from '@/components/divider';
 
 interface ComponentRendererProps {
     component: any;
@@ -72,6 +73,8 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     pullQuote={component.pullQuote}
                 />
             );
+        case 'content.page-divider':
+            return <PageDivider />;
         default:
             console.log('Component not found');
             console.log(component);

@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { Navbar } from '@/components/navbar';
-import fetchContentType from '@/lib/strapi/fetchContentType';
+import fetchContentType from '@/utils/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
 import { Metadata } from 'next';
 
