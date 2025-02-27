@@ -1,3 +1,5 @@
+'use client';
+
 import DropletIcon from '@/assets/icons/droplet.svg';
 import DollarIcon from '@/assets/icons/square-dollar.svg';
 import TreesIcon from '@/assets/icons/trees.svg';
@@ -146,9 +148,47 @@ const Heading = ({
             icon = null;
     }
 
+    // Generate slug from heading text
+    const headingId = headingText
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '');
+
+    // Create anchor link for h1, h2, and h3
+    const createAnchorHeading = (typographyElement: React.ReactNode) => {
+        if (['h1', 'h2', 'h3'].includes(headingType)) {
+            return (
+                <div
+                    id={headingId}
+                    style={{ position: 'relative', scrollMarginTop: '120px' }}
+                >
+                    {typographyElement}
+                    <a
+                        href={`#${headingId}`}
+                        aria-hidden="true"
+                        tabIndex={-1}
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '-1.5em',
+                            transform: 'translateY(-50%)',
+                            opacity: 0,
+                            fontSize: '0.8em',
+                            paddingRight: '0.5em',
+                            textDecoration: 'none',
+                            color: 'inherit',
+                        }}
+                        className="heading-anchor hover:opacity-100"
+                    />
+                </div>
+            );
+        }
+        return typographyElement;
+    };
+
     switch (headingType) {
         case 'h1':
-            return (
+            return createAnchorHeading(
                 <Typography
                     variant="h1"
                     component="h1"
@@ -164,7 +204,7 @@ const Heading = ({
                 </Typography>
             );
         case 'h2':
-            return (
+            return createAnchorHeading(
                 <Typography
                     variant="h2"
                     component="h2"
@@ -180,7 +220,7 @@ const Heading = ({
                 </Typography>
             );
         case 'h3':
-            return (
+            return createAnchorHeading(
                 <Typography
                     variant="h3"
                     component="h3"

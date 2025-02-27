@@ -88,17 +88,47 @@ export const Sidebar: React.FC = () => {
     // Handle scroll and update active section
     React.useEffect(() => {
         const handleScroll = () => {
-            const scrollPosition = window.scrollY + 140; // Account for navbar offset
+            const scrollPosition = window.scrollY + 120;
 
-            // Find the current section
-            const currentSection = sections.find(
-                (section) =>
+            // Check both top-level sections and subsections
+            let foundActiveSection = false;
+
+            // First check if we're in a subsection
+            for (const section of sections) {
+                // Check children first (subsections)
+                for (const childSection of section.children) {
+                    if (
+                        scrollPosition >= childSection.start &&
+                        scrollPosition < childSection.end
+                    ) {
+                        setActiveSection(childSection.id);
+                        // Ensure parent section is expanded when subsection is active
+                        setOpenSections((prev) => {
+                            const newSet = new Set(prev);
+                            newSet.add(section.id);
+                            return newSet;
+                        });
+                        foundActiveSection = true;
+                        break;
+                    }
+                }
+
+                if (foundActiveSection) break;
+
+                // Then check parent section
+                if (
                     scrollPosition >= section.start &&
                     scrollPosition < section.end
-            );
+                ) {
+                    setActiveSection(section.id);
+                    foundActiveSection = true;
+                    break;
+                }
+            }
 
-            if (currentSection) {
-                setActiveSection(currentSection.id);
+            // If no section is found active, could optionally clear the active section
+            if (!foundActiveSection) {
+                setActiveSection('');
             }
         };
 
@@ -111,7 +141,7 @@ export const Sidebar: React.FC = () => {
     const handleClick = (sectionId: string, hasChildren: boolean) => {
         const section = findSection(sections, sectionId);
         if (section) {
-            const offset = 110;
+            const offset = 120;
             window.scrollTo({
                 top: section.start - offset,
                 behavior: 'smooth',
@@ -247,7 +277,10 @@ export const Sidebar: React.FC = () => {
                                             }}
                                         >
                                             <ListItemText
-                                                primary={childSection.title}
+                                                primary={childSection.title.replace(
+                                                    '#',
+                                                    ''
+                                                )}
                                                 sx={{
                                                     fontSize: '0.85rem',
                                                     color: 'white',
