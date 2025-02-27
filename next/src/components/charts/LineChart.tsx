@@ -11,7 +11,7 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
-import { formatLargeNumber } from '@/utils/formatters';
+import { formatValueWithUnit } from '@/utils/formatters';
 
 // Define types for the data structure
 interface DataPoint {
@@ -34,13 +34,13 @@ interface LineConfig {
 interface LineChartProps {
     chartData: DataPoint[];
     chartConfig: { [key: string]: LineConfig };
-    currency?: boolean;
+    unit?: string;
 }
 
 const LineChart: React.FC<LineChartProps> = ({
     chartData,
     chartConfig,
-    currency = false,
+    unit,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -52,15 +52,13 @@ const LineChart: React.FC<LineChartProps> = ({
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(value) =>
-                        formatLargeNumber(value, currency)
-                    }
+                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
                     width={40}
                 />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     formatter={(value) =>
-                        formatLargeNumber(value as number, currency)
+                        formatValueWithUnit(value as number, unit)
                     }
                     wrapperStyle={{
                         zIndex: 100,

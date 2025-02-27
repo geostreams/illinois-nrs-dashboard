@@ -33,6 +33,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     dataFile={component.chart.dataFile?.[0]}
                     width={{ xs: '100%', sm: '75%' }}
                     currency={component.chart.currency}
+                    unit={component.chart.unit}
                 />
             );
         case 'content.content-block':

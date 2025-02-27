@@ -11,7 +11,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
 } from 'recharts';
-import { formatLargeNumber } from '@/utils/formatters';
+import { formatValueWithUnit } from '@/utils/formatters';
 
 interface StackedBarChartProps {
     chartData: {
@@ -23,14 +23,14 @@ interface StackedBarChartProps {
         value: number;
     }[];
     chartColors: { [key: string]: string };
-    currency?: boolean;
+    unit?: string;
 }
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
     chartData,
     chartReferenceLines = [],
     chartColors,
-    currency = false,
+    unit,
 }) => {
     // Function to convert data keys to readable legend names
     const getLegendName = (key: string): string => key;
@@ -45,15 +45,13 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(value) =>
-                        formatLargeNumber(value, currency)
-                    }
+                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
                     width={40}
                 />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     formatter={(value) =>
-                        formatLargeNumber(value as number, currency)
+                        formatValueWithUnit(value as number, unit)
                     }
                     wrapperStyle={{
                         zIndex: 100,

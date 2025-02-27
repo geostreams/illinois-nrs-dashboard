@@ -51,9 +51,8 @@
     "chartID": {
       "type": "uid"
     },
-    "currency": {
-      "type": "boolean",
-      "default": false
+    "unit": {
+      "type": "string"
     }
   }
 }

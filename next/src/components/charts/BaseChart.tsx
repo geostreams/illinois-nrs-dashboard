@@ -26,6 +26,7 @@ interface BaseChartProps {
     };
     aspectRatio?: string;
     currency?: boolean;
+    unit?: string;
 }
 
 const styles = {
@@ -48,6 +49,7 @@ const BaseChart: FC<BaseChartProps> = ({
     dataFile,
     aspectRatio,
     currency = false,
+    unit,
 }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -118,6 +120,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chart_data={chartData as { name: string; value: number }[]}
                 chart_colors={chartColors}
                 currency={currency}
+                unit={unit}
             />
         ),
         line: (
@@ -125,6 +128,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartData={chartData}
                 chartConfig={miscChartData?.chartConfig}
                 currency={currency}
+                unit={unit}
             />
         ),
         stacked_bar: (
@@ -133,6 +137,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 chartColors={chartColors}
                 currency={currency}
+                unit={unit}
             />
         ),
         bar: (
@@ -141,6 +146,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartColors={chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 currency={currency}
+                unit={unit}
             />
         ),
         table: <TableComponent tableData={chartData} />,

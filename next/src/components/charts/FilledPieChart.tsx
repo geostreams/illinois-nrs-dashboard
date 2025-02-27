@@ -8,18 +8,18 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
-import { formatLargeNumber } from '@/utils/formatters';
+import { formatValueWithUnit } from '@/utils/formatters';
 
 interface PieChartProps {
     chart_data: { name: string; value: number }[];
     chart_colors: { [key: string]: string };
-    currency?: boolean;
+    unit?: string;
 }
 
 const FilledPieChart: React.FC<PieChartProps> = ({
     chart_data,
     chart_colors,
-    currency = false,
+    unit,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -32,7 +32,7 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                     cy="50%"
                     innerRadius={0}
                     outerRadius="80%"
-                    label={(entry) => formatLargeNumber(entry.value, currency)}
+                    label={(entry) => formatValueWithUnit(entry.value, unit)}
                     isAnimationActive={false}
                 >
                     {chart_data.map((entry, index) => (
@@ -44,7 +44,7 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                 </Pie>
                 <Tooltip
                     formatter={(value) =>
-                        formatLargeNumber(value as number, currency)
+                        formatValueWithUnit(value as number, unit)
                     }
                     wrapperStyle={{
                         zIndex: 100,

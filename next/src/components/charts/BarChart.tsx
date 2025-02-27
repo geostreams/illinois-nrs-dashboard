@@ -11,7 +11,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
 } from 'recharts';
-import { formatLargeNumber } from '@/utils/formatters';
+import { formatValueWithUnit } from '@/utils/formatters';
 
 interface BarChartProps {
     chartData: {
@@ -24,7 +24,7 @@ interface BarChartProps {
         value: number;
     }[];
     barSize?: number;
-    currency?: boolean;
+    unit?: string;
 }
 
 const BarChart: React.FC<BarChartProps> = ({
@@ -32,7 +32,7 @@ const BarChart: React.FC<BarChartProps> = ({
     chartColors,
     chartReferenceLines = [],
     barSize = 60,
-    currency = false,
+    unit,
 }) => {
     const dataKey =
         Object.keys(chartData[0]).find((key) => key !== 'name') || '';
@@ -48,15 +48,13 @@ const BarChart: React.FC<BarChartProps> = ({
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(value) =>
-                        formatLargeNumber(value, currency)
-                    }
+                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
                     width={40}
                 />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     formatter={(value) =>
-                        formatLargeNumber(value as number, currency)
+                        formatValueWithUnit(value as number, unit)
                     }
                     wrapperStyle={{
                         zIndex: 100,
