@@ -31,6 +31,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
                 width: '75%',
+                gap: '20px',
             }}
         >
             <BaseChart

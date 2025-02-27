@@ -248,7 +248,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 height: '100%',
-                                paddingLeft: '0',
+                                paddingLeft: '15px',
+                                paddingRight: '15px',
                             }}
                         >
                             <Button
@@ -277,7 +278,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         height: '100%',
-                                        paddingLeft: '0',
+                                        paddingLeft: '15px',
+                                        paddingRight: '15px',
                                     }}
                                 >
                                     <Tooltip title={group.group_name}>
@@ -343,8 +345,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         ))}
                                     </Menu>
                                 </Box>
-                                {index <
-                                    navbar.navbar_link_groups.length - 1 && (
+                                {index < navbar.navbar_link_groups.length && (
                                     <Divider
                                         orientation="vertical"
                                         flexItem

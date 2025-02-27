@@ -14,7 +14,7 @@ interface HeadingProps {
 const styles = {
     heading1: {
         color: '#0A3977',
-        fontFamily: "'Bebas Neue', 'Open Sans', sans-serif",
+        fontFamily: "'Bebas Neue', 'Source Sans', sans-serif",
         fontSize: '80px',
         fontWeight: 500,
         textTransform: 'uppercase',
@@ -24,7 +24,7 @@ const styles = {
     },
     heading2: {
         color: '#0A3977',
-        fontFamily: "'Open Sans', sans-serif",
+        fontFamily: "'Source Sans', sans-serif",
         fontSize: '28px',
         fontWeight: 700,
         textTransform: 'uppercase',
@@ -34,7 +34,7 @@ const styles = {
     },
     heading3: {
         color: '#00516F',
-        fontFamily: "'Open Sans', sans-serif",
+        fontFamily: "'Source Sans', sans-serif",
         fontSize: '24px',
         fontWeight: 600,
         display: 'flex',
@@ -43,7 +43,7 @@ const styles = {
     },
     heading4: {
         color: '#00516F',
-        fontFamily: "'Open Sans', sans-serif",
+        fontFamily: "'Source Sans', sans-serif",
         fontSize: '20px',
         fontWeight: 600,
         maxWidth: '60%',
@@ -53,7 +53,7 @@ const styles = {
     },
     heading5: {
         color: '#0516F',
-        fontFamily: "'Open Sans', sans-serif",
+        fontFamily: "'Source Sans', sans-serif",
         fontSize: '16px',
         fontWeight: 600,
         maxWidth: '60%',

@@ -72,7 +72,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                                 fill={chartColors[key]}
                                 name={getLegendName(key)}
                                 isAnimationActive={false}
-                                barSize={60}
+                                barSize={40}
                             />
                         ))}
 
@@ -85,13 +85,14 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                             label={{
                                 value: line.label,
                                 position: 'insideTopRight',
-                                fontSize: 12,
+                                fontSize: 16,
                                 fontWeight: 'bold',
-                                fill: '#ff0000',
+                                fill: '#000000',
+                                stroke: '#ffffff',
+                                strokeWidth: 1,
                             }}
-                            stroke="#ff0000"
+                            stroke="#00ff00"
                             strokeWidth={2}
-                            strokeDasharray="5 5"
                         />
                     ))}
             </BarChart>
