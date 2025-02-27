@@ -25,7 +25,6 @@ interface BaseChartProps {
         name: string;
     };
     aspectRatio?: string;
-    currency?: boolean;
     unit?: string;
 }
 
@@ -48,7 +47,6 @@ const BaseChart: FC<BaseChartProps> = ({
     altText,
     dataFile,
     aspectRatio,
-    currency = false,
     unit,
 }) => {
     const chartRef = useRef<HTMLDivElement>(null);
@@ -119,7 +117,6 @@ const BaseChart: FC<BaseChartProps> = ({
             <FilledPieChart
                 chart_data={chartData as { name: string; value: number }[]}
                 chart_colors={chartColors}
-                currency={currency}
                 unit={unit}
             />
         ),
@@ -127,7 +124,6 @@ const BaseChart: FC<BaseChartProps> = ({
             <LineChart
                 chartData={chartData}
                 chartConfig={miscChartData?.chartConfig}
-                currency={currency}
                 unit={unit}
             />
         ),
@@ -136,7 +132,6 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartData={chartData}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 chartColors={chartColors}
-                currency={currency}
                 unit={unit}
             />
         ),
@@ -145,7 +140,6 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartData={chartData}
                 chartColors={chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
-                currency={currency}
                 unit={unit}
             />
         ),
