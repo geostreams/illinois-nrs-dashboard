@@ -25,10 +25,10 @@ export const Sidebar: React.FC = () => {
     const theme = useTheme();
     const [activeSection, setActiveSection] = React.useState<string>('');
     const [sections, setSections] = React.useState<Section[]>([]);
-    const [maxHeight, setMaxHeight] = React.useState('calc(100vh - 110px)');
     const [openSections, setOpenSections] = React.useState<Set<string>>(
         new Set()
     );
+    const sidebarRef = React.useRef<HTMLDivElement>(null);
 
     // Modified section creation logic
     React.useEffect(() => {
@@ -108,28 +108,6 @@ export const Sidebar: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [sections]);
 
-    // Handle sidebar height
-    React.useEffect(() => {
-        const updateSidebarHeight = () => {
-            const footer = document.querySelector('.footer-container');
-            if (footer) {
-                const footerTop = footer.getBoundingClientRect().top;
-                const sidebarTop = 110;
-                const newHeight = footerTop - sidebarTop;
-                setMaxHeight(`${newHeight}px`);
-            }
-        };
-
-        updateSidebarHeight();
-        window.addEventListener('scroll', updateSidebarHeight);
-        window.addEventListener('resize', updateSidebarHeight);
-
-        return () => {
-            window.removeEventListener('scroll', updateSidebarHeight);
-            window.removeEventListener('resize', updateSidebarHeight);
-        };
-    }, []);
-
     const handleClick = (sectionId: string, hasChildren: boolean) => {
         const section = findSection(sections, sectionId);
         if (section) {
@@ -168,16 +146,27 @@ export const Sidebar: React.FC = () => {
 
     return (
         <Box
+            ref={sidebarRef}
             sx={{
                 width: 240,
-                position: 'fixed',
+                position: 'sticky',
                 top: 110,
-                left: 0,
-                bottom: 0,
-                height: maxHeight,
+                height: 'calc(100vh - 110px)',
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#4AA6DC #003D6D',
+                '&::-webkit-scrollbar': {
+                    width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    backgroundColor: '#003D6D',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#4AA6DC',
+                    borderRadius: '4px',
+                },
                 '@media print': {
                     display: 'none',
                 },
