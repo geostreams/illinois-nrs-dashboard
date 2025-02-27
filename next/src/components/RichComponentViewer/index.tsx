@@ -26,6 +26,14 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
             headings.forEach((heading) => {
                 heading.setAttribute('tabIndex', '0');
             });
+
+            // Find all links
+            const links = containerRef.current.querySelectorAll('a');
+
+            // Add target="_blank" to each link
+            links.forEach((link) => {
+                link.setAttribute('target', '_blank');
+            });
         }
     }, [content]); // Re-run when content changes
 
