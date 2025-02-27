@@ -242,6 +242,35 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             padding: 0,
                         }}
                     >
+                        {/* Homepage Link button */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                height: '100%',
+                                paddingLeft: '15px',
+                                paddingRight: '15px',
+                            }}
+                        >
+                            <Button
+                                color="inherit"
+                                onClick={() => handleNavigation('/', '_self')}
+                                sx={{
+                                    color: 'inherit',
+                                    height: '100%',
+                                    fontSize: '1.0em',
+                                }}
+                            >
+                                Home
+                            </Button>
+                        </Box>
+                        <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{ bgcolor: 'white' }}
+                        />
+
+                        {/* Navigation Link Buttons */}
                         {navbar.navbar_link_groups.map((group, index) => (
                             <React.Fragment key={index}>
                                 <Box
@@ -249,7 +278,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         height: '100%',
-                                        paddingLeft: '0',
+                                        paddingLeft: '15px',
+                                        paddingRight: '15px',
                                     }}
                                 >
                                     <Tooltip title={group.group_name}>
@@ -315,8 +345,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         ))}
                                     </Menu>
                                 </Box>
-                                {index <
-                                    navbar.navbar_link_groups.length - 1 && (
+                                {index < navbar.navbar_link_groups.length && (
                                     <Divider
                                         orientation="vertical"
                                         flexItem

@@ -1,7 +1,7 @@
 .container {
     line-height: 1.5;
     color: #333;
-    margin-bottom: 1em;
+    margin-bottom: 0;
 }
 
 /* Lists */
@@ -158,7 +158,7 @@
 /* Paragraph */
 .container p {
     margin: 0 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans', sans-serif;
     font-size: 15px;
     line-height: 1.75;
     /* Justify text */
@@ -169,6 +169,12 @@
 .container a {
     color: #0070c0;
     text-decoration: underline;
+}
+
+.container ul {
+    font-family: 'Source Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
 }
 
 /* Headers */
@@ -191,19 +197,19 @@
 .container h2 {
     font-size: 28px;
     color: #008bc7;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans', sans-serif;
 }
 
 .container h3 {
     font-size: 24px;
     color: #003d6d;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans', sans-serif;
 }
 
 .container h4 {
     font-size: 20px;
     color: #00516f;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans', sans-serif;
     font-weight: 600;
     display: flex;
     gap: 8px;
@@ -232,11 +238,11 @@
 .container h5 {
     font-size: 18px;
     color: #003d6d;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans', sans-serif;
 }
 
 .container h6 {
     font-size: 16px;
     color: #003d6d;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans', sans-serif;
 }

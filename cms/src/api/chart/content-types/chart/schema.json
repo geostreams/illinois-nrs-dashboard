@@ -50,6 +50,9 @@
     },
     "chartID": {
       "type": "uid"
+    },
+    "unit": {
+      "type": "string"
     }
   }
 }

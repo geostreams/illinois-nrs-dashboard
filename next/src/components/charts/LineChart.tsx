@@ -11,6 +11,7 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
+import { formatValueWithUnit } from '@/utils/formatters';
 
 // Define types for the data structure
 interface DataPoint {
@@ -33,20 +34,37 @@ interface LineConfig {
 interface LineChartProps {
     chartData: DataPoint[];
     chartConfig: { [key: string]: LineConfig };
+    unit?: string;
 }
 
-const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig }) => {
-    // Convert data keys to legend names
-    const getLegendName = (key: string): string => {
-        return key;
-    };
+const LineChart: React.FC<LineChartProps> = ({
+    chartData,
+    chartConfig,
+    unit,
+}) => {
     return (
-        <ResponsiveContainer width="100%" height="100%">
-            <RechartsLineChart data={chartData}>
+        <ResponsiveContainer width="100%" height="100%" debounce={1}>
+            <RechartsLineChart
+                data={chartData}
+                // margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip contentStyle={{ fontSize: 12 }} />
+                <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
+                    width={40}
+                />
+                <Tooltip
+                    contentStyle={{ fontSize: 12 }}
+                    formatter={(value) =>
+                        formatValueWithUnit(value as number, unit)
+                    }
+                    wrapperStyle={{
+                        zIndex: 100,
+                        outline: 'none',
+                    }}
+                />
                 <Legend
                     wrapperStyle={{ fontSize: 12 }}
                     formatter={(value: string) => value}

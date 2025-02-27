@@ -4,42 +4,79 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-
-// import components and tools
 import { Navbar } from '@/components/navbar';
-import fetchContentType from '@/lib/strapi/fetchContentType';
+import fetchContentType from '@/utils/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
+import { Metadata } from 'next';
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+    title: 'Illinois NLRS Data Dashboard',
+    description: 'Illinois Nutrient Loss Reduction Strategy Data Dashboard',
+    viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+};
+
+export default async function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    // Fetch global data with proper error handling
     let pageData = null;
     try {
-        pageData = await fetchContentType('global', ``, true);
+        pageData = await fetchContentType('global', '', true);
     } catch (error) {
-        console.error('Error fetching page data:', error);
+        console.error('Error fetching global data:', error);
     }
 
+    // Fallback UI for critical data loading failure
     if (!pageData) {
-        return <></>;
+        return (
+            <html lang="en" suppressHydrationWarning>
+                <body>
+                    <div
+                        style={{
+                            padding: '2rem',
+                            textAlign: 'center',
+                            fontFamily: 'system-ui, sans-serif',
+                        }}
+                    >
+                        <h1>Loading...</h1>
+                        <p>Please wait while we set up the dashboard.</p>
+                    </div>
+                </body>
+            </html>
+        );
     }
 
     return (
         <html lang="en" suppressHydrationWarning>
-            <body
-                style={{
-                    margin: 0,
-                    minHeight: '100vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
-            >
+            <body>
                 <InitColorSchemeScript attribute="class" />
                 <AppRouterCacheProvider options={{ enableCssLayer: true }}>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />
-                        <Navbar navbar={pageData?.navbar} />
-                        {/* Main content area: Grow to fill the remaining space */}
-                        <main style={{ flex: 1 }}>{props.children}</main>
-                        <Footer footerData={pageData?.footer} />
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                minHeight: '100vh',
+                                width: '100%',
+                            }}
+                        >
+                            <Navbar navbar={pageData?.navbar} />
+                            <main
+                                style={{
+                                    flex: '1 1 auto',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    width: '100%',
+                                    position: 'relative',
+                                }}
+                            >
+                                {children}
+                            </main>
+                            <Footer footerData={pageData?.footer} />
+                        </div>
                     </ThemeProvider>
                 </AppRouterCacheProvider>
             </body>

@@ -15,6 +15,7 @@ interface ChartDataProps {
             url: string;
             name: string;
         }[];
+        unit?: string;
     };
 }
 
@@ -30,6 +31,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
                 width: '75%',
+                gap: '20px',
             }}
         >
             <BaseChart
@@ -40,6 +42,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 heading={left_chart.chart.caption}
                 dataFile={left_chart.chart.dataFile?.[0]}
                 aspectRatio={'100%'}
+                unit={left_chart.chart.unit}
             />
             <BaseChart
                 chartType={right_chart.chart.chartType}
@@ -49,6 +52,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 heading={right_chart.chart.caption}
                 dataFile={right_chart.chart.dataFile?.[0]}
                 aspectRatio={'100%'}
+                unit={right_chart.chart.unit}
             />
         </Box>
     );

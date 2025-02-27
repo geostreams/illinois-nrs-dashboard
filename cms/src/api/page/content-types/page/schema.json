@@ -24,7 +24,8 @@
         "content.base-content-section",
         "content.heading",
         "content.full-span-image",
-        "content.chart-with-quote"
+        "content.chart-with-quote",
+        "content.page-divider"
       ]
     },
     "pageGroup": {

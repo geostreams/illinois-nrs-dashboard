@@ -52,6 +52,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell
+                            align="center"
                             style={{
                                 ...headerStyle,
                                 borderLeft: '1px solid #1B5C7C',
@@ -62,7 +63,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                         {columns.map((column, index) => (
                             <TableCell
                                 key={column}
-                                align="left"
+                                align="center"
                                 style={{
                                     ...headerStyle,
                                     borderRight:
@@ -83,13 +84,14 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                                 component="th"
                                 scope="row"
                                 style={cellStyle}
+                                align="center"
                             >
                                 {row.row}
                             </TableCell>
                             {columns.map((column) => (
                                 <TableCell
                                     key={column}
-                                    align="left"
+                                    align="center"
                                     style={cellStyle}
                                 >
                                     {row[column] || ''}

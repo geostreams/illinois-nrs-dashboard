@@ -18,13 +18,14 @@ interface BaseChartProps {
     chartData: any;
     chartColors?: Record<string, string>;
     miscChartData: any;
-    width?: string | number;
+    width?: { xs: string; sm: string };
     altText?: string;
     dataFile?: {
         url: string;
         name: string;
     };
     aspectRatio?: string;
+    unit?: string;
 }
 
 const styles = {
@@ -42,10 +43,11 @@ const BaseChart: FC<BaseChartProps> = ({
     chartData,
     chartColors = {},
     miscChartData,
-    width = '100%',
+    width = { xs: '100%', sm: '75%' },
     altText,
     dataFile,
     aspectRatio,
+    unit,
 }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -115,12 +117,14 @@ const BaseChart: FC<BaseChartProps> = ({
             <FilledPieChart
                 chart_data={chartData as { name: string; value: number }[]}
                 chart_colors={chartColors}
+                unit={unit}
             />
         ),
         line: (
             <LineChart
                 chartData={chartData}
                 chartConfig={miscChartData?.chartConfig}
+                unit={unit}
             />
         ),
         stacked_bar: (
@@ -128,6 +132,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartData={chartData}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 chartColors={chartColors}
+                unit={unit}
             />
         ),
         bar: (
@@ -135,6 +140,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartData={chartData}
                 chartColors={chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
+                unit={unit}
             />
         ),
         table: <TableComponent tableData={chartData} />,
@@ -148,7 +154,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 flexDirection: 'column',
                 width: width,
                 position: 'relative',
-                my: 4,
+                my: 3,
                 '@media print': {
                     pageBreakInside: 'avoid',
                     breakInside: 'avoid',

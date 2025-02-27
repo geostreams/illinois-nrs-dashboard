@@ -48,8 +48,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                 marginRight: 0,
                 gridTemplateColumns: {
                     xs: '1fr',
-                    sm: '3fr 2fr',
-                    md: '3fr 2fr',
+                    sm: '4fr 2fr',
+                    md: '4fr 2fr',
                 },
                 gap: 3,
                 alignItems: 'center',
@@ -59,11 +59,13 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
             <Box
                 sx={{
                     ...(borderedTextBox && {
-                        borderRadius: 2,
+                        borderRadius: '4px',
                         border: '1px solid #0a3977',
-                        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.9)',
-                        padding: 1,
-                        marginBottom: 1,
+                        boxShadow: '4px 4px 0px rgba(0, 0, 0, 0.9)',
+                        paddingTop: '15px',
+                        marginBottom: '25px',
+                        marginTop: '5px',
+                        paddingBottom: '5px',
                     }),
                 }}
             >

@@ -25,12 +25,61 @@ export const Sidebar: React.FC = () => {
     const theme = useTheme();
     const [activeSection, setActiveSection] = React.useState<string>('');
     const [sections, setSections] = React.useState<Section[]>([]);
-    const [maxHeight, setMaxHeight] = React.useState('calc(100vh - 110px)');
     const [openSections, setOpenSections] = React.useState<Set<string>>(
         new Set()
     );
+    const [sidebarHeight, setSidebarHeight] = React.useState<string>(
+        'calc(100vh - 110px)'
+    );
+    const sidebarRef = React.useRef<HTMLDivElement>(null);
+    const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>(
+        {}
+    );
 
-    // Modified section creation logic
+    // Effect to handle footer position and adjust sidebar height
+    React.useEffect(() => {
+        const updateSidebarHeight = () => {
+            const footer = document.querySelector('.footer-container');
+            if (!footer || !sidebarRef.current) return;
+
+            const footerRect = footer.getBoundingClientRect();
+            const navbarHeight = 110; // Height of the navbar
+            const viewportHeight = window.innerHeight;
+
+            // Check if footer is in the viewport
+            const isFooterVisible = footerRect.top < viewportHeight;
+
+            if (isFooterVisible) {
+                // Calculate the available height when footer is visible
+                const availableHeight = footerRect.top - navbarHeight;
+                setSidebarHeight(`${availableHeight}px`);
+            } else {
+                // Use the default height when footer is not visible
+                setSidebarHeight('calc(100vh - 110px)');
+            }
+        };
+
+        // Initial update
+        updateSidebarHeight();
+
+        // Set up ResizeObserver to detect changes in the footer position
+        const resizeObserver = new ResizeObserver(updateSidebarHeight);
+        const footer = document.querySelector('.footer-container');
+        if (footer) {
+            resizeObserver.observe(footer);
+        }
+
+        // Also listen for scroll events as they can change the relative position
+        window.addEventListener('scroll', updateSidebarHeight);
+        window.addEventListener('resize', updateSidebarHeight);
+
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener('scroll', updateSidebarHeight);
+            window.removeEventListener('resize', updateSidebarHeight);
+        };
+    }, []);
+
     React.useEffect(() => {
         const createSections = () => {
             const headingElements = Array.from(
@@ -88,17 +137,47 @@ export const Sidebar: React.FC = () => {
     // Handle scroll and update active section
     React.useEffect(() => {
         const handleScroll = () => {
-            const scrollPosition = window.scrollY + 140; // Account for navbar offset
+            const scrollPosition = window.scrollY + 120;
 
-            // Find the current section
-            const currentSection = sections.find(
-                (section) =>
+            // Check both top-level sections and subsections
+            let foundActiveSection = false;
+
+            // First check if we're in a subsection
+            for (const section of sections) {
+                // Check children first (subsections)
+                for (const childSection of section.children) {
+                    if (
+                        scrollPosition >= childSection.start &&
+                        scrollPosition < childSection.end
+                    ) {
+                        setActiveSection(childSection.id);
+                        // Ensure parent section is expanded when subsection is active
+                        setOpenSections((prev) => {
+                            const newSet = new Set(prev);
+                            newSet.add(section.id);
+                            return newSet;
+                        });
+                        foundActiveSection = true;
+                        break;
+                    }
+                }
+
+                if (foundActiveSection) break;
+
+                // Then check parent section
+                if (
                     scrollPosition >= section.start &&
                     scrollPosition < section.end
-            );
+                ) {
+                    setActiveSection(section.id);
+                    foundActiveSection = true;
+                    break;
+                }
+            }
 
-            if (currentSection) {
-                setActiveSection(currentSection.id);
+            // If no section is found active, could optionally clear the active section
+            if (!foundActiveSection) {
+                setActiveSection('');
             }
         };
 
@@ -108,29 +187,29 @@ export const Sidebar: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [sections]);
 
-    // Handle sidebar height
+    // Add effect to scroll active section into view when it changes
     React.useEffect(() => {
-        const updateSidebarHeight = () => {
-            const footer = document.querySelector('.footer-container');
-            if (footer) {
-                const footerTop = footer.getBoundingClientRect().top;
-                const sidebarTop = 110;
-                const newHeight = footerTop - sidebarTop;
-                setMaxHeight(`${newHeight}px`);
-            }
-        };
+        if (
+            activeSection &&
+            activeSectionRef.current[activeSection] &&
+            sidebarRef.current
+        ) {
+            // Use scrollIntoView with options for smooth scrolling within the sidebar
+            // Add a small delay to ensure the sidebar height has been updated
+            const timeoutId = setTimeout(() => {
+                if (activeSectionRef.current[activeSection]) {
+                    activeSectionRef.current[activeSection].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                    });
+                }
+            }, 20);
 
-        updateSidebarHeight();
-        window.addEventListener('scroll', updateSidebarHeight);
-        window.addEventListener('resize', updateSidebarHeight);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [activeSection, sidebarHeight]);
 
-        return () => {
-            window.removeEventListener('scroll', updateSidebarHeight);
-            window.removeEventListener('resize', updateSidebarHeight);
-        };
-    }, []);
-
-    const handleClick = (sectionId: string, hasChildren: boolean) => {
+    const handleClick = (sectionId: string) => {
         const section = findSection(sections, sectionId);
         if (section) {
             const offset = 110;
@@ -139,20 +218,22 @@ export const Sidebar: React.FC = () => {
                 behavior: 'smooth',
             });
             setActiveSection(sectionId);
-
-            // Toggle accordion if section has children
-            if (hasChildren) {
-                setOpenSections((prev) => {
-                    const newSet = new Set(prev);
-                    if (newSet.has(sectionId)) {
-                        newSet.delete(sectionId);
-                    } else {
-                        newSet.add(sectionId);
-                    }
-                    return newSet;
-                });
-            }
         }
+    };
+
+    const handleToggleExpand = (event: React.MouseEvent, sectionId: string) => {
+        // Stop propagation to prevent the parent ListItemButton click handler from firing
+        event.stopPropagation();
+
+        setOpenSections((prev) => {
+            const newSet = new Set(prev);
+            if (newSet.has(sectionId)) {
+                newSet.delete(sectionId);
+            } else {
+                newSet.add(sectionId);
+            }
+            return newSet;
+        });
     };
 
     // Helper function to find a section by ID
@@ -168,16 +249,28 @@ export const Sidebar: React.FC = () => {
 
     return (
         <Box
+            ref={sidebarRef}
             sx={{
                 width: 240,
-                position: 'fixed',
+                position: 'sticky',
                 top: 110,
-                left: 0,
-                bottom: 0,
-                height: maxHeight,
+                height: sidebarHeight, // Use dynamic height
+                maxHeight: 'calc(100vh - 110px)',
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#4AA6DC #003D6D',
+                '&::-webkit-scrollbar': {
+                    width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    backgroundColor: '#003D6D',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#4AA6DC',
+                    borderRadius: '4px',
+                },
                 '@media print': {
                     display: 'none',
                 },
@@ -187,13 +280,11 @@ export const Sidebar: React.FC = () => {
                 {sections.map((section, index) => (
                     <React.Fragment key={section.id}>
                         <ListItemButton
+                            ref={(el) => {
+                                activeSectionRef.current[section.id] = el;
+                            }}
                             selected={activeSection === section.id}
-                            onClick={() =>
-                                handleClick(
-                                    section.id,
-                                    section.children.length > 0
-                                )
-                            }
+                            onClick={() => handleClick(section.id)}
                             sx={{
                                 '&.Mui-selected': {
                                     backgroundColor: '#4AA6DC',
@@ -215,12 +306,25 @@ export const Sidebar: React.FC = () => {
                                     fontWeight: '100',
                                 }}
                             />
-                            {section.children.length > 0 &&
-                                (openSections.has(section.id) ? (
-                                    <ExpandLess sx={{ color: 'white' }} />
-                                ) : (
-                                    <ExpandMore sx={{ color: 'white' }} />
-                                ))}
+                            {section.children.length > 0 && (
+                                <Box
+                                    component="span"
+                                    onClick={(e) =>
+                                        handleToggleExpand(e, section.id)
+                                    }
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    {openSections.has(section.id) ? (
+                                        <ExpandLess sx={{ color: 'white' }} />
+                                    ) : (
+                                        <ExpandMore sx={{ color: 'white' }} />
+                                    )}
+                                </Box>
+                            )}
                         </ListItemButton>
                         {section.children.length > 0 && (
                             <Collapse
@@ -232,15 +336,17 @@ export const Sidebar: React.FC = () => {
                                     {section.children.map((childSection) => (
                                         <ListItemButton
                                             key={childSection.id}
+                                            ref={(el) => {
+                                                activeSectionRef.current[
+                                                    childSection.id
+                                                ] = el;
+                                            }}
                                             selected={
                                                 activeSection ===
                                                 childSection.id
                                             }
                                             onClick={() =>
-                                                handleClick(
-                                                    childSection.id,
-                                                    false
-                                                )
+                                                handleClick(childSection.id)
                                             }
                                             sx={{
                                                 pl: 4,
@@ -258,7 +364,10 @@ export const Sidebar: React.FC = () => {
                                             }}
                                         >
                                             <ListItemText
-                                                primary={childSection.title}
+                                                primary={childSection.title.replace(
+                                                    '#',
+                                                    ''
+                                                )}
                                                 sx={{
                                                     fontSize: '0.85rem',
                                                     color: 'white',

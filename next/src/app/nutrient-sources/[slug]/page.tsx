@@ -1,5 +1,5 @@
-import fetchContentType from '@/lib/strapi/fetchContentType';
-import { fetchPageSlugs } from '@/lib/strapi/fetchContentType';
+import fetchContentType from '@/utils/strapi/fetchContentType';
+import { fetchPageSlugs } from '@/utils/strapi/fetchContentType';
 import Container from '@mui/material/Container';
 import { PageContentGenerator } from '@/components/PageContentGenerator';
 import * as React from 'react';
@@ -36,10 +36,14 @@ export default async function Page({
     }
 
     return (
-        <>
+        <Box
+            sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}
+        >
             <Box
                 sx={{
-                    flex: 1,
+                    width: { xs: '100%', md: '30%' },
+                    position: { xs: 'static', md: 'fixed' },
+                    height: { md: '100vh' },
                     display: { xs: 'none', md: 'block' },
                 }}
             >
@@ -47,20 +51,21 @@ export default async function Page({
             </Box>
             <Box
                 sx={{
-                    flex: 1,
-                    p: 3,
-                    marginLeft: { xs: 0, md: '30%' },
-                    marginRight: { xs: 0, md: '15%' },
+                    width: '100%',
+                    p: { xs: 2, sm: 3 },
+                    ml: { xs: 0, md: '30%' },
+                    maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
-                <Container maxWidth="lg">
-                    {/* Center the page content */}
-                    <Box display="flex" justifyContent="center">
-                        <PageContentGenerator pageContents={pageContents} />
-                    </Box>
+                <Container
+                    maxWidth="lg"
+                    disableGutters
+                    sx={{ px: { xs: 1, sm: 2 } }}
+                >
+                    <PageContentGenerator pageContents={pageContents} />
                 </Container>
             </Box>
-        </>
+        </Box>
     );
 }
 

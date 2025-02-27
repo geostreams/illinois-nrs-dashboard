@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_content_page_dividers",
+  "info": {
+    "displayName": "PageDivider"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    }
+  }
+}
