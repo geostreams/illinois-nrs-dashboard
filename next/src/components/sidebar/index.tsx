@@ -203,13 +203,13 @@ export const Sidebar: React.FC = () => {
                         block: 'nearest',
                     });
                 }
-            }, 100);
+            }, 20);
 
             return () => clearTimeout(timeoutId);
         }
     }, [activeSection, sidebarHeight]);
 
-    const handleClick = (sectionId: string, hasChildren: boolean) => {
+    const handleClick = (sectionId: string) => {
         const section = findSection(sections, sectionId);
         if (section) {
             const offset = 110;
@@ -218,20 +218,22 @@ export const Sidebar: React.FC = () => {
                 behavior: 'smooth',
             });
             setActiveSection(sectionId);
-
-            // Toggle accordion if section has children
-            if (hasChildren) {
-                setOpenSections((prev) => {
-                    const newSet = new Set(prev);
-                    if (newSet.has(sectionId)) {
-                        newSet.delete(sectionId);
-                    } else {
-                        newSet.add(sectionId);
-                    }
-                    return newSet;
-                });
-            }
         }
+    };
+
+    const handleToggleExpand = (event: React.MouseEvent, sectionId: string) => {
+        // Stop propagation to prevent the parent ListItemButton click handler from firing
+        event.stopPropagation();
+
+        setOpenSections((prev) => {
+            const newSet = new Set(prev);
+            if (newSet.has(sectionId)) {
+                newSet.delete(sectionId);
+            } else {
+                newSet.add(sectionId);
+            }
+            return newSet;
+        });
     };
 
     // Helper function to find a section by ID
@@ -282,12 +284,7 @@ export const Sidebar: React.FC = () => {
                                 activeSectionRef.current[section.id] = el;
                             }}
                             selected={activeSection === section.id}
-                            onClick={() =>
-                                handleClick(
-                                    section.id,
-                                    section.children.length > 0
-                                )
-                            }
+                            onClick={() => handleClick(section.id)}
                             sx={{
                                 '&.Mui-selected': {
                                     backgroundColor: '#4AA6DC',
@@ -309,12 +306,25 @@ export const Sidebar: React.FC = () => {
                                     fontWeight: '100',
                                 }}
                             />
-                            {section.children.length > 0 &&
-                                (openSections.has(section.id) ? (
-                                    <ExpandLess sx={{ color: 'white' }} />
-                                ) : (
-                                    <ExpandMore sx={{ color: 'white' }} />
-                                ))}
+                            {section.children.length > 0 && (
+                                <Box
+                                    component="span"
+                                    onClick={(e) =>
+                                        handleToggleExpand(e, section.id)
+                                    }
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    {openSections.has(section.id) ? (
+                                        <ExpandLess sx={{ color: 'white' }} />
+                                    ) : (
+                                        <ExpandMore sx={{ color: 'white' }} />
+                                    )}
+                                </Box>
+                            )}
                         </ListItemButton>
                         {section.children.length > 0 && (
                             <Collapse
@@ -336,10 +346,7 @@ export const Sidebar: React.FC = () => {
                                                 childSection.id
                                             }
                                             onClick={() =>
-                                                handleClick(
-                                                    childSection.id,
-                                                    false
-                                                )
+                                                handleClick(childSection.id)
                                             }
                                             sx={{
                                                 pl: 4,
