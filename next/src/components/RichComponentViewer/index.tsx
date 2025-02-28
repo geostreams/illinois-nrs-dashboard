@@ -35,7 +35,6 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
                     .replace(/\s+/g, '-');
 
                 heading.id = headingId;
-                console.log(headingId);
 
                 // Create anchor element
                 const anchor = document.createElement('a');

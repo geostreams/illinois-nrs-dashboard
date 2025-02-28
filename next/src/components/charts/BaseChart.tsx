@@ -118,6 +118,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chart_data={chartData as { name: string; value: number }[]}
                 chart_colors={chartColors}
                 unit={unit}
+                miscChartData={miscChartData}
             />
         ),
         line: (

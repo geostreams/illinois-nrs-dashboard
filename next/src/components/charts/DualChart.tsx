@@ -7,7 +7,6 @@ interface ChartDataProps {
     chart: {
         chartType: 'filled_pie' | 'line' | 'stacked_bar';
         caption: string;
-        subheading?: string;
         chartData: any;
         chartColors?: { [key: string]: string };
         miscChartData: any;
@@ -16,6 +15,7 @@ interface ChartDataProps {
             name: string;
         }[];
         unit?: string;
+        altText?: string;
     };
 }
 
@@ -43,6 +43,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 dataFile={left_chart.chart.dataFile?.[0]}
                 aspectRatio={'100%'}
                 unit={left_chart.chart.unit}
+                altText={left_chart.chart.altText}
             />
             <BaseChart
                 chartType={right_chart.chart.chartType}
@@ -53,6 +54,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 dataFile={right_chart.chart.dataFile?.[0]}
                 aspectRatio={'100%'}
                 unit={right_chart.chart.unit}
+                altText={right_chart.chart.altText}
             />
         </Box>
     );
