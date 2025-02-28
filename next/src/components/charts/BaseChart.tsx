@@ -118,7 +118,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chart_data={chartData as { name: string; value: number }[]}
                 chart_colors={chartColors}
                 unit={unit}
-                miscChartData={miscChartData}
+                chartLabels={miscChartData?.chartLabels}
             />
         ),
         line: (
@@ -134,6 +134,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 chartColors={chartColors}
                 unit={unit}
+                yAxisInterval={miscChartData?.yAxisInterval}
             />
         ),
         bar: (

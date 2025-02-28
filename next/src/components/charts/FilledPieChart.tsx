@@ -14,22 +14,18 @@ interface PieChartProps {
     chart_data: { name: string; value: number }[];
     chart_colors: { [key: string]: string };
     unit?: string;
-    miscChartData: any;
+    chartLabels: any;
 }
 
 const FilledPieChart: React.FC<PieChartProps> = ({
     chart_data,
     chart_colors,
     unit,
-    miscChartData,
+    chartLabels,
 }) => {
     const getLabel = (entry: any) => {
-        if (
-            miscChartData?.chartLabels &&
-            miscChartData.chartLabels[entry.name]
-        ) {
-            console.log(miscChartData.chartLabels[entry.name]);
-            return miscChartData.chartLabels[entry.name];
+        if (chartLabels && chartLabels[entry.name]) {
+            return chartLabels[entry.name];
         }
         return formatValueWithUnit(entry.value, unit);
     };
@@ -62,11 +58,8 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                             value as number,
                             unit
                         );
-                        if (
-                            miscChartData?.chartLabels &&
-                            miscChartData.chartLabels[name]
-                        ) {
-                            return [miscChartData.chartLabels[name], name];
+                        if (chartLabels && chartLabels[name]) {
+                            return [chartLabels[name], name];
                         }
                         return [formattedValue, name];
                     }}

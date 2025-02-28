@@ -44,7 +44,7 @@ const BarChart: React.FC<BarChartProps> = ({
                 data={chartData}
                 // margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
             >
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis
                     tick={{ fontSize: 12 }}
