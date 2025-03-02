@@ -9,16 +9,23 @@
     list-style-type: disc;
     margin: 0 0;
     padding-left: 2rem;
+    font-family: 'Source Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
 }
 
 .container ol {
     list-style-type: decimal;
     margin: 0 0;
     padding-left: 2rem;
+    line-height: 1.75;
 }
 
 .container li {
     margin: 0.5rem 0;
+    font-family: 'Source Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
 }
 
 /* Images */
@@ -169,12 +176,6 @@
 .container a {
     color: #0070c0;
     text-decoration: underline;
-}
-
-.container ul {
-    font-family: 'Source Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.75;
 }
 
 /* Headers */
