@@ -41,6 +41,25 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
     // Function to convert data keys to readable legend names
     const getLegendName = (key: string): string => key;
 
+    // Calculate total values for each key and sort them
+    const sortedKeys = React.useMemo(() => {
+        const keys = Object.keys(chartData[0] || {}).filter(
+            (key) => key !== 'name'
+        );
+        const totals = keys.reduce(
+            (acc, key) => {
+                acc[key] = chartData.reduce(
+                    (sum, item) => sum + (Number(item[key]) || 0),
+                    0
+                );
+                return acc;
+            },
+            {} as Record<string, number>
+        );
+
+        return keys.sort((a, b) => totals[b] - totals[a]);
+    }, [chartData]);
+
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <BarChart
@@ -89,21 +108,18 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                 />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
 
-                {/* Render Bars */}
-                {chartData[0] &&
-                    Object.keys(chartData[0])
-                        .filter((key) => key !== 'name')
-                        .map((key) => (
-                            <Bar
-                                key={key}
-                                dataKey={key}
-                                stackId="a"
-                                fill={chartColors[key]}
-                                name={getLegendName(key)}
-                                isAnimationActive={false}
-                                barSize={40}
-                            />
-                        ))}
+                {/* Render Bars with sorted keys */}
+                {sortedKeys.map((key) => (
+                    <Bar
+                        key={key}
+                        dataKey={key}
+                        stackId="a"
+                        fill={chartColors[key]}
+                        name={getLegendName(key)}
+                        isAnimationActive={false}
+                        barSize={40}
+                    />
+                ))}
 
                 {/* Render Reference Lines */}
                 {chartReferenceLines !== null &&

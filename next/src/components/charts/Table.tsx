@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { fontFamily } from 'html2canvas/dist/types/css/property-descriptors/font-family';
+import { formatNumberWithCommas } from '@/utils/formatters';
 
 // Define a proper type for the data structure
 interface DataRow {
@@ -94,7 +94,9 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                                     align="center"
                                     style={cellStyle}
                                 >
-                                    {row[column] || ''}
+                                    {typeof row[column] === 'number'
+                                        ? formatNumberWithCommas(row[column])
+                                        : row[column] || ''}
                                 </TableCell>
                             ))}
                         </TableRow>
