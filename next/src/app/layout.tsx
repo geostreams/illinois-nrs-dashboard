@@ -10,8 +10,8 @@ import { Footer } from '@/components/footer';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Illinois NLRS Data Dashboard',
-    description: 'Illinois Nutrient Loss Reduction Strategy Data Dashboard',
+    title: 'Illinois NLRS Data Portal',
+    description: 'Illinois Nutrient Loss Reduction Strategy Data Portal',
     viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
 };
 
