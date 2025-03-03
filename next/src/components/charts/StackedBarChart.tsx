@@ -114,13 +114,17 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                             label={{
                                 value: line.label,
                                 position: 'insideTopRight',
-                                fontSize: 16,
-                                fontWeight: 'bold',
-                                fill: '#000000',
+                                fontFamily: 'Montserrat, sans-serif',
+                                fontSize: '12px',
+                                fontWeight: 'normal',
+                                paintOrder: 'stroke',
                                 stroke: '#ffffff',
-                                strokeWidth: 1,
+                                strokeWidth: '1px',
+                                strokeLinejoin: 'round',
+                                strokeLinecap: 'round',
+                                fill: '#000000',
                             }}
-                            stroke="#00ff00"
+                            stroke="#0A8754"
                             strokeWidth={2}
                         />
                     ))}

@@ -42,6 +42,7 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                     innerRadius={0}
                     outerRadius="80%"
                     label={getLabel}
+                    style={{ fontSize: '18px', fontWeight: 500 }}
                     isAnimationActive={false}
                     width={10}
                 >

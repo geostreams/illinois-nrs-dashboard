@@ -153,8 +153,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                         <Box
                             sx={{
                                 position: 'relative',
-                                width: '65px',
-                                height: '65px',
+                                width: { xs: '40px', sm: '65px' },
+                                height: { xs: '40px', sm: '65px' },
                                 marginRight: '16px',
                             }}
                         >
@@ -171,13 +171,13 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             sx={{
                                 fontFamily: 'Montserrat, sans-serif',
                                 fontWeight: 'bold',
-                                fontSize: '1.5em',
+                                fontSize: { xs: '1.0em', sm: '1.5em' },
                                 color: '#ffffff',
                             }}
                         >
-                            Illinois NLRS{' '}
+                            Illinois Nutrient Loss Reduction Strategy{' '}
                             <span style={{ color: '#6FB9E4' }}>
-                                Data Dashboard
+                                Data Portal
                             </span>
                         </Typography>
                     </Box>
