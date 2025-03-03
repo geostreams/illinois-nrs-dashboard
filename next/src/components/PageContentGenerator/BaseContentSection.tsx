@@ -65,7 +65,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         paddingTop: '15px',
                         marginBottom: '25px',
                         marginTop: '5px',
-                        paddingBottom: '5px',
+                        paddingBottom: '15px',
                     }),
                 }}
             >
