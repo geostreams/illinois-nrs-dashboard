@@ -43,13 +43,19 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
         <Box
             sx={{
                 display: 'grid',
-                maxWidth: '720px',
+                maxWidth: borderedTextBox ? '55%' : '75%',
                 my: 1,
                 marginRight: 0,
                 gridTemplateColumns: {
                     xs: '1fr',
-                    sm: '4fr 2fr',
-                    md: '4fr 2fr',
+                    sm:
+                        imageUrl || pullQuote || borderedTextBox
+                            ? '4fr 2fr'
+                            : '1fr',
+                    md:
+                        imageUrl || pullQuote || borderedTextBox
+                            ? '4fr 2fr'
+                            : '1fr',
                 },
                 gap: 3,
                 alignItems: 'center',
