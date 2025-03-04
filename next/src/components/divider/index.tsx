@@ -1,26 +1,40 @@
 import Divider from '@mui/material/Divider';
-
+import Typography from '@mui/material/Typography';
 interface PageDividerProps {
     width?: string | number;
     my?: string | number;
     mx?: string | number;
+    label?: string;
 }
 
 export const PageDivider = ({
     width = '80%',
     my = '3rem',
     mx = '0',
+    label,
 }: PageDividerProps) => {
     return (
         <Divider
             sx={{
                 borderBottomWidth: '2px',
-                height: '2px',
             }}
             style={{
                 width,
                 margin: `${my} ${mx}`,
             }}
-        />
+        >
+            <Typography
+                variant="h6"
+                sx={{
+                    fontWeight: 700,
+                    fontSize: '1.75rem',
+                    color: 'black',
+                    fontFamily: 'Sans Serif',
+                    textTransform: 'uppercase',
+                }}
+            >
+                {label}
+            </Typography>
+        </Divider>
     );
 };

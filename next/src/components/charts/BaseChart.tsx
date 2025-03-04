@@ -9,6 +9,7 @@ import FilledPieChart from './FilledPieChart';
 import LineChart from './LineChart';
 import StackedBarChart from './StackedBarChart';
 import BarChart from './BarChart';
+import BarLineChart from './BarLineChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 
@@ -57,6 +58,12 @@ const BaseChart: FC<BaseChartProps> = ({
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
     let fileUrl = `${process.env.CMS_DATA_URL}${dataFile?.url}`;
+
+    if (chartType === 'bar_line') {
+        console.log('bar_line');
+        console.log(chartData);
+        console.log(miscChartData);
+    }
 
     const handleDownload = useCallback(async () => {
         if (!chartRef.current) return;
@@ -112,6 +119,18 @@ const BaseChart: FC<BaseChartProps> = ({
         }
     }, [dataFile?.url, fileUrl]);
 
+    let barUnit = '';
+    let lineUnit = '';
+    if (chartType === 'bar_line') {
+        const unitObject = JSON.parse(
+            unit
+                ?.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+                .replace(/'/g, '"') || '{}'
+        );
+        barUnit = unitObject.barUnit;
+        lineUnit = unitObject.lineUnit;
+    }
+
     const chartComponent = {
         filled_pie: (
             <FilledPieChart
@@ -143,6 +162,17 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartColors={chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 unit={unit}
+            />
+        ),
+        bar_line: (
+            <BarLineChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
             />
         ),
         table: <TableComponent tableData={chartData} />,

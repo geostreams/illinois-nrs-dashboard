@@ -74,7 +74,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 />
             );
         case 'content.page-divider':
-            return <PageDivider />;
+            return <PageDivider label={component.label} />;
         default:
             console.log('Component not found');
             console.log(component);

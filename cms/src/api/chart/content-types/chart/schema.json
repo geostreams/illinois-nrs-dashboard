@@ -22,7 +22,8 @@
         "stacked_bar",
         "line",
         "bar",
-        "table"
+        "table",
+        "bar_line"
       ]
     },
     "chartData": {
