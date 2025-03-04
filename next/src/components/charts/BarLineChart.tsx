@@ -144,8 +144,10 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     formatter={(value, name, props) => {
-                        const unit =
-                            props.dataKey in barConfig ? barUnit : lineUnit;
+                        const isBar = barConfig.some(
+                            (config) => config.dataKey === props.dataKey
+                        );
+                        const unit = isBar ? barUnit : lineUnit;
                         return formatValueWithUnit(value as number, unit);
                     }}
                     wrapperStyle={{

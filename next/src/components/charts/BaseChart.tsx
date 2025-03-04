@@ -119,6 +119,18 @@ const BaseChart: FC<BaseChartProps> = ({
         }
     }, [dataFile?.url, fileUrl]);
 
+    let barUnit = '';
+    let lineUnit = '';
+    if (chartType === 'bar_line') {
+        const unitObject = JSON.parse(
+            unit
+                ?.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+                .replace(/'/g, '"') || '{}'
+        );
+        barUnit = unitObject.barUnit;
+        lineUnit = unitObject.lineUnit;
+    }
+
     const chartComponent = {
         filled_pie: (
             <FilledPieChart
@@ -158,7 +170,8 @@ const BaseChart: FC<BaseChartProps> = ({
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
-                unit={unit}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
             />
         ),
