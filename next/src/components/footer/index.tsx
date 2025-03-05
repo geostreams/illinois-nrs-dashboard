@@ -182,6 +182,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                         height={24}
                                         fill={'#000'}
                                         style={{ flexShrink: 0 }}
+                                        alt="Illinos NLRS Facebook Page"
                                     />
                                 </Link>
                             </Box>

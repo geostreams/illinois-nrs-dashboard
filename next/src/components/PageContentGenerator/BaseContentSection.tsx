@@ -43,7 +43,17 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
         <Box
             sx={{
                 display: 'grid',
-                maxWidth: borderedTextBox ? '55%' : '75%',
+                maxWidth: borderedTextBox
+                    ? {
+                          xs: '100%',
+                          sm: '75%',
+                          md: '55%',
+                      }
+                    : {
+                          xs: '100%',
+                          sm: '75%',
+                          md: '75%',
+                      },
                 my: 1,
                 marginRight: 0,
                 gridTemplateColumns: {
@@ -72,6 +82,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         marginBottom: '25px',
                         marginTop: '5px',
                         paddingBottom: '15px',
+                        paddingRight: '25px',
                     }),
                 }}
             >

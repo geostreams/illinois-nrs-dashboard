@@ -14,27 +14,41 @@ export const PageDivider = ({
     label,
 }: PageDividerProps) => {
     return (
-        <Divider
-            sx={{
-                borderBottomWidth: '2px',
-            }}
-            style={{
-                width,
-                margin: `${my} ${mx}`,
-            }}
-        >
-            <Typography
-                variant="h6"
-                sx={{
-                    fontWeight: 700,
-                    fontSize: '1.75rem',
-                    color: 'black',
-                    fontFamily: 'Sans Serif',
-                    textTransform: 'uppercase',
-                }}
-            >
-                {label}
-            </Typography>
-        </Divider>
+        <>
+            {label ? (
+                <Divider
+                    sx={{
+                        borderBottomWidth: '2px',
+                    }}
+                    style={{
+                        width,
+                        margin: `${my} ${mx}`,
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 700,
+                            fontSize: '1.75rem',
+                            color: 'black',
+                            fontFamily: 'Source Sans',
+                            textTransform: 'uppercase',
+                        }}
+                    >
+                        {label}
+                    </Typography>
+                </Divider>
+            ) : (
+                <Divider
+                    sx={{
+                        borderBottomWidth: '2px',
+                    }}
+                    style={{
+                        width,
+                        margin: `${my} ${mx}`,
+                    }}
+                />
+            )}
+        </>
     );
 };
