@@ -46,8 +46,9 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                 maxWidth: borderedTextBox
                     ? {
                           xs: '100%',
-                          sm: '75%',
-                          md: '55%',
+                          sm: '90%',
+                          md: '75%',
+                          lg: '55%',
                       }
                     : {
                           xs: '100%',
