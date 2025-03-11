@@ -10,6 +10,7 @@ type FooterData = {
     rightCard: string;
     partners: {
         partnerImages: {
+            alternativeText: string;
             url: string;
         }[];
         partnersText: string;
@@ -24,7 +25,10 @@ type FooterProps = {
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
     const partnerImageUrls = footerData?.partners.partnerImages.map(
         (partner) => {
-            return `${process.env.CMS_API_URL}${partner?.url}`;
+            return {
+                imageURl: `${process.env.CMS_API_URL}${partner?.url}`,
+                alt: partner.alternativeText,
+            };
         }
     );
 
@@ -79,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                 flexWrap: { md: 'wrap' },
                             }}
                         >
-                            {partnerImageUrls.map((url, index) => (
+                            {partnerImageUrls.map((partnerImage, index) => (
                                 <Box
                                     key={`partner-${index}`}
                                     sx={{
@@ -93,8 +97,8 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     }}
                                 >
                                     <Image
-                                        src={url}
-                                        alt={`Partner`}
+                                        src={partnerImage.imageURl}
+                                        alt={partnerImage.alt}
                                         fill
                                         sizes="(max-width: 600px) 240px, 220px"
                                         style={{
