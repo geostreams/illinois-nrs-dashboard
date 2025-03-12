@@ -21,8 +21,6 @@ interface DataPoint {
 
 // Define type for line configuration
 interface LineConfig {
-    dataKey: string;
-    name: string;
     color: string;
     strokeWidth?: number;
     dot?: boolean;
@@ -69,10 +67,10 @@ const LineChart: React.FC<LineChartProps> = ({
                     wrapperStyle={{ fontSize: 12 }}
                     formatter={(value: string) => value}
                 />
-                {Object.values(chartConfig).map((lineConfig) => (
+                {Object.entries(chartConfig).map(([key, lineConfig]) => (
                     <Line
-                        key={lineConfig.dataKey}
-                        dataKey={lineConfig.dataKey}
+                        key={key}
+                        dataKey={key}
                         stroke={lineConfig.color}
                         strokeWidth={lineConfig.strokeWidth || 2}
                         dot={
@@ -83,7 +81,7 @@ const LineChart: React.FC<LineChartProps> = ({
                         activeDot={
                             lineConfig.activeDot !== false ? { r: 6 } : false
                         }
-                        name={lineConfig.name}
+                        name={key}
                         connectNulls={lineConfig.connectNulls || false}
                         isAnimationActive={false}
                     />
