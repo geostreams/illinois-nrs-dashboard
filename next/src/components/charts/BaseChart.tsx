@@ -59,12 +59,6 @@ const BaseChart: FC<BaseChartProps> = ({
     const regularHeading = headingParts?.[1];
     let fileUrl = `${process.env.CMS_DATA_URL}${dataFile?.url}`;
 
-    if (chartType === 'bar_line') {
-        console.log('bar_line');
-        console.log(chartData);
-        console.log(miscChartData);
-    }
-
     const handleDownload = useCallback(async () => {
         if (!chartRef.current) return;
 
