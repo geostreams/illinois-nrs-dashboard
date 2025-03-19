@@ -16,7 +16,7 @@ interface ChartWithQuoteProps {
         dataFile?: {
             url: string;
             name: string;
-        }[];
+        };
     };
     baseImageUrl?: string;
     image?: {
@@ -61,7 +61,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                     miscChartData={chart.miscChartData}
                     heading={chart.caption}
                     altText={chart.altText}
-                    dataFile={chart?.dataFile?.[0]}
+                    dataFile={chart?.dataFile}
                     width={{ xs: '100%', sm: '100%' }}
                     aspectRatio={'100%'}
                 />

@@ -13,7 +13,7 @@ interface ChartDataProps {
         dataFile: {
             url: string;
             name: string;
-        }[];
+        };
         unit?: string;
         altText?: string;
     };
@@ -40,7 +40,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 chartColors={left_chart.chart.chartColors}
                 miscChartData={left_chart.chart.miscChartData}
                 heading={left_chart.chart.caption}
-                dataFile={left_chart.chart.dataFile?.[0]}
+                dataFile={left_chart.chart.dataFile}
                 aspectRatio={'100%'}
                 unit={left_chart.chart.unit}
                 altText={left_chart.chart.altText}
@@ -51,7 +51,7 @@ const DualChart: React.FC<DualChartProps> = ({ left_chart, right_chart }) => {
                 chartColors={right_chart.chart.chartColors}
                 miscChartData={right_chart.chart.miscChartData}
                 heading={right_chart.chart.caption}
-                dataFile={right_chart.chart.dataFile?.[0]}
+                dataFile={right_chart.chart.dataFile}
                 aspectRatio={'100%'}
                 unit={right_chart.chart.unit}
                 altText={right_chart.chart.altText}

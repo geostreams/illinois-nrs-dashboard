@@ -7,12 +7,17 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { Navbar } from '@/components/navbar';
 import fetchContentType from '@/utils/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
     title: 'Illinois NLRS Data Portal',
     description: 'Illinois Nutrient Loss Reduction Strategy Data Portal',
-    viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+};
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    viewportFit: 'cover',
 };
 
 export default async function RootLayout({
