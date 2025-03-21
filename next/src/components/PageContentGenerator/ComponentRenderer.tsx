@@ -7,6 +7,7 @@ import { FullSpanImage } from './FullSpanImage';
 import { ChartWithQuote } from './ChartWithQuote';
 import { PageDivider } from '@/components/divider';
 import InfoBlock from '@/components/InfoBlock';
+import { StayInformed } from '@/components/StayInformed';
 
 interface ComponentRendererProps {
     component: any;
@@ -82,6 +83,14 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     photoBlocks={component.photoBlocks}
                     title={component.title}
                     infoText={component.infoText}
+                />
+            );
+        case 'home-page.stay-informed':
+            return (
+                <StayInformed
+                    title={component.title}
+                    subtitle={component.subtitle}
+                    links={component.links}
                 />
             );
         default:

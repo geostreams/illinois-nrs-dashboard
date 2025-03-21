@@ -6,6 +6,7 @@ import { PhotoBlockProps, TitleProps } from './types';
 import PhotoBlock from './photoBlock';
 import Title from './title';
 import RichContentViewer from '../RichComponentViewer';
+import infoSectionBackground from '@/assets/backgrounds/infoSectionBackground.png';
 
 interface InfoBlockProps {
     photoBlocks: PhotoBlockProps[];
@@ -19,17 +20,16 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
     title,
     infoText,
 }) => {
-    // Only using the second info block from the array as per the image
-    // const dataMapBlock = infoBlock.find(block =>
-    //   block.title?.secondHalf === "DATA MAPS" || block.id === 7
-    // );
-
-    // if (!dataMapBlock) return null;
-
     return (
         <Box
             component="section"
-            sx={{ py: { xs: 6, md: 8 }, backgroundColor: 'white' }}
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: 'white',
+                backgroundImage: `url(${process.env.CMS_API_URL}/uploads/image_data_33b14aa42e.png)`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            }}
         >
             <Container maxWidth="lg">
                 {/* Title */}

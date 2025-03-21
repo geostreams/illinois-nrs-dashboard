@@ -11,7 +11,7 @@ import { PageContentGenerator } from '@/components/PageContentGenerator';
 export default async function Home() {
     let pageData = null;
     try {
-        pageData = await fetchContentType('home', '', true);
+        pageData = await fetchContentType('home', null, true);
     } catch (error) {
         console.error('Error fetching page data:', error);
         return notFound();
@@ -24,9 +24,5 @@ export default async function Home() {
         return notFound();
     }
 
-    return (
-        <Container maxWidth="lg">
-            <PageContentGenerator pageContents={pageContents} />
-        </Container>
-    );
+    return <PageContentGenerator pageContents={pageContents} />;
 }

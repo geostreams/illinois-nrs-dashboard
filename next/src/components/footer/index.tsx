@@ -34,12 +34,10 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
 
     return (
         <div
-            className="footer-container"
             style={{
                 position: 'relative',
                 bottom: 0,
                 width: '100%',
-                marginTop: '200px',
             }}
         >
             <Box

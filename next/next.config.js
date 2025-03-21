@@ -17,6 +17,13 @@ const nextConfig = {
             test: /\.svg$/,
             use: ['@svgr/webpack'],
         });
+
+        // PNG file handling
+        config.module.rules.push({
+            test: /\.png$/,
+            type: 'asset/resource',
+        });
+
         return config;
     },
 };

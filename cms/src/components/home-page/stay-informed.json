@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_home_page_stay_informeds",
+  "info": {
+    "displayName": "StayInformed",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link"
+    },
+    "subtitle": {
+      "type": "text"
+    }
+  }
+}
