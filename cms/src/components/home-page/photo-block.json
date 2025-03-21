@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_home_page_photo_blocks",
+  "info": {
+    "displayName": "Photo Block",
+    "icon": "picture",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "blockColor": {
+      "type": "string"
+    }
+  }
+}

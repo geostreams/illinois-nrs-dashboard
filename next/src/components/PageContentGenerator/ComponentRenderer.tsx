@@ -6,6 +6,7 @@ import { BaseContentSection } from './BaseContentSection';
 import { FullSpanImage } from './FullSpanImage';
 import { ChartWithQuote } from './ChartWithQuote';
 import { PageDivider } from '@/components/divider';
+import InfoBlock from '@/components/InfoBlock';
 
 interface ComponentRendererProps {
     component: any;
@@ -31,7 +32,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     miscChartData={component.chart.miscChartData}
                     heading={component.chart.caption}
                     altText={component.chart.altText}
-                    dataFile={component.chart.dataFile}
+                    dataFile={component.chart.dataFile3}
                     width={{ xs: '100%', sm: '75%' }}
                     unit={component.chart.unit}
                 />
@@ -75,6 +76,14 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
             );
         case 'content.page-divider':
             return <PageDivider label={component.label} />;
+        case 'home-page.info-block':
+            return (
+                <InfoBlock
+                    photoBlocks={component.photoBlocks}
+                    title={component.title}
+                    infoText={component.infoText}
+                />
+            );
         default:
             console.log('Component not found');
             console.log(component);
