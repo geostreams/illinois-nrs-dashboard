@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Box, Typography, Link, Container } from '@mui/material';
-import FacebookIcon from '@/assets/icons/facebook.svg';
 import Divider from '@mui/material/Divider';
 import Image from 'next/image';
 
@@ -55,6 +54,7 @@ export const StayInformed = ({
                             sx={{
                                 fontSize: { xs: '2rem', md: '2.5rem' },
                                 fontWeight: 600,
+                                fontFamily: 'Bebas Neue',
                             }}
                         >
                             <Box component="span" sx={{ color: 'white' }}>

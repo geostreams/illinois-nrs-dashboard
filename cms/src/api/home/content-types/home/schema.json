@@ -16,7 +16,8 @@
       "type": "dynamiczone",
       "components": [
         "home-page.info-block",
-        "home-page.stay-informed"
+        "home-page.stay-informed",
+        "home-page.hero"
       ]
     }
   }
