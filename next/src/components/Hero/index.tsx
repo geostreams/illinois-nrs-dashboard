@@ -61,6 +61,27 @@ export const Hero = ({
             }}
         >
             <Container maxWidth="lg" sx={{ position: 'relative' }}>
+                {/* Logo Section */}
+                {logoSection && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 55,
+                            left: 15,
+                            zIndex: 2,
+                            width: 120,
+                            height: 120,
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        <Image
+                            src={`${process.env.CMS_API_URL}${logoSection.url}`}
+                            alt={logoSection.alt || 'Logo'}
+                            width={120}
+                            height={120}
+                        />
+                    </Box>
+                )}
                 <Paper
                     elevation={3}
                     sx={{
@@ -71,7 +92,6 @@ export const Hero = ({
                         flexDirection: { xs: 'column', md: 'row' },
                         alignItems: 'center',
                         gap: { xs: 4, md: 0 },
-                        ml: { xs: 0, md: '80px' }, // Add margin to make room for the logo
                         position: 'relative',
                         // Make left side slanted with top being wider
                         clipPath: 'polygon(0% 0, 100% 0, 100% 100%, 10% 100%)',
