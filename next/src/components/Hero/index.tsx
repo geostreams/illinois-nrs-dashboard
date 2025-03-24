@@ -241,8 +241,8 @@ export const Hero = ({
                 variant="caption"
                 sx={{
                     display: 'block',
-                    mt: 1,
-                    textAlign: 'left',
+                    mt: 0,
+                    textAlign: 'right',
                     color: '#6E6E6E',
                     fontSize: '0.75rem',
                 }}
