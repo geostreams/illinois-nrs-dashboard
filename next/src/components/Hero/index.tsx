@@ -58,8 +58,10 @@ export const Hero = ({
                     backgroundImage: backgroundImage
                         ? `url(${process.env.CMS_API_URL}${backgroundImage.url})`
                         : undefined,
-                    backgroundSize: 'cover',
+                    backgroundAttachment: 'fixed',
                     backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
                 }}
             >
                 <Container maxWidth="lg" sx={{ position: 'relative' }}>

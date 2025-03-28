@@ -29,7 +29,6 @@ export const StayInformed = ({
                 position: 'relative',
                 bottom: 0,
                 width: '100%',
-                marginTop: '200px',
             }}
         >
             {/*Small height box for a colored line*/}

@@ -29,6 +29,9 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
                 backgroundImage: `url(${process.env.CMS_API_URL}/uploads/image_data_33b14aa42e.png)`,
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                width: '100%',
+                maxHeight: '100%',
             }}
         >
             <Container maxWidth="lg">

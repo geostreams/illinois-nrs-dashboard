@@ -8,7 +8,7 @@ import { PhotoBlockProps } from './types';
 // Styled components
 const BlockHeader = styled(Box)(({ bgcolor }: { bgcolor: string }) => ({
     paddingTop: 5,
-    paddingBottom: 4,
+    paddingBottom: 2,
     backgroundColor: bgcolor,
     textAlign: 'center',
     borderTopLeftRadius: 4,
@@ -21,7 +21,7 @@ const BlockImage = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    maxHeight: 310,
+    maxWidth: 250,
     width: '100%',
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
@@ -56,20 +56,17 @@ const PhotoBlock = ({ title, blockColor, image }: PhotoBlockProps) => {
                 </Grid>
                 <Grid item>
                     <BlockImage>
-                        <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            border={`1px solid ${blockColor}`}
-                        >
-                            <Image
-                                src={`${process.env.CMS_API_URL || ''}${image.url}`}
-                                alt={image.alternativeText || title}
-                                width={250}
-                                height={310}
-                                priority
-                            />
-                        </Box>
+                        <Image
+                            src={`${process.env.CMS_API_URL || ''}${image.url}`}
+                            alt={image.alternativeText || title}
+                            width={250}
+                            height={310}
+                            priority
+                            style={{
+                                border: `1px solid ${blockColor}`,
+                                borderRadius: '0 0 4px 4px',
+                            }}
+                        />
                     </BlockImage>
                 </Grid>
             </Grid>
