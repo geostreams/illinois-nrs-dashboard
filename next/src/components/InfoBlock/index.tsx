@@ -26,7 +26,10 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
             sx={{
                 py: { xs: 6, md: 8 },
                 backgroundColor: 'white',
-                backgroundImage: `url(${process.env.CMS_API_URL}/uploads/image_data_33b14aa42e.png)`,
+                backgroundImage: {
+                    xs: 'none',
+                    md: `url(${process.env.CMS_API_URL}/uploads/image_data_33b14aa42e.png)`,
+                },
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: '100% 55%',
@@ -51,7 +54,18 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
-                        justifyContent: 'space-between',
+                        justifyContent: {
+                            xs: 'center',
+                            md: 'space-between',
+                        },
+                        flexDirection: {
+                            xs: 'column',
+                            md: 'row',
+                        },
+                        alignItems: {
+                            xs: 'center',
+                            md: 'flex-start',
+                        },
                         gap: { xs: 3, md: 4 },
                         mb: 4,
                     }}

@@ -76,6 +76,7 @@ export const Hero = ({
                                 width: 120,
                                 height: 120,
                                 pointerEvents: 'none',
+                                display: { xs: 'none', md: 'block' },
                             }}
                         >
                             <Image
@@ -97,9 +98,11 @@ export const Hero = ({
                             alignItems: 'center',
                             gap: { xs: 4, md: 0 },
                             position: 'relative',
-                            // Make left side slanted with top being wider
-                            clipPath:
-                                'polygon(0% 0, 100% 0, 100% 100%, 10% 100%)',
+                            // Apply polygon shape only on medium screens and up
+                            clipPath: {
+                                xs: 'none',
+                                md: 'polygon(0% 0, 100% 0, 100% 100%, 10% 100%)',
+                            },
                         }}
                     >
                         {/* Content Section */}
@@ -170,25 +173,29 @@ export const Hero = ({
                                 {secondaryDescription}
                             </Typography>
 
-                            <Button
-                                variant="contained"
-                                href={ctaUrl}
-                                size="large"
-                                sx={{
-                                    bgcolor: '#00507A',
-                                    '&:hover': {
-                                        bgcolor: '#003B5A',
-                                    },
-                                    px: 4,
-                                    py: 1,
-                                    fontSize: '0.9rem',
-                                    fontWeight: 500,
-                                    borderRadius: 0,
-                                    textTransform: 'uppercase',
-                                }}
+                            <Box
+                                sx={{ textAlign: { xs: 'center', md: 'left' } }}
                             >
-                                {ctaText}
-                            </Button>
+                                <Button
+                                    variant="contained"
+                                    href={ctaUrl}
+                                    size="large"
+                                    sx={{
+                                        bgcolor: '#00507A',
+                                        '&:hover': {
+                                            bgcolor: '#003B5A',
+                                        },
+                                        px: 4,
+                                        py: 1,
+                                        fontSize: '0.9rem',
+                                        fontWeight: 500,
+                                        borderRadius: 0,
+                                        textTransform: 'uppercase',
+                                    }}
+                                >
+                                    {ctaText}
+                                </Button>
+                            </Box>
                         </Box>
 
                         {/* Right Image Section */}
