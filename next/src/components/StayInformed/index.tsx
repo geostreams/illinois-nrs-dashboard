@@ -112,7 +112,9 @@ export const StayInformed = ({
                                     href={link.URL}
                                     color="inherit"
                                     underline="hover"
-                                    target={link.target}
+                                    target={
+                                        link.target ? link.target : '_blank'
+                                    }
                                     sx={{
                                         fontWeight: 500,
                                         fontSize: '1.1rem',

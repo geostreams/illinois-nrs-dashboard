@@ -29,9 +29,11 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
                 backgroundImage: `url(${process.env.CMS_API_URL}/uploads/image_data_33b14aa42e.png)`,
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                width: '100%',
-                maxHeight: '100%',
+                backgroundSize: '100% 55%',
+                WebkitMaskImage:
+                    'linear-gradient(to right, transparent, black 10%, black 90%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+                maskImage:
+                    'linear-gradient(to right, transparent, black 10%, black 90%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
             }}
         >
             <Container maxWidth="lg">
