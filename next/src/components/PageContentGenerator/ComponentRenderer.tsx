@@ -34,7 +34,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     miscChartData={component.chart.miscChartData}
                     heading={component.chart.caption}
                     altText={component.chart.altText}
-                    dataFile={component.chart.dataFile3}
+                    dataFile={component.chart.dataFile}
                     width={{ xs: '100%', sm: '75%' }}
                     unit={component.chart.unit}
                 />

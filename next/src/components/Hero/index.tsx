@@ -121,7 +121,7 @@ export const Hero = ({
                                         width: '300px',
                                         height: '150px',
                                         mr: 'auto',
-                                        ml: 0,
+                                        ml: { xs: 'auto', md: 0 },
                                         mb: 3,
                                         overflow: 'hidden',
                                         borderRadius: '4px',
