@@ -34,6 +34,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
 
     return (
         <div
+            className="footer-container"
             style={{
                 position: 'relative',
                 bottom: 0,
