@@ -28,57 +28,10 @@ export const Sidebar: React.FC = () => {
     const [openSections, setOpenSections] = React.useState<Set<string>>(
         new Set()
     );
-    const [sidebarHeight, setSidebarHeight] = React.useState<string>(
-        'calc(100vh - 110px)'
-    );
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>(
         {}
     );
-
-    // Effect to handle footer position and adjust sidebar height
-    React.useEffect(() => {
-        const updateSidebarHeight = () => {
-            const footer = document.querySelector('.footer-container');
-            if (!footer || !sidebarRef.current) return;
-
-            const footerRect = footer.getBoundingClientRect();
-            const navbarHeight = 110; // Height of the navbar
-            const viewportHeight = window.innerHeight;
-
-            // Check if footer is in the viewport
-            const isFooterVisible = footerRect.top < viewportHeight;
-
-            if (isFooterVisible) {
-                // Calculate the available height when footer is visible
-                const availableHeight = footerRect.top - navbarHeight;
-                setSidebarHeight(`${availableHeight}px`);
-            } else {
-                // Use the default height when footer is not visible
-                setSidebarHeight('calc(100vh - 110px)');
-            }
-        };
-
-        // Initial update
-        updateSidebarHeight();
-
-        // Set up ResizeObserver to detect changes in the footer position
-        const resizeObserver = new ResizeObserver(updateSidebarHeight);
-        const footer = document.querySelector('.footer-container');
-        if (footer) {
-            resizeObserver.observe(footer);
-        }
-
-        // Also listen for scroll events as they can change the relative position
-        window.addEventListener('scroll', updateSidebarHeight);
-        window.addEventListener('resize', updateSidebarHeight);
-
-        return () => {
-            resizeObserver.disconnect();
-            window.removeEventListener('scroll', updateSidebarHeight);
-            window.removeEventListener('resize', updateSidebarHeight);
-        };
-    }, []);
 
     React.useEffect(() => {
         const createSections = () => {
@@ -134,25 +87,18 @@ export const Sidebar: React.FC = () => {
         return () => observer.disconnect();
     }, []);
 
-    // Handle scroll and update active section
     React.useEffect(() => {
         const handleScroll = () => {
-            // Added 200 px to give a buffer for edges of the pagex
             const scrollPosition = window.scrollY + 120 + 200;
-
-            // Check both top-level sections and subsections
             let foundActiveSection = false;
 
-            // First check if we're in a subsection
             for (const section of sections) {
-                // Check children first (subsections)
                 for (const childSection of section.children) {
                     if (
                         scrollPosition >= childSection.start &&
                         scrollPosition < childSection.end
                     ) {
                         setActiveSection(childSection.id);
-                        // Ensure parent section is expanded when subsection is active
                         setOpenSections((prev) => {
                             const newSet = new Set(prev);
                             newSet.add(section.id);
@@ -165,7 +111,6 @@ export const Sidebar: React.FC = () => {
 
                 if (foundActiveSection) break;
 
-                // Then check parent section
                 if (
                     scrollPosition >= section.start &&
                     scrollPosition < section.end
@@ -176,39 +121,16 @@ export const Sidebar: React.FC = () => {
                 }
             }
 
-            // If no section is found active, could optionally clear the active section
             if (!foundActiveSection) {
                 setActiveSection('');
             }
         };
 
         window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Initial check
+        handleScroll();
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [sections]);
-
-    // Add effect to scroll active section into view when it changes
-    React.useEffect(() => {
-        if (
-            activeSection &&
-            activeSectionRef.current[activeSection] &&
-            sidebarRef.current
-        ) {
-            // Use scrollIntoView with options for smooth scrolling within the sidebar
-            // Add a small delay to ensure the sidebar height has been updated
-            const timeoutId = setTimeout(() => {
-                if (activeSectionRef.current[activeSection]) {
-                    activeSectionRef.current[activeSection].scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                    });
-                }
-            }, 20);
-
-            return () => clearTimeout(timeoutId);
-        }
-    }, [activeSection, sidebarHeight]);
 
     const handleClick = (sectionId: string) => {
         const section = findSection(sections, sectionId);
@@ -223,9 +145,7 @@ export const Sidebar: React.FC = () => {
     };
 
     const handleToggleExpand = (event: React.MouseEvent, sectionId: string) => {
-        // Stop propagation to prevent the parent ListItemButton click handler from firing
         event.stopPropagation();
-
         setOpenSections((prev) => {
             const newSet = new Set(prev);
             if (newSet.has(sectionId)) {
@@ -237,7 +157,6 @@ export const Sidebar: React.FC = () => {
         });
     };
 
-    // Helper function to find a section by ID
     const findSection = (sections: Section[], id: string): Section | null => {
         for (const section of sections) {
             if (section.id === id) return section;
@@ -252,11 +171,10 @@ export const Sidebar: React.FC = () => {
         <Box
             ref={sidebarRef}
             sx={{
-                width: 240,
                 position: 'sticky',
                 top: 110,
-                height: sidebarHeight, // Use dynamic height
-                maxHeight: 'calc(100vh - 110px)',
+                width: 240,
+                height: '100%',
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
@@ -277,7 +195,15 @@ export const Sidebar: React.FC = () => {
                 },
             }}
         >
-            <List component="nav">
+            <List
+                component="nav"
+                sx={{
+                    padding: 0,
+                    '& .MuiListItemButton-root': {
+                        borderRadius: 0,
+                    },
+                }}
+            >
                 {sections.map((section, index) => (
                     <React.Fragment key={section.id}>
                         <ListItemButton
