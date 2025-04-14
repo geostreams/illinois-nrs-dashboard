@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { Box, Button, Typography, Tooltip, IconButton } from '@mui/material';
+import { Box, Button, Typography, Popover, IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import InfoIcon from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
 import html2canvas from 'html2canvas';
 import FilledPieChart from './FilledPieChart';
 import LineChart from './LineChart';
@@ -53,11 +54,22 @@ const BaseChart: FC<BaseChartProps> = ({
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isCapturing, setIsCapturing] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const headingParts = heading?.split(':');
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
     let fileUrl = `${process.env.CMS_DATA_URL}${dataFile?.url}`;
+
+    const handleInfoClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleInfoClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
 
     const handleDownload = useCallback(async () => {
         if (!chartRef.current) return;
@@ -254,11 +266,50 @@ const BaseChart: FC<BaseChartProps> = ({
                         }}
                     >
                         {altText && (
-                            <Tooltip title={altText} placement="top">
-                                <IconButton color="primary" size="small">
+                            <>
+                                <IconButton
+                                    color="primary"
+                                    size="small"
+                                    onClick={handleInfoClick}
+                                    aria-label="info"
+                                >
                                     <InfoIcon fontSize="small" />
                                 </IconButton>
-                            </Tooltip>
+                                <Popover
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    onClose={handleInfoClose}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            p: 1,
+                                            maxWidth: 350,
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        <IconButton
+                                            size="small"
+                                            onClick={handleInfoClose}
+                                            sx={{
+                                                position: 'absolute',
+                                                right: 2,
+                                                top: 2,
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="small" />
+                                        </IconButton>
+                                        <Typography>{altText}</Typography>
+                                    </Box>
+                                </Popover>
+                            </>
                         )}
                         <Button
                             variant="outlined"
