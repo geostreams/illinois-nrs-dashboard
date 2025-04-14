@@ -74,6 +74,18 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
             `src="${baseImageUrl}/uploads`
         );
 
+        // Remove paragraphs with just whitespace or &nbsp;
+        processedContent = processedContent.replace(
+            /<p(?:\s+class="p1")?>\s*(?:&nbsp;)?\s*<\/p>/g,
+            ''
+        );
+
+        // Add margin-bottom to all p tags with a margin-bottom
+        processedContent = processedContent.replace(
+            /<p(?:\s+class="p1")?>/g,
+            '<p style="margin-bottom: 1rem;">'
+        );
+
         // Remove font-family declarations including HTML entities and escaped quotes
         processedContent = processedContent.replace(
             /font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g,
