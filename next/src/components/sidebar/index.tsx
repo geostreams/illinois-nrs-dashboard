@@ -37,7 +37,13 @@ export const Sidebar: React.FC = () => {
         const createSections = () => {
             const headingElements = Array.from(
                 document.querySelectorAll('h2, h3')
-            );
+            ).filter((heading) => {
+                const parentDiv = heading.closest('div[hidden-in-sidebar]');
+                return (
+                    !parentDiv ||
+                    parentDiv.getAttribute('hidden-in-sidebar') !== 'true'
+                );
+            });
 
             let currentH2Section: Section | null = null;
             const topLevelSections: Section[] = [];

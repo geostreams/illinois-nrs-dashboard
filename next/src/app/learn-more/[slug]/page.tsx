@@ -41,19 +41,25 @@ export default async function Page({
         >
             <Box
                 sx={{
-                    width: { xs: '100%', md: '30%' },
-                    position: { xs: 'static', md: 'fixed' },
-                    height: { md: '100vh' },
-                    display: { xs: 'none', md: 'block' },
+                    position: { xs: 'relative', md: 'sticky' },
+                    top: 110, // Match the top position from the Sidebar component
+                    height: 'calc(100vh - 110px + 100px)', // Subtract navbar height and footer height
+                    alignSelf: 'flex-start',
+                    display: { xs: 'none', md: 'flex' },
+                    '@media print': {
+                        display: 'none',
+                    },
                 }}
             >
                 <Sidebar />
             </Box>
             <Box
+                component="main"
                 sx={{
+                    flex: 1,
                     width: '100%',
                     p: { xs: 2, sm: 3 },
-                    ml: { xs: 0, md: '20%' },
+                    ml: { xs: 0, md: '7%' },
                     maxWidth: { xs: '100%', md: '70%' },
                 }}
             >

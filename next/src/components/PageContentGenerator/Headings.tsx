@@ -11,6 +11,7 @@ interface HeadingProps {
     headingColor?: string;
     headingType: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     headingIcon: 'user' | 'dollar' | 'trees' | 'droplet';
+    hideInSidebar?: boolean;
 }
 
 const styles = {
@@ -80,6 +81,7 @@ const Heading = ({
     headingColor,
     headingType,
     headingIcon,
+    hideInSidebar,
 }: HeadingProps) => {
     let icon = null;
 
@@ -160,6 +162,7 @@ const Heading = ({
             return (
                 <div
                     id={headingId}
+                    hidden-in-sidebar={hideInSidebar ? 'true' : 'false'}
                     style={{ position: 'relative', scrollMarginTop: '120px' }}
                 >
                     {typographyElement}
