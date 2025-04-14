@@ -106,7 +106,11 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Legend
+                    formatter={(value: string) => (
+                        <span style={{ color: 'black' }}>{value}</span>
+                    )}
+                />
 
                 {/* Render Bars with sorted keys */}
                 {sortedKeys.map((key) => (

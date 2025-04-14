@@ -64,8 +64,9 @@ const LineChart: React.FC<LineChartProps> = ({
                     }}
                 />
                 <Legend
-                    wrapperStyle={{ fontSize: 12 }}
-                    formatter={(value: string) => value}
+                    formatter={(value: string) => (
+                        <span style={{ color: 'black' }}>{value}</span>
+                    )}
                 />
                 {Object.entries(chartConfig).map(([key, lineConfig]) => (
                     <Line

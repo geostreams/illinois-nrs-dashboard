@@ -273,7 +273,10 @@ const BaseChart: FC<BaseChartProps> = ({
                                     onClick={handleInfoClick}
                                     aria-label="info"
                                 >
-                                    <InfoIcon fontSize="small" />
+                                    <InfoIcon
+                                        fontSize="small"
+                                        titleAccess="Chart information"
+                                    />
                                 </IconButton>
                                 <Popover
                                     open={open}
@@ -303,8 +306,12 @@ const BaseChart: FC<BaseChartProps> = ({
                                                 right: 2,
                                                 top: 2,
                                             }}
+                                            aria-label="Close additional information"
                                         >
-                                            <CloseIcon fontSize="small" />
+                                            <CloseIcon
+                                                fontSize="small"
+                                                titleAccess="Close"
+                                            />
                                         </IconButton>
                                         <Typography>{altText}</Typography>
                                     </Box>
@@ -313,7 +320,9 @@ const BaseChart: FC<BaseChartProps> = ({
                         )}
                         <Button
                             variant="outlined"
-                            startIcon={<DownloadIcon />}
+                            startIcon={
+                                <DownloadIcon titleAccess="Download chart" />
+                            }
                             onClick={handleDownload}
                             disabled={isLoading}
                             size="small"
@@ -323,7 +332,9 @@ const BaseChart: FC<BaseChartProps> = ({
                         </Button>
                         <Button
                             variant="outlined"
-                            startIcon={<DownloadIcon />}
+                            startIcon={
+                                <DownloadIcon titleAccess="Download data" />
+                            }
                             onClick={handleDataDownload}
                             disabled={isLoading || !dataFile?.url}
                             size="small"

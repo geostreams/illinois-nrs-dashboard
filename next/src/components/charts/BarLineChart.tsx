@@ -155,7 +155,11 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Legend
+                    formatter={(value: string) => (
+                        <span style={{ color: 'black' }}>{value}</span>
+                    )}
+                />
 
                 {barConfig.map((config) => (
                     <Bar

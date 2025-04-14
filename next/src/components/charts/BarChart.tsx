@@ -61,7 +61,11 @@ const BarChart: React.FC<BarChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Legend
+                    formatter={(value) => (
+                        <span style={{ color: 'black' }}>{value}</span>
+                    )}
+                />
                 <Bar
                     dataKey={dataKey}
                     fill={barColor}

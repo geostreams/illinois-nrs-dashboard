@@ -69,7 +69,11 @@ const FilledPieChart: React.FC<PieChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend />
+                <Legend
+                    formatter={(value) => (
+                        <span style={{ color: 'black' }}>{value}</span>
+                    )}
+                />
             </PieChart>
         </ResponsiveContainer>
     );
