@@ -4,23 +4,25 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import NextLink from 'next/link';
+import fetchContentType from '@/utils/strapi/fetchContentType';
+import { notFound } from 'next/navigation';
+import { PageContentGenerator } from '@/components/PageContentGenerator';
 
-export default function Home() {
-    return (
-        <Container maxWidth="lg">
-            <Box
-                sx={{
-                    my: 4,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-                    Illinois NRS Home Page
-                </Typography>
-            </Box>
-        </Container>
-    );
+export default async function Home() {
+    let pageData = null;
+    try {
+        pageData = await fetchContentType('home', null, true);
+    } catch (error) {
+        console.error('Error fetching page data:', error);
+        return notFound();
+    }
+
+    const pageContents = pageData?.pageContents;
+
+    // if pageContents is empty, return 404
+    if (!pageContents) {
+        return notFound();
+    }
+
+    return <PageContentGenerator pageContents={pageContents} />;
 }

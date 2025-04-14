@@ -137,7 +137,8 @@ export const Sidebar: React.FC = () => {
     // Handle scroll and update active section
     React.useEffect(() => {
         const handleScroll = () => {
-            const scrollPosition = window.scrollY + 120;
+            // Added 200 px to give a buffer for edges of the pagex
+            const scrollPosition = window.scrollY + 120 + 200;
 
             // Check both top-level sections and subsections
             let foundActiveSection = false;

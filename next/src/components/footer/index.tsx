@@ -39,7 +39,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                 position: 'relative',
                 bottom: 0,
                 width: '100%',
-                marginTop: '200px',
             }}
         >
             <Box

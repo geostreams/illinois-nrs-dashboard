@@ -2,8 +2,6 @@
 
 import RichContentViewer from '../RichComponentViewer';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import PullQuote from './PullQuote';
 import Typography from '@mui/material/Typography';

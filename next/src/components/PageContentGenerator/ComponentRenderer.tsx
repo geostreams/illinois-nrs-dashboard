@@ -6,6 +6,9 @@ import { BaseContentSection } from './BaseContentSection';
 import { FullSpanImage } from './FullSpanImage';
 import { ChartWithQuote } from './ChartWithQuote';
 import { PageDivider } from '@/components/divider';
+import InfoBlock from '@/components/InfoBlock';
+import { StayInformed } from '@/components/StayInformed';
+import Hero from '@/components/Hero';
 
 interface ComponentRendererProps {
     component: any;
@@ -75,6 +78,37 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
             );
         case 'content.page-divider':
             return <PageDivider label={component.label} />;
+        case 'home-page.info-block':
+            return (
+                <InfoBlock
+                    photoBlocks={component.photoBlocks}
+                    title={component.title}
+                    infoText={component.infoText}
+                />
+            );
+        case 'home-page.stay-informed':
+            return (
+                <StayInformed
+                    title={component.title}
+                    subtitle={component.subtitle}
+                    links={component.links}
+                />
+            );
+        case 'home-page.hero':
+            return (
+                <Hero
+                    title={component.title}
+                    subtitle={component.subtitle}
+                    description={component.description}
+                    secondaryDescription={component.secondaryDescription}
+                    ctaText={component.ctaText}
+                    ctaUrl={component.ctaUrl}
+                    backgroundImage={component.backgroundImage}
+                    heroRightImage={component.heroRightImage}
+                    heroLeftImage={component.heroLeftImage}
+                    logoSection={component.logoSection}
+                />
+            );
         default:
             console.log('Component not found');
             console.log(component);

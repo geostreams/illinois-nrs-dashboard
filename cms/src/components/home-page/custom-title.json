@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_home_page_custom_titles",
+  "info": {
+    "displayName": "customTitle"
+  },
+  "options": {},
+  "attributes": {
+    "firstHalf": {
+      "type": "string"
+    },
+    "secondHalf": {
+      "type": "string"
+    },
+    "firstHalfColor": {
+      "type": "string"
+    },
+    "secondHalfColor": {
+      "type": "string"
+    }
+  }
+}

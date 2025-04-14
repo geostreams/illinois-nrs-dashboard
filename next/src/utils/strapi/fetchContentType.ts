@@ -28,18 +28,26 @@ export function spreadStrapiData(data: StrapiResponse): StrapiData | null {
 
 export default async function fetchContentType(
     contentType: string,
-    params: string,
+    params: string | null,
     spreadData?: boolean
 ): Promise<any> {
     try {
         // Construct the full URL for the API request
         const url = new URL(`api/${contentType}`, process.env.CMS_API_URL);
 
-        // Perform the fetch request with the provided query parameters
-        const response = await fetch(`${url.href}?${params}`, {
-            method: 'GET',
-            cache: 'no-store',
-        });
+        let response = null;
+        if (params) {
+            // Perform the fetch request with the provided query parameters
+            response = await fetch(`${url.href}?${params}`, {
+                method: 'GET',
+                cache: 'no-store',
+            });
+        } else {
+            response = await fetch(`${url.href}`, {
+                method: 'GET',
+                cache: 'no-store',
+            });
+        }
 
         if (!response.ok) {
             throw new Error(

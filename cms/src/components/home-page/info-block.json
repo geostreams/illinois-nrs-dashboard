@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_home_page_info_blocks",
+  "info": {
+    "displayName": "InfoBlock",
+    "icon": "information",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "photoBlocks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home-page.photo-block"
+    },
+    "infoText": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home-page.custom-title"
+    }
+  }
+}
