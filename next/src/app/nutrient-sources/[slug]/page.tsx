@@ -66,7 +66,8 @@ export default async function Page({
                     flex: 1,
                     width: '100%',
                     p: { xs: 2, sm: 3 },
-                    ml: { xs: 0, md: 0 },
+                    ml: { xs: 0, md: '15%' },
+                    maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
                 <Container
