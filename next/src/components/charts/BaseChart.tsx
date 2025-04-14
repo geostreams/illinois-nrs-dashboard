@@ -33,7 +33,7 @@ const styles = {
     caption: {
         fontSize: '16px',
         color: '#0A3977',
-        textAlign: 'left',
+        textAlign: 'center',
         fontStyle: 'italic',
     },
 };
@@ -189,6 +189,12 @@ const BaseChart: FC<BaseChartProps> = ({
                 },
             }}
         >
+            <Box sx={{ width: '100%' }}>
+                <Typography sx={styles.caption}>
+                    <strong>{boldHeading}:</strong>
+                    {regularHeading}
+                </Typography>
+            </Box>
             {chartType !== 'table' ? (
                 <Box
                     sx={{
@@ -230,12 +236,6 @@ const BaseChart: FC<BaseChartProps> = ({
                     <TableComponent tableData={chartData} />
                 </Box>
             )}
-            <Box sx={{ width: '100%' }}>
-                <Typography sx={styles.caption}>
-                    <strong>{boldHeading}:</strong>
-                    {regularHeading}
-                </Typography>
-            </Box>
             <Box
                 sx={{
                     display: 'flex',
