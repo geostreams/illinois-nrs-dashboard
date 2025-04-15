@@ -37,7 +37,13 @@ export default async function Page({
 
     return (
         <Box
-            sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}
+            sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                position: 'relative',
+                minHeight: 0,
+                flex: 1,
+            }}
         >
             <Box
                 sx={{

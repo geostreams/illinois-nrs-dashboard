@@ -179,6 +179,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                             opacity: 0.8,
                                         },
                                     }}
+                                    aria-label="Illinois NRS Facebook Page"
                                 >
                                     <FacebookIcon
                                         width={24}
@@ -186,7 +187,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                         fill={'#000'}
                                         style={{ flexShrink: 0 }}
                                         aria-hidden="true"
-                                        titleAccess="Illinois NRS Facebook Page"
                                     />
                                 </Link>
                             </Box>

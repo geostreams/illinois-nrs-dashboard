@@ -34,7 +34,7 @@ const styles = {
     caption: {
         fontSize: '16px',
         color: '#0A3977',
-        textAlign: 'center',
+        textAlign: 'left',
         fontStyle: 'italic',
     },
 };
