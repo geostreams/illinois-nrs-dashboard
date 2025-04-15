@@ -12,6 +12,7 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
+import ChartLegend from './chartLegend';
 
 // Define types for the data structure
 interface DataPoint {
@@ -63,11 +64,7 @@ const LineChart: React.FC<LineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend
-                    formatter={(value: string) => (
-                        <span style={{ color: 'black' }}>{value}</span>
-                    )}
-                />
+                <Legend content={ChartLegend} />
                 {Object.entries(chartConfig).map(([key, lineConfig]) => (
                     <Line
                         key={key}

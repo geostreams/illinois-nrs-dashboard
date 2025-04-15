@@ -14,6 +14,7 @@ import {
     ReferenceLine,
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
+import ChartLegend from './chartLegend';
 
 interface BarConfig {
     dataKey: string;
@@ -155,11 +156,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend
-                    formatter={(value: string) => (
-                        <span style={{ color: 'black' }}>{value}</span>
-                    )}
-                />
+                <Legend content={ChartLegend} />
 
                 {barConfig.map((config) => (
                     <Bar

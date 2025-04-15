@@ -12,6 +12,7 @@ import {
     ReferenceLine,
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
+import ChartLegend from './chartLegend';
 
 interface StackedBarChartProps {
     chartData: {
@@ -106,11 +107,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend
-                    formatter={(value: string) => (
-                        <span style={{ color: 'black' }}>{value}</span>
-                    )}
-                />
+                <Legend content={ChartLegend} />
 
                 {/* Render Bars with sorted keys */}
                 {sortedKeys.map((key) => (

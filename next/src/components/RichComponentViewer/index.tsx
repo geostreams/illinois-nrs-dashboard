@@ -86,6 +86,12 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
             '<p style="margin-bottom: 1rem;">'
         );
 
+        // Replace all instances of h4 with p that has the same styling properties
+        processedContent = processedContent.replace(
+            /<h4([^>]*)>(.*?)<\/h4>/g,
+            '<p style="font-size: 20px; color: #00516f; font-family: \'Source Sans\', sans-serif; font-weight: 600; display: flex; gap: 8px; margin-bottom: 8px; line-height: 1.2;">$2</p>'
+        );
+
         // Remove font-family declarations including HTML entities and escaped quotes
         processedContent = processedContent.replace(
             /font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g,

@@ -242,7 +242,7 @@ const Heading = ({
             return (
                 <Typography
                     variant="h4"
-                    component="h4"
+                    component="p"
                     tabIndex={0}
                     sx={{
                         ...styles.heading4,
@@ -258,7 +258,7 @@ const Heading = ({
             return (
                 <Typography
                     variant="h5"
-                    component="h5"
+                    component="p"
                     sx={{
                         ...styles.heading5,
                         ...styles.focusStyles,
