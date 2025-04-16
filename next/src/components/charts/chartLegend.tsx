@@ -11,7 +11,9 @@ const ChartLegend = (props: LegendProps): ReactNode => {
         <div
             style={{
                 display: 'flex',
+                flexWrap: 'wrap',
                 justifyContent: 'center',
+                gap: '8px',
                 padding: 0,
                 margin: '10px 0 0 0',
             }}
@@ -22,21 +24,21 @@ const ChartLegend = (props: LegendProps): ReactNode => {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        marginRight: 10,
-                        fontSize: 12,
+                        fontSize: '12px',
+                        padding: '2px 4px',
                     }}
                 >
                     <div
                         style={{
-                            width: 12,
-                            height: 12,
+                            minWidth: 10,
+                            height: 10,
                             backgroundColor: entry.color,
                             border: '1px solid black',
-                            marginRight: 8,
+                            marginRight: 6,
                             boxSizing: 'border-box',
                         }}
                     />
-                    <span style={{ color: 'black' }}>
+                    <span style={{ color: 'black', fontSize: '0.75rem' }}>
                         {typeof entry.value === 'string'
                             ? entry.value.charAt(0).toUpperCase() +
                               entry.value.slice(1)

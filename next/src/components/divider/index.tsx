@@ -8,7 +8,7 @@ interface PageDividerProps {
 }
 
 export const PageDivider = ({
-    width = '80%',
+    width = '100%',
     my = '3rem',
     mx = '0',
     label,

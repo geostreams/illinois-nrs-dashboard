@@ -72,7 +72,7 @@ export default async function Page({
                 <Container
                     maxWidth="lg"
                     disableGutters
-                    sx={{ px: { xs: 1, sm: 2 } }}
+                    sx={{ paddingLeft: { xs: 0, md: 15 } }}
                 >
                     <PageContentGenerator pageContents={pageContents} />
                 </Container>

@@ -40,7 +40,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
         <Box
             sx={{
                 display: 'grid',
-                maxWidth: '720px',
+                maxWidth: '100%',
                 my: 0,
                 marginRight: 0,
                 gridTemplateColumns: {

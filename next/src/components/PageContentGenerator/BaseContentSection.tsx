@@ -50,8 +50,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                       }
                     : {
                           xs: '100%',
-                          sm: '75%',
-                          md: '75%',
+                          sm: '100%',
+                          md: '100%',
                       },
                 my: 1,
                 marginRight: 0,

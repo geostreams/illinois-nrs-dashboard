@@ -35,7 +35,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     heading={component.chart.caption}
                     altText={component.chart.altText}
                     dataFile={component.chart.dataFile}
-                    width={{ xs: '100%', sm: '75%' }}
+                    width={{ xs: '100%', sm: '100%' }}
                     unit={component.chart.unit}
                 />
             );

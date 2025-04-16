@@ -66,14 +66,14 @@ export default async function Page({
                     flex: 1,
                     width: '100%',
                     p: { xs: 2, sm: 3 },
-                    margin: '0 auto',
+                    ml: { xs: 0, md: '7%' },
                     maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
                 <Container
                     maxWidth="lg"
                     disableGutters
-                    sx={{ px: { xs: 1, sm: 2 } }}
+                    sx={{ paddingLeft: { xs: 0, md: 15 } }}
                 >
                     <PageContentGenerator pageContents={pageContents} />
                 </Container>

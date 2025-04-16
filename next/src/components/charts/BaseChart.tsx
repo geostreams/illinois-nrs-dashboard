@@ -283,10 +283,11 @@ const BaseChart: FC<BaseChartProps> = ({
                     <Box
                         sx={{
                             display: 'flex',
-                            flexDirection: 'row',
+                            flexDirection: { xs: 'column', sm: 'row' },
                             gap: 0.5,
-                            alignItems: 'center',
+                            alignItems: { xs: 'stretch', sm: 'center' },
                             mt: 2,
+                            width: { xs: '100%', sm: 'auto' },
                         }}
                     >
                         {altText && (
@@ -296,6 +297,12 @@ const BaseChart: FC<BaseChartProps> = ({
                                     size="small"
                                     onClick={handleInfoClick}
                                     aria-label="info"
+                                    sx={{
+                                        alignSelf: {
+                                            xs: 'flex-start',
+                                            sm: 'center',
+                                        },
+                                    }}
                                 >
                                     <InfoIcon
                                         fontSize="small"
@@ -350,7 +357,10 @@ const BaseChart: FC<BaseChartProps> = ({
                             onClick={handleDownload}
                             disabled={isLoading}
                             size="small"
-                            sx={{ minWidth: 165 }}
+                            sx={{
+                                minWidth: 165,
+                                width: { xs: '100%', sm: 'auto' },
+                            }}
                         >
                             {isLoading ? 'Downloading...' : 'Download Chart'}
                         </Button>
@@ -362,7 +372,10 @@ const BaseChart: FC<BaseChartProps> = ({
                             onClick={handleDataDownload}
                             disabled={isLoading || !dataFile?.url}
                             size="small"
-                            sx={{ minWidth: 165 }}
+                            sx={{
+                                minWidth: 165,
+                                width: { xs: '100%', sm: 'auto' },
+                            }}
                         >
                             {isLoading ? 'Downloading...' : 'Download Data'}
                         </Button>
