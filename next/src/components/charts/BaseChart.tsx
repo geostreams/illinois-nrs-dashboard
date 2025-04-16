@@ -59,7 +59,7 @@ const BaseChart: FC<BaseChartProps> = ({
     const headingParts = heading?.split(':');
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
-    let fileUrl = `${process.env.CMS_DATA_URL}${dataFile?.url}`;
+    let fileUrl = `${process.env.CMS_API_URL}${dataFile?.url}`;
 
     const handleInfoClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
