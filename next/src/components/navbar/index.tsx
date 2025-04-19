@@ -26,6 +26,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 
 type Props = {
     navbar: {
@@ -160,7 +161,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                         >
                             <Image
                                 src={logoURL}
-                                alt="logo"
+                                alt="Illinois Nutrient Loss Reduction Strategy logo"
                                 fill
                                 style={{ objectFit: 'contain' }}
                             />
@@ -190,7 +191,15 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             justifyContent: 'flex-end',
                         }}
                     >
+                        <Box
+                            component="label"
+                            sx={visuallyHidden}
+                            htmlFor="desktop-search"
+                        >
+                            Search the website
+                        </Box>
                         <TextField
+                            id="desktop-search"
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
@@ -459,7 +468,15 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
                     {/* Search Bar at the Bottom of the Drawer */}
                     <Box sx={{ p: 2, mt: 'auto' }}>
+                        <Box
+                            component="label"
+                            sx={visuallyHidden}
+                            htmlFor="mobile-search"
+                        >
+                            Search the website
+                        </Box>
                         <TextField
+                            id="mobile-search"
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
