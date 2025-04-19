@@ -21,7 +21,8 @@ interface BaseChartProps {
     chartColors?: Record<string, string>;
     miscChartData: any;
     width?: { xs: string; sm: string };
-    altText?: string;
+    infoText?: string;
+    ariaLabel?: string;
     dataFile?: {
         url: string;
         name: string;
@@ -46,7 +47,8 @@ const BaseChart: FC<BaseChartProps> = ({
     chartColors = {},
     miscChartData,
     width = { xs: '100%', sm: '75%' },
-    altText,
+    infoText,
+    ariaLabel,
     dataFile,
     aspectRatio,
     unit,
@@ -136,77 +138,53 @@ const BaseChart: FC<BaseChartProps> = ({
         barUnit = unitObject.barUnit;
         lineUnit = unitObject.lineUnit;
     }
-    let ariaLabel = '';
-    let chartComponent;
 
-    switch (chartType) {
-        case 'filled_pie':
-            ariaLabel = 'Pie chart';
-            chartComponent = (
-                <FilledPieChart
-                    chart_data={chartData as { name: string; value: number }[]}
-                    chart_colors={chartColors}
-                    unit={unit}
-                    chartLabels={miscChartData?.chartLabels}
-                />
-            );
-            break;
-        case 'line':
-            ariaLabel = 'Line chart';
-            chartComponent = (
-                <LineChart
-                    chartData={chartData}
-                    chartConfig={miscChartData?.chartConfig}
-                    unit={unit}
-                />
-            );
-            break;
-        case 'stacked_bar':
-            ariaLabel = 'Stacked bar chart';
-            chartComponent = (
-                <StackedBarChart
-                    chartData={chartData}
-                    chartReferenceLines={miscChartData?.chartReferenceLines}
-                    chartColors={chartColors}
-                    unit={unit}
-                    yAxisInterval={miscChartData?.yAxisInterval}
-                />
-            );
-            break;
-        case 'bar':
-            ariaLabel = 'Bar chart';
-            chartComponent = (
-                <BarChart
-                    chartData={chartData}
-                    chartColors={chartColors}
-                    chartReferenceLines={miscChartData?.chartReferenceLines}
-                    unit={unit}
-                />
-            );
-            break;
-        case 'bar_line':
-            ariaLabel = 'Combined bar and line chart';
-            chartComponent = (
-                <BarLineChart
-                    chartData={chartData}
-                    barConfig={miscChartData?.barConfig}
-                    lineConfig={miscChartData?.lineConfig}
-                    chartReferenceLines={miscChartData?.chartReferenceLines}
-                    barUnit={barUnit}
-                    lineUnit={lineUnit}
-                    yAxisInterval={miscChartData?.yAxisInterval}
-                />
-            );
-            break;
-        case 'table':
-            ariaLabel = 'Data table';
-            chartComponent = <TableComponent tableData={chartData} />;
-            break;
-        default:
-            ariaLabel = 'Chart visualization';
-            chartComponent = null;
-            break;
-    }
+    const chartComponent = {
+        filled_pie: (
+            <FilledPieChart
+                chart_data={chartData as { name: string; value: number }[]}
+                chart_colors={chartColors}
+                unit={unit}
+                chartLabels={miscChartData?.chartLabels}
+            />
+        ),
+        line: (
+            <LineChart
+                chartData={chartData}
+                chartConfig={miscChartData?.chartConfig}
+                unit={unit}
+            />
+        ),
+        stacked_bar: (
+            <StackedBarChart
+                chartData={chartData}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                chartColors={chartColors}
+                unit={unit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+            />
+        ),
+        bar: (
+            <BarChart
+                chartData={chartData}
+                chartColors={chartColors}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                unit={unit}
+            />
+        ),
+        bar_line: (
+            <BarLineChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+            />
+        ),
+        table: <TableComponent tableData={chartData} />,
+    }[chartType];
 
     return (
         <Box
@@ -290,7 +268,7 @@ const BaseChart: FC<BaseChartProps> = ({
                             width: { xs: '100%', sm: 'auto' },
                         }}
                     >
-                        {altText && (
+                        {infoText && (
                             <>
                                 <IconButton
                                     color="primary"
@@ -344,7 +322,7 @@ const BaseChart: FC<BaseChartProps> = ({
                                                 titleAccess="Close"
                                             />
                                         </IconButton>
-                                        <Typography>{altText}</Typography>
+                                        <Typography>{infoText}</Typography>
                                     </Box>
                                 </Popover>
                             </>
