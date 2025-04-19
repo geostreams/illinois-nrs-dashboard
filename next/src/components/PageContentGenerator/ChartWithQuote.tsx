@@ -12,7 +12,8 @@ interface ChartWithQuoteProps {
         miscChartData: any;
         width?: string | number;
         height?: number;
-        altText?: string;
+        infoText?: string;
+        ariaLabel?: string;
         dataFile?: {
             url: string;
             name: string;
@@ -60,7 +61,8 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                     chartColors={chart.chartColors}
                     miscChartData={chart.miscChartData}
                     heading={chart.caption}
-                    altText={chart.altText}
+                    infoText={chart.infoText}
+                    ariaLabel={chart.ariaLabel}
                     dataFile={chart?.dataFile}
                     width={{ xs: '100%', sm: '100%' }}
                     aspectRatio={'100%'}
