@@ -33,9 +33,10 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     chartColors={component.chart.chartColors}
                     miscChartData={component.chart.miscChartData}
                     heading={component.chart.caption}
-                    altText={component.chart.altText}
+                    infoText={component.chart.infoText}
+                    ariaLabel={component.chart.ariaLabel}
                     dataFile={component.chart.dataFile}
-                    width={{ xs: '100%', sm: '75%' }}
+                    width={{ xs: '100%', sm: '100%' }}
                     unit={component.chart.unit}
                 />
             );
@@ -48,6 +49,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     headingColor={component.headingColor}
                     headingType={component.headingType}
                     headingIcon={component.headingIcon}
+                    hideInSidebar={component.hideInSidebar}
                 />
             );
         case 'content.base-content-section':

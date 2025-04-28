@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { Box, Button, Typography, Tooltip, IconButton } from '@mui/material';
+import { Box, Button, Typography, Popover, IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import InfoIcon from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
 import html2canvas from 'html2canvas';
 import FilledPieChart from './FilledPieChart';
 import LineChart from './LineChart';
@@ -20,7 +21,8 @@ interface BaseChartProps {
     chartColors?: Record<string, string>;
     miscChartData: any;
     width?: { xs: string; sm: string };
-    altText?: string;
+    infoText?: string;
+    ariaLabel?: string;
     dataFile?: {
         url: string;
         name: string;
@@ -45,7 +47,8 @@ const BaseChart: FC<BaseChartProps> = ({
     chartColors = {},
     miscChartData,
     width = { xs: '100%', sm: '75%' },
-    altText,
+    infoText,
+    ariaLabel,
     dataFile,
     aspectRatio,
     unit,
@@ -53,11 +56,22 @@ const BaseChart: FC<BaseChartProps> = ({
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isCapturing, setIsCapturing] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const headingParts = heading?.split(':');
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
-    let fileUrl = `${process.env.CMS_DATA_URL}${dataFile?.url}`;
+    let fileUrl = `${process.env.CMS_API_URL}${dataFile?.url}`;
+
+    const handleInfoClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleInfoClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
 
     const handleDownload = useCallback(async () => {
         if (!chartRef.current) return;
@@ -189,6 +203,12 @@ const BaseChart: FC<BaseChartProps> = ({
                 },
             }}
         >
+            <Box sx={{ width: '100%' }}>
+                <Typography sx={styles.caption}>
+                    <strong>{boldHeading}:</strong>
+                    {regularHeading}
+                </Typography>
+            </Box>
             {chartType !== 'table' ? (
                 <Box
                     sx={{
@@ -211,7 +231,7 @@ const BaseChart: FC<BaseChartProps> = ({
                               }),
                     }}
                     role="img"
-                    aria-label={altText}
+                    aria-label={ariaLabel}
                 >
                     <Box
                         sx={{
@@ -226,16 +246,10 @@ const BaseChart: FC<BaseChartProps> = ({
                     </Box>
                 </Box>
             ) : (
-                <Box sx={{ width: '100%' }}>
+                <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
                     <TableComponent tableData={chartData} />
                 </Box>
             )}
-            <Box sx={{ width: '100%' }}>
-                <Typography sx={styles.caption}>
-                    <strong>{boldHeading}:</strong>
-                    {regularHeading}
-                </Typography>
-            </Box>
             <Box
                 sx={{
                     display: 'flex',
@@ -247,36 +261,99 @@ const BaseChart: FC<BaseChartProps> = ({
                     <Box
                         sx={{
                             display: 'flex',
-                            flexDirection: 'row',
+                            flexDirection: { xs: 'column', sm: 'row' },
                             gap: 0.5,
-                            alignItems: 'center',
+                            alignItems: { xs: 'stretch', sm: 'center' },
                             mt: 2,
+                            width: { xs: '100%', sm: 'auto' },
                         }}
                     >
-                        {altText && (
-                            <Tooltip title={altText} placement="top">
-                                <IconButton color="primary" size="small">
-                                    <InfoIcon fontSize="small" />
+                        {infoText && (
+                            <>
+                                <IconButton
+                                    color="primary"
+                                    size="small"
+                                    onClick={handleInfoClick}
+                                    aria-label="info"
+                                    sx={{
+                                        alignSelf: {
+                                            xs: 'flex-start',
+                                            sm: 'center',
+                                        },
+                                    }}
+                                >
+                                    <InfoIcon
+                                        fontSize="small"
+                                        titleAccess="Chart information"
+                                    />
                                 </IconButton>
-                            </Tooltip>
+                                <Popover
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    onClose={handleInfoClose}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            p: 1,
+                                            maxWidth: 350,
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        <IconButton
+                                            size="small"
+                                            onClick={handleInfoClose}
+                                            sx={{
+                                                position: 'absolute',
+                                                right: 2,
+                                                top: 2,
+                                            }}
+                                            aria-label="Close additional information"
+                                        >
+                                            <CloseIcon
+                                                fontSize="small"
+                                                titleAccess="Close"
+                                            />
+                                        </IconButton>
+                                        <Typography>{infoText}</Typography>
+                                    </Box>
+                                </Popover>
+                            </>
                         )}
                         <Button
                             variant="outlined"
-                            startIcon={<DownloadIcon />}
+                            startIcon={
+                                <DownloadIcon titleAccess="Download chart" />
+                            }
                             onClick={handleDownload}
                             disabled={isLoading}
                             size="small"
-                            sx={{ minWidth: 165 }}
+                            sx={{
+                                minWidth: 165,
+                                width: { xs: '100%', sm: 'auto' },
+                            }}
                         >
                             {isLoading ? 'Downloading...' : 'Download Chart'}
                         </Button>
                         <Button
                             variant="outlined"
-                            startIcon={<DownloadIcon />}
+                            startIcon={
+                                <DownloadIcon titleAccess="Download data" />
+                            }
                             onClick={handleDataDownload}
                             disabled={isLoading || !dataFile?.url}
                             size="small"
-                            sx={{ minWidth: 165 }}
+                            sx={{
+                                minWidth: 165,
+                                width: { xs: '100%', sm: 'auto' },
+                            }}
                         >
                             {isLoading ? 'Downloading...' : 'Download Data'}
                         </Button>

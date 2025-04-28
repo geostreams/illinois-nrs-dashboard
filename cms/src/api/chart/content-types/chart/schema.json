@@ -35,7 +35,7 @@
     "miscChartData": {
       "type": "json"
     },
-    "altText": {
+    "infoText": {
       "type": "text"
     },
     "dataFile": {
@@ -54,6 +54,9 @@
     },
     "unit": {
       "type": "string"
+    },
+    "ariaLabel": {
+      "type": "text"
     }
   }
 }

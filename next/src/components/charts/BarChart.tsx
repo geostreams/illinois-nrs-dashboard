@@ -12,6 +12,7 @@ import {
     ReferenceLine,
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
+import ChartLegend from './chartLegend';
 
 interface BarChartProps {
     chartData: {
@@ -61,7 +62,7 @@ const BarChart: React.FC<BarChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Legend content={ChartLegend} />
                 <Bar
                     dataKey={dataKey}
                     fill={barColor}

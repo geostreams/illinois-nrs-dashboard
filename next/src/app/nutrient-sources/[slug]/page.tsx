@@ -37,30 +37,43 @@ export default async function Page({
 
     return (
         <Box
-            sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}
+            sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                position: 'relative',
+                minHeight: 0,
+                flex: 1,
+            }}
         >
             <Box
                 sx={{
-                    width: { xs: '100%', md: '30%' },
-                    position: { xs: 'static', md: 'fixed' },
-                    height: { md: '100vh' },
-                    display: { xs: 'none', md: 'block' },
+                    position: { xs: 'relative', md: 'sticky' },
+                    top: 110, // Match the top position from the Sidebar component
+                    height: 'calc(100vh - 110px + 100px)', // Subtract navbar height and footer height
+                    width: '240px',
+                    alignSelf: 'flex-start',
+                    display: { xs: 'none', md: 'flex' },
+                    '@media print': {
+                        display: 'none',
+                    },
                 }}
             >
                 <Sidebar />
             </Box>
             <Box
+                component="main"
                 sx={{
+                    flex: 1,
                     width: '100%',
                     p: { xs: 2, sm: 3 },
-                    ml: { xs: 0, md: '30%' },
+                    ml: { xs: 0, md: '7%' },
                     maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
                 <Container
                     maxWidth="lg"
                     disableGutters
-                    sx={{ px: { xs: 1, sm: 2 } }}
+                    sx={{ paddingLeft: { xs: 0, md: 15 } }}
                 >
                     <PageContentGenerator pageContents={pageContents} />
                 </Container>

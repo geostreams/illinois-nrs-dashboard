@@ -45,7 +45,7 @@ const PhotoBlock = ({ title, blockColor, image }: PhotoBlockProps) => {
                 <Grid item>
                     <BlockHeader bgcolor={blockColor}>
                         <Typography
-                            variant="subtitle1"
+                            variant="subtitle2"
                             fontFamily={'Sans-Serif'}
                             fontWeight="bold"
                             color="white"

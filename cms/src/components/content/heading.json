@@ -31,6 +31,10 @@
         "trees",
         "droplet"
       ]
+    },
+    "hideInSidebar": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
