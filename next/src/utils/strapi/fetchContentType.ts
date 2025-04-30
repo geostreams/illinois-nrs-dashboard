@@ -92,3 +92,27 @@ export async function fetchPageSlugs(
         console.error('FetchContentTypeError', error);
     }
 }
+
+export async function fetchPageGroups(contentType: string): Promise<any> {
+    try {
+        // Construct the full URL for the API request
+        const url = new URL(`api/${contentType}`, process.env.CMS_API_URL);
+
+        // Perform the fetch request
+        const response = await fetch(`${url.href}`, {
+            method: 'GET',
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`
+            );
+        }
+        const jsonData: StrapiResponse = await response.json();
+        return jsonData.data.map((item: StrapiData) => item.pageGroup);
+    } catch (error) {
+        // Log any errors that occur during the fetch process
+        console.error('FetchContentTypeError', error);
+    }
+}

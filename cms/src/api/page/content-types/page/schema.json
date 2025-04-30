@@ -28,10 +28,10 @@
         "content.page-divider"
       ]
     },
-    "pageGroup": {
-      "type": "uid"
-    },
     "slug": {
+      "type": "string"
+    },
+    "pageGroup": {
       "type": "string"
     }
   }

@@ -2,6 +2,7 @@ import { Card, CardContent, Typography, Box, Container } from '@mui/material';
 import ConstructionIcon from '@mui/icons-material/Construction';
 
 export default function InteractiveMapsPage() {
+    console.log('InteractiveMapsPage');
     return (
         <Container maxWidth="lg">
             <Box

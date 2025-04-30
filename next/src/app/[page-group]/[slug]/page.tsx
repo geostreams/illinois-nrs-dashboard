@@ -1,5 +1,8 @@
 import fetchContentType from '@/utils/strapi/fetchContentType';
-import { fetchPageSlugs } from '@/utils/strapi/fetchContentType';
+import {
+    fetchPageSlugs,
+    fetchPageGroups,
+} from '@/utils/strapi/fetchContentType';
 import Container from '@mui/material/Container';
 import { PageContentGenerator } from '@/components/PageContentGenerator';
 import * as React from 'react';
@@ -8,19 +11,20 @@ import Box from '@mui/material/Box';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 3600;
+// export const revalidate = 3600;
 
 export default async function Page({
     params,
 }: {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ 'page-group': string; slug: string }>;
 }) {
-    const { slug } = await params;
+    const { 'page-group': pageGroup, slug } = await params;
+
     let pageData = null;
     try {
         pageData = await fetchContentType(
             'pages',
-            `filters[slug][$eq]=${slug}&filters[pageGroup][$eq]=learn-more`,
+            `filters[slug][$eq]=${slug}&filters[pageGroup][$eq]=${pageGroup}`,
             true
         );
     } catch (error) {
@@ -50,6 +54,7 @@ export default async function Page({
                     position: { xs: 'relative', md: 'sticky' },
                     top: 110, // Match the top position from the Sidebar component
                     height: 'calc(100vh - 110px + 100px)', // Subtract navbar height and footer height
+                    width: '240px',
                     alignSelf: 'flex-start',
                     display: { xs: 'none', md: 'flex' },
                     '@media print': {
@@ -80,15 +85,27 @@ export default async function Page({
         </Box>
     );
 }
-
 export async function generateStaticParams() {
     try {
-        const pageData = await fetchPageSlugs('pages', 'learn-more');
-        if (!pageData) return [];
+        // Get all page groups and their slugs
+        const pageGroups = await fetchPageGroups('pages');
+        if (!pageGroups) {
+            return [];
+        }
+        const allParams = [];
 
-        return pageData.map((page: { slug: string }) => ({
-            slug: page.slug,
-        }));
+        for (const pageGroup of pageGroups) {
+            const pageData = await fetchPageSlugs('pages', pageGroup);
+            if (pageData) {
+                const groupParams = pageData.map((page: { slug: string }) => ({
+                    pageGroup,
+                    slug: page.slug,
+                }));
+                allParams.push(...groupParams);
+            }
+        }
+
+        return allParams;
     } catch (error) {
         console.error('Error generating static params:', error);
         return []; // Return empty array if fetch fails
