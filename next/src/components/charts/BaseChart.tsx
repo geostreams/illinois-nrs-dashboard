@@ -11,6 +11,7 @@ import LineChart from './LineChart';
 import StackedBarChart from './StackedBarChart';
 import BarChart from './BarChart';
 import BarLineChart from './BarLineChart';
+import StackedBarLineChart from './StackedBarLineChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 
@@ -111,6 +112,9 @@ const BaseChart: FC<BaseChartProps> = ({
 
         setIsLoading(true);
         try {
+            const fileUrl = dataFile.url.startsWith('http')
+                ? dataFile.url
+                : `${process.env.CMS_API_URL}${dataFile.url}`;
             const response = await fetch(fileUrl);
             if (!response.ok) throw new Error('Download failed');
 
@@ -174,6 +178,17 @@ const BaseChart: FC<BaseChartProps> = ({
         ),
         bar_line: (
             <BarLineChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+            />
+        ),
+        stacked_bar_line: (
+            <StackedBarLineChart
                 chartData={chartData}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}

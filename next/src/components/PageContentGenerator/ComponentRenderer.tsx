@@ -9,6 +9,7 @@ import { PageDivider } from '@/components/divider';
 import InfoBlock from '@/components/InfoBlock';
 import { StayInformed } from '@/components/StayInformed';
 import Hero from '@/components/Hero';
+import DownloadFile from '@/components/DownloadFile';
 
 interface ComponentRendererProps {
     component: any;
@@ -109,6 +110,13 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                     heroRightImage={component.heroRightImage}
                     heroLeftImage={component.heroLeftImage}
                     logoSection={component.logoSection}
+                />
+            );
+        case 'content.download-file':
+            return (
+                <DownloadFile
+                    displayText={component.displayText}
+                    fileData={component.file}
                 />
             );
         default:
