@@ -1,7 +1,10 @@
+'use client';
 import Box from '@mui/material/Box';
 import BaseChart from '../charts/BaseChart';
 import Image from 'next/image';
 import PullQuote from './PullQuote';
+import { LightboxWrapper } from '../LightboxWrapper';
+import { useState } from 'react';
 
 interface ChartWithQuoteProps {
     chart: {
@@ -36,7 +39,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
     pullQuote,
 }) => {
     const imageUrl = image?.url ? `${baseImageUrl}${image.url}` : '';
-
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     return (
         <Box
             sx={{
@@ -58,7 +61,6 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                 <BaseChart
                     chartType={chart.chartType}
                     chartData={chart.chartData}
-                    chartColors={chart.chartColors}
                     miscChartData={chart.miscChartData}
                     heading={chart.caption}
                     infoText={chart.infoText}
@@ -104,7 +106,9 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                                     position: 'relative',
                                     width: '70%',
                                     aspectRatio: '1/1',
+                                    cursor: 'pointer',
                                 }}
+                                onClick={() => setIsLightboxOpen(true)}
                             >
                                 <Image
                                     src={imageUrl}
@@ -123,6 +127,13 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                         </Box>
                     )}
                 </Box>
+            )}
+            {image && (
+                <LightboxWrapper
+                    isOpen={isLightboxOpen}
+                    onClose={() => setIsLightboxOpen(false)}
+                    image={image}
+                />
             )}
         </Box>
     );

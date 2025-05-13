@@ -3,13 +3,22 @@
 import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
+import { LightboxWrapper } from '../LightboxWrapper';
 
 interface FullSpanImageProps {
     image: {
-        url?: string;
+        url: string;
         alternativeText?: string;
         width?: number;
         height?: number;
+        formats?: {
+            large?: {
+                url: string;
+            };
+            medium?: {
+                url: string;
+            };
+        };
     };
     caption: string;
     baseImageUrl?: string;
@@ -23,7 +32,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     imageWidth = 75,
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
-
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     // Parse caption - everything before colon is bold
     let boldCaption = '';
     let regularCaption = '';
@@ -34,7 +43,6 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
         boldCaption = captionParts[0];
         regularCaption = captionParts[1];
     }
-
     return (
         <Box
             sx={{
@@ -43,7 +51,9 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                 my: 2,
                 position: 'relative',
                 height: 'auto',
+                cursor: 'pointer',
             }}
+            onClick={() => setIsLightboxOpen(true)}
         >
             <div
                 style={{
@@ -77,6 +87,13 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                     <strong>{boldCaption}:</strong>
                     {regularCaption}
                 </Typography>
+            )}
+            {image && (
+                <LightboxWrapper
+                    isOpen={isLightboxOpen}
+                    onClose={() => setIsLightboxOpen(false)}
+                    image={image}
+                />
             )}
         </Box>
     );

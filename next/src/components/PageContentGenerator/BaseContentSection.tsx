@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import RichContentViewer from '../RichComponentViewer';
 import Box from '@mui/material/Box';
 import Image from 'next/image';
 import PullQuote from './PullQuote';
 import Typography from '@mui/material/Typography';
+import { LightboxWrapper } from '../LightboxWrapper';
+
 interface BaseContentSectionProps {
     textContent: string;
     baseImageUrl?: string;
@@ -16,6 +19,14 @@ interface BaseContentSectionProps {
             url: string;
             alternativeText?: string | null;
             caption?: string | null;
+            formats?: {
+                large: {
+                    url: string;
+                };
+                medium: {
+                    url: string;
+                };
+            };
         };
     };
     pullQuote?: {
@@ -33,6 +44,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     quotePlacement = 'above',
     borderedTextBox = false,
 }) => {
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const imageUrl = image?.image?.url
         ? `${baseImageUrl}${image.image.url}`
         : '';
@@ -118,6 +130,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    cursor: 'pointer',
                                     ...(image?.bordered && {
                                         border: '1.5px solid #0a3977',
                                         borderRadius: '4px',
@@ -125,6 +138,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                         backgroundColor: 'background.paper',
                                     }),
                                 }}
+                                onClick={() => setIsLightboxOpen(true)}
                             >
                                 <Image
                                     src={imageUrl}
@@ -164,6 +178,13 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         <PullQuote quoteText={pullQuote.quoteText || ''} />
                     )}
                 </Box>
+            )}
+            {image?.image && (
+                <LightboxWrapper
+                    isOpen={isLightboxOpen}
+                    onClose={() => setIsLightboxOpen(false)}
+                    image={image.image}
+                />
             )}
         </Box>
     );
