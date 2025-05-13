@@ -227,6 +227,7 @@ const BaseChart: FC<BaseChartProps> = ({
                     sx={{
                         width: '100%',
                         height: 'auto',
+                        minHeight: '400px',
                         bgcolor: 'white',
                         marginBottom: 0.5,
                         position: 'relative',
