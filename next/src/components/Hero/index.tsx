@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { Box, Typography, Button, Container, Paper } from '@mui/material';
 import Image from 'next/image';
+import RichContentViewer from '@/components/RichComponentViewer';
 
 export interface HeroData {
-    title?: string;
-    subtitle?: string;
-    description?: string;
-    secondaryDescription?: string;
-    ctaText?: string;
-    ctaUrl?: string;
+    buttonText?: string;
+    buttonURL?: string;
     logoSection?: {
         url: string;
         alt?: string;
@@ -28,19 +25,17 @@ export interface HeroData {
         alt?: string;
         caption?: string;
     };
+    heroText?: any;
 }
 
 export const Hero = ({
-    title = 'ILLINOIS',
-    subtitle = 'NUTRIENT LOSS REDUCTION STRATEGY',
-    description = 'NLRS, is a statewide, collaborative effort working to reduce the amount of nutrients, particularly nitrogen and phosphorus, entering Illinois waterways.',
-    secondaryDescription = 'This website details the efforts and investments made by NLRS partners and stakeholders across the state to reduce nutrient loss from the agricultural, point source, and urban stormwater sectors.',
-    ctaText = 'LEARN MORE',
-    ctaUrl = '#',
+    buttonText = 'LEARN MORE',
+    buttonURL = '#',
     logoSection,
     heroLeftImage,
     heroRightImage,
     backgroundImage,
+    heroText,
 }: HeroData) => {
     return (
         <div>
@@ -122,7 +117,7 @@ export const Hero = ({
                                         height: '150px',
                                         mr: 'auto',
                                         ml: { xs: 'auto', md: 0 },
-                                        mb: 3,
+                                        mb: 0,
                                         overflow: 'hidden',
                                         borderRadius: '4px',
                                     }}
@@ -144,41 +139,17 @@ export const Hero = ({
                                 </Box>
                             )}
 
-                            <Typography
-                                variant="subtitle1"
-                                sx={{
-                                    mb: 2,
-                                    fontSize: { xs: '1rem', md: '1.1rem' },
-                                    lineHeight: 1.4,
-                                }}
-                            >
-                                <Box
-                                    component="span"
-                                    sx={{ fontWeight: 'bold' }}
-                                >
-                                    The Illinois Nutrient Loss Reduction
-                                    Strategy,
-                                </Box>{' '}
-                                {description}
-                            </Typography>
-
-                            <Typography
-                                variant="body1"
-                                sx={{
-                                    mb: 3,
-                                    fontSize: { xs: '1rem', md: '1.1rem' },
-                                    lineHeight: 1.4,
-                                }}
-                            >
-                                {secondaryDescription}
-                            </Typography>
+                            <RichContentViewer content={heroText} />
 
                             <Box
-                                sx={{ textAlign: { xs: 'center', md: 'left' } }}
+                                sx={{
+                                    textAlign: { xs: 'center', md: 'left' },
+                                    mt: 2,
+                                }}
                             >
                                 <Button
                                     variant="contained"
-                                    href={ctaUrl}
+                                    href={buttonURL}
                                     size="large"
                                     sx={{
                                         bgcolor: '#00507A',
@@ -193,7 +164,7 @@ export const Hero = ({
                                         textTransform: 'uppercase',
                                     }}
                                 >
-                                    {ctaText}
+                                    {buttonText}
                                 </Button>
                             </Box>
                         </Box>

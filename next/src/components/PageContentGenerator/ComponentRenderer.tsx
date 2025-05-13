@@ -31,7 +31,6 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 <BaseChart
                     chartType={component.chart.chartType}
                     chartData={component.chart.chartData}
-                    chartColors={component.chart.chartColors}
                     miscChartData={component.chart.miscChartData}
                     heading={component.chart.caption}
                     infoText={component.chart.infoText}
@@ -100,16 +99,13 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
         case 'home-page.hero':
             return (
                 <Hero
-                    title={component.title}
-                    subtitle={component.subtitle}
-                    description={component.description}
-                    secondaryDescription={component.secondaryDescription}
-                    ctaText={component.ctaText}
-                    ctaUrl={component.ctaUrl}
+                    buttonText={component.buttonText}
+                    buttonURL={component.buttonURL}
                     backgroundImage={component.backgroundImage}
                     heroRightImage={component.heroRightImage}
                     heroLeftImage={component.heroLeftImage}
                     logoSection={component.logoSection}
+                    heroText={component.heroText}
                 />
             );
         case 'content.download-file':
