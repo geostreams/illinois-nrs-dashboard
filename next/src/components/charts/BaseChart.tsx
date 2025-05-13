@@ -19,7 +19,6 @@ interface BaseChartProps {
     chartType: string;
     heading?: string;
     chartData: any;
-    chartColors?: Record<string, string>;
     miscChartData: any;
     width?: { xs: string; sm: string };
     infoText?: string;
@@ -45,7 +44,6 @@ const BaseChart: FC<BaseChartProps> = ({
     chartType,
     heading,
     chartData,
-    chartColors = {},
     miscChartData,
     width = { xs: '100%', sm: '75%' },
     infoText,
@@ -147,7 +145,7 @@ const BaseChart: FC<BaseChartProps> = ({
         filled_pie: (
             <FilledPieChart
                 chart_data={chartData as { name: string; value: number }[]}
-                chart_colors={chartColors}
+                chart_colors={miscChartData?.chartColors}
                 unit={unit}
                 chartLabels={miscChartData?.chartLabels}
             />
@@ -163,7 +161,7 @@ const BaseChart: FC<BaseChartProps> = ({
             <StackedBarChart
                 chartData={chartData}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
-                chartColors={chartColors}
+                chartColors={miscChartData?.chartColors}
                 unit={unit}
                 yAxisInterval={miscChartData?.yAxisInterval}
             />
@@ -171,7 +169,7 @@ const BaseChart: FC<BaseChartProps> = ({
         bar: (
             <BarChart
                 chartData={chartData}
-                chartColors={chartColors}
+                chartColors={miscChartData?.chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 unit={unit}
             />

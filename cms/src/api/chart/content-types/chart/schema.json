@@ -30,9 +30,6 @@
     "chartData": {
       "type": "json"
     },
-    "chartColors": {
-      "type": "json"
-    },
     "miscChartData": {
       "type": "json"
     },
