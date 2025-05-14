@@ -39,6 +39,10 @@ export const LightboxWrapper: React.FC<LightboxWrapperProps> = ({
             render={{
                 buttonPrev: () => null,
                 buttonNext: () => null,
+                buttonClose: () => null,
+            }}
+            controller={{
+                closeOnBackdropClick: true,
             }}
             slides={[{ src: imageUrl }]}
             styles={{

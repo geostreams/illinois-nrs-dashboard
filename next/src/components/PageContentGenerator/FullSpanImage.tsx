@@ -33,6 +33,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
     // Parse caption - everything before colon is bold
     let boldCaption = '';
     let regularCaption = '';
@@ -43,6 +44,11 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
         boldCaption = captionParts[0];
         regularCaption = captionParts[1];
     }
+
+    // Default dimensions if not provided
+    const defaultWidth = 1200;
+    const defaultHeight = 800;
+
     return (
         <Box
             sx={{
@@ -57,21 +63,24 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
         >
             <div
                 style={{
-                    width: '100%',
-                    height: 'auto',
+                    width: `${imageWidth}%`,
                     position: 'relative',
-                    textAlign: 'left',
+                    aspectRatio:
+                        image.width && image.height
+                            ? `${image.width}/${image.height}`
+                            : `${defaultWidth}/${defaultHeight}`,
                 }}
             >
-                <img
+                <Image
                     src={imageUrl}
-                    alt={image.alternativeText}
+                    alt={image.alternativeText || ''}
+                    fill
                     style={{
                         objectFit: 'contain',
-                        width: `${imageWidth}%`,
-                        height: 'auto',
-                        maxWidth: '100%', // Ensure image doesn't overflow on mobile
                     }}
+                    sizes={`(max-width: 768px) 100vw, ${imageWidth}vw`}
+                    priority={false}
+                    quality={75}
                 />
             </div>
             {caption && (
@@ -81,7 +90,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                         color: '#0A3977',
                         textAlign: 'left',
                         fontStyle: 'italic',
-                        maxWidth: { xs: '100%', sm: `${imageWidth}%` }, // Adjust caption width on mobile
+                        maxWidth: { xs: '100%', sm: `${imageWidth}%` },
                     }}
                 >
                     <strong>{boldCaption}:</strong>
