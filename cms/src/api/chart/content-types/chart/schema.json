@@ -23,13 +23,11 @@
         "line",
         "bar",
         "table",
-        "bar_line"
+        "bar_line",
+        "stacked_bar_line"
       ]
     },
     "chartData": {
-      "type": "json"
-    },
-    "chartColors": {
       "type": "json"
     },
     "miscChartData": {

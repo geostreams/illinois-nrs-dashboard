@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import RichContentViewer from '../RichComponentViewer';
 import Box from '@mui/material/Box';
 import Image from 'next/image';
 import PullQuote from './PullQuote';
 import Typography from '@mui/material/Typography';
+import { LightboxWrapper } from '../LightboxWrapper';
+
 interface BaseContentSectionProps {
     textContent: string;
     baseImageUrl?: string;
@@ -16,6 +19,14 @@ interface BaseContentSectionProps {
             url: string;
             alternativeText?: string | null;
             caption?: string | null;
+            formats?: {
+                large: {
+                    url: string;
+                };
+                medium: {
+                    url: string;
+                };
+            };
         };
     };
     pullQuote?: {
@@ -33,6 +44,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     quotePlacement = 'above',
     borderedTextBox = false,
 }) => {
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const imageUrl = image?.image?.url
         ? `${baseImageUrl}${image.image.url}`
         : '';
@@ -40,7 +52,8 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     return (
         <Box
             sx={{
-                display: 'grid',
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
                 maxWidth: borderedTextBox
                     ? {
                           xs: '100%',
@@ -48,40 +61,28 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                           md: '75%',
                           lg: '55%',
                       }
-                    : {
-                          xs: '100%',
-                          sm: '100%',
-                          md: '100%',
-                      },
+                    : '100%',
                 my: 1,
-                marginRight: 0,
-                gridTemplateColumns: {
-                    xs: '1fr',
-                    sm:
-                        imageUrl || pullQuote || borderedTextBox
-                            ? '4fr 2fr'
-                            : '1fr',
-                    md:
-                        imageUrl || pullQuote || borderedTextBox
-                            ? '4fr 2fr'
-                            : '1fr',
-                },
                 gap: 3,
-                alignItems: 'center',
+                alignItems: 'flex-start',
             }}
         >
-            {/* Left column - 60% */}
+            {/* Main content - grows to fill available space */}
             <Box
                 sx={{
+                    flex: '1 1 auto',
+                    width: '100%',
+                    maxWidth:
+                        imageUrl || pullQuote || borderedTextBox
+                            ? { xs: '100%', sm: '66.67%' }
+                            : '100%',
                     ...(borderedTextBox && {
                         borderRadius: '4px',
                         border: '1px solid #0a3977',
                         boxShadow: '4px 4px 0px rgba(0, 0, 0, 0.9)',
-                        paddingTop: '15px',
-                        marginBottom: '25px',
-                        marginTop: '5px',
-                        paddingBottom: '15px',
-                        paddingRight: '25px',
+                        padding: '15px 25px 15px 15px',
+                        mb: 3,
+                        mt: '5px',
                     }),
                 }}
             >
@@ -91,17 +92,16 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                 />
             </Box>
 
-            {/* Right column - 40% */}
-            {/* Conditionally render the image and pull quote */}
+            {/* Side content - fixed width */}
             {(imageUrl || pullQuote) && (
                 <Box
                     sx={{
+                        flex: '0 0 auto',
+                        width: { xs: '100%', sm: '33.33%' },
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'center', // Centers vertically
-                        alignItems: 'center', // Centers horizontally
-                        textAlign: 'center',
-                        height: '100%',
+                        alignItems: 'center',
+                        gap: 2,
                     }}
                 >
                     {/* Pull Quote */}
@@ -130,6 +130,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    cursor: 'pointer',
                                     ...(image?.bordered && {
                                         border: '1.5px solid #0a3977',
                                         borderRadius: '4px',
@@ -137,6 +138,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                         backgroundColor: 'background.paper',
                                     }),
                                 }}
+                                onClick={() => setIsLightboxOpen(true)}
                             >
                                 <Image
                                     src={imageUrl}
@@ -176,6 +178,13 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                         <PullQuote quoteText={pullQuote.quoteText || ''} />
                     )}
                 </Box>
+            )}
+            {image?.image && (
+                <LightboxWrapper
+                    isOpen={isLightboxOpen}
+                    onClose={() => setIsLightboxOpen(false)}
+                    image={image.image}
+                />
             )}
         </Box>
     );

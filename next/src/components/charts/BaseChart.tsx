@@ -11,6 +11,7 @@ import LineChart from './LineChart';
 import StackedBarChart from './StackedBarChart';
 import BarChart from './BarChart';
 import BarLineChart from './BarLineChart';
+import StackedBarLineChart from './StackedBarLineChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 
@@ -18,7 +19,6 @@ interface BaseChartProps {
     chartType: string;
     heading?: string;
     chartData: any;
-    chartColors?: Record<string, string>;
     miscChartData: any;
     width?: { xs: string; sm: string };
     infoText?: string;
@@ -44,7 +44,6 @@ const BaseChart: FC<BaseChartProps> = ({
     chartType,
     heading,
     chartData,
-    chartColors = {},
     miscChartData,
     width = { xs: '100%', sm: '75%' },
     infoText,
@@ -111,6 +110,9 @@ const BaseChart: FC<BaseChartProps> = ({
 
         setIsLoading(true);
         try {
+            const fileUrl = dataFile.url.startsWith('http')
+                ? dataFile.url
+                : `${process.env.CMS_API_URL}${dataFile.url}`;
             const response = await fetch(fileUrl);
             if (!response.ok) throw new Error('Download failed');
 
@@ -143,7 +145,7 @@ const BaseChart: FC<BaseChartProps> = ({
         filled_pie: (
             <FilledPieChart
                 chart_data={chartData as { name: string; value: number }[]}
-                chart_colors={chartColors}
+                chart_colors={miscChartData?.chartColors}
                 unit={unit}
                 chartLabels={miscChartData?.chartLabels}
             />
@@ -159,7 +161,7 @@ const BaseChart: FC<BaseChartProps> = ({
             <StackedBarChart
                 chartData={chartData}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
-                chartColors={chartColors}
+                chartColors={miscChartData?.chartColors}
                 unit={unit}
                 yAxisInterval={miscChartData?.yAxisInterval}
             />
@@ -167,13 +169,24 @@ const BaseChart: FC<BaseChartProps> = ({
         bar: (
             <BarChart
                 chartData={chartData}
-                chartColors={chartColors}
+                chartColors={miscChartData?.chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 unit={unit}
             />
         ),
         bar_line: (
             <BarLineChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+            />
+        ),
+        stacked_bar_line: (
+            <StackedBarLineChart
                 chartData={chartData}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
@@ -214,6 +227,7 @@ const BaseChart: FC<BaseChartProps> = ({
                     sx={{
                         width: '100%',
                         height: 'auto',
+                        minHeight: '400px',
                         bgcolor: 'white',
                         marginBottom: 0.5,
                         position: 'relative',
