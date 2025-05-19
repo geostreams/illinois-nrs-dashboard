@@ -18,11 +18,7 @@ export interface StayInformedData {
     links?: LinkItem[];
 }
 
-export const StayInformed = ({
-    title = 'STAY INFORMED',
-    subtitle,
-    links = [],
-}: StayInformedData) => {
+export const StayInformed = ({ subtitle, links = [] }: StayInformedData) => {
     return (
         <div
             style={{
@@ -112,9 +108,7 @@ export const StayInformed = ({
                                     href={link.URL}
                                     color="inherit"
                                     underline="hover"
-                                    target={
-                                        link.target ? link.target : '_blank'
-                                    }
+                                    target={link.target ? link.target : '_blank'}
                                     sx={{
                                         fontWeight: 500,
                                         fontSize: '1.1rem',

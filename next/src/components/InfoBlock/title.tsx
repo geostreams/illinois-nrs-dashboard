@@ -3,12 +3,7 @@ import { Box, Typography, Divider } from '@mui/material';
 import { TitleProps } from './types';
 
 // Title component for displaying two-colored headings
-const Title = ({
-    firstHalf,
-    secondHalf,
-    firstHalfColor,
-    secondHalfColor,
-}: TitleProps) => {
+const Title = ({ firstHalf, secondHalf, firstHalfColor, secondHalfColor }: TitleProps) => {
     return (
         <>
             <Typography

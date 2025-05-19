@@ -9,18 +9,14 @@ interface RichContentViewerProps {
     baseImageUrl?: string;
 }
 
-const RichContentViewer: React.FC<RichContentViewerProps> = ({
-    content,
-    baseImageUrl = process.env.CMS_API_URL,
-}) => {
+const RichContentViewer: React.FC<RichContentViewerProps> = ({ content, baseImageUrl = process.env.CMS_API_URL }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Add tabIndex to each heading
     useEffect(() => {
         if (containerRef.current) {
             // Find all heading elements h1-h3
-            const headings =
-                containerRef.current.querySelectorAll('h1, h2, h3');
+            const headings = containerRef.current.querySelectorAll('h1, h2, h3');
 
             // Add tabIndex and anchor links to each heading
             headings.forEach((heading) => {
@@ -69,22 +65,13 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
     }, [content]); // Re-run when content changes
 
     const processContent = (htmlContent: string) => {
-        let processedContent = htmlContent.replace(
-            /src="\/uploads/g,
-            `src="${baseImageUrl}/uploads`
-        );
+        let processedContent = htmlContent.replace(/src="\/uploads/g, `src="${baseImageUrl}/uploads`);
 
         // Remove paragraphs with just whitespace or &nbsp;
-        processedContent = processedContent.replace(
-            /<p(?:\s+class="p1")?>\s*(?:&nbsp;)?\s*<\/p>/g,
-            ''
-        );
+        processedContent = processedContent.replace(/<p(?:\s+class="p1")?>\s*(?:&nbsp;)?\s*<\/p>/g, '');
 
         // Add margin-bottom to all p tags with a margin-bottom
-        processedContent = processedContent.replace(
-            /<p(?:\s+class="p1")?>/g,
-            '<p style="margin-bottom: 1rem;">'
-        );
+        processedContent = processedContent.replace(/<p(?:\s+class="p1")?>/g, '<p style="margin-bottom: 1rem;">');
 
         // Replace all instances of h4 with p that has the same styling properties
         // processedContent = processedContent.replace(
@@ -93,10 +80,7 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({
         // );
 
         // Remove font-family declarations including HTML entities and escaped quotes
-        processedContent = processedContent.replace(
-            /font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g,
-            '$3'
-        );
+        processedContent = processedContent.replace(/font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g, '$3');
 
         // DOMPurify ensures that the HTML content is safe to render
         // by removing any malicious code that could lead to XSS attacks

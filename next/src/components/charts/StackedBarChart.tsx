@@ -44,15 +44,10 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
 
     // Calculate total values for each key and sort them
     const sortedKeys = React.useMemo(() => {
-        const keys = Object.keys(chartData[0] || {}).filter(
-            (key) => key !== 'name'
-        );
+        const keys = Object.keys(chartData[0] || {}).filter((key) => key !== 'name');
         const totals = keys.reduce(
             (acc, key) => {
-                acc[key] = chartData.reduce(
-                    (sum, item) => sum + (Number(item[key]) || 0),
-                    0
-                );
+                acc[key] = chartData.reduce((sum, item) => sum + (Number(item[key]) || 0), 0);
                 return acc;
             },
             {} as Record<string, number>
@@ -73,10 +68,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => formatValueWithUnit(value, unit)}
                     width={40}
-                    domain={[
-                        yAxisInterval?.min ?? 'auto',
-                        yAxisInterval?.max ?? 'auto',
-                    ]}
+                    domain={[yAxisInterval?.min ?? 'auto', yAxisInterval?.max ?? 'auto']}
                     interval="preserveStartEnd"
                     ticks={(() => {
                         if (
@@ -88,8 +80,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                             const { min, max, interval } = yAxisInterval;
                             return Array.from(
                                 {
-                                    length:
-                                        Math.floor((max - min) / interval) + 1,
+                                    length: Math.floor((max - min) / interval) + 1,
                                 },
                                 (_, i) => min + i * interval
                             );
@@ -99,9 +90,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                 />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
-                    formatter={(value) =>
-                        formatValueWithUnit(value as number, unit)
-                    }
+                    formatter={(value) => formatValueWithUnit(value as number, unit)}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',

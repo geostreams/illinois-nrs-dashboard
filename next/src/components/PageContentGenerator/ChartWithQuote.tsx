@@ -10,8 +10,10 @@ interface ChartWithQuoteProps {
     chart: {
         chartType: string;
         caption?: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         chartData: any;
         chartColors?: Record<string, string>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         miscChartData: any;
         width?: string | number;
         height?: number;
@@ -86,9 +88,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                     }}
                 >
                     {/* Pull Quote */}
-                    {pullQuote && (
-                        <PullQuote quoteText={pullQuote.quoteText || ''} />
-                    )}
+                    {pullQuote && <PullQuote quoteText={pullQuote.quoteText || ''} />}
                     {/* Image Container */}
                     {imageUrl && (
                         <Box
@@ -112,10 +112,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                             >
                                 <Image
                                     src={imageUrl}
-                                    alt={
-                                        image?.alternativeText ||
-                                        'Content image'
-                                    }
+                                    alt={image?.alternativeText || 'Content image'}
                                     fill
                                     sizes="(max-width: 768px) 100vw, 320px"
                                     style={{
@@ -129,11 +126,7 @@ export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
                 </Box>
             )}
             {image && (
-                <LightboxWrapper
-                    isOpen={isLightboxOpen}
-                    onClose={() => setIsLightboxOpen(false)}
-                    image={image}
-                />
+                <LightboxWrapper isOpen={isLightboxOpen} onClose={() => setIsLightboxOpen(false)} image={image} />
             )}
         </Box>
     );

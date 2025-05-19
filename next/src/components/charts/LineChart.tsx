@@ -36,11 +36,7 @@ interface LineChartProps {
     unit?: string;
 }
 
-const LineChart: React.FC<LineChartProps> = ({
-    chartData,
-    chartConfig,
-    unit,
-}) => {
+const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <RechartsLineChart
@@ -49,16 +45,10 @@ const LineChart: React.FC<LineChartProps> = ({
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
-                    width={40}
-                />
+                <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatValueWithUnit(value, unit)} width={40} />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
-                    formatter={(value) =>
-                        formatValueWithUnit(value as number, unit)
-                    }
+                    formatter={(value) => formatValueWithUnit(value as number, unit)}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',
@@ -71,14 +61,8 @@ const LineChart: React.FC<LineChartProps> = ({
                         dataKey={key}
                         stroke={lineConfig.color}
                         strokeWidth={lineConfig.strokeWidth || 2}
-                        dot={
-                            lineConfig.dot !== false
-                                ? { strokeWidth: 2 }
-                                : false
-                        }
-                        activeDot={
-                            lineConfig.activeDot !== false ? { r: 6 } : false
-                        }
+                        dot={lineConfig.dot !== false ? { strokeWidth: 2 } : false}
+                        activeDot={lineConfig.activeDot !== false ? { r: 6 } : false}
                         name={key}
                         connectNulls={lineConfig.connectNulls || false}
                         isAnimationActive={false}

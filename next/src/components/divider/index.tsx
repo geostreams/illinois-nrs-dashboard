@@ -7,12 +7,7 @@ interface PageDividerProps {
     label?: string;
 }
 
-export const PageDivider = ({
-    width = '100%',
-    my = '3rem',
-    mx = '0',
-    label,
-}: PageDividerProps) => {
+export const PageDivider = ({ width = '100%', my = '3rem', mx = '0', label }: PageDividerProps) => {
     return (
         <>
             {label ? (

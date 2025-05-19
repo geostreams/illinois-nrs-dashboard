@@ -1,19 +1,12 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import RichContentViewer from '@/components/RichComponentViewer';
-import FilledPieChart from '@/components/charts/FilledPieChart';
-import StackedBarChart from '@/components/charts/StackedBarChart';
-import LineChart from '@/components/charts/LineChart';
-import DualChart from '@/components/charts/DualChart';
 import { ComponentRenderer } from '@/components/PageContentGenerator/ComponentRenderer';
 
 interface PageContentGeneratorProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pageContents: any[];
 }
 
-export const PageContentGenerator: React.FC<PageContentGeneratorProps> = ({
-    pageContents,
-}) => {
+export const PageContentGenerator: React.FC<PageContentGeneratorProps> = ({ pageContents }) => {
     return (
         <>
             {pageContents.map((component, index) => (

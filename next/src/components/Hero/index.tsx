@@ -25,7 +25,7 @@ export interface HeroData {
         alt?: string;
         caption?: string;
     };
-    heroText?: any;
+    heroText?: string;
 }
 
 export const Hero = ({
@@ -124,10 +124,7 @@ export const Hero = ({
                                 >
                                     <Image
                                         src={`${process.env.CMS_API_URL}${heroLeftImage.url}`}
-                                        alt={
-                                            heroLeftImage.alt ||
-                                            'Illinois waterway'
-                                        }
+                                        alt={heroLeftImage.alt || 'Illinois waterway'}
                                         fill
                                         sizes="300px"
                                         priority
@@ -171,9 +168,7 @@ export const Hero = ({
 
                         {/* Right Image Section */}
                         {heroRightImage && (
-                            <Box
-                                sx={{ flex: { xs: '1 1 100%', md: '0 0 50%' } }}
-                            >
+                            <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 50%' } }}>
                                 <Box
                                     sx={{
                                         position: 'relative',
@@ -183,10 +178,7 @@ export const Hero = ({
                                 >
                                     <Image
                                         src={`${process.env.CMS_API_URL}${heroRightImage.url}`}
-                                        alt={
-                                            heroRightImage.alt ||
-                                            'Illinois waterway'
-                                        }
+                                        alt={heroRightImage.alt || 'Illinois waterway'}
                                         fill
                                         style={{
                                             objectFit: 'cover',

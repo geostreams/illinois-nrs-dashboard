@@ -25,24 +25,15 @@ export const Sidebar: React.FC = () => {
     const theme = useTheme();
     const [activeSection, setActiveSection] = React.useState<string>('');
     const [sections, setSections] = React.useState<Section[]>([]);
-    const [openSections, setOpenSections] = React.useState<Set<string>>(
-        new Set()
-    );
+    const [openSections, setOpenSections] = React.useState<Set<string>>(new Set());
     const sidebarRef = React.useRef<HTMLDivElement>(null);
-    const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>(
-        {}
-    );
+    const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>({});
 
     React.useEffect(() => {
         const createSections = () => {
-            const headingElements = Array.from(
-                document.querySelectorAll('h2, h3')
-            ).filter((heading) => {
+            const headingElements = Array.from(document.querySelectorAll('h2, h3')).filter((heading) => {
                 const parentDiv = heading.closest('div[hidden-in-sidebar]');
-                return (
-                    !parentDiv ||
-                    parentDiv.getAttribute('hidden-in-sidebar') !== 'true'
-                );
+                return !parentDiv || parentDiv.getAttribute('hidden-in-sidebar') !== 'true';
             });
 
             let currentH2Section: Section | null = null;
@@ -58,11 +49,9 @@ export const Sidebar: React.FC = () => {
                     headingElement.id = id;
                 }
 
-                const start =
-                    headingElement.getBoundingClientRect().top + window.scrollY;
+                const start = headingElement.getBoundingClientRect().top + window.scrollY;
                 const end = nextHeading
-                    ? (nextHeading as HTMLElement).getBoundingClientRect().top +
-                      window.scrollY
+                    ? (nextHeading as HTMLElement).getBoundingClientRect().top + window.scrollY
                     : document.documentElement.scrollHeight;
 
                 const section: Section = {
@@ -100,10 +89,7 @@ export const Sidebar: React.FC = () => {
 
             for (const section of sections) {
                 for (const childSection of section.children) {
-                    if (
-                        scrollPosition >= childSection.start &&
-                        scrollPosition < childSection.end
-                    ) {
+                    if (scrollPosition >= childSection.start && scrollPosition < childSection.end) {
                         setActiveSection(childSection.id);
                         setOpenSections((prev) => {
                             const newSet = new Set(prev);
@@ -117,10 +103,7 @@ export const Sidebar: React.FC = () => {
 
                 if (foundActiveSection) break;
 
-                if (
-                    scrollPosition >= section.start &&
-                    scrollPosition < section.end
-                ) {
+                if (scrollPosition >= section.start && scrollPosition < section.end) {
                     setActiveSection(section.id);
                     foundActiveSection = true;
                     break;
@@ -242,9 +225,7 @@ export const Sidebar: React.FC = () => {
                             {section.children.length > 0 && (
                                 <Box
                                     component="span"
-                                    onClick={(e) =>
-                                        handleToggleExpand(e, section.id)
-                                    }
+                                    onClick={(e) => handleToggleExpand(e, section.id)}
                                     sx={{
                                         display: 'flex',
                                         alignItems: 'center',
@@ -260,35 +241,23 @@ export const Sidebar: React.FC = () => {
                             )}
                         </ListItemButton>
                         {section.children.length > 0 && (
-                            <Collapse
-                                in={openSections.has(section.id)}
-                                timeout="auto"
-                                unmountOnExit
-                            >
+                            <Collapse in={openSections.has(section.id)} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
                                     {section.children.map((childSection) => (
                                         <ListItemButton
                                             key={childSection.id}
                                             ref={(el) => {
-                                                activeSectionRef.current[
-                                                    childSection.id
-                                                ] = el;
+                                                activeSectionRef.current[childSection.id] = el;
                                             }}
-                                            selected={
-                                                activeSection ===
-                                                childSection.id
-                                            }
-                                            onClick={() =>
-                                                handleClick(childSection.id)
-                                            }
+                                            selected={activeSection === childSection.id}
+                                            onClick={() => handleClick(childSection.id)}
                                             sx={{
                                                 pl: 4,
                                                 '&.Mui-selected': {
                                                     backgroundColor: '#4AA6DC',
                                                     color: 'white',
                                                     '&:hover': {
-                                                        backgroundColor:
-                                                            '#4AA6DC',
+                                                        backgroundColor: '#4AA6DC',
                                                     },
                                                 },
                                                 '&:hover': {
@@ -297,10 +266,7 @@ export const Sidebar: React.FC = () => {
                                             }}
                                         >
                                             <ListItemText
-                                                primary={childSection.title.replace(
-                                                    '#',
-                                                    ''
-                                                )}
+                                                primary={childSection.title.replace('#', '')}
                                                 sx={{
                                                     fontSize: '0.85rem',
                                                     color: 'white',
@@ -312,9 +278,7 @@ export const Sidebar: React.FC = () => {
                                 </List>
                             </Collapse>
                         )}
-                        {index < sections.length - 1 && (
-                            <Divider sx={{ backgroundColor: 'white' }} />
-                        )}
+                        {index < sections.length - 1 && <Divider sx={{ backgroundColor: 'white' }} />}
                     </React.Fragment>
                 ))}
             </List>

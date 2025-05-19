@@ -24,15 +24,12 @@ export default function InteractiveMapsPage() {
                             p: 4,
                         }}
                     >
-                        <ConstructionIcon
-                            sx={{ fontSize: 64, color: 'warning.main', mb: 2 }}
-                        />
+                        <ConstructionIcon sx={{ fontSize: 64, color: 'warning.main', mb: 2 }} />
                         <Typography variant="h4" component="h1" gutterBottom>
                             Under Construction
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
-                            This feature is currently under construction. Please
-                            check back later for updates.
+                            This feature is currently under construction. Please check back later for updates.
                         </Typography>
                     </CardContent>
                 </Card>

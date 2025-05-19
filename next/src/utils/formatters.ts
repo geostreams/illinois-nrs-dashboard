@@ -30,11 +30,7 @@ export const formatLargeNumber = (value: number, decimals = 1): string => {
  * @param decimals Number of decimal places to show
  * @returns Formatted string with appropriate unit placement
  */
-export const formatValueWithUnit = (
-    value: number,
-    unit?: string,
-    decimals = 1
-): string => {
+export const formatValueWithUnit = (value: number, unit?: string, decimals = 1): string => {
     // If unit is provided, format accordingly
     if (unit) {
         const formattedNumber = formatLargeNumber(value, decimals);

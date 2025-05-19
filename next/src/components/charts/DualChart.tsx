@@ -7,8 +7,10 @@ interface ChartDataProps {
     chart: {
         chartType: 'filled_pie' | 'line' | 'stacked_bar';
         caption: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         chartData: any;
         chartColors?: { [key: string]: string };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         miscChartData: any;
         dataFile: {
             url: string;

@@ -9,16 +9,10 @@ interface PullQuoteProps {
 const PullQuote = ({ quoteText }: PullQuoteProps) => {
     const processContent = (htmlContent: string) => {
         // Remove font-family declarations including HTML entities and escaped quotes
-        let processedContent = htmlContent.replace(
-            /font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g,
-            '$3'
-        );
+        let processedContent = htmlContent.replace(/font-family:[^;]*(&quot;|"|')[^;]*(&quot;|"|')?[^;]*(;|})/g, '$3');
 
         // Replace p tags to have only a bottom margin
-        processedContent = processedContent.replace(
-            /<p([^>]*)>/g,
-            '<p$1 style="margin-top: 0; margin-bottom: 1;">'
-        );
+        processedContent = processedContent.replace(/<p([^>]*)>/g, '<p$1 style="margin-top: 0; margin-bottom: 1;">');
 
         // Replace h1 tags with p tags while preserving h1 styling
         processedContent = processedContent.replace(
