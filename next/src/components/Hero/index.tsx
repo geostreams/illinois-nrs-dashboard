@@ -136,7 +136,7 @@ export const Hero = ({
                                 </Box>
                             )}
 
-                            <RichContentViewer content={heroText} />
+                            {heroText && <RichContentViewer content={heroText} />}
 
                             <Box
                                 sx={{

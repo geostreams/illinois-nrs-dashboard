@@ -33,8 +33,7 @@ services:
 
   strapi:
     container_name: strapi
-    build: cms/.
-    image: strapi:latest
+    image: hub.ncsa.illinois.edu/il-nrs/strapi:0.1.0
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -91,13 +90,7 @@ services:
       retries: 5
 
   frontend:
-    build:
-      context: next/.
-      dockerfile: Dockerfile
-      args:
-        - CMS_API_URL=${CMS_API_URL}
-        - CMS_DATA_URL=${CMS_DATA_URL}
-        - NODE_ENV=${NEXT_NODE_ENV}
+    image: hub.ncsa.illinois.edu/il-nrs/frontend:0.1.0
     depends_on:
       - strapi
     networks:
