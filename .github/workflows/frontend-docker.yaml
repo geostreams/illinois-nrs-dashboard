@@ -18,6 +18,8 @@ on:
 env:
   PLATFORM: "linux/amd64"
   REGISTRY: "hub.ncsa.illinois.edu"
+  CMS_API_URL: "https://strapi.illinois-nrs.ncsa.illinois.edu"
+  NODE_ENV: "production"
 
 jobs:
   build-and-push:
