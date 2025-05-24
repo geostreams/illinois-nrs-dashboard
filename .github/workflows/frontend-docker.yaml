@@ -64,3 +64,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            CMS_API_URL=${{ env.CMS_API_URL }}
+            NODE_ENV=${{ env.NODE_ENV }}
