@@ -98,11 +98,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                 </Typography>
             )}
             {image && (
-                <LightboxWrapper
-                    isOpen={isLightboxOpen}
-                    onClose={() => setIsLightboxOpen(false)}
-                    image={image}
-                />
+                <LightboxWrapper isOpen={isLightboxOpen} onClose={() => setIsLightboxOpen(false)} image={image} />
             )}
         </Box>
     );

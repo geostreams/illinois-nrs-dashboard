@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import FacebookIcon from '@/assets/icons/facebook.svg';
 import Divider from '@mui/material/Divider';
 import Image from 'next/image';
@@ -23,14 +23,12 @@ type FooterProps = {
 };
 
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
-    const partnerImageUrls = footerData?.partners.partnerImages.map(
-        (partner) => {
-            return {
-                imageURl: `${process.env.CMS_API_URL}${partner?.url}`,
-                alt: partner.alternativeText,
-            };
-        }
-    );
+    const partnerImageUrls = footerData?.partners.partnerImages.map((partner) => {
+        return {
+            imageURl: `${process.env.CMS_API_URL}${partner?.url}`,
+            alt: partner.alternativeText,
+        };
+    });
 
     return (
         <div
@@ -125,9 +123,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                 },
                             }}
                         >
-                            <RichContentViewer
-                                content={footerData.partners.partnersText}
-                            />
+                            <RichContentViewer content={footerData.partners.partnersText} />
                         </Box>
                         <Divider
                             sx={{
@@ -163,9 +159,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     justifyContent: 'space-between',
                                 }}
                             >
-                                <RichContentViewer
-                                    content={footerData.leftCard}
-                                />
+                                <RichContentViewer content={footerData.leftCard} />
                                 <Link
                                     href={footerData.facebookURL}
                                     target="_blank"
@@ -203,9 +197,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     minHeight: '100%',
                                 }}
                             >
-                                <RichContentViewer
-                                    content={footerData.rightCard}
-                                />
+                                <RichContentViewer content={footerData.rightCard} />
                             </Box>
                         </Box>
                     </Box>

@@ -12,20 +12,14 @@ import Hero from '@/components/Hero';
 import DownloadFile from '@/components/DownloadFile';
 
 interface ComponentRendererProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component: any;
 }
 
-export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
-    component,
-}) => {
+export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component }) => {
     switch (component.__component) {
         case 'charts.dual-chart':
-            return (
-                <DualChart
-                    left_chart={component.leftChart}
-                    right_chart={component.rightChart}
-                />
-            );
+            return <DualChart left_chart={component.leftChart} right_chart={component.rightChart} />;
         case 'charts.chart-selector':
             return (
                 <BaseChart
@@ -64,38 +58,20 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
             );
         case 'content.full-span-image':
             return (
-                <FullSpanImage
-                    image={component.image}
-                    caption={component.caption}
-                    imageWidth={component.imageWidth}
-                />
+                <FullSpanImage image={component.image} caption={component.caption} imageWidth={component.imageWidth} />
             );
         case 'content.chart-with-quote':
             return (
-                <ChartWithQuote
-                    chart={component.chart.chart}
-                    image={component.image}
-                    pullQuote={component.pullQuote}
-                />
+                <ChartWithQuote chart={component.chart.chart} image={component.image} pullQuote={component.pullQuote} />
             );
         case 'content.page-divider':
             return <PageDivider label={component.label} />;
         case 'home-page.info-block':
             return (
-                <InfoBlock
-                    photoBlocks={component.photoBlocks}
-                    title={component.title}
-                    infoText={component.infoText}
-                />
+                <InfoBlock photoBlocks={component.photoBlocks} title={component.title} infoText={component.infoText} />
             );
         case 'home-page.stay-informed':
-            return (
-                <StayInformed
-                    title={component.title}
-                    subtitle={component.subtitle}
-                    links={component.links}
-                />
-            );
+            return <StayInformed title={component.title} subtitle={component.subtitle} links={component.links} />;
         case 'home-page.hero':
             return (
                 <Hero
@@ -109,12 +85,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({
                 />
             );
         case 'content.download-file':
-            return (
-                <DownloadFile
-                    displayText={component.displayText}
-                    fileData={component.file}
-                />
-            );
+            return <DownloadFile displayText={component.displayText} fileData={component.file} />;
         default:
             console.log('Component not found');
             console.log(component);

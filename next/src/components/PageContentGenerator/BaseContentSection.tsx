@@ -45,9 +45,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     borderedTextBox = false,
 }) => {
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const imageUrl = image?.image?.url
-        ? `${baseImageUrl}${image.image.url}`
-        : '';
+    const imageUrl = image?.image?.url ? `${baseImageUrl}${image.image.url}` : '';
 
     return (
         <Box
@@ -72,10 +70,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                 sx={{
                     flex: '1 1 auto',
                     width: '100%',
-                    maxWidth:
-                        imageUrl || pullQuote || borderedTextBox
-                            ? { xs: '100%', sm: '66.67%' }
-                            : '100%',
+                    maxWidth: imageUrl || pullQuote || borderedTextBox ? { xs: '100%', sm: '66.67%' } : '100%',
                     ...(borderedTextBox && {
                         borderRadius: '4px',
                         border: '1px solid #0a3977',
@@ -86,10 +81,7 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                     }),
                 }}
             >
-                <RichContentViewer
-                    content={textContent}
-                    baseImageUrl={baseImageUrl}
-                />
+                <RichContentViewer content={textContent} baseImageUrl={baseImageUrl} />
             </Box>
 
             {/* Side content - fixed width */}
@@ -105,11 +97,9 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                     }}
                 >
                     {/* Pull Quote */}
-                    {pullQuote &&
-                        (quotePlacement === 'above' ||
-                            quotePlacement === null) && (
-                            <PullQuote quoteText={pullQuote.quoteText || ''} />
-                        )}
+                    {pullQuote && (quotePlacement === 'above' || quotePlacement === null) && (
+                        <PullQuote quoteText={pullQuote.quoteText || ''} />
+                    )}
                     {/* Image Container */}
                     {imageUrl && (
                         <Box
@@ -142,19 +132,12 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                             >
                                 <Image
                                     src={imageUrl}
-                                    alt={
-                                        image?.image?.alternativeText ||
-                                        'Content image'
-                                    }
+                                    alt={image?.image?.alternativeText || 'Content image'}
                                     fill
                                     sizes="(max-width: 768px) 100vw, 320px"
                                     style={{
-                                        objectFit: image?.bordered
-                                            ? 'cover'
-                                            : 'contain',
-                                        borderRadius: image?.bordered
-                                            ? '4px'
-                                            : '0',
+                                        objectFit: image?.bordered ? 'cover' : 'contain',
+                                        borderRadius: image?.bordered ? '4px' : '0',
                                     }}
                                     priority={false}
                                 />
@@ -174,17 +157,11 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                             )}
                         </Box>
                     )}
-                    {pullQuote && quotePlacement === 'below' && (
-                        <PullQuote quoteText={pullQuote.quoteText || ''} />
-                    )}
+                    {pullQuote && quotePlacement === 'below' && <PullQuote quoteText={pullQuote.quoteText || ''} />}
                 </Box>
             )}
             {image?.image && (
-                <LightboxWrapper
-                    isOpen={isLightboxOpen}
-                    onClose={() => setIsLightboxOpen(false)}
-                    image={image.image}
-                />
+                <LightboxWrapper isOpen={isLightboxOpen} onClose={() => setIsLightboxOpen(false)} image={image.image} />
             )}
         </Box>
     );

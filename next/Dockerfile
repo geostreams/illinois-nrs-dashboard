@@ -15,9 +15,6 @@ COPY . .
 ARG CMS_API_URL
 ENV CMS_API_URL=${CMS_API_URL}
 
-ARG CMS_DATA_URL
-ENV CMS_DATA_URL=${CMS_DATA_URL}
-
 ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
@@ -34,10 +31,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/package.json ./package.json
 
-# Set environment variable for runtime
-ENV NODE_ENV=${NODE_ENV}
-ENV CMS_API_URL=${CMS_API_URL}
-ENV CMS_DATA_URL=${CMS_DATA_URL}
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
 
 # Start the application
 CMD ["node", "server.js"]

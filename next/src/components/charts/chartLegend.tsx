@@ -40,8 +40,7 @@ const ChartLegend = (props: LegendProps): ReactNode => {
                     />
                     <span style={{ color: 'black', fontSize: '0.75rem' }}>
                         {typeof entry.value === 'string'
-                            ? entry.value.charAt(0).toUpperCase() +
-                              entry.value.slice(1)
+                            ? entry.value.charAt(0).toUpperCase() + entry.value.slice(1)
                             : entry.value}
                     </span>
                 </div>

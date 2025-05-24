@@ -76,13 +76,7 @@ const styles = {
     },
 };
 
-const Heading = ({
-    headingText,
-    headingColor,
-    headingType,
-    headingIcon,
-    hideInSidebar,
-}: HeadingProps) => {
+const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSidebar }: HeadingProps) => {
     let icon = null;
 
     // Adjust icon size based on heading type
@@ -108,12 +102,7 @@ const Heading = ({
     switch (headingIcon) {
         case 'user':
             icon = (
-                <UserIcon
-                    width={iconSize}
-                    height={iconSize}
-                    fill={headingColor || '#000'}
-                    style={{ flexShrink: 0 }}
-                />
+                <UserIcon width={iconSize} height={iconSize} fill={headingColor || '#000'} style={{ flexShrink: 0 }} />
             );
             break;
         case 'dollar':
@@ -128,12 +117,7 @@ const Heading = ({
             break;
         case 'trees':
             icon = (
-                <TreesIcon
-                    width={iconSize}
-                    height={iconSize}
-                    fill={headingColor || '#000'}
-                    style={{ flexShrink: 0 }}
-                />
+                <TreesIcon width={iconSize} height={iconSize} fill={headingColor || '#000'} style={{ flexShrink: 0 }} />
             );
             break;
         case 'droplet':

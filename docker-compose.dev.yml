@@ -2,8 +2,7 @@ version: "3"
 services:
   strapi:
     container_name: strapi
-    build: cms/.
-    image: strapi:latest
+    image: il-nrs-strapi
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -47,6 +46,14 @@ services:
       - "5432:5432"
     networks:
       - strapi
+
+  # Uncomment this for local testing of image
+  # frontend:
+  #   image: il-nrs-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - strapi
 
 volumes:
   strapi-data:

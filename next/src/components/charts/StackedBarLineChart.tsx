@@ -72,29 +72,19 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
 }) => {
     // Sort bar data keys by their total values for better visualization
     const sortedBarConfig = React.useMemo(() => {
-        if (
-            !chartData ||
-            chartData.length === 0 ||
-            !barConfig ||
-            barConfig.length <= 1
-        ) {
+        if (!chartData || chartData.length === 0 || !barConfig || barConfig.length <= 1) {
             return barConfig;
         }
 
         const totals = barConfig.reduce(
             (acc, config) => {
-                acc[config.dataKey] = chartData.reduce(
-                    (sum, item) => sum + (Number(item[config.dataKey]) || 0),
-                    0
-                );
+                acc[config.dataKey] = chartData.reduce((sum, item) => sum + (Number(item[config.dataKey]) || 0), 0);
                 return acc;
             },
             {} as Record<string, number>
         );
 
-        return [...barConfig].sort(
-            (a, b) => totals[b.dataKey] - totals[a.dataKey]
-        );
+        return [...barConfig].sort((a, b) => totals[b.dataKey] - totals[a.dataKey]);
     }, [chartData, barConfig]);
 
     return (
@@ -108,14 +98,9 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                     yAxisId="left"
                     orientation="left"
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(value) =>
-                        formatValueWithUnit(value, barUnit)
-                    }
+                    tickFormatter={(value) => formatValueWithUnit(value, barUnit)}
                     width={40}
-                    domain={[
-                        yAxisInterval?.left?.min ?? 'auto',
-                        yAxisInterval?.left?.max ?? 'auto',
-                    ]}
+                    domain={[yAxisInterval?.left?.min ?? 'auto', yAxisInterval?.left?.max ?? 'auto']}
                     interval="preserveStartEnd"
                     ticks={(() => {
                         if (
@@ -127,8 +112,7 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                             const { min, max, interval } = yAxisInterval.left;
                             return Array.from(
                                 {
-                                    length:
-                                        Math.floor((max - min) / interval) + 1,
+                                    length: Math.floor((max - min) / interval) + 1,
                                 },
                                 (_, i) => min + i * interval
                             );
@@ -143,30 +127,21 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                         yAxisId="right"
                         orientation="right"
                         tick={{ fontSize: 12 }}
-                        tickFormatter={(value) =>
-                            formatValueWithUnit(value, lineUnit)
-                        }
+                        tickFormatter={(value) => formatValueWithUnit(value, lineUnit)}
                         width={40}
-                        domain={[
-                            yAxisInterval?.right?.min ?? 'auto',
-                            yAxisInterval?.right?.max ?? 'auto',
-                        ]}
+                        domain={[yAxisInterval?.right?.min ?? 'auto', yAxisInterval?.right?.max ?? 'auto']}
                         interval="preserveStartEnd"
                         ticks={(() => {
                             if (
                                 yAxisInterval?.right &&
-                                typeof yAxisInterval.right.interval ===
-                                    'number' &&
+                                typeof yAxisInterval.right.interval === 'number' &&
                                 typeof yAxisInterval.right.max === 'number' &&
                                 typeof yAxisInterval.right.min === 'number'
                             ) {
-                                const { min, max, interval } =
-                                    yAxisInterval.right;
+                                const { min, max, interval } = yAxisInterval.right;
                                 return Array.from(
                                     {
-                                        length:
-                                            Math.floor((max - min) / interval) +
-                                            1,
+                                        length: Math.floor((max - min) / interval) + 1,
                                     },
                                     (_, i) => min + i * interval
                                 );
@@ -179,9 +154,7 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     formatter={(value, name, props) => {
-                        const isBar = barConfig.some(
-                            (config) => config.dataKey === props.dataKey
-                        );
+                        const isBar = barConfig.some((config) => config.dataKey === props.dataKey);
                         const unit = isBar ? barUnit : lineUnit;
                         return formatValueWithUnit(value as number, unit);
                     }}
@@ -217,9 +190,7 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                         stroke={config.color}
                         strokeWidth={config.strokeWidth || 2}
                         dot={config.dot !== false ? { strokeWidth: 2 } : false}
-                        activeDot={
-                            config.activeDot !== false ? { r: 6 } : false
-                        }
+                        activeDot={config.activeDot !== false ? { r: 6 } : false}
                         connectNulls={config.connectNulls || true}
                         isAnimationActive={false}
                     />

@@ -67,9 +67,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                                 style={{
                                     ...headerStyle,
                                     borderRight:
-                                        index === columns.length - 1
-                                            ? '1px solid #1B5C7C'
-                                            : '1px solid #FFFFFF',
+                                        index === columns.length - 1 ? '1px solid #1B5C7C' : '1px solid #FFFFFF',
                                 }}
                             >
                                 {column}
@@ -80,20 +78,11 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                 <TableBody>
                     {tableData.data.map((row) => (
                         <TableRow key={row.row}>
-                            <TableCell
-                                component="th"
-                                scope="row"
-                                style={cellStyle}
-                                align="center"
-                            >
+                            <TableCell component="th" scope="row" style={cellStyle} align="center">
                                 {row.row}
                             </TableCell>
                             {columns.map((column) => (
-                                <TableCell
-                                    key={column}
-                                    align="center"
-                                    style={cellStyle}
-                                >
+                                <TableCell key={column} align="center" style={cellStyle}>
                                     {typeof row[column] === 'number'
                                         ? formatNumberWithCommas(row[column])
                                         : row[column] || ''}

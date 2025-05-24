@@ -9,6 +9,7 @@
 
 interface StrapiData {
     id: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any; // Allow for any additional fields
 }
 
@@ -30,6 +31,7 @@ export default async function fetchContentType(
     contentType: string,
     params: string | null,
     spreadData?: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
     try {
         // Construct the full URL for the API request
@@ -50,9 +52,7 @@ export default async function fetchContentType(
         }
 
         if (!response.ok) {
-            throw new Error(
-                `Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`
-            );
+            throw new Error(`Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`);
         }
         const jsonData: StrapiResponse = await response.json();
         return spreadData ? spreadStrapiData(jsonData) : jsonData;
@@ -66,13 +66,11 @@ export default async function fetchContentType(
 export async function fetchPageSlugs(
     contentType: string,
     pageGroup: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
     try {
         // Construct the full URL for the API request
-        const url = new URL(
-            `api/${contentType}?filters[pageGroup][$eq]=${pageGroup}`,
-            process.env.CMS_API_URL
-        );
+        const url = new URL(`api/${contentType}?filters[pageGroup][$eq]=${pageGroup}`, process.env.CMS_API_URL);
 
         // Perform the fetch request
         const response = await fetch(`${url.href}`, {
@@ -81,9 +79,7 @@ export async function fetchPageSlugs(
         });
 
         if (!response.ok) {
-            throw new Error(
-                `Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`
-            );
+            throw new Error(`Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`);
         }
         const jsonData: StrapiResponse = await response.json();
         return jsonData.data.map((item: StrapiData) => item.slug);
@@ -93,7 +89,10 @@ export async function fetchPageSlugs(
     }
 }
 
-export async function fetchPageGroups(contentType: string): Promise<any> {
+export async function fetchPageGroups(
+    contentType: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> {
     try {
         // Construct the full URL for the API request
         const url = new URL(`api/${contentType}`, process.env.CMS_API_URL);
@@ -105,9 +104,7 @@ export async function fetchPageGroups(contentType: string): Promise<any> {
         });
 
         if (!response.ok) {
-            throw new Error(
-                `Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`
-            );
+            throw new Error(`Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`);
         }
         const jsonData: StrapiResponse = await response.json();
         return jsonData.data.map((item: StrapiData) => item.pageGroup);

@@ -1,8 +1,6 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Box, Typography, Paper, styled, Grid } from '@mui/material';
+import { Box, Typography, Paper, styled } from '@mui/material';
 import { PhotoBlockProps } from './types';
 
 // Styled components
@@ -16,7 +14,7 @@ const BlockHeader = styled(Box)(({ bgcolor }: { bgcolor: string }) => ({
     width: '100%',
 }));
 
-const BlockImage = styled(Box)(({ theme }) => ({
+const BlockImage = styled(Box)(() => ({
     backgroundColor: '#0a1930', // Dark blue background for Illinois outline
     display: 'flex',
     justifyContent: 'center',
@@ -41,35 +39,26 @@ const PhotoBlockContainer = styled(Paper)(({ theme }) => ({
 const PhotoBlock = ({ title, blockColor, image }: PhotoBlockProps) => {
     return (
         <PhotoBlockContainer>
-            <Grid container direction="column" spacing={0}>
-                <Grid item>
-                    <BlockHeader bgcolor={blockColor}>
-                        <Typography
-                            variant="subtitle2"
-                            fontFamily={'Sans-Serif'}
-                            fontWeight="bold"
-                            color="white"
-                        >
-                            {title}
-                        </Typography>
-                    </BlockHeader>
-                </Grid>
-                <Grid item>
-                    <BlockImage>
-                        <Image
-                            src={`${process.env.CMS_API_URL || ''}${image.url}`}
-                            alt={image.alternativeText || title}
-                            width={250}
-                            height={310}
-                            priority
-                            style={{
-                                border: `1px solid ${blockColor}`,
-                                borderRadius: '0 0 4px 4px',
-                            }}
-                        />
-                    </BlockImage>
-                </Grid>
-            </Grid>
+            <Box>
+                <BlockHeader bgcolor={blockColor}>
+                    <Typography variant="subtitle2" fontFamily={'Sans-Serif'} fontWeight="bold" color="white">
+                        {title}
+                    </Typography>
+                </BlockHeader>
+                <BlockImage>
+                    <Image
+                        src={`${process.env.CMS_API_URL || ''}${image.url}`}
+                        alt={image.alternativeText || title}
+                        width={250}
+                        height={310}
+                        priority
+                        style={{
+                            border: `1px solid ${blockColor}`,
+                            borderRadius: '0 0 4px 4px',
+                        }}
+                    />
+                </BlockImage>
+            </Box>
         </PhotoBlockContainer>
     );
 };

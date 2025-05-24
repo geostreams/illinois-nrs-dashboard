@@ -6,7 +6,6 @@ import { PhotoBlockProps, TitleProps } from './types';
 import PhotoBlock from './photoBlock';
 import Title from './title';
 import RichContentViewer from '../RichComponentViewer';
-import infoSectionBackground from '@/assets/backgrounds/infoSectionBackground.png';
 
 interface InfoBlockProps {
     photoBlocks: PhotoBlockProps[];
@@ -15,11 +14,7 @@ interface InfoBlockProps {
 }
 
 // Main infoBlock component (simplified version focusing on PhotoBlocks)
-const InfoBlock: React.FC<InfoBlockProps> = ({
-    photoBlocks,
-    title,
-    infoText,
-}) => {
+const InfoBlock: React.FC<InfoBlockProps> = ({ photoBlocks, title, infoText }) => {
     return (
         <Box
             component="section"

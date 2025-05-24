@@ -1,8 +1,5 @@
 import fetchContentType from '@/utils/strapi/fetchContentType';
-import {
-    fetchPageSlugs,
-    fetchPageGroups,
-} from '@/utils/strapi/fetchContentType';
+import { fetchPageSlugs, fetchPageGroups } from '@/utils/strapi/fetchContentType';
 import Container from '@mui/material/Container';
 import { PageContentGenerator } from '@/components/PageContentGenerator';
 import * as React from 'react';
@@ -13,11 +10,7 @@ import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 // export const revalidate = 3600;
 
-export default async function Page({
-    params,
-}: {
-    params: Promise<{ 'page-group': string; slug: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ 'page-group': string; slug: string }> }) {
     const { 'page-group': pageGroup, slug } = await params;
 
     let pageData = null;
@@ -74,11 +67,7 @@ export default async function Page({
                     maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
-                <Container
-                    maxWidth="lg"
-                    disableGutters
-                    sx={{ paddingLeft: { xs: 0, md: 15 } }}
-                >
+                <Container maxWidth="lg" disableGutters sx={{ paddingLeft: { xs: 0, md: 15 } }}>
                     <PageContentGenerator pageContents={pageContents} />
                 </Container>
             </Box>

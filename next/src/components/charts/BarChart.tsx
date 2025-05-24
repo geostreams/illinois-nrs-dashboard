@@ -35,8 +35,7 @@ const BarChart: React.FC<BarChartProps> = ({
     barSize = 60,
     unit,
 }) => {
-    const dataKey =
-        Object.keys(chartData[0]).find((key) => key !== 'name') || '';
+    const dataKey = Object.keys(chartData[0]).find((key) => key !== 'name') || '';
     const barColor = chartColors[dataKey] || '#8884d8';
 
     return (
@@ -47,28 +46,17 @@ const BarChart: React.FC<BarChartProps> = ({
             >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
-                    width={40}
-                />
+                <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatValueWithUnit(value, unit)} width={40} />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
-                    formatter={(value) =>
-                        formatValueWithUnit(value as number, unit)
-                    }
+                    formatter={(value) => formatValueWithUnit(value as number, unit)}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',
                     }}
                 />
                 <Legend content={ChartLegend} />
-                <Bar
-                    dataKey={dataKey}
-                    fill={barColor}
-                    barSize={barSize}
-                    isAnimationActive={false}
-                />
+                <Bar dataKey={dataKey} fill={barColor} barSize={barSize} isAnimationActive={false} />
                 {chartReferenceLines.map((line) => (
                     <ReferenceLine
                         key={line.value}

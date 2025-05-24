@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Box, Button, Typography, Popover, IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import InfoIcon from '@mui/icons-material/Info';
@@ -18,7 +18,9 @@ import TableComponent from './Table';
 interface BaseChartProps {
     chartType: string;
     heading?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     chartData: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     miscChartData: any;
     width?: { xs: string; sm: string };
     infoText?: string;
@@ -60,7 +62,6 @@ const BaseChart: FC<BaseChartProps> = ({
     const headingParts = heading?.split(':');
     const boldHeading = headingParts?.[0];
     const regularHeading = headingParts?.[1];
-    let fileUrl = `${process.env.CMS_API_URL}${dataFile?.url}`;
 
     const handleInfoClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -127,15 +128,13 @@ const BaseChart: FC<BaseChartProps> = ({
         } finally {
             setIsLoading(false);
         }
-    }, [dataFile?.url, fileUrl]);
+    }, [dataFile?.url, dataFile?.name]);
 
     let barUnit = '';
     let lineUnit = '';
     if (chartType === 'bar_line') {
         const unitObject = JSON.parse(
-            unit
-                ?.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-                .replace(/'/g, '"') || '{}'
+            unit?.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":').replace(/'/g, '"') || '{}'
         );
         barUnit = unitObject.barUnit;
         lineUnit = unitObject.lineUnit;
@@ -150,13 +149,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartLabels={miscChartData?.chartLabels}
             />
         ),
-        line: (
-            <LineChart
-                chartData={chartData}
-                chartConfig={miscChartData?.chartConfig}
-                unit={unit}
-            />
-        ),
+        line: <LineChart chartData={chartData} chartConfig={miscChartData?.chartConfig} unit={unit} />,
         stacked_bar: (
             <StackedBarChart
                 chartData={chartData}
@@ -296,10 +289,7 @@ const BaseChart: FC<BaseChartProps> = ({
                                         },
                                     }}
                                 >
-                                    <InfoIcon
-                                        fontSize="small"
-                                        titleAccess="Chart information"
-                                    />
+                                    <InfoIcon fontSize="small" titleAccess="Chart information" />
                                 </IconButton>
                                 <Popover
                                     open={open}
@@ -331,10 +321,7 @@ const BaseChart: FC<BaseChartProps> = ({
                                             }}
                                             aria-label="Close additional information"
                                         >
-                                            <CloseIcon
-                                                fontSize="small"
-                                                titleAccess="Close"
-                                            />
+                                            <CloseIcon fontSize="small" titleAccess="Close" />
                                         </IconButton>
                                         <Typography>{infoText}</Typography>
                                     </Box>
@@ -343,9 +330,7 @@ const BaseChart: FC<BaseChartProps> = ({
                         )}
                         <Button
                             variant="outlined"
-                            startIcon={
-                                <DownloadIcon titleAccess="Download chart" />
-                            }
+                            startIcon={<DownloadIcon titleAccess="Download chart" />}
                             onClick={handleDownload}
                             disabled={isLoading}
                             size="small"
@@ -358,9 +343,7 @@ const BaseChart: FC<BaseChartProps> = ({
                         </Button>
                         <Button
                             variant="outlined"
-                            startIcon={
-                                <DownloadIcon titleAccess="Download data" />
-                            }
+                            startIcon={<DownloadIcon titleAccess="Download data" />}
                             onClick={handleDataDownload}
                             disabled={isLoading || !dataFile?.url}
                             size="small"

@@ -12,13 +12,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -52,23 +49,16 @@ type Props = {
 
 export const Navbar: React.FC<Props> = ({ navbar }) => {
     type AnchorElNavState = { anchor: HTMLElement; groupIndex: number } | null;
-    const [anchorElNav, setAnchorElNav] =
-        React.useState<AnchorElNavState>(null);
+    const [anchorElNav, setAnchorElNav] = React.useState<AnchorElNavState>(null);
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(
-        new Set()
-    );
+    const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
     const [mounted, setMounted] = React.useState(false);
-    const theme = useTheme();
 
     React.useEffect(() => {
         setMounted(true);
     }, []);
 
-    const handleOpenNavMenu = (
-        event: React.MouseEvent<HTMLElement>,
-        groupIndex: number
-    ) => {
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>, groupIndex: number) => {
         setAnchorElNav({ anchor: event.currentTarget, groupIndex });
     };
 
@@ -128,8 +118,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                         borderBottom: 1,
                         borderColor: 'divider',
                         justifyContent: 'flex-start',
-                        background:
-                            'linear-gradient(to right, #0C4377 , #4395bc)',
+                        background: 'linear-gradient(to right, #0C4377 , #4395bc)',
                         '@media print': {
                             borderBottom: 'none',
                             // Ensure logo and text are visible in print
@@ -177,9 +166,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             }}
                         >
                             Illinois Nutrient Loss Reduction Strategy{' '}
-                            <span style={{ color: '#6FB9E4' }}>
-                                Data Portal
-                            </span>
+                            <span style={{ color: '#6FB9E4' }}>Data Portal</span>
                         </Typography>
                     </Box>
 
@@ -191,11 +178,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             justifyContent: 'flex-end',
                         }}
                     >
-                        <Box
-                            component="label"
-                            sx={visuallyHidden}
-                            htmlFor="desktop-search"
-                        >
+                        <Box component="label" sx={visuallyHidden} htmlFor="desktop-search">
                             Search the website
                         </Box>
                         <TextField
@@ -273,11 +256,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 Home
                             </Button>
                         </Box>
-                        <Divider
-                            orientation="vertical"
-                            flexItem
-                            sx={{ bgcolor: 'white' }}
-                        />
+                        <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
 
                         {/* Navigation Link Buttons */}
                         {navbar.navbar_link_groups.map((group, index) => (
@@ -294,9 +273,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     <Tooltip title={group.group_name}>
                                         <Button
                                             color="inherit"
-                                            onClick={(event) =>
-                                                handleOpenNavMenu(event, index)
-                                            }
+                                            onClick={(event) => handleOpenNavMenu(event, index)}
                                             sx={{
                                                 color: 'inherit',
                                                 height: '100%',
@@ -308,11 +285,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     </Tooltip>
                                     <Menu
                                         id={`menu-appbar-${index}`}
-                                        anchorEl={
-                                            anchorElNav?.groupIndex === index
-                                                ? anchorElNav.anchor
-                                                : null
-                                        }
+                                        anchorEl={anchorElNav?.groupIndex === index ? anchorElNav.anchor : null}
                                         anchorOrigin={{
                                             vertical: 'bottom',
                                             horizontal: 'center',
@@ -336,16 +309,10 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         {group.links.map((link, linkIndex) => (
                                             <MenuItem
                                                 key={linkIndex}
-                                                onClick={() =>
-                                                    handleNavigation(
-                                                        link.URL,
-                                                        link.target
-                                                    )
-                                                }
+                                                onClick={() => handleNavigation(link.URL, link.target)}
                                                 sx={{
                                                     '&:hover': {
-                                                        backgroundColor:
-                                                            '#1A1A1A',
+                                                        backgroundColor: '#1A1A1A',
                                                     },
                                                 }}
                                             >
@@ -355,11 +322,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     </Menu>
                                 </Box>
                                 {index < navbar.navbar_link_groups.length && (
-                                    <Divider
-                                        orientation="vertical"
-                                        flexItem
-                                        sx={{ bgcolor: 'white' }}
-                                    />
+                                    <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
                                 )}
                             </React.Fragment>
                         ))}
@@ -434,29 +397,18 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         />
                                     )}
                                 </ListItemButton>
-                                <Collapse
-                                    in={expandedGroups.has(index)}
-                                    timeout="auto"
-                                    unmountOnExit
-                                >
+                                <Collapse in={expandedGroups.has(index)} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
                                         {group.links.map((link, linkIndex) => (
                                             <ListItemButton
                                                 key={linkIndex}
-                                                onClick={() =>
-                                                    handleNavigation(
-                                                        link.URL,
-                                                        link.target
-                                                    )
-                                                }
+                                                onClick={() => handleNavigation(link.URL, link.target)}
                                                 sx={{
                                                     pl: 4,
                                                     color: 'primary.contrastText',
                                                 }}
                                             >
-                                                <ListItemText
-                                                    primary={link.text}
-                                                />
+                                                <ListItemText primary={link.text} />
                                             </ListItemButton>
                                         ))}
                                     </List>
@@ -468,11 +420,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
                     {/* Search Bar at the Bottom of the Drawer */}
                     <Box sx={{ p: 2, mt: 'auto' }}>
-                        <Box
-                            component="label"
-                            sx={visuallyHidden}
-                            htmlFor="mobile-search"
-                        >
+                        <Box component="label" sx={visuallyHidden} htmlFor="mobile-search">
                             Search the website
                         </Box>
                         <TextField
