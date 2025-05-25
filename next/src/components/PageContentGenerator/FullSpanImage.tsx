@@ -41,8 +41,12 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     // Break caption along colon, everything before colon is bold
     if (caption) {
         const captionParts = caption.split(':');
-        boldCaption = captionParts[0];
-        regularCaption = captionParts[1];
+        if (captionParts.length == 2) {
+            boldCaption = captionParts[0];
+            regularCaption = captionParts[1];
+        } else {
+            regularCaption = caption;
+        }
     }
 
     // Default dimensions if not provided
@@ -93,7 +97,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                         maxWidth: { xs: '100%', sm: `${imageWidth}%` },
                     }}
                 >
-                    <strong>{boldCaption}:</strong>
+                    {boldCaption && <strong>{boldCaption}:</strong>}
                     {regularCaption}
                 </Typography>
             )}

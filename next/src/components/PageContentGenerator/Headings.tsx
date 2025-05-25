@@ -20,7 +20,7 @@ const styles = {
         fontFamily: "'Bebas Neue', 'Source Sans', sans-serif",
         fontSize: '80px',
         fontWeight: 500,
-        textTransform: 'uppercase',
+        // textTransform: 'uppercase',
         display: 'flex',
         gap: '12px', // Adds consistent spacing between icon and text
         marginBottom: '8px',
