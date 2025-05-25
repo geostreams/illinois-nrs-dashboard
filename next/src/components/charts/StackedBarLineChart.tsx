@@ -153,6 +153,7 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
 
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
+                    itemStyle={{ color: '#000000' }}
                     formatter={(value, name, props) => {
                         const isBar = barConfig.some((config) => config.dataKey === props.dataKey);
                         const unit = isBar ? barUnit : lineUnit;
