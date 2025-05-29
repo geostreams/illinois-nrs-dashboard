@@ -24,9 +24,7 @@ interface LightboxWrapperProps {
 
 export const LightboxWrapper: React.FC<LightboxWrapperProps> = ({ isOpen, onClose, image }) => {
     // Get the highest quality image URL available
-    const imageUrl = `${process.env.CMS_API_URL}${
-        image.formats?.large?.url || image.formats?.medium?.url || image.url
-    }`;
+    const imageUrl = `${process.env.CMS_API_URL}${image.url}`;
 
     return (
         <Lightbox

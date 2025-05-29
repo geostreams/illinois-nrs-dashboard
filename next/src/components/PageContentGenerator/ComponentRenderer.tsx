@@ -58,7 +58,12 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
             );
         case 'content.full-span-image':
             return (
-                <FullSpanImage image={component.image} caption={component.caption} imageWidth={component.imageWidth} />
+                <FullSpanImage
+                    image={component.image}
+                    caption={component.caption}
+                    imageWidth={component.imageWidth}
+                    bordered={component.bordered}
+                />
             );
         case 'content.chart-with-quote':
             return (

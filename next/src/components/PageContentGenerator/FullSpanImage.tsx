@@ -23,6 +23,7 @@ interface FullSpanImageProps {
     caption: string;
     baseImageUrl?: string;
     imageWidth?: number;
+    bordered?: boolean;
 }
 
 export const FullSpanImage: React.FC<FullSpanImageProps> = ({
@@ -30,6 +31,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     caption,
     baseImageUrl = process.env.CMS_API_URL,
     imageWidth = 75,
+    bordered = false,
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -73,6 +75,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                         image.width && image.height
                             ? `${image.width}/${image.height}`
                             : `${defaultWidth}/${defaultHeight}`,
+                    overflow: 'hidden',
                 }}
             >
                 <Image
@@ -80,7 +83,9 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                     alt={image.alternativeText || ''}
                     fill
                     style={{
-                        objectFit: 'contain',
+                        // objectFit: 'contain',
+                        borderRadius: bordered ? '5px' : '0',
+                        border: bordered ? '1px solid gray' : 'none',
                     }}
                     sizes={`(max-width: 768px) 100vw, ${imageWidth}vw`}
                     priority={false}
