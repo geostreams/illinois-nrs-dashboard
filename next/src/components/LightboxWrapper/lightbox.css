@@ -1,0 +1,22 @@
+.custom-lightbox [data-yarl-button] {
+    transition: all 0.2s ease;
+}
+
+.custom-lightbox [data-yarl-button]:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.custom-lightbox [data-yarl-button="close"] {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .custom-lightbox [data-yarl-button="close"] {
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0.5rem;
+    }
+}
