@@ -12,6 +12,7 @@ import StackedBarChart from './StackedBarChart';
 import BarChart from './BarChart';
 import BarLineChart from './BarLineChart';
 import StackedBarLineChart from './StackedBarLineChart';
+import ClusterBarLineChart from './ClusterBarLineChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 
@@ -180,6 +181,17 @@ const BaseChart: FC<BaseChartProps> = ({
         ),
         stacked_bar_line: (
             <StackedBarLineChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+            />
+        ),
+        cluster_bar_line: (
+            <ClusterBarLineChart
                 chartData={chartData}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
