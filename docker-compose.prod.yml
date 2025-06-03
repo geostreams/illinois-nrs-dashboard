@@ -50,9 +50,9 @@ services:
       NODE_ENV: ${STRAPI_NODE_ENV}
       LOG_LEVEL: debug
     volumes:
-      - ./cms/config:/opt/app/config
-      - ./cms/src:/opt/app/src
-      - ./cms/package.json:/opt/package.json
+    #   - ./cms/config:/opt/app/config
+    #   - ./cms/src:/opt/app/src
+    #   - ./cms/package.json:/opt/package.json
       - ./cms/public/uploads:/opt/app/public/uploads
     networks:
       - ilnrs

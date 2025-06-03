@@ -23,6 +23,12 @@
       "type": "component",
       "repeatable": false,
       "component": "home-page.custom-title"
+    },
+    "imageWidth": {
+      "type": "integer"
+    },
+    "imageHeight": {
+      "type": "integer"
     }
   }
 }

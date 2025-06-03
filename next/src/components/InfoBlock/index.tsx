@@ -11,10 +11,12 @@ interface InfoBlockProps {
     photoBlocks: PhotoBlockProps[];
     title: TitleProps;
     infoText: string;
+    imageWidth: number;
+    imageHeight: number;
 }
 
 // Main infoBlock component (simplified version focusing on PhotoBlocks)
-const InfoBlock: React.FC<InfoBlockProps> = ({ photoBlocks, title, infoText }) => {
+const InfoBlock: React.FC<InfoBlockProps> = ({ photoBlocks, title, infoText, imageWidth, imageHeight }) => {
     return (
         <Box
             component="section"
@@ -75,6 +77,8 @@ const InfoBlock: React.FC<InfoBlockProps> = ({ photoBlocks, title, infoText }) =
                                 url: block.image.url,
                                 alternativeText: block.image.alternativeText,
                             }}
+                            imageWidth={imageWidth}
+                            imageHeight={imageHeight}
                         />
                     ))}
                 </Box>

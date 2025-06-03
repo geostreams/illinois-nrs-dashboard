@@ -142,7 +142,7 @@ const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSi
                 <div
                     id={headingId}
                     hidden-in-sidebar={hideInSidebar ? 'true' : 'false'}
-                    style={{ position: 'relative', scrollMarginTop: '120px', marginTop: '8px', marginBottom: '8px' }}
+                    style={{ position: 'relative', scrollMarginTop: '120px', marginTop: '16px', marginBottom: '8px' }}
                 >
                     {typographyElement}
                     <a

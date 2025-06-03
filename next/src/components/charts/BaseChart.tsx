@@ -15,6 +15,7 @@ import StackedBarLineChart from './StackedBarLineChart';
 import ClusterBarLineChart from './ClusterBarLineChart';
 import { FC } from 'react';
 import TableComponent from './Table';
+import { FullSpanImage } from '../PageContentGenerator/FullSpanImage';
 
 interface BaseChartProps {
     chartType: string;
@@ -32,6 +33,12 @@ interface BaseChartProps {
     };
     aspectRatio?: string;
     unit?: string;
+    // For
+    chartImage?: {
+        url: string;
+        alternativeText: string;
+        caption?: string;
+    };
 }
 
 const styles = {
@@ -54,6 +61,7 @@ const BaseChart: FC<BaseChartProps> = ({
     dataFile,
     aspectRatio,
     unit,
+    chartImage,
 }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +83,29 @@ const BaseChart: FC<BaseChartProps> = ({
     const open = Boolean(anchorEl);
 
     const handleDownload = useCallback(async () => {
+        if (chartType === 'image' && chartImage?.url) {
+            setIsLoading(true);
+            try {
+                const imageUrl = chartImage.url.startsWith('http')
+                    ? chartImage.url
+                    : `${process.env.CMS_API_URL}${chartImage.url}`;
+                const response = await fetch(imageUrl);
+                if (!response.ok) throw new Error('Download failed');
+
+                const blob = await response.blob();
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = heading ? `${heading.toLowerCase().replace(/\s+/g, '-')}.png` : 'chart.png';
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+            } catch (error) {
+                console.error('Error downloading image:', error);
+            } finally {
+                setIsLoading(false);
+            }
+            return;
+        }
+
         if (!chartRef.current) return;
 
         setIsLoading(true);
@@ -105,7 +136,7 @@ const BaseChart: FC<BaseChartProps> = ({
             setIsCapturing(false); // Show button after capture
             setIsLoading(false);
         }
-    }, [heading]);
+    }, [heading, chartType, chartImage?.url]);
 
     const handleDataDownload = useCallback(async () => {
         if (!dataFile?.url) return;
@@ -133,7 +164,7 @@ const BaseChart: FC<BaseChartProps> = ({
 
     let barUnit = '';
     let lineUnit = '';
-    if (chartType === 'bar_line') {
+    if (chartType === 'bar_line' || chartType === 'stacked_bar_line' || chartType === 'cluster_bar_line') {
         const unitObject = JSON.parse(
             unit?.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":').replace(/'/g, '"') || '{}'
         );
@@ -201,7 +232,6 @@ const BaseChart: FC<BaseChartProps> = ({
                 yAxisInterval={miscChartData?.yAxisInterval}
             />
         ),
-        table: <TableComponent tableData={chartData} />,
     }[chartType];
 
     return (
@@ -227,7 +257,7 @@ const BaseChart: FC<BaseChartProps> = ({
                     {regularHeading}
                 </Typography>
             </Box>
-            {chartType !== 'table' ? (
+            {chartType !== 'table' && chartType !== 'image' ? (
                 <Box
                     sx={{
                         width: '100%',
@@ -263,6 +293,12 @@ const BaseChart: FC<BaseChartProps> = ({
                     >
                         {chartComponent}
                     </Box>
+                </Box>
+            ) : chartType === 'image' ? (
+                <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
+                    {chartImage && (
+                        <FullSpanImage image={chartImage} imageWidth={100} caption={chartImage?.caption || ''} />
+                    )}
                 </Box>
             ) : (
                 <Box sx={{ width: '100%' }} aria-label={ariaLabel}>

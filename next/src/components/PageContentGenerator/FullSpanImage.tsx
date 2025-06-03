@@ -11,6 +11,7 @@ interface FullSpanImageProps {
         alternativeText?: string;
         width?: number;
         height?: number;
+        caption?: string;
         formats?: {
             large?: {
                 url: string;
@@ -51,6 +52,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
         }
     }
 
+    const grayCaption = image.caption ? image.caption : null;
     // Default dimensions if not provided
     const defaultWidth = 1200;
     const defaultHeight = 800;
@@ -60,13 +62,28 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                my: 2,
+                marginTop: 2,
+                marginBottom: 3,
                 position: 'relative',
                 height: 'auto',
                 cursor: 'pointer',
             }}
             onClick={() => setIsLightboxOpen(true)}
         >
+            {caption && (
+                <Typography
+                    sx={{
+                        fontSize: '16px',
+                        color: '#0A3977',
+                        textAlign: 'left',
+                        fontStyle: 'italic',
+                        maxWidth: { xs: '100%', sm: `${imageWidth}%` },
+                    }}
+                >
+                    {boldCaption && <strong>{boldCaption}:</strong>}
+                    {regularCaption}
+                </Typography>
+            )}
             <div
                 style={{
                     width: `${imageWidth}%`,
@@ -92,20 +109,19 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                     quality={75}
                 />
             </div>
-            {caption && (
+            {grayCaption && (
                 <Typography
                     sx={{
-                        fontSize: '16px',
-                        color: '#0A3977',
+                        fontSize: '14px',
+                        color: 'gray',
                         textAlign: 'left',
-                        fontStyle: 'italic',
-                        maxWidth: { xs: '100%', sm: `${imageWidth}%` },
+                        fontWeight: 'bold',
                     }}
                 >
-                    {boldCaption && <strong>{boldCaption}:</strong>}
-                    {regularCaption}
+                    {grayCaption}
                 </Typography>
             )}
+
             {image && (
                 <LightboxWrapper isOpen={isLightboxOpen} onClose={() => setIsLightboxOpen(false)} image={image} />
             )}
