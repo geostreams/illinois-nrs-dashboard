@@ -147,7 +147,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend content={ChartLegend} />
+                <Legend content={(props) => <ChartLegend {...props} lineConfig={lineConfig} />} />
 
                 {barConfig.map((config) => (
                     <Bar

@@ -164,7 +164,7 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend content={ChartLegend} />
+                <Legend content={(props) => <ChartLegend {...props} lineConfig={lineConfig} />} />
 
                 {/* Render Bars */}
                 {sortedBarConfig.map((config) => (

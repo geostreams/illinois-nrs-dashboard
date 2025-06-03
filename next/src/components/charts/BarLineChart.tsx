@@ -143,7 +143,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend content={ChartLegend} />
+                <Legend content={(props) => <ChartLegend {...props} lineConfig={lineConfig} />} />
 
                 {barConfig.map((config) => (
                     <Bar
