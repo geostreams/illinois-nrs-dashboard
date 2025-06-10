@@ -90,6 +90,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                 />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
+                    itemStyle={{ color: '#000000' }}
                     formatter={(value) => formatValueWithUnit(value as number, unit)}
                     wrapperStyle={{
                         zIndex: 100,

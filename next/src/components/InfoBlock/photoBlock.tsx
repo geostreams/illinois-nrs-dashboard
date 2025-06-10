@@ -36,7 +36,7 @@ const PhotoBlockContainer = styled(Paper)(({ theme }) => ({
 }));
 
 // PhotoBlock component for displaying each Illinois state map
-const PhotoBlock = ({ title, blockColor, image }: PhotoBlockProps) => {
+const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight }: PhotoBlockProps) => {
     return (
         <PhotoBlockContainer>
             <Box>
@@ -45,17 +45,17 @@ const PhotoBlock = ({ title, blockColor, image }: PhotoBlockProps) => {
                         {title}
                     </Typography>
                 </BlockHeader>
-                <BlockImage>
+                <BlockImage
+                    sx={{
+                        border: `1px solid ${blockColor}`,
+                    }}
+                >
                     <Image
                         src={`${process.env.CMS_API_URL || ''}${image.url}`}
                         alt={image.alternativeText || title}
-                        width={250}
-                        height={310}
+                        width={imageWidth}
+                        height={imageHeight}
                         priority
-                        style={{
-                            border: `1px solid ${blockColor}`,
-                            borderRadius: '0 0 4px 4px',
-                        }}
                     />
                 </BlockImage>
             </Box>

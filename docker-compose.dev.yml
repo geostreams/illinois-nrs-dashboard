@@ -2,7 +2,9 @@ version: "3"
 services:
   strapi:
     container_name: strapi
-    image: il-nrs-strapi
+    # image: il-nrs-strapi
+    build:
+      context: ./cms
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}

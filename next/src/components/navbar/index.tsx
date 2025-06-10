@@ -186,6 +186,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
+                            aria-label="Search form"
                             sx={{
                                 backgroundColor: 'transparent',
                                 borderRadius: '20px',
@@ -428,6 +429,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
+                            aria-label="Search form"
                             sx={{
                                 backgroundColor: 'white', // Set background to white
                                 borderRadius: '20px', // Make the background rounded

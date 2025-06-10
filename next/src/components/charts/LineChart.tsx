@@ -37,6 +37,17 @@ interface LineChartProps {
 }
 
 const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit }) => {
+    // Convert chartConfig to lineConfig format so that the legend shows lines instead of squares
+    const lineConfig = Object.entries(chartConfig).map(([key, config]) => ({
+        dataKey: key,
+        name: key,
+        color: config.color,
+        strokeWidth: config.strokeWidth,
+        dot: config.dot,
+        activeDot: config.activeDot,
+        connectNulls: config.connectNulls,
+    }));
+
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <RechartsLineChart
@@ -48,13 +59,14 @@ const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit }) =
                 <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatValueWithUnit(value, unit)} width={40} />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
+                    itemStyle={{ color: '#000000' }}
                     formatter={(value) => formatValueWithUnit(value as number, unit)}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',
                     }}
                 />
-                <Legend content={ChartLegend} />
+                <Legend content={(props) => <ChartLegend {...props} lineConfig={lineConfig} />} />
                 {Object.entries(chartConfig).map(([key, lineConfig]) => (
                     <Line
                         key={key}

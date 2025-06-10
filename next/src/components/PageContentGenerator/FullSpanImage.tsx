@@ -11,6 +11,7 @@ interface FullSpanImageProps {
         alternativeText?: string;
         width?: number;
         height?: number;
+        caption?: string;
         formats?: {
             large?: {
                 url: string;
@@ -23,6 +24,7 @@ interface FullSpanImageProps {
     caption: string;
     baseImageUrl?: string;
     imageWidth?: number;
+    bordered?: boolean;
 }
 
 export const FullSpanImage: React.FC<FullSpanImageProps> = ({
@@ -30,6 +32,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     caption,
     baseImageUrl = process.env.CMS_API_URL,
     imageWidth = 75,
+    bordered = false,
 }) => {
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -41,10 +44,15 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     // Break caption along colon, everything before colon is bold
     if (caption) {
         const captionParts = caption.split(':');
-        boldCaption = captionParts[0];
-        regularCaption = captionParts[1];
+        if (captionParts.length == 2) {
+            boldCaption = captionParts[0];
+            regularCaption = captionParts[1];
+        } else {
+            regularCaption = caption;
+        }
     }
 
+    const grayCaption = image.caption ? image.caption : null;
     // Default dimensions if not provided
     const defaultWidth = 1200;
     const defaultHeight = 800;
@@ -54,35 +62,14 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                my: 2,
+                marginTop: 2,
+                marginBottom: 3,
                 position: 'relative',
                 height: 'auto',
                 cursor: 'pointer',
             }}
             onClick={() => setIsLightboxOpen(true)}
         >
-            <div
-                style={{
-                    width: `${imageWidth}%`,
-                    position: 'relative',
-                    aspectRatio:
-                        image.width && image.height
-                            ? `${image.width}/${image.height}`
-                            : `${defaultWidth}/${defaultHeight}`,
-                }}
-            >
-                <Image
-                    src={imageUrl}
-                    alt={image.alternativeText || ''}
-                    fill
-                    style={{
-                        objectFit: 'contain',
-                    }}
-                    sizes={`(max-width: 768px) 100vw, ${imageWidth}vw`}
-                    priority={false}
-                    quality={75}
-                />
-            </div>
             {caption && (
                 <Typography
                     sx={{
@@ -93,10 +80,48 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                         maxWidth: { xs: '100%', sm: `${imageWidth}%` },
                     }}
                 >
-                    <strong>{boldCaption}:</strong>
+                    {boldCaption && <strong>{boldCaption}:</strong>}
                     {regularCaption}
                 </Typography>
             )}
+            <div
+                style={{
+                    width: `${imageWidth}%`,
+                    position: 'relative',
+                    aspectRatio:
+                        image.width && image.height
+                            ? `${image.width}/${image.height}`
+                            : `${defaultWidth}/${defaultHeight}`,
+                    overflow: 'hidden',
+                }}
+            >
+                <Image
+                    src={imageUrl}
+                    alt={image.alternativeText || ''}
+                    fill
+                    style={{
+                        // objectFit: 'contain',
+                        borderRadius: bordered ? '5px' : '0',
+                        border: bordered ? '1px solid gray' : 'none',
+                    }}
+                    sizes={`(max-width: 768px) 100vw, ${imageWidth}vw`}
+                    priority={false}
+                    quality={75}
+                />
+            </div>
+            {grayCaption && (
+                <Typography
+                    sx={{
+                        fontSize: '14px',
+                        color: 'gray',
+                        textAlign: 'left',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    {grayCaption}
+                </Typography>
+            )}
+
             {image && (
                 <LightboxWrapper isOpen={isLightboxOpen} onClose={() => setIsLightboxOpen(false)} image={image} />
             )}

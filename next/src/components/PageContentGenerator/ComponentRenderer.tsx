@@ -32,6 +32,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
                     dataFile={component.chart.dataFile}
                     width={{ xs: '100%', sm: '100%' }}
                     unit={component.chart.unit}
+                    chartImage={component.chart.chartImage}
                 />
             );
         case 'content.content-block':
@@ -58,7 +59,12 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
             );
         case 'content.full-span-image':
             return (
-                <FullSpanImage image={component.image} caption={component.caption} imageWidth={component.imageWidth} />
+                <FullSpanImage
+                    image={component.image}
+                    caption={component.caption}
+                    imageWidth={component.imageWidth}
+                    bordered={component.bordered}
+                />
             );
         case 'content.chart-with-quote':
             return (
@@ -68,7 +74,13 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
             return <PageDivider label={component.label} />;
         case 'home-page.info-block':
             return (
-                <InfoBlock photoBlocks={component.photoBlocks} title={component.title} infoText={component.infoText} />
+                <InfoBlock
+                    photoBlocks={component.photoBlocks}
+                    title={component.title}
+                    infoText={component.infoText}
+                    imageWidth={component.imageWidth}
+                    imageHeight={component.imageHeight}
+                />
             );
         case 'home-page.stay-informed':
             return <StayInformed title={component.title} subtitle={component.subtitle} links={component.links} />;

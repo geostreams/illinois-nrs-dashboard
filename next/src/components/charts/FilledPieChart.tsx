@@ -41,6 +41,7 @@ const FilledPieChart: React.FC<PieChartProps> = ({ chart_data, chart_colors, uni
                     ))}
                 </Pie>
                 <Tooltip
+                    itemStyle={{ color: '#000000' }}
                     formatter={(value, name) => {
                         const formattedValue = formatValueWithUnit(value as number, unit);
                         if (chartLabels && chartLabels[name]) {

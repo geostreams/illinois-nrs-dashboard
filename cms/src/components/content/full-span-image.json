@@ -24,6 +24,10 @@
     "imageWidth": {
       "type": "integer",
       "default": 75
+    },
+    "bordered": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

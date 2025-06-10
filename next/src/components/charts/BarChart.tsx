@@ -49,6 +49,7 @@ const BarChart: React.FC<BarChartProps> = ({
                 <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatValueWithUnit(value, unit)} width={40} />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
+                    itemStyle={{ color: '#000000' }}
                     formatter={(value) => formatValueWithUnit(value as number, unit)}
                     wrapperStyle={{
                         zIndex: 100,

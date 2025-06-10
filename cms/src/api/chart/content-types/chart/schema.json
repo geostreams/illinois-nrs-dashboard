@@ -24,7 +24,9 @@
         "bar",
         "table",
         "bar_line",
-        "stacked_bar_line"
+        "stacked_bar_line",
+        "cluster_bar_line",
+        "image"
       ]
     },
     "chartData": {
@@ -55,6 +57,16 @@
     },
     "ariaLabel": {
       "type": "text"
+    },
+    "chartImage": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
