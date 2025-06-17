@@ -191,9 +191,9 @@ const MenubarMenu: React.FC<{ children: React.ReactNode; menuId: string }> = ({ 
         setActiveMenu(menuId);
     };
 
-    const handleClose = () => {
+    const handleClose = React.useCallback(() => {
         setActiveMenu(null);
-    };
+    }, [setActiveMenu]);
 
     return (
         <Box
@@ -295,6 +295,10 @@ const MenubarContent: React.FC<{
 }> = ({ children, onItemClick }) => {
     const { setMenuItems, focusedIndex, setFocusedIndex } = React.useContext(MenubarContext);
 
+    const stableOnItemClick = React.useCallback(() => {
+        onItemClick?.();
+    }, [onItemClick]);
+
     React.useEffect(() => {
         const items: Array<{ onClick: () => void; text: string }> = [];
         React.Children.forEach(children, (child) => {
@@ -305,14 +309,14 @@ const MenubarContent: React.FC<{
                         if (childProps.onClick) {
                             childProps.onClick();
                         }
-                        onItemClick?.();
+                        stableOnItemClick();
                     },
                     text: typeof childProps.children === 'string' ? childProps.children : '',
                 });
             }
         });
         setMenuItems(items);
-    }, [children, onItemClick, setMenuItems]);
+    }, [children, stableOnItemClick]);
 
     return (
         <Box role="menu" aria-orientation="vertical" sx={{ py: 1 }}>
