@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_content_image_with_pdfs",
+  "info": {
+    "displayName": "ImageWithPDF",
+    "icon": "filePdf",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "caption": {
+      "type": "string"
+    },
+    "pdf": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "infoText": {
+      "type": "text"
+    },
+    "imageWidth": {
+      "type": "integer"
+    }
+  }
+}

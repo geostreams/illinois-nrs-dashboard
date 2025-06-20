@@ -4,12 +4,14 @@ import BaseChart from '@/components/charts/BaseChart';
 import Heading from './Headings';
 import { BaseContentSection } from './BaseContentSection';
 import { FullSpanImage } from './FullSpanImage';
+import { ImageWithPDF } from './ImageWithPDF';
 import { ChartWithQuote } from './ChartWithQuote';
 import { PageDivider } from '@/components/divider';
 import InfoBlock from '@/components/InfoBlock';
 import { StayInformed } from '@/components/StayInformed';
 import Hero from '@/components/Hero';
 import DownloadFile from '@/components/DownloadFile';
+import DualMap from './DualMap';
 
 interface ComponentRendererProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,6 +100,18 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
             );
         case 'content.download-file':
             return <DownloadFile displayText={component.displayText} fileData={component.file} />;
+        case 'content.image-with-pdf':
+            return (
+                <ImageWithPDF
+                    image={component.image}
+                    caption={component.caption}
+                    pdf={component.pdf}
+                    infoText={component.infoText}
+                    imageWidth={component.imageWidth}
+                />
+            );
+        case 'content.dual-map':
+            return <DualMap leftMap={component.leftMap} rightMap={component.rightMap} />;
         default:
             console.log('Component not found');
             console.log(component);
