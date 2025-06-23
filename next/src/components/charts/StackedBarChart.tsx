@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
+import CustomTooltip from './CustomTooltip';
 
 interface StackedBarChartProps {
     chartData: {
@@ -89,9 +90,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                     })()}
                 />
                 <Tooltip
-                    contentStyle={{ fontSize: 12 }}
-                    itemStyle={{ color: '#000000' }}
-                    formatter={(value) => formatValueWithUnit(value as number, unit)}
+                    content={<CustomTooltip unit={unit} />}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',

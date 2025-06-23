@@ -337,7 +337,7 @@ const BaseChart: FC<BaseChartProps> = ({
                                         },
                                     }}
                                 >
-                                    <InfoIcon fontSize="small" titleAccess="Chart information" />
+                                    <InfoIcon sx={{ fontSize: '1.8rem' }} titleAccess="Chart information" />
                                 </IconButton>
                                 <Popover
                                     open={open}

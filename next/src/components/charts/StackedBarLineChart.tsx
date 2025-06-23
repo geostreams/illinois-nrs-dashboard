@@ -15,6 +15,7 @@ import {
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
+import CustomTooltip from './CustomTooltip';
 
 interface BarConfig {
     dataKey: string;
@@ -152,13 +153,14 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                 )}
 
                 <Tooltip
-                    contentStyle={{ fontSize: 12 }}
-                    itemStyle={{ color: '#000000' }}
-                    formatter={(value, name, props) => {
-                        const isBar = barConfig.some((config) => config.dataKey === props.dataKey);
-                        const unit = isBar ? barUnit : lineUnit;
-                        return formatValueWithUnit(value as number, unit);
-                    }}
+                    content={
+                        <CustomTooltip
+                            barUnit={barUnit}
+                            lineUnit={lineUnit}
+                            barConfig={barConfig}
+                            lineConfig={lineConfig}
+                        />
+                    }
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',
