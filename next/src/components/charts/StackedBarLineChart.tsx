@@ -53,12 +53,17 @@ interface StackedBarLineChartProps {
             min?: number;
             max?: number;
             interval?: number;
+            label?: string;
         };
         right?: {
             min?: number;
             max?: number;
             interval?: number;
         };
+    };
+    yAxisLabel?: {
+        left?: string;
+        right?: string;
     };
 }
 
@@ -70,6 +75,7 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
     barUnit,
     lineUnit,
     yAxisInterval,
+    yAxisLabel,
 }) => {
     // Sort bar data keys by their total values for better visualization
     const sortedBarConfig = React.useMemo(() => {
@@ -103,6 +109,23 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                     width={40}
                     domain={[yAxisInterval?.left?.min ?? 'auto', yAxisInterval?.left?.max ?? 'auto']}
                     interval="preserveStartEnd"
+                    label={
+                        yAxisLabel?.left
+                            ? {
+                                  value: yAxisLabel.left,
+                                  angle: -90,
+                                  position: 'left',
+                                  textAnchor: 'middle',
+                                  offset: 0,
+                                  style: {
+                                      fontSize: '14px',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      fontWeight: '500',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
                     ticks={(() => {
                         if (
                             yAxisInterval?.left &&
@@ -132,6 +155,23 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                         width={40}
                         domain={[yAxisInterval?.right?.min ?? 'auto', yAxisInterval?.right?.max ?? 'auto']}
                         interval="preserveStartEnd"
+                        label={
+                            yAxisLabel?.right
+                                ? {
+                                      value: yAxisLabel.right,
+                                      angle: 90,
+                                      position: 'right',
+                                      textAnchor: 'middle',
+                                      offset: 0,
+                                      style: {
+                                          fontSize: '14px',
+                                          fontFamily: 'Montserrat, sans-serif',
+                                          fontWeight: '500',
+                                          textAnchor: 'middle',
+                                      },
+                                  }
+                                : undefined
+                        }
                         ticks={(() => {
                             if (
                                 yAxisInterval?.right &&

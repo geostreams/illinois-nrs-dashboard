@@ -208,6 +208,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 barUnit={barUnit}
                 lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
         stacked_bar_line: (
@@ -219,6 +220,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 barUnit={barUnit}
                 lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
         cluster_bar_line: (
@@ -230,6 +232,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 barUnit={barUnit}
                 lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
     }[chartType];

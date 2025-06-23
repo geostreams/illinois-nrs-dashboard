@@ -61,6 +61,10 @@ interface ClusterBarLineChartProps {
     };
     barCategoryGap?: string | number;
     barGap?: number;
+    yAxisLabel?: {
+        left?: string;
+        right?: string;
+    };
 }
 
 const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
@@ -73,6 +77,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
     yAxisInterval,
     barCategoryGap = '20%',
     barGap = 0,
+    yAxisLabel,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -88,6 +93,23 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                     width={40}
                     domain={[yAxisInterval?.left?.min ?? 'auto', yAxisInterval?.left?.max ?? 'auto']}
                     interval="preserveStartEnd"
+                    label={
+                        yAxisLabel?.left
+                            ? {
+                                  value: yAxisLabel.left,
+                                  angle: -90,
+                                  position: 'left',
+                                  textAnchor: 'middle',
+                                  offset: 0,
+                                  style: {
+                                      fontSize: '14px',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      fontWeight: '500',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
                     ticks={(() => {
                         if (
                             yAxisInterval?.left &&
@@ -115,6 +137,23 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                     width={40}
                     domain={[yAxisInterval?.right?.min ?? 'auto', yAxisInterval?.right?.max ?? 'auto']}
                     interval="preserveStartEnd"
+                    label={
+                        yAxisLabel?.right
+                            ? {
+                                  value: yAxisLabel.right,
+                                  angle: 90,
+                                  position: 'right',
+                                  textAnchor: 'middle',
+                                  offset: 0,
+                                  style: {
+                                      fontSize: '14px',
+                                      fontWeight: '500',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
                     ticks={(() => {
                         if (
                             yAxisInterval?.right &&
