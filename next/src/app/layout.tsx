@@ -8,6 +8,7 @@ import { Navbar } from '@/components/navbar';
 import fetchContentType from '@/utils/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
 import { Metadata, Viewport } from 'next';
+import { MainWrapper } from '@/components/MainWrapper';
 
 export const metadata: Metadata = {
     title: 'Illinois NLRS Data Portal',
@@ -65,18 +66,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                             }}
                         >
                             <Navbar navbar={pageData?.navbar} />
-                            <main
-                                style={{
-                                    flex: '1 1 auto',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    width: '100%',
-                                    position: 'relative',
-                                    marginBottom: '75px',
-                                }}
-                            >
-                                {children}
-                            </main>
+                            <MainWrapper>{children}</MainWrapper>
                             <Footer footerData={pageData?.footer} />
                         </div>
                     </ThemeProvider>
