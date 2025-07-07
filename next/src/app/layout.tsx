@@ -72,6 +72,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                                     flexDirection: 'column',
                                     width: '100%',
                                     position: 'relative',
+                                    marginBottom: '75px',
                                 }}
                             >
                                 {children}
