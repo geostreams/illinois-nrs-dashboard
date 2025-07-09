@@ -26,7 +26,9 @@
         "content.full-span-image",
         "content.chart-with-quote",
         "content.page-divider",
-        "content.download-file"
+        "content.download-file",
+        "content.image-with-pdf",
+        "content.dual-map"
       ]
     },
     "slug": {

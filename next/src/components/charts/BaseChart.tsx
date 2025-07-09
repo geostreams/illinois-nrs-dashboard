@@ -189,6 +189,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartColors={miscChartData?.chartColors}
                 unit={unit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
         bar: (
@@ -197,6 +198,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartColors={miscChartData?.chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 unit={unit}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
         bar_line: (
@@ -208,6 +210,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 barUnit={barUnit}
                 lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
         stacked_bar_line: (
@@ -219,6 +222,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 barUnit={barUnit}
                 lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
         cluster_bar_line: (
@@ -230,6 +234,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 barUnit={barUnit}
                 lineUnit={lineUnit}
                 yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
     }[chartType];
@@ -337,7 +342,7 @@ const BaseChart: FC<BaseChartProps> = ({
                                         },
                                     }}
                                 >
-                                    <InfoIcon fontSize="small" titleAccess="Chart information" />
+                                    <InfoIcon sx={{ fontSize: '1.8rem' }} titleAccess="Chart information" />
                                 </IconButton>
                                 <Popover
                                     open={open}

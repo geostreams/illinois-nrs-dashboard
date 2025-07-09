@@ -8,6 +8,7 @@ import { Navbar } from '@/components/navbar';
 import fetchContentType from '@/utils/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
 import { Metadata, Viewport } from 'next';
+import { MainWrapper } from '@/components/MainWrapper';
 
 export const metadata: Metadata = {
     title: 'Illinois NLRS Data Portal',
@@ -51,6 +52,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
     return (
         <html lang="en" suppressHydrationWarning>
+            {/* This enables that the colors in the charts are printed correctly when printing the page */}
+            <head>
+                <style>{`
+                    @media print {
+                        * {
+                            -webkit-print-color-adjust: exact !important;
+                            print-color-adjust: exact !important;
+                        }
+                    }
+                `}</style>
+            </head>
             <body>
                 <InitColorSchemeScript attribute="class" />
                 <AppRouterCacheProvider options={{ enableCssLayer: true }}>
@@ -65,17 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                             }}
                         >
                             <Navbar navbar={pageData?.navbar} />
-                            <main
-                                style={{
-                                    flex: '1 1 auto',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    width: '100%',
-                                    position: 'relative',
-                                }}
-                            >
-                                {children}
-                            </main>
+                            <MainWrapper>{children}</MainWrapper>
                             <Footer footerData={pageData?.footer} />
                         </div>
                     </ThemeProvider>

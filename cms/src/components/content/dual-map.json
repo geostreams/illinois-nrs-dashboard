@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_content_dual_maps",
+  "info": {
+    "displayName": "DualMap",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "leftMap": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.image-with-pdf"
+    },
+    "rightMap": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.image-with-pdf"
+    }
+  }
+}

@@ -59,6 +59,10 @@ interface BarLineChartProps {
             interval?: number;
         };
     };
+    yAxisLabel?: {
+        left?: string;
+        right?: string;
+    };
 }
 
 const BarLineChart: React.FC<BarLineChartProps> = ({
@@ -69,6 +73,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
     barUnit,
     lineUnit,
     yAxisInterval,
+    yAxisLabel,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -101,6 +106,23 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                         }
                         return undefined;
                     })()}
+                    label={
+                        yAxisLabel?.left
+                            ? {
+                                  value: yAxisLabel.left,
+                                  angle: -90,
+                                  position: 'left',
+                                  textAnchor: 'middle',
+                                  offset: 0,
+                                  style: {
+                                      fontSize: '14px',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      fontWeight: '500',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
                 />
 
                 <YAxis
@@ -128,6 +150,23 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                         }
                         return undefined;
                     })()}
+                    label={
+                        yAxisLabel?.right
+                            ? {
+                                  value: yAxisLabel.right,
+                                  angle: 90,
+                                  position: 'right',
+                                  textAnchor: 'middle',
+                                  offset: 0,
+                                  style: {
+                                      fontSize: '14px',
+                                      fontWeight: '500',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
                 />
 
                 <Tooltip

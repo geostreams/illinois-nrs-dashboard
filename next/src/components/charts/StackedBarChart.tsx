@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
+import CustomTooltip from './CustomTooltip';
 
 interface StackedBarChartProps {
     chartData: {
@@ -25,6 +26,7 @@ interface StackedBarChartProps {
     }[];
     chartColors: { [key: string]: string };
     unit?: string;
+    yAxisLabel?: string;
     yAxisInterval?: {
         min?: number;
         max?: number;
@@ -37,6 +39,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
     chartReferenceLines = [],
     chartColors,
     unit,
+    yAxisLabel,
     yAxisInterval,
 }) => {
     // Function to convert data keys to readable legend names
@@ -70,6 +73,21 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                     width={40}
                     domain={[yAxisInterval?.min ?? 'auto', yAxisInterval?.max ?? 'auto']}
                     interval="preserveStartEnd"
+                    label={
+                        yAxisLabel
+                            ? {
+                                  value: yAxisLabel,
+                                  angle: -90,
+                                  position: 'insideLeft',
+                                  style: {
+                                      fontSize: '14px',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      fontWeight: '500',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
                     ticks={(() => {
                         if (
                             yAxisInterval &&
@@ -89,9 +107,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                     })()}
                 />
                 <Tooltip
-                    contentStyle={{ fontSize: 12 }}
-                    itemStyle={{ color: '#000000' }}
-                    formatter={(value) => formatValueWithUnit(value as number, unit)}
+                    content={<CustomTooltip unit={unit} />}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',

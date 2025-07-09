@@ -163,7 +163,7 @@ export const Sidebar: React.FC = () => {
                 position: 'sticky',
                 top: 110,
                 width: 240,
-                height: '100%',
+                height: 'calc(100vh + 65px)', // Plus margin-bottom of 75px offset
                 overflowY: 'auto',
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,

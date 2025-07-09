@@ -58,7 +58,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                                 borderLeft: '1px solid #1B5C7C',
                             }}
                         >
-                            {indexColumn !== '' ? indexColumn : 'Category'}
+                            {indexColumn}
                         </TableCell>
                         {columns.map((column, index) => (
                             <TableCell

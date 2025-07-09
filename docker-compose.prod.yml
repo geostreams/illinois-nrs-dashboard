@@ -53,7 +53,7 @@ services:
     #   - ./cms/config:/opt/app/config
     #   - ./cms/src:/opt/app/src
     #   - ./cms/package.json:/opt/package.json
-      - ./cms/public/uploads:/opt/app/public/uploads
+      - ./cms/public:/opt/app/public
     networks:
       - ilnrs
     depends_on:
