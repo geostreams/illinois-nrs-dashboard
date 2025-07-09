@@ -101,7 +101,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                             href={partnerImage.caption}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            aria-label={partnerImage.alt}
                                             style={{ display: 'block', width: '100%', height: '100%' }}
                                         >
                                             <Image
