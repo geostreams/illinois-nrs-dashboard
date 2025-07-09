@@ -37,6 +37,14 @@ const PhotoBlockContainer = styled(Paper)(({ theme }) => ({
 
 // PhotoBlock component for displaying each Illinois state map
 const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight }: PhotoBlockProps) => {
+    // Default dimensions if not provided or null
+    const defaultWidth = 250;
+    const defaultHeight = 310;
+
+    // Ensure we have valid numeric dimensions
+    const validWidth = typeof imageWidth === 'number' && imageWidth > 0 ? imageWidth : defaultWidth;
+    const validHeight = typeof imageHeight === 'number' && imageHeight > 0 ? imageHeight : defaultHeight;
+
     return (
         <PhotoBlockContainer>
             <Box>
@@ -53,8 +61,8 @@ const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight }: Photo
                     <Image
                         src={`${process.env.CMS_API_URL || ''}${image.url}`}
                         alt={image.alternativeText || title}
-                        width={imageWidth}
-                        height={imageHeight}
+                        width={validWidth}
+                        height={validHeight}
                         priority
                     />
                 </BlockImage>

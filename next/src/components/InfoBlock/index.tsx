@@ -11,8 +11,8 @@ interface InfoBlockProps {
     photoBlocks: PhotoBlockProps[];
     title: TitleProps;
     infoText: string;
-    imageWidth: number;
-    imageHeight: number;
+    imageWidth: number | null;
+    imageHeight: number | null;
 }
 
 // Main infoBlock component (simplified version focusing on PhotoBlocks)
