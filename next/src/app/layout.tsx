@@ -52,6 +52,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
     return (
         <html lang="en" suppressHydrationWarning>
+            {/* This enables that the colors in the charts are printed correctly when printing the page */}
+            <head>
+                <style>{`
+                    @media print {
+                        * {
+                            -webkit-print-color-adjust: exact !important;
+                            print-color-adjust: exact !important;
+                        }
+                    }
+                `}</style>
+            </head>
             <body>
                 <InitColorSchemeScript attribute="class" />
                 <AppRouterCacheProvider options={{ enableCssLayer: true }}>
