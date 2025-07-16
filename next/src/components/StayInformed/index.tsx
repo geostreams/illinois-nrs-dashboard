@@ -36,18 +36,19 @@ export const StayInformed = ({ subtitle, links = [] }: StayInformedData) => {
                 sx={{
                     backgroundColor: '#002A47', // Dark blue background as shown in the image
                     color: 'white',
-                    py: 4,
+                    paddingTop: 8,
+                    paddingBottom: 7.6,
                     px: 2,
                 }}
             >
                 <Container maxWidth="lg">
                     {/* Title with two-tone styling */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 0 }}>
                         <Typography
                             variant="h2"
                             component="h2"
                             sx={{
-                                fontSize: { xs: '2rem', md: '2.5rem' },
+                                fontSize: '3.75rem',
                                 fontWeight: 600,
                                 fontFamily: 'Bebas Neue',
                             }}
@@ -65,8 +66,8 @@ export const StayInformed = ({ subtitle, links = [] }: StayInformedData) => {
                     <Divider
                         sx={{
                             bgcolor: 'rgba(255, 255, 255, 0.2)',
-                            mb: 3,
-                            mt: -1,
+                            mb: 2,
+                            mt: -1.5,
                         }}
                     />
 
