@@ -16,8 +16,8 @@ export interface PhotoBlockProps {
     title: string;
     blockColor: string;
     image: ImageData;
-    imageWidth: number;
-    imageHeight: number;
+    imageWidth: number | null;
+    imageHeight: number | null;
 }
 
 export interface InfoBlockProps {

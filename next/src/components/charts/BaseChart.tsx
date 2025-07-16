@@ -359,7 +359,8 @@ const BaseChart: FC<BaseChartProps> = ({
                                 >
                                     <Box
                                         sx={{
-                                            p: 1,
+                                            p: 1.5,
+                                            pr: 3.5,
                                             maxWidth: 350,
                                             position: 'relative',
                                         }}
@@ -371,12 +372,24 @@ const BaseChart: FC<BaseChartProps> = ({
                                                 position: 'absolute',
                                                 right: 2,
                                                 top: 2,
+                                                color: 'grey.500',
+                                                '&:hover': {
+                                                    color: 'grey.700',
+                                                },
                                             }}
                                             aria-label="Close additional information"
                                         >
                                             <CloseIcon fontSize="small" titleAccess="Close" />
                                         </IconButton>
-                                        <Typography>{infoText}</Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '0.9rem',
+                                                lineHeight: 1.4,
+                                                color: 'text.primary',
+                                            }}
+                                        >
+                                            {infoText}
+                                        </Typography>
                                     </Box>
                                 </Popover>
                             </>

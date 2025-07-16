@@ -12,6 +12,7 @@ type FooterData = {
         partnerImages: {
             alternativeText: string;
             url: string;
+            caption: string;
         }[];
         partnersText: string;
     };
@@ -27,6 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
         return {
             imageURl: `${process.env.CMS_API_URL}${partner?.url}`,
             alt: partner.alternativeText,
+            caption: partner.caption,
         };
     });
 
@@ -93,15 +95,35 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                         position: 'relative',
                                     }}
                                 >
-                                    <Image
-                                        src={partnerImage.imageURl}
-                                        alt={partnerImage.alt}
-                                        fill
-                                        sizes="(max-width: 600px) 240px, 220px"
-                                        style={{
-                                            objectFit: 'contain',
-                                        }}
-                                    />
+                                    {/* The caption is a link to the partner's website */}
+                                    {partnerImage.caption ? (
+                                        <a
+                                            href={partnerImage.caption}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{ display: 'block', width: '100%', height: '100%' }}
+                                        >
+                                            <Image
+                                                src={partnerImage.imageURl}
+                                                alt={partnerImage.alt}
+                                                fill
+                                                sizes="(max-width: 600px) 240px, 220px"
+                                                style={{
+                                                    objectFit: 'contain',
+                                                }}
+                                            />
+                                        </a>
+                                    ) : (
+                                        <Image
+                                            src={partnerImage.imageURl}
+                                            alt={partnerImage.alt}
+                                            fill
+                                            sizes="(max-width: 600px) 240px, 220px"
+                                            style={{
+                                                objectFit: 'contain',
+                                            }}
+                                        />
+                                    )}
                                 </Box>
                             ))}
                         </Box>
