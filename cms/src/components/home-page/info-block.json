@@ -9,26 +9,32 @@
   "attributes": {
     "photoBlocks": {
       "type": "component",
-      "repeatable": true,
-      "component": "home-page.photo-block"
+      "component": "home-page.photo-block",
+      "repeatable": true
     },
     "infoText": {
       "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
       "options": {
         "preset": "defaultHtml"
-      },
-      "customField": "plugin::ckeditor5.CKEditor"
+      }
     },
     "title": {
       "type": "component",
-      "repeatable": false,
-      "component": "home-page.custom-title"
+      "component": "home-page.custom-title",
+      "repeatable": false
     },
     "imageWidth": {
       "type": "integer"
     },
     "imageHeight": {
       "type": "integer"
+    },
+    "paddingTop": {
+      "type": "decimal"
+    },
+    "paddingBottom": {
+      "type": "decimal"
     }
   }
 }

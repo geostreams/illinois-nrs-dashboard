@@ -82,6 +82,8 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
                     infoText={component.infoText}
                     imageWidth={component.imageWidth}
                     imageHeight={component.imageHeight}
+                    paddingTop={component.paddingTop}
+                    paddingBottom={component.paddingBottom}
                 />
             );
         case 'home-page.stay-informed':

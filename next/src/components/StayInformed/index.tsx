@@ -52,6 +52,7 @@ export const StayInformed = ({ subtitle, links = [] }: StayInformedData) => {
                                 fontWeight: 600,
                                 fontFamily: 'Bebas Neue',
                             }}
+                            tabIndex={0}
                         >
                             <Box component="span" sx={{ color: 'white' }}>
                                 STAY

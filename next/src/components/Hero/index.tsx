@@ -86,17 +86,17 @@ export const Hero = ({
                         elevation={3}
                         sx={{
                             width: '100%',
-                            p: { xs: 3, md: 5 },
+                            p: { xs: 4, md: 6 },
                             borderRadius: 1,
                             display: 'flex',
                             flexDirection: { xs: 'column', md: 'row' },
                             alignItems: 'center',
-                            gap: { xs: 4, md: 0 },
+                            gap: { xs: 4, md: 2 },
                             position: 'relative',
                             // Apply polygon shape only on medium screens and up
                             clipPath: {
                                 xs: 'none',
-                                md: 'polygon(0% 0, 100% 0, 100% 100%, 10% 100%)',
+                                md: 'polygon(0% 0, 100% 0, 100% 100%, 4.75% 100%)',
                             },
                         }}
                     >
@@ -104,7 +104,7 @@ export const Hero = ({
                         <Box
                             sx={{
                                 flex: { xs: '1 1 100%', md: '1 1 60%' },
-                                pr: { md: 3 },
+                                pr: { md: 6 },
                                 marginLeft: { xs: 0, md: '100px' },
                             }}
                         >
@@ -168,11 +168,11 @@ export const Hero = ({
 
                         {/* Right Image Section */}
                         {heroRightImage && (
-                            <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 50%' } }}>
+                            <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 30%' } }}>
                                 <Box
                                     sx={{
                                         position: 'relative',
-                                        width: '100%',
+                                        width: { xs: '200px', md: '300px' },
                                         height: { xs: '200px', md: '300px' },
                                     }}
                                 >
