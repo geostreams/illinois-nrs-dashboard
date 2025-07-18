@@ -15,11 +15,6 @@ export interface HeroData {
         alt?: string;
         caption?: string;
     };
-    heroLeftImage?: {
-        url: string;
-        alt?: string;
-        caption?: string;
-    };
     backgroundImage?: {
         url: string;
         alt?: string;
@@ -32,7 +27,6 @@ export const Hero = ({
     buttonText = 'LEARN MORE',
     buttonURL = '#',
     logoSection,
-    heroLeftImage,
     heroRightImage,
     backgroundImage,
     heroText,
@@ -108,33 +102,22 @@ export const Hero = ({
                                 marginLeft: { xs: 0, md: '100px' },
                             }}
                         >
-                            {/* Hero Left Image */}
-                            {heroLeftImage && (
-                                <Box
-                                    sx={{
-                                        position: 'relative',
-                                        width: '300px',
-                                        height: '150px',
-                                        mr: 'auto',
-                                        ml: { xs: 'auto', md: 0 },
-                                        mb: 0,
-                                        overflow: 'hidden',
-                                        borderRadius: '4px',
-                                    }}
-                                >
-                                    <Image
-                                        src={`${process.env.CMS_API_URL}${heroLeftImage.url}`}
-                                        alt={heroLeftImage.alt || 'Illinois waterway'}
-                                        fill
-                                        sizes="300px"
-                                        priority
-                                        style={{
-                                            objectFit: 'contain',
-                                            objectPosition: 'left center',
-                                        }}
-                                    />
-                                </Box>
-                            )}
+                            <Typography
+                                tabIndex={0}
+                                variant="h1"
+                                sx={{
+                                    fontSize: '2.5rem',
+                                    fontWeight: 800,
+                                    color: '#00507A',
+                                    lineHeight: 1.2,
+                                    fontFamily: 'Source Sans, sans-serif',
+                                    mb: 2,
+                                }}
+                            >
+                                Illinois Nutrient Loss
+                                <br />
+                                Reduction Strategy
+                            </Typography>
 
                             {heroText && <RichContentViewer content={heroText} />}
 
