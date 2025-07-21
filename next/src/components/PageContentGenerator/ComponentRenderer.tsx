@@ -82,6 +82,8 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
                     infoText={component.infoText}
                     imageWidth={component.imageWidth}
                     imageHeight={component.imageHeight}
+                    paddingTop={component.paddingTop}
+                    paddingBottom={component.paddingBottom}
                 />
             );
         case 'home-page.stay-informed':
@@ -93,7 +95,6 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
                     buttonURL={component.buttonURL}
                     backgroundImage={component.backgroundImage}
                     heroRightImage={component.heroRightImage}
-                    heroLeftImage={component.heroLeftImage}
                     logoSection={component.logoSection}
                     heroText={component.heroText}
                 />

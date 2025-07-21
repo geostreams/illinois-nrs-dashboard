@@ -13,15 +13,26 @@ interface InfoBlockProps {
     infoText: string;
     imageWidth: number | null;
     imageHeight: number | null;
+    paddingTop: number | null;
+    paddingBottom: number | null;
 }
 
 // Main infoBlock component (simplified version focusing on PhotoBlocks)
-const InfoBlock: React.FC<InfoBlockProps> = ({ photoBlocks, title, infoText, imageWidth, imageHeight }) => {
+const InfoBlock: React.FC<InfoBlockProps> = ({
+    photoBlocks,
+    title,
+    infoText,
+    imageWidth,
+    imageHeight,
+    paddingTop,
+    paddingBottom,
+}) => {
     return (
         <Box
             component="section"
             sx={{
-                py: { xs: 6, md: 8 },
+                pt: paddingTop ?? 0,
+                pb: paddingBottom ?? 0,
                 backgroundColor: 'white',
                 backgroundImage: {
                     xs: 'none',

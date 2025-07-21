@@ -73,6 +73,10 @@ const RichContentViewer: React.FC<RichContentViewerProps> = ({ content, baseImag
         // Add margin-bottom to all p tags with a margin-bottom
         processedContent = processedContent.replace(/<p(?:\s+class="p1")?>/g, '<p style="margin-bottom: 8px;">');
 
+        // Replace all instaces of <strong> with <b>
+        processedContent = processedContent.replace(/<strong>/g, '<b>');
+        processedContent = processedContent.replace(/<\/strong>/g, '</b>');
+
         // Replace all instances of h4 with p that has the same styling properties
         // processedContent = processedContent.replace(
         //     /<h4([^>]*)>(.*?)<\/h4>/g,

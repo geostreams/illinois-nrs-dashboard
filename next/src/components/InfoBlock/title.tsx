@@ -11,6 +11,7 @@ const Title = ({ firstHalf, secondHalf, firstHalfColor, secondHalfColor }: Title
                 fontFamily={'Bebas Neue'}
                 component="h2"
                 fontWeight="bold"
+                tabIndex={0}
                 sx={{ mb: 0, lineHeight: 1 }}
             >
                 <Box component="span" sx={{ color: firstHalfColor }}>
