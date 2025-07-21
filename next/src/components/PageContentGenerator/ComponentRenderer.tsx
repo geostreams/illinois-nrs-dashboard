@@ -95,7 +95,6 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
                     buttonURL={component.buttonURL}
                     backgroundImage={component.backgroundImage}
                     heroRightImage={component.heroRightImage}
-                    heroLeftImage={component.heroLeftImage}
                     logoSection={component.logoSection}
                     heroText={component.heroText}
                 />
