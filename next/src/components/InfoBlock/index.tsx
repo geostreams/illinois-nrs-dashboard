@@ -27,8 +27,6 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
     paddingTop,
     paddingBottom,
 }) => {
-    console.log('paddingTop', paddingTop);
-    console.log('paddingBottom', paddingBottom);
     return (
         <Box
             component="section"
