@@ -31,8 +31,8 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
         <Box
             component="section"
             sx={{
-                pt: paddingTop,
-                pb: paddingBottom,
+                pt: paddingTop ?? 0,
+                pb: paddingBottom ?? 0,
                 backgroundColor: 'white',
                 backgroundImage: {
                     xs: 'none',
