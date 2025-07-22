@@ -107,10 +107,10 @@ export const Hero = ({
                                 variant="h1"
                                 sx={{
                                     fontSize: '2.5rem',
-                                    fontWeight: 800,
+                                    fontWeight: 700,
                                     color: '#00507A',
                                     lineHeight: 1.2,
-                                    fontFamily: 'Source Sans, sans-serif',
+                                    fontFamily: 'Monsterrat, sans-serif',
                                     mb: 2,
                                 }}
                             >

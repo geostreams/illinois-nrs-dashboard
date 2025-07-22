@@ -270,8 +270,6 @@ const MenubarTrigger: React.FC<{
         color="inherit"
         onClick={onClick}
         aria-expanded={ariaExpanded}
-        aria-haspopup="menu"
-        role="menuitem"
         sx={{
             color: 'inherit',
             height: '100%',
