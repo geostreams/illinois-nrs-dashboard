@@ -28,7 +28,8 @@
         "content.page-divider",
         "content.download-file",
         "content.image-with-pdf",
-        "content.dual-map"
+        "content.dual-map",
+        "content.accordion"
       ]
     },
     "slug": {

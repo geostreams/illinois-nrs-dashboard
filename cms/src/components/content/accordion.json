@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_content_accordions",
+  "info": {
+    "displayName": "Accordion",
+    "icon": "stack"
+  },
+  "options": {},
+  "attributes": {
+    "accordionGroupID": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

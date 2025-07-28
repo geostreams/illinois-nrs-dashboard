@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "accordion_items",
+  "info": {
+    "singularName": "accordion-item",
+    "pluralName": "accordion-items",
+    "displayName": "AccordionItem"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contents": {
+      "type": "dynamiczone",
+      "components": [
+        "content.image-with-pdf",
+        "content.dual-map",
+        "content.download-file",
+        "content.page-divider",
+        "content.chart-with-quote",
+        "charts.dual-chart",
+        "charts.chart-selector",
+        "content.content-block",
+        "content.full-span-image",
+        "content.heading",
+        "content.base-content-section"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "accordionGroup": {
+      "type": "string"
+    },
+    "accordionOrder": {
+      "type": "integer",
+      "required": true,
+      "unique": false
+    }
+  }
+}
