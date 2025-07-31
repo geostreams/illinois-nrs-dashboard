@@ -11,34 +11,38 @@ const StyledAccordion = styled(Accordion, {
     shouldForwardProp: (prop) => prop !== 'isFirst' && prop !== 'isLast',
 })<{ isFirst: boolean; isLast: boolean }>(({ isFirst, isLast }) => ({
     boxShadow: 'none',
-    border: '1px solid #ccc',
+    border: 'none',
+    borderLeft: '1px solid #ccc',
+    borderRight: '1px solid #ccc',
     borderRadius: 0,
-    // First item gets top border radius
+    // Only first item gets top border and top border radius
     ...(isFirst && {
+        borderTop: '1px solid #ccc',
         borderTopLeftRadius: '7px',
         borderTopRightRadius: '7px',
     }),
-    // Last item gets bottom border radius
+    // Only last item gets bottom border and bottom border radius
     ...(isLast && {
+        borderBottom: '1px solid #ccc',
         borderBottomLeftRadius: '7px',
         borderBottomRightRadius: '7px',
-    }),
-    // Remove top border for non-first items to avoid double borders
-    ...(!isFirst && {
-        borderTop: 'none',
-        marginTop: '-1px', // Overlap to create single border between items
     }),
     '&:before': {
         display: 'none',
     },
+    // Remove MUI's default margin behavior for expanded accordions
     '&.Mui-expanded': {
         margin: 0,
+        // Add bottom border for expanded sections (except last item)
+        ...(!isLast && {
+            borderBottom: '1px solid #ccc',
+        }),
     },
 }));
 
-export const AccordionItem: React.FC<AccordionItemProps> = ({ item, isFirst, isLast }) => {
+export const AccordionItem: React.FC<AccordionItemProps> = ({ item, isFirst, isLast, expanded, onToggle }) => {
     return (
-        <StyledAccordion defaultExpanded isFirst={isFirst} isLast={isLast}>
+        <StyledAccordion expanded={expanded} onChange={onToggle} isFirst={isFirst} isLast={isLast}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`accordion-panel-${item.documentId}`}

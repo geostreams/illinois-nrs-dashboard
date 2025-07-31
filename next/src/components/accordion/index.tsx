@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { AccordionItem } from './accordionItem';
 import { AccordionItemData, AccordionProps } from './types';
 
@@ -9,6 +9,7 @@ export const Accordion: React.FC<AccordionProps> = ({ accordionGroupID }) => {
     const [accordionItems, setAccordionItems] = useState<AccordionItemData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         const fetchAccordionItems = async () => {
@@ -33,6 +34,11 @@ export const Accordion: React.FC<AccordionProps> = ({ accordionGroupID }) => {
                 });
 
                 setAccordionItems(sortedItems);
+                // Initialize all items as expanded (matching original defaultExpanded behavior)
+                const initialExpandedItems = new Set<string>(
+                    sortedItems.map((item: AccordionItemData) => item.documentId || item.id.toString())
+                );
+                setExpandedItems(initialExpandedItems);
             } catch (err) {
                 console.error('Error fetching accordion items:', err);
                 setError(err instanceof Error ? err.message : 'Failed to load accordion items');
@@ -45,6 +51,33 @@ export const Accordion: React.FC<AccordionProps> = ({ accordionGroupID }) => {
             fetchAccordionItems();
         }
     }, [accordionGroupID]);
+
+    const handleToggleItem = (itemId: string) => {
+        setExpandedItems((prev) => {
+            const newSet = new Set(prev);
+            if (newSet.has(itemId)) {
+                newSet.delete(itemId);
+            } else {
+                newSet.add(itemId);
+            }
+            return newSet;
+        });
+    };
+
+    const handleToggleAll = () => {
+        const allExpanded = expandedItems.size === accordionItems.length;
+
+        if (allExpanded) {
+            // Collapse all
+            setExpandedItems(new Set());
+        } else {
+            // Expand all
+            const allItemIds = new Set<string>(accordionItems.map((item) => item.documentId || item.id.toString()));
+            setExpandedItems(allItemIds);
+        }
+    };
+
+    const allExpanded = expandedItems.size === accordionItems.length;
 
     if (loading) {
         return (
@@ -72,14 +105,45 @@ export const Accordion: React.FC<AccordionProps> = ({ accordionGroupID }) => {
 
     return (
         <Box>
-            {accordionItems.map((item, index) => (
-                <AccordionItem
-                    key={item.documentId || item.id}
-                    item={item}
-                    isFirst={index === 0}
-                    isLast={index === accordionItems.length - 1}
-                />
-            ))}
+            {/* Header with expand/collapse all button */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginBottom: '1rem',
+                }}
+            >
+                <Button
+                    onClick={handleToggleAll}
+                    sx={{
+                        backgroundColor: '#1976d2',
+                        color: 'white',
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        '&:hover': {
+                            backgroundColor: '#1565c0',
+                        },
+                    }}
+                >
+                    {allExpanded ? 'Collapse All' : 'Expand All'}
+                </Button>
+            </Box>
+
+            {/* Accordion items */}
+            <Box>
+                {accordionItems.map((item, index) => (
+                    <AccordionItem
+                        key={item.documentId || item.id}
+                        item={item}
+                        isFirst={index === 0}
+                        isLast={index === accordionItems.length - 1}
+                        expanded={expandedItems.has(item.documentId || item.id.toString())}
+                        onToggle={() => handleToggleItem(item.documentId || item.id.toString())}
+                    />
+                ))}
+            </Box>
         </Box>
     );
 };

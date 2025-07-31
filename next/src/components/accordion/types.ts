@@ -25,4 +25,6 @@ export interface AccordionItemProps {
     item: AccordionItemData;
     isFirst: boolean;
     isLast: boolean;
+    expanded: boolean;
+    onToggle: () => void;
 }
