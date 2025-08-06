@@ -18,9 +18,10 @@ interface TableProps {
         data: DataRow[];
         columns: string[];
     };
+    boldenRows: string[];
 }
 
-const TableComponent: React.FC<TableProps> = ({ tableData }) => {
+const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows }) => {
     // Get all unique columns from the data for columns
     const columns = tableData.columns.slice(1);
     const indexColumn = tableData.columns[0];
@@ -76,20 +77,28 @@ const TableComponent: React.FC<TableProps> = ({ tableData }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tableData.data.map((row) => (
-                        <TableRow key={row.row}>
-                            <TableCell component="th" scope="row" style={cellStyle} align="center">
-                                {row.row}
-                            </TableCell>
-                            {columns.map((column) => (
-                                <TableCell key={column} align="center" style={cellStyle}>
-                                    {typeof row[column] === 'number'
-                                        ? formatNumberWithCommas(row[column])
-                                        : row[column] || ''}
+                    {tableData.data.map((row, index) => {
+                        const isBoldRow = boldenRows.includes(row.row);
+                        const boldCellStyle = {
+                            ...cellStyle,
+                            fontWeight: isBoldRow ? 'bold' : 'normal',
+                        };
+
+                        return (
+                            <TableRow key={index}>
+                                <TableCell component="th" scope="row" style={boldCellStyle} align="center">
+                                    {row.row}
                                 </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
+                                {columns.map((column) => (
+                                    <TableCell key={column} align="center" style={boldCellStyle}>
+                                        {typeof row[column] === 'number'
+                                            ? formatNumberWithCommas(row[column])
+                                            : row[column] || ''}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        );
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>

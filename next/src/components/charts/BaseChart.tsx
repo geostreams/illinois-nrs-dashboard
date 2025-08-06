@@ -13,6 +13,7 @@ import BarChart from './BarChart';
 import BarLineChart from './BarLineChart';
 import StackedBarLineChart from './StackedBarLineChart';
 import ClusterBarLineChart from './ClusterBarLineChart';
+import HorizontalClusterBarLineChart from './HorizontalClusterBarLineChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 import { FullSpanImage } from '../PageContentGenerator/FullSpanImage';
@@ -237,6 +238,18 @@ const BaseChart: FC<BaseChartProps> = ({
                 yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
+        horizontal_cluster_bar: (
+            <HorizontalClusterBarLineChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                xAxisInterval={miscChartData?.xAxisInterval}
+                xAxisLabel={miscChartData?.xAxisLabel}
+            />
+        ),
     }[chartType];
 
     return (
@@ -307,7 +320,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 </Box>
             ) : (
                 <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
-                    <TableComponent tableData={chartData} />
+                    <TableComponent tableData={chartData} boldenRows={miscChartData?.boldenRows || []} />
                 </Box>
             )}
             <Box
