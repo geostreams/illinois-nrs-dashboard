@@ -243,6 +243,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartData={chartData}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
+                markerConfig={miscChartData?.markerConfig}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 barUnit={barUnit}
                 lineUnit={lineUnit}

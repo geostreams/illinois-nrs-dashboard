@@ -5,6 +5,7 @@ import {
     ComposedChart,
     Bar,
     Line,
+    Scatter,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -15,6 +16,7 @@ import {
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
+import CustomTooltip from './CustomTooltip';
 
 interface BarConfig {
     dataKey: string;
@@ -33,6 +35,14 @@ interface LineConfig {
     connectNulls?: boolean;
 }
 
+interface MarkerConfig {
+    dataKey: string;
+    name: string;
+    color: string;
+    strokeWidth?: number;
+    dashArray?: string; // For dashed lines, e.g., "5 5"
+}
+
 interface ClusterBarLineChartProps {
     chartData: {
         name: string;
@@ -40,6 +50,7 @@ interface ClusterBarLineChartProps {
     }[];
     barConfig: BarConfig[];
     lineConfig?: LineConfig[];
+    markerConfig?: MarkerConfig[];
     chartReferenceLines?: {
         label: string;
         value: number;
@@ -71,6 +82,7 @@ const HorizontalClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
     chartData,
     barConfig,
     lineConfig = [],
+    markerConfig = [],
     chartReferenceLines = [],
     barUnit,
     lineUnit,
@@ -188,19 +200,23 @@ const HorizontalClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                 />
 
                 <Tooltip
-                    contentStyle={{ fontSize: 12 }}
-                    itemStyle={{ color: '#000000' }}
-                    formatter={(value, name, props) => {
-                        const isBar = barConfig.some((config) => config.dataKey === props.dataKey);
-                        const unit = isBar ? barUnit : lineUnit;
-                        return formatValueWithUnit(value as number, unit);
-                    }}
+                    content={
+                        <CustomTooltip
+                            barUnit={barUnit}
+                            lineUnit={lineUnit}
+                            barConfig={barConfig}
+                            lineConfig={lineConfig}
+                            markerConfig={markerConfig}
+                        />
+                    }
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',
                     }}
                 />
-                <Legend content={(props) => <ChartLegend {...props} lineConfig={lineConfig} />} />
+                <Legend
+                    content={(props) => <ChartLegend {...props} lineConfig={lineConfig} markerConfig={markerConfig} />}
+                />
 
                 {barConfig.map((config) => (
                     <Bar
@@ -232,6 +248,63 @@ const HorizontalClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                         isAnimationActive={false}
                     />
                 ))}
+
+                {markerConfig
+                    .filter((config) =>
+                        chartData.some(
+                            (dataPoint) =>
+                                dataPoint[config.dataKey] !== null &&
+                                dataPoint[config.dataKey] !== undefined &&
+                                dataPoint[config.dataKey] !== '' &&
+                                dataPoint[config.dataKey] !== 0
+                        )
+                    )
+                    .map((config) => {
+                        // Create custom shape for vertical line markers
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const CustomLineMarker = (props: any) => {
+                            const { cx, cy, fill, stroke, payload } = props;
+
+                            // Don't render if value is invalid
+                            const value = payload[config.dataKey];
+                            if (value === null || value === undefined || value === '' || value === 0) {
+                                return null;
+                            }
+
+                            const lineWidth = config.strokeWidth || 4;
+                            // Dynamic height based on actual bar sizes
+                            const totalBarHeight = barConfig.reduce((sum, bar) => sum + (bar.barSize || 40), 0);
+                            const lineHeight = totalBarHeight * 0.6; // 60% of total bar height
+
+                            return (
+                                <line
+                                    x1={cx}
+                                    y1={cy - lineHeight / 2}
+                                    x2={cx}
+                                    y2={cy + lineHeight / 2}
+                                    stroke={stroke || fill}
+                                    strokeWidth={lineWidth}
+                                    strokeDasharray={config.dashArray || undefined}
+                                />
+                            );
+                        };
+
+                        return (
+                            <Scatter
+                                key={`marker-${config.dataKey}`}
+                                xAxisId="left"
+                                yAxisId="left"
+                                dataKey={config.dataKey}
+                                name={config.name}
+                                fill={config.color}
+                                stroke={config.color}
+                                strokeWidth={config.strokeWidth || 4}
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                shape={CustomLineMarker as any}
+                                isAnimationActive={false}
+                            />
+                        );
+                    })}
 
                 {chartReferenceLines.map((line, index) => (
                     <ReferenceLine

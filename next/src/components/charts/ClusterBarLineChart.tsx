@@ -204,7 +204,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                 {lineConfig.map((config) => (
                     <Line
                         key={config.dataKey}
-                        yAxisId="right"
+                        yAxisId={yAxisInterval?.right ? 'right' : 'left'}
                         type="linear"
                         dataKey={config.dataKey}
                         name={config.name}

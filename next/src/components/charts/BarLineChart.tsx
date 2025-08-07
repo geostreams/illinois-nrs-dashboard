@@ -125,49 +125,51 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                     }
                 />
 
-                <YAxis
-                    yAxisId="right"
-                    orientation="right"
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => formatValueWithUnit(value, lineUnit)}
-                    width={40}
-                    domain={[yAxisInterval?.right?.min ?? 'auto', yAxisInterval?.right?.max ?? 'auto']}
-                    interval="preserveStartEnd"
-                    ticks={(() => {
-                        if (
-                            yAxisInterval?.right &&
-                            typeof yAxisInterval.right.interval === 'number' &&
-                            typeof yAxisInterval.right.max === 'number' &&
-                            typeof yAxisInterval.right.min === 'number'
-                        ) {
-                            const { min, max, interval } = yAxisInterval.right;
-                            return Array.from(
-                                {
-                                    length: Math.floor((max - min) / interval) + 1,
-                                },
-                                (_, i) => min + i * interval
-                            );
-                        }
-                        return undefined;
-                    })()}
-                    label={
-                        yAxisLabel?.right
-                            ? {
-                                  value: yAxisLabel.right,
-                                  angle: 90,
-                                  position: 'right',
-                                  textAnchor: 'middle',
-                                  offset: 0,
-                                  style: {
-                                      fontSize: '14px',
-                                      fontWeight: '500',
-                                      fontFamily: 'Montserrat, sans-serif',
+                {yAxisInterval?.right && (
+                    <YAxis
+                        yAxisId="right"
+                        orientation="right"
+                        tick={{ fontSize: 12 }}
+                        tickFormatter={(value) => formatValueWithUnit(value, lineUnit)}
+                        width={40}
+                        domain={[yAxisInterval?.right?.min ?? 'auto', yAxisInterval?.right?.max ?? 'auto']}
+                        interval="preserveStartEnd"
+                        ticks={(() => {
+                            if (
+                                yAxisInterval?.right &&
+                                typeof yAxisInterval.right.interval === 'number' &&
+                                typeof yAxisInterval.right.max === 'number' &&
+                                typeof yAxisInterval.right.min === 'number'
+                            ) {
+                                const { min, max, interval } = yAxisInterval.right;
+                                return Array.from(
+                                    {
+                                        length: Math.floor((max - min) / interval) + 1,
+                                    },
+                                    (_, i) => min + i * interval
+                                );
+                            }
+                            return undefined;
+                        })()}
+                        label={
+                            yAxisLabel?.right
+                                ? {
+                                      value: yAxisLabel.right,
+                                      angle: 90,
+                                      position: 'right',
                                       textAnchor: 'middle',
-                                  },
-                              }
-                            : undefined
-                    }
-                />
+                                      offset: 0,
+                                      style: {
+                                          fontSize: '14px',
+                                          fontWeight: '500',
+                                          fontFamily: 'Montserrat, sans-serif',
+                                          textAnchor: 'middle',
+                                      },
+                                  }
+                                : undefined
+                        }
+                    />
+                )}
 
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
@@ -199,7 +201,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                 {lineConfig.map((config) => (
                     <Line
                         key={config.dataKey}
-                        yAxisId="right"
+                        yAxisId={yAxisInterval?.right ? 'right' : 'left'}
                         type="linear"
                         dataKey={config.dataKey}
                         name={config.name}

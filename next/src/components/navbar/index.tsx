@@ -314,7 +314,7 @@ const MenubarContent: React.FC<{
             }
         });
         setMenuItems(items);
-    }, [children, stableOnItemClick]);
+    }, [children, stableOnItemClick, setMenuItems]);
 
     return (
         <Box role="menu" aria-orientation="vertical" sx={{ py: 1 }}>

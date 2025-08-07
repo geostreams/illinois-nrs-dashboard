@@ -12,21 +12,62 @@ interface LineConfig {
     connectNulls?: boolean;
 }
 
+interface MarkerConfig {
+    dataKey: string;
+    name: string;
+    color: string;
+    strokeWidth?: number;
+    dashArray?: string;
+}
+
 interface ChartLegendProps extends LegendProps {
     lineConfig?: LineConfig[];
+    markerConfig?: MarkerConfig[];
 }
 
 // We need to match the ContentType expected by Legend
 const ChartLegend = (props: ChartLegendProps): ReactNode => {
-    const { payload, lineConfig = [] } = props;
+    const { payload, lineConfig = [], markerConfig = [] } = props;
     if (!payload || payload.length === 0) return null;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderLegendIcon = (entry: any) => {
         // Check if this entry represents a line chart by looking at the lineConfig
         const isLine = lineConfig.some((config) => config.dataKey === entry.dataKey || config.name === entry.value);
+        // Check if this entry represents a marker by looking at the markerConfig
+        const isMarker = markerConfig.some((config) => config.dataKey === entry.dataKey || config.name === entry.value);
+        const markerStyle = markerConfig.find(
+            (config) => config.dataKey === entry.dataKey || config.name === entry.value
+        );
 
-        if (isLine) {
+        if (isMarker) {
+            // Render a vertical line indicator for markers
+            return (
+                <div
+                    style={{
+                        width: 16,
+                        height: 10,
+                        position: 'relative',
+                        marginRight: 6,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <div
+                        style={{
+                            width: 2,
+                            height: '100%',
+                            backgroundColor: entry.color,
+                            borderLeft: markerStyle?.dashArray
+                                ? `2px dashed ${entry.color}`
+                                : `2px solid ${entry.color}`,
+                            backgroundColor: 'transparent',
+                        }}
+                    />
+                </div>
+            );
+        } else if (isLine) {
             // Render a line indicator
             return (
                 <div

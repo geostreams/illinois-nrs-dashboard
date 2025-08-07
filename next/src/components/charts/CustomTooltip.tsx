@@ -9,6 +9,7 @@ interface CustomTooltipProps extends TooltipProps<any, any> {
     lineUnit?: string;
     barConfig?: Array<{ dataKey: string; name: string; color: string }>;
     lineConfig?: Array<{ dataKey: string; name: string; color: string }>;
+    markerConfig?: Array<{ dataKey: string; name: string; color: string; dashArray?: string }>;
 }
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({
@@ -20,6 +21,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     lineUnit,
     barConfig,
     lineConfig,
+    markerConfig = [],
 }) => {
     if (active && payload && payload.length) {
         return (
@@ -38,20 +40,56 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                     .slice()
                     .reverse()
                     .map((entry, index) => {
-                        // Determine the appropriate unit based on whether it's a bar or line
+                        // Determine the appropriate unit based on whether it's a bar, line, or marker
                         let itemUnit = unit;
                         const isBar = barConfig?.some((config) => config.dataKey === entry.dataKey);
                         const isLine = lineConfig?.some(
                             (config) => config.dataKey === entry.dataKey || config.name === entry.name
                         );
+                        const isMarker = markerConfig?.some(
+                            (config) => config.dataKey === entry.dataKey || config.name === entry.name
+                        );
 
                         if (barUnit && lineUnit) {
-                            itemUnit = isBar ? barUnit : lineUnit;
+                            if (isBar || isMarker) {
+                                itemUnit = barUnit;
+                            } else {
+                                itemUnit = lineUnit;
+                            }
                         }
 
                         // Render different indicators based on type
                         const renderIndicator = () => {
-                            if (isLine) {
+                            if (isMarker) {
+                                // Render a vertical line indicator for markers similar to chartLegend
+                                const markerStyle = markerConfig?.find(
+                                    (config) => config.dataKey === entry.dataKey || config.name === entry.name
+                                );
+                                return (
+                                    <div
+                                        style={{
+                                            width: 16,
+                                            height: 10,
+                                            position: 'relative',
+                                            marginRight: 8,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                width: 2,
+                                                height: '100%',
+                                                backgroundColor: 'transparent',
+                                                borderLeft: markerStyle?.dashArray
+                                                    ? `2px dashed ${entry.color}`
+                                                    : `2px solid ${entry.color}`,
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            } else if (isLine) {
                                 // Render a line indicator similar to chartLegend
                                 return (
                                     <div
