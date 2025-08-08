@@ -47,7 +47,17 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
 
     // Calculate total values for each key and sort them
     const sortedKeys = React.useMemo(() => {
-        const keys = Object.keys(chartData[0] || {}).filter((key) => key !== 'name');
+        // Collect all unique keys from all data points
+        const allKeys = new Set<string>();
+        chartData.forEach((item) => {
+            Object.keys(item).forEach((key) => {
+                if (key !== 'name') {
+                    allKeys.add(key);
+                }
+            });
+        });
+
+        const keys = Array.from(allKeys);
         const totals = keys.reduce(
             (acc, key) => {
                 acc[key] = chartData.reduce((sum, item) => sum + (Number(item[key]) || 0), 0);
