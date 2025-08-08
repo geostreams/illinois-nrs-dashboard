@@ -58,7 +58,6 @@ const ChartLegend = (props: ChartLegendProps): ReactNode => {
                         style={{
                             width: 2,
                             height: '100%',
-                            backgroundColor: entry.color,
                             borderLeft: markerStyle?.dashArray
                                 ? `2px dashed ${entry.color}`
                                 : `2px solid ${entry.color}`,
