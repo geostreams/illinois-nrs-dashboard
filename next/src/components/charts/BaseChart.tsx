@@ -17,6 +17,7 @@ import HorizontalClusterBarMarkerChart from './HorizontalClusterBarMarkerChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 import { FullSpanImage } from '../PageContentGenerator/FullSpanImage';
+import BarMarkerChart from './BarMarkerChart';
 
 interface BaseChartProps {
     chartType: string;
@@ -249,6 +250,19 @@ const BaseChart: FC<BaseChartProps> = ({
                 lineUnit={lineUnit}
                 xAxisInterval={miscChartData?.xAxisInterval}
                 xAxisLabel={miscChartData?.xAxisLabel}
+            />
+        ),
+        bar_marker: (
+            <BarMarkerChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                markerConfig={miscChartData?.markerConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
     }[chartType];
