@@ -78,7 +78,7 @@ interface ClusterBarLineChartProps {
     };
 }
 
-const HorizontalClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
+const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
     chartData,
     barConfig,
     lineConfig = [],
@@ -325,4 +325,4 @@ const HorizontalClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
     );
 };
 
-export default HorizontalClusterBarLineChart;
+export default HorizontalClusterBarMarkerChart;

@@ -34,6 +34,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows }) => {
         padding: '8px',
         borderTop: 'none',
         width: columnWidth,
+        fontSize: '1.1rem',
     };
 
     const headerStyle = {
@@ -45,6 +46,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows }) => {
         borderBottom: 'none',
         fontFamily: 'Helvetica Neue',
         width: columnWidth,
+        fontSize: '1.1rem',
     };
 
     return (

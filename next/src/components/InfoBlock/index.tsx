@@ -90,6 +90,7 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
                             }}
                             imageWidth={imageWidth}
                             imageHeight={imageHeight}
+                            url={block.url}
                         />
                     ))}
                 </Box>
