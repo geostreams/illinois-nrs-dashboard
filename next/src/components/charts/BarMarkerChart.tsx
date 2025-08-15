@@ -58,7 +58,7 @@ interface BarLineChartProps {
     }[];
     barUnit?: string;
     lineUnit?: string;
-    xAxisInterval?: {
+    yAxisInterval?: {
         bottom?: {
             min?: number;
             max?: number;
@@ -70,7 +70,7 @@ interface BarLineChartProps {
             interval?: number;
         };
     };
-    xAxisLabel?: {
+    yAxisLabel?: {
         bottom?: string;
         top?: string;
     };
