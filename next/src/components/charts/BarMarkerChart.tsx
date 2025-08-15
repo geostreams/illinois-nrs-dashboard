@@ -59,20 +59,20 @@ interface BarLineChartProps {
     barUnit?: string;
     lineUnit?: string;
     yAxisInterval?: {
-        bottom?: {
+        left?: {
             min?: number;
             max?: number;
             interval?: number;
         };
-        top?: {
+        right?: {
             min?: number;
             max?: number;
             interval?: number;
         };
     };
     yAxisLabel?: {
-        bottom?: string;
-        top?: string;
+        left?: string;
+        right?: string;
     };
     barCategoryGap?: string | number;
     barGap?: number;
