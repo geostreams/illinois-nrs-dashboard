@@ -255,8 +255,7 @@ const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
                             (dataPoint) =>
                                 dataPoint[config.dataKey] !== null &&
                                 dataPoint[config.dataKey] !== undefined &&
-                                dataPoint[config.dataKey] !== '' &&
-                                dataPoint[config.dataKey] !== 0
+                                dataPoint[config.dataKey] !== ''
                         )
                     )
                     .map((config) => {
@@ -267,7 +266,7 @@ const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
 
                             // Don't render if value is invalid
                             const value = payload[config.dataKey];
-                            if (value === null || value === undefined || value === '' || value === 0) {
+                            if (value === null || value === undefined || value === '') {
                                 return null;
                             }
 
