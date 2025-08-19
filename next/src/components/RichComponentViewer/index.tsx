@@ -12,46 +12,15 @@ interface RichContentViewerProps {
 const RichContentViewer: React.FC<RichContentViewerProps> = ({ content, baseImageUrl = process.env.CMS_API_URL }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Add tabIndex to each heading
+    // Add tabIndex to headings
     useEffect(() => {
         if (containerRef.current) {
             // Find all heading elements h1-h3
             const headings = containerRef.current.querySelectorAll('h1, h2, h3');
 
-            // Add tabIndex and anchor links to each heading
+            // Add tabIndex to each heading
             headings.forEach((heading) => {
                 heading.setAttribute('tabIndex', '0');
-
-                // Create a unique ID for the heading if it doesn't have one
-
-                const headingText = heading.textContent || '';
-                const headingId = headingText
-                    .toLowerCase()
-                    .replace(/[^\w\s-]/g, '')
-                    .replace(/\s+/g, '-');
-
-                heading.id = headingId;
-
-                // Create anchor element
-                const anchor = document.createElement('a');
-                anchor.href = `#${heading.id}`;
-                anchor.setAttribute('aria-hidden', 'true');
-                anchor.setAttribute('tabIndex', '-1');
-                anchor.className = 'heading-anchor hover:opacity-100';
-
-                // Style the anchor
-                anchor.style.position = 'absolute';
-                anchor.style.top = '50%';
-                anchor.style.left = '-1.5em';
-                anchor.style.transform = 'translateY(-50%)';
-                anchor.style.opacity = '0';
-                anchor.style.fontSize = '0.8em';
-                anchor.style.paddingRight = '0.5em';
-                anchor.style.textDecoration = 'none';
-                anchor.style.color = 'inherit';
-
-                // Insert the anchor as the first child of the heading
-                heading.insertBefore(anchor, heading.firstChild);
             });
 
             // Find all links

@@ -41,7 +41,7 @@ const ChartLegend = (props: ChartLegendProps): ReactNode => {
         );
 
         if (isMarker) {
-            // Render a vertical line indicator for markers
+            // Render a horizontal line indicator for markers
             return (
                 <div
                     style={{
@@ -56,9 +56,9 @@ const ChartLegend = (props: ChartLegendProps): ReactNode => {
                 >
                     <div
                         style={{
-                            width: 2,
-                            height: '100%',
-                            borderLeft: markerStyle?.dashArray
+                            width: '100%',
+                            height: 2,
+                            borderTop: markerStyle?.dashArray
                                 ? `2px dashed ${entry.color}`
                                 : `2px solid ${entry.color}`,
                             backgroundColor: 'transparent',

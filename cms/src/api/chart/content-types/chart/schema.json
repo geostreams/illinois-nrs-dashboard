@@ -28,7 +28,8 @@
         "cluster_bar_line",
         "horizontal_cluster_bar",
         "image",
-        "bar_marker"
+        "bar_marker",
+        "row_span_table"
       ]
     },
     "chartData": {

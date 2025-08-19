@@ -61,7 +61,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                         // Render different indicators based on type
                         const renderIndicator = () => {
                             if (isMarker) {
-                                // Render a vertical line indicator for markers similar to chartLegend
+                                // Render a horizontal line indicator for markers similar to chartLegend
                                 const markerStyle = markerConfig?.find(
                                     (config) => config.dataKey === entry.dataKey || config.name === entry.name
                                 );
@@ -79,10 +79,10 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                                     >
                                         <div
                                             style={{
-                                                width: 2,
-                                                height: '100%',
+                                                width: '100%',
+                                                height: 2,
                                                 backgroundColor: 'transparent',
-                                                borderLeft: markerStyle?.dashArray
+                                                borderTop: markerStyle?.dashArray
                                                     ? `2px dashed ${entry.color}`
                                                     : `2px solid ${entry.color}`,
                                             }}

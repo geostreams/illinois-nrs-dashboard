@@ -44,7 +44,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows }) => {
         borderLeft: '1px solid #FFFFFF',
         borderRight: '1px solid #FFFFFF',
         borderBottom: 'none',
-        fontFamily: 'Helvetica Neue',
+        fontFamily: 'Helvetica Neue, sans-serif',
         width: columnWidth,
         fontSize: '1.1rem',
     };
