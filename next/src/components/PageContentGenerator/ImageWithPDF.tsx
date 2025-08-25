@@ -134,6 +134,13 @@ export const ImageWithPDF: React.FC<ImageWithPDFProps> = ({
                     cursor: 'pointer',
                 }}
                 onClick={() => setIsLightboxOpen(true)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setIsLightboxOpen(true);
+                    }
+                }}
+                tabIndex={0}
             >
                 <Image
                     src={imageUrl}

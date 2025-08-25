@@ -12,6 +12,7 @@ export const PageDivider = ({ width = '100%', my = '1.5rem', mx = '0', label }: 
         <>
             {label ? (
                 <Divider
+                    aria-hidden="true"
                     sx={{
                         borderBottomWidth: '2px',
                     }}
@@ -35,6 +36,7 @@ export const PageDivider = ({ width = '100%', my = '1.5rem', mx = '0', label }: 
                 </Divider>
             ) : (
                 <Divider
+                    aria-hidden="true"
                     sx={{
                         borderBottomWidth: '2px',
                     }}

@@ -598,7 +598,12 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     </MenubarContent>
                                 </MenubarMenu>
                                 {index < navbar.navbar_link_groups.length - 1 && (
-                                    <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
+                                    <Divider
+                                        aria-hidden="true"
+                                        orientation="vertical"
+                                        flexItem
+                                        sx={{ bgcolor: 'white' }}
+                                    />
                                 )}
                             </React.Fragment>
                         ))}

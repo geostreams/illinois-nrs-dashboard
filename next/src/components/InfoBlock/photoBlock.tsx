@@ -53,7 +53,13 @@ const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight, url }: 
                 sx={{ cursor: url ? 'pointer' : 'default' }}
             >
                 <BlockHeader bgcolor={blockColor}>
-                    <Typography variant="subtitle2" fontFamily={'Sans-Serif'} fontWeight="bold" color="white">
+                    <Typography
+                        variant="subtitle2"
+                        component="span"
+                        fontFamily={'Sans-Serif'}
+                        fontWeight="bold"
+                        color="white"
+                    >
                         {title}
                     </Typography>
                 </BlockHeader>
