@@ -363,7 +363,6 @@ const MenubarItem: React.FC<{
             onMouseEnter={onMouseEnter}
             role="menuitem"
             tabIndex={-1}
-            aria-selected={isFocused}
             sx={{
                 display: 'block',
                 width: '100%',

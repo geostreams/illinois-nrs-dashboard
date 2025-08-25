@@ -52,6 +52,7 @@ const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit }) =
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <RechartsLineChart
                 data={chartData}
+                accessibilityLayer={true}
                 // margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />

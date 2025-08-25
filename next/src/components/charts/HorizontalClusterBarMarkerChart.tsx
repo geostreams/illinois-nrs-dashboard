@@ -93,7 +93,13 @@ const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
-            <ComposedChart data={chartData} barCategoryGap={barCategoryGap} barGap={barGap} layout="vertical">
+            <ComposedChart
+                data={chartData}
+                barCategoryGap={barCategoryGap}
+                barGap={barGap}
+                layout="vertical"
+                accessibilityLayer={true}
+            >
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} />
 
                 <XAxis
@@ -271,9 +277,13 @@ const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
                             }
 
                             const lineWidth = config.strokeWidth || 4;
-                            // Dynamic height based on actual bar sizes
-                            const totalBarHeight = barConfig.reduce((sum, bar) => sum + (bar.barSize || 40), 0);
-                            const lineHeight = totalBarHeight * 0.6; // 60% of total bar height
+
+                            // Calculate line height based on number of categories and a base size
+                            // This provides some responsiveness while being reliable
+                            const baseHeight = 45;
+                            const categoryCount = chartData.length;
+                            const scaleFactor = Math.max(0.5, Math.min(2, 10 / categoryCount)); // Scale between 0.5x and 2x
+                            const lineHeight = baseHeight * scaleFactor;
 
                             return (
                                 <line

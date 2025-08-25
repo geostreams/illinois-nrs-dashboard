@@ -91,7 +91,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
-            <ComposedChart data={chartData}>
+            <ComposedChart data={chartData} accessibilityLayer={true}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
 

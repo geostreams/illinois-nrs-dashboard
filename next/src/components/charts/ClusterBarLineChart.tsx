@@ -81,7 +81,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
-            <ComposedChart data={chartData} barCategoryGap={barCategoryGap} barGap={barGap}>
+            <ComposedChart data={chartData} barCategoryGap={barCategoryGap} barGap={barGap} accessibilityLayer={true}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} interval={0} />
 
