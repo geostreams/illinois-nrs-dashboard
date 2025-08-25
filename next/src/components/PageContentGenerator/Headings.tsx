@@ -51,9 +51,9 @@ const styles = {
         gap: '8px',
     },
     heading5: {
-        color: '#0516F',
+        color: '#003d6d',
         fontFamily: "'Source Sans', sans-serif",
-        fontSize: '16px',
+        fontSize: '18px',
         fontWeight: 600,
         maxWidth: '60%',
         display: 'flex',
@@ -137,7 +137,7 @@ const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSi
 
     // Create anchor link for h1, h2, and h3
     const createAnchorHeading = (typographyElement: React.ReactNode) => {
-        if (['h1', 'h2', 'h3'].includes(headingType)) {
+        if (['h1', 'h2', 'h3', 'h4', 'h5'].includes(headingType)) {
             return (
                 <div
                     id={headingId}
@@ -218,10 +218,10 @@ const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSi
                 </Typography>
             );
         case 'h4':
-            return (
+            return createAnchorHeading(
                 <Typography
                     variant="h4"
-                    component="p"
+                    component="h4"
                     tabIndex={0}
                     sx={{
                         ...styles.heading4,
@@ -234,10 +234,11 @@ const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSi
                 </Typography>
             );
         case 'h5':
-            return (
+            return createAnchorHeading(
                 <Typography
                     variant="h5"
-                    component="p"
+                    component="h5"
+                    tabIndex={0}
                     sx={{
                         ...styles.heading5,
                         ...styles.focusStyles,

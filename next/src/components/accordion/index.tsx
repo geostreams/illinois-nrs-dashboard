@@ -52,6 +52,61 @@ export const Accordion: React.FC<AccordionProps> = ({ accordionGroupID }) => {
         }
     }, [accordionGroupID]);
 
+    // Handle URL hash navigation to headings inside accordion panels
+    // The focus is have a delay to ensure the DOM is ready
+    useEffect(() => {
+        const handleHashNavigation = () => {
+            const hash = window.location.hash.slice(1); // Remove the # symbol
+            if (hash && accordionItems.length > 0) {
+                // Small delay to ensure DOM is ready
+                setTimeout(() => {
+                    const targetElement = document.getElementById(hash);
+                    if (targetElement) {
+                        // Find the accordion panel that contains this heading
+                        const accordionDetails = targetElement.closest('.MuiAccordionDetails-root');
+                        if (accordionDetails) {
+                            const accordionElement = accordionDetails.closest('.MuiAccordion-root');
+                            if (accordionElement) {
+                                // Find the accordion item ID from the accordion summary
+                                const accordionSummary = accordionElement.querySelector('.MuiAccordionSummary-root');
+                                if (accordionSummary) {
+                                    const summaryId = accordionSummary.id;
+                                    // Extract item ID from summary ID (format: accordion-header-{itemId})
+                                    const itemId = summaryId.replace('accordion-header-', '');
+
+                                    // Expand the accordion panel containing the target heading
+                                    setExpandedItems((prev) => {
+                                        const newSet = new Set(prev);
+                                        newSet.add(itemId);
+                                        return newSet;
+                                    });
+
+                                    // Scroll to the heading after a brief delay to allow expansion
+                                    setTimeout(() => {
+                                        targetElement.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'start',
+                                        });
+                                    }, 200);
+                                }
+                            }
+                        }
+                    }
+                }, 100);
+            }
+        };
+
+        // Handle initial load hash
+        handleHashNavigation();
+
+        // Handle hash changes (when user clicks anchor links)
+        window.addEventListener('hashchange', handleHashNavigation);
+
+        return () => {
+            window.removeEventListener('hashchange', handleHashNavigation);
+        };
+    }, [accordionItems]);
+
     const handleToggleItem = (itemId: string) => {
         setExpandedItems((prev) => {
             const newSet = new Set(prev);
