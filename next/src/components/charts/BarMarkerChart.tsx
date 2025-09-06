@@ -17,6 +17,7 @@ import {
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
 import CustomTooltip from './CustomTooltip';
+import WrappedTick from './WrappedTick';
 
 interface BarConfig {
     dataKey: string;
@@ -93,7 +94,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <ComposedChart data={chartData} accessibilityLayer={true}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <XAxis dataKey="name" tick={<WrappedTick />} height={60} interval={0} />
 
                 <YAxis
                     yAxisId="left"

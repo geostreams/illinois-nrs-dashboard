@@ -67,7 +67,7 @@ export default async function Page({ params }: { params: Promise<{ 'page-group':
                     maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
-                <Container maxWidth="lg" disableGutters sx={{ paddingLeft: { xs: 0, md: 15 } }}>
+                <Container maxWidth="lg" disableGutters sx={{ paddingLeft: { xs: 0, md: 12 } }}>
                     <PageContentGenerator pageContents={pageContents} />
                 </Container>
             </Box>

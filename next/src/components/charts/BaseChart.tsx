@@ -140,7 +140,8 @@ const BaseChart: FC<BaseChartProps> = ({
                 }
 
                 // Get the table content and heading for iframe
-                const headingElement = element.querySelector('[class*="caption"], h1, h2, h3, h4, h5, h6');
+                // Look for the Typography component that contains the caption
+                const captionElement = element.querySelector('p, [class*="MuiTypography"], h1, h2, h3, h4, h5, h6');
                 const tableContainer = element.querySelector('.MuiTableContainer-root');
                 const chartArea = element.querySelector('canvas, svg, [class*="recharts"], [role="img"]');
 
@@ -152,7 +153,21 @@ const BaseChart: FC<BaseChartProps> = ({
                     return;
                 }
 
-                const headingHTML = headingElement ? headingElement.outerHTML : '';
+                // Create a proper caption HTML if we have heading parts
+                let captionHTML = '';
+                if (captionElement) {
+                    captionHTML = captionElement.outerHTML;
+                } else if (boldHeading && regularHeading) {
+                    // Recreate the caption structure if element not found
+                    captionHTML = `<p style="font-size: 16px; color: #0A3977; text-align: left; font-style: italic; margin: 0 0 16px 0;">
+                        <strong>${boldHeading}:</strong>${regularHeading}
+                    </p>`;
+                } else if (heading) {
+                    captionHTML = `<p style="font-size: 16px; color: #0A3977; text-align: left; font-style: italic; margin: 0 0 16px 0;">
+                        ${heading}
+                    </p>`;
+                }
+
                 const contentHTML = mainContent.outerHTML;
 
                 // Get all stylesheets from the current page
@@ -210,7 +225,7 @@ const BaseChart: FC<BaseChartProps> = ({
                     </head>
                     <body>
                         <div id="export-content">
-                            ${headingHTML}
+                            ${captionHTML}
                             ${contentHTML}
                         </div>
                     </body>
@@ -341,7 +356,14 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartLabels={miscChartData?.chartLabels}
             />
         ),
-        line: <LineChart chartData={chartData} chartConfig={miscChartData?.chartConfig} unit={unit} />,
+        line: (
+            <LineChart
+                chartData={chartData}
+                chartConfig={miscChartData?.chartConfig}
+                unit={unit}
+                yAxisLabel={miscChartData?.yAxisLabel}
+            />
+        ),
         stacked_bar: (
             <StackedBarChart
                 chartData={chartData}
@@ -455,7 +477,7 @@ const BaseChart: FC<BaseChartProps> = ({
                     {regularHeading}
                 </Typography>
             </Box>
-            {chartType !== 'table' && chartType !== 'image' ? (
+            {chartType !== 'table' && chartType !== 'image' && chartType !== 'row_span_table' ? (
                 <Box
                     sx={{
                         width: '100%',
@@ -469,13 +491,24 @@ const BaseChart: FC<BaseChartProps> = ({
                                   aspectRatio: '1 / 1',
                                   maxHeight: '400px',
                               }
-                            : {
-                                  '&::before': {
-                                      content: '""',
-                                      display: 'block',
-                                      paddingTop: aspectRatio || '56.25%',
-                                  },
-                              }),
+                            : chartType === 'horizontal_cluster_bar'
+                              ? {
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        paddingTop: aspectRatio || '56.25%',
+                                    },
+                                    '@media (max-width: 1000px)': {
+                                        minHeight: '800px',
+                                    },
+                                }
+                              : {
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        paddingTop: aspectRatio || '56.25%',
+                                    },
+                                }),
                     }}
                     role="img"
                     aria-label={ariaLabel}
@@ -497,6 +530,14 @@ const BaseChart: FC<BaseChartProps> = ({
                     {chartImage && (
                         <FullSpanImage image={chartImage} imageWidth={100} caption={chartImage?.caption || ''} />
                     )}
+                </Box>
+            ) : chartType === 'row_span_table' ? (
+                <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
+                    <RowSpanTable
+                        tableData={chartData}
+                        boldenRows={miscChartData?.boldenRows || []}
+                        rowSpanColumn={miscChartData?.rowSpanColumn || ''}
+                    />
                 </Box>
             ) : (
                 <Box sx={{ width: '100%' }} aria-label={ariaLabel}>

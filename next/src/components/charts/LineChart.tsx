@@ -34,9 +34,10 @@ interface LineChartProps {
     chartData: DataPoint[];
     chartConfig: { [key: string]: LineConfig };
     unit?: string;
+    yAxisLabel?: string;
 }
 
-const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit }) => {
+const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit, yAxisLabel }) => {
     // Convert chartConfig to lineConfig format so that the legend shows lines instead of squares
     const lineConfig = Object.entries(chartConfig).map(([key, config]) => ({
         dataKey: key,
@@ -57,7 +58,26 @@ const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit }) =
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => formatValueWithUnit(value, unit)} width={40} />
+                <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) => formatValueWithUnit(value, unit)}
+                    width={40}
+                    label={
+                        yAxisLabel
+                            ? {
+                                  value: yAxisLabel,
+                                  angle: -90,
+                                  position: 'insideLeft',
+                                  style: {
+                                      fontSize: '14px',
+                                      fontFamily: 'Montserrat, sans-serif',
+                                      fontWeight: '500',
+                                      textAnchor: 'middle',
+                                  },
+                              }
+                            : undefined
+                    }
+                />
                 <Tooltip
                     contentStyle={{ fontSize: 12 }}
                     itemStyle={{ color: '#000000' }}
