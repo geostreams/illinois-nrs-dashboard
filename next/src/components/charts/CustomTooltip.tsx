@@ -10,6 +10,7 @@ interface CustomTooltipProps extends TooltipProps<any, any> {
     barConfig?: Array<{ dataKey: string; name: string; color: string }>;
     lineConfig?: Array<{ dataKey: string; name: string; color: string }>;
     markerConfig?: Array<{ dataKey: string; name: string; color: string; dashArray?: string }>;
+    crosshatchingSubjects?: string[];
 }
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({
@@ -22,7 +23,11 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     barConfig,
     lineConfig,
     markerConfig = [],
+    crosshatchingSubjects = [],
 }) => {
+    // Function to check if a data key should have crosshatching
+    const shouldCrosshatch = (dataKey: string): boolean => crosshatchingSubjects.includes(dataKey);
+
     if (active && payload && payload.length) {
         return (
             <div
@@ -125,6 +130,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                                 );
                             } else {
                                 // Render a rectangle indicator for bars with black border and no border radius
+                                const isCrosshatched = entry.dataKey ? shouldCrosshatch(String(entry.dataKey)) : false;
                                 return (
                                     <div
                                         style={{
@@ -134,8 +140,39 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                                             border: '1px solid black',
                                             marginRight: '8px',
                                             boxSizing: 'border-box',
+                                            position: 'relative',
+                                            overflow: 'hidden',
                                         }}
-                                    />
+                                    >
+                                        {isCrosshatched && (
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    background: `
+                                                        repeating-linear-gradient(
+                                                            45deg,
+                                                            transparent,
+                                                            transparent 2px,
+                                                            white 2px,
+                                                            white 3px
+                                                        ),
+                                                        repeating-linear-gradient(
+                                                            -45deg,
+                                                            transparent,
+                                                            transparent 2px,
+                                                            white 2px,
+                                                            white 3px
+                                                        )
+                                                    `,
+                                                    opacity: 0.6,
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                 );
                             }
                         };

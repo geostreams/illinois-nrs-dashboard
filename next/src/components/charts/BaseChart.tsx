@@ -454,6 +454,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 unit={unit}
                 yAxisInterval={miscChartData?.yAxisInterval}
                 yAxisLabel={miscChartData?.yAxisLabel}
+                crosshatchingSubjects={miscChartData?.crosshatchingSubjects}
             />
         ),
         bar: (
