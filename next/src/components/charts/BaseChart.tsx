@@ -85,6 +85,83 @@ const BaseChart: FC<BaseChartProps> = ({
 
     const open = Boolean(anchorEl);
 
+    const createCompositeImage = useCallback(async (imageUrl: string, title: string): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+
+            img.onload = () => {
+                try {
+                    // Create a canvas for the composite image
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) {
+                        reject(new Error('Could not get canvas context'));
+                        return;
+                    }
+
+                    // Set canvas dimensions (image width + padding for title)
+                    const padding = 60;
+                    const titleHeight = 100;
+                    canvas.width = img.width;
+                    canvas.height = img.height + titleHeight + padding;
+
+                    // Fill background with white
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // Draw the image
+                    ctx.drawImage(img, 0, titleHeight + padding / 2);
+
+                    // Draw the title
+                    ctx.fillStyle = '#0A3977';
+                    ctx.font =
+                        'bold 24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'top';
+
+                    // Split title into bold and regular parts if it contains a colon
+                    const titleParts = title.split(':');
+                    const boldPart = titleParts[0];
+                    const regularPart = titleParts[1];
+
+                    let x = 30;
+                    const y = 30;
+
+                    if (boldPart && regularPart) {
+                        // Draw bold part
+                        ctx.font =
+                            'bold 24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillText(boldPart + ':', x, y);
+                        x += ctx.measureText(boldPart + ': ').width;
+
+                        // Draw regular part
+                        ctx.font =
+                            '24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillText(regularPart, x, y);
+                    } else {
+                        // Draw the entire title
+                        ctx.font =
+                            'bold 24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillText(title, x, y);
+                    }
+
+                    // Convert canvas to data URL
+                    const dataUrl = canvas.toDataURL('image/png');
+                    resolve(dataUrl);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            img.onerror = () => {
+                reject(new Error('Failed to load image'));
+            };
+
+            img.src = imageUrl;
+        });
+    }, []);
+
     const handleDownload = useCallback(async () => {
         if (chartType === 'image' && chartImage?.url) {
             setIsLoading(true);
@@ -92,15 +169,15 @@ const BaseChart: FC<BaseChartProps> = ({
                 const imageUrl = chartImage.url.startsWith('http')
                     ? chartImage.url
                     : `${process.env.CMS_API_URL}${chartImage.url}`;
-                const response = await fetch(imageUrl);
-                if (!response.ok) throw new Error('Download failed');
 
-                const blob = await response.blob();
+                // Create composite image with title
+                const compositeImageDataUrl = await createCompositeImage(imageUrl, heading || 'Chart');
+
+                // Download the composite image
                 const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
+                link.href = compositeImageDataUrl;
                 link.download = heading ? `${heading.toLowerCase().replace(/\s+/g, '-')}.png` : 'chart.png';
                 link.click();
-                window.URL.revokeObjectURL(link.href);
             } catch (error) {
                 console.error('Error downloading image:', error);
             } finally {
@@ -120,6 +197,11 @@ const BaseChart: FC<BaseChartProps> = ({
         try {
             const element = chartRef.current;
             const isTableChart = chartType === 'row_span_table' || chartType === 'table';
+
+            // Calculate heading parts inside the callback
+            const headingParts = heading?.split(':');
+            const boldHeading = headingParts?.[0];
+            const regularHeading = headingParts?.[1];
 
             if (isTableChart) {
                 // Use iframe approach for tables (to handle scroll restrictions)
@@ -311,7 +393,7 @@ const BaseChart: FC<BaseChartProps> = ({
             setIsCapturing(false);
             setIsLoading(false);
         }
-    }, [heading, chartType, chartImage?.url]);
+    }, [heading, chartType, chartImage?.url, createCompositeImage]);
 
     const handleDataDownload = useCallback(async () => {
         if (!dataFile?.url) return;
