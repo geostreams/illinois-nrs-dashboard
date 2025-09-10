@@ -724,19 +724,21 @@ const BaseChart: FC<BaseChartProps> = ({
                         >
                             {isLoading ? 'Downloading...' : 'Download Chart'}
                         </Button>
-                        <Button
-                            variant="outlined"
-                            startIcon={<DownloadIcon titleAccess="Download data" />}
-                            onClick={handleDataDownload}
-                            disabled={isLoading || !dataFile?.url}
-                            size="small"
-                            sx={{
-                                minWidth: 165,
-                                width: { xs: '100%', sm: 'auto' },
-                            }}
-                        >
-                            {isLoading ? 'Downloading...' : 'Download Data'}
-                        </Button>
+                        {dataFile?.url && (
+                            <Button
+                                variant="outlined"
+                                startIcon={<DownloadIcon titleAccess="Download data" />}
+                                onClick={handleDataDownload}
+                                disabled={isLoading}
+                                size="small"
+                                sx={{
+                                    minWidth: 165,
+                                    width: { xs: '100%', sm: 'auto' },
+                                }}
+                            >
+                                {isLoading ? 'Downloading...' : 'Download Data'}
+                            </Button>
+                        )}
                     </Box>
                 )}
             </Box>
