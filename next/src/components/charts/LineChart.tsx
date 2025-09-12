@@ -67,6 +67,7 @@ const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit, yAx
                             ? {
                                   value: yAxisLabel,
                                   angle: -90,
+                                  offset: -0.5,
                                   position: 'insideLeft',
                                   style: {
                                       fontSize: '14px',

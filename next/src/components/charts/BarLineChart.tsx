@@ -113,7 +113,7 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                                   angle: -90,
                                   position: 'left',
                                   textAnchor: 'middle',
-                                  offset: 0,
+                                  offset: 10,
                                   style: {
                                       fontSize: '14px',
                                       fontFamily: 'Montserrat, sans-serif',
