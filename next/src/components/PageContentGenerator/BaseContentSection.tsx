@@ -129,6 +129,13 @@ export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
                                     }),
                                 }}
                                 onClick={() => setIsLightboxOpen(true)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        setIsLightboxOpen(true);
+                                    }
+                                }}
+                                tabIndex={0}
                             >
                                 <Image
                                     src={imageUrl}

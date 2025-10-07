@@ -314,7 +314,7 @@ const MenubarContent: React.FC<{
             }
         });
         setMenuItems(items);
-    }, [children, stableOnItemClick]);
+    }, [children, stableOnItemClick, setMenuItems]);
 
     return (
         <Box role="menu" aria-orientation="vertical" sx={{ py: 1 }}>
@@ -363,7 +363,6 @@ const MenubarItem: React.FC<{
             onMouseEnter={onMouseEnter}
             role="menuitem"
             tabIndex={-1}
-            aria-selected={isFocused}
             sx={{
                 display: 'block',
                 width: '100%',
@@ -599,7 +598,12 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     </MenubarContent>
                                 </MenubarMenu>
                                 {index < navbar.navbar_link_groups.length - 1 && (
-                                    <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
+                                    <Divider
+                                        aria-hidden="true"
+                                        orientation="vertical"
+                                        flexItem
+                                        sx={{ bgcolor: 'white' }}
+                                    />
                                 )}
                             </React.Fragment>
                         ))}

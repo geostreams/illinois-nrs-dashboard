@@ -12,6 +12,7 @@ import { StayInformed } from '@/components/StayInformed';
 import Hero from '@/components/Hero';
 import DownloadFile from '@/components/DownloadFile';
 import DualMap from './DualMap';
+import Accordion from '@/components/accordion';
 
 interface ComponentRendererProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,6 +75,8 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
             );
         case 'content.page-divider':
             return <PageDivider label={component.label} />;
+        case 'content.accordion':
+            return <Accordion accordionGroupID={component.accordionGroupID} />;
         case 'home-page.info-block':
             return (
                 <InfoBlock

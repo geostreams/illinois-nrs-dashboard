@@ -9,6 +9,8 @@ interface CustomTooltipProps extends TooltipProps<any, any> {
     lineUnit?: string;
     barConfig?: Array<{ dataKey: string; name: string; color: string }>;
     lineConfig?: Array<{ dataKey: string; name: string; color: string }>;
+    markerConfig?: Array<{ dataKey: string; name: string; color: string; dashArray?: string }>;
+    crosshatchingSubjects?: string[];
 }
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({
@@ -20,7 +22,12 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     lineUnit,
     barConfig,
     lineConfig,
+    markerConfig = [],
+    crosshatchingSubjects = [],
 }) => {
+    // Function to check if a data key should have crosshatching
+    const shouldCrosshatch = (dataKey: string): boolean => crosshatchingSubjects.includes(dataKey);
+
     if (active && payload && payload.length) {
         return (
             <div
@@ -38,20 +45,56 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                     .slice()
                     .reverse()
                     .map((entry, index) => {
-                        // Determine the appropriate unit based on whether it's a bar or line
+                        // Determine the appropriate unit based on whether it's a bar, line, or marker
                         let itemUnit = unit;
                         const isBar = barConfig?.some((config) => config.dataKey === entry.dataKey);
                         const isLine = lineConfig?.some(
                             (config) => config.dataKey === entry.dataKey || config.name === entry.name
                         );
+                        const isMarker = markerConfig?.some(
+                            (config) => config.dataKey === entry.dataKey || config.name === entry.name
+                        );
 
                         if (barUnit && lineUnit) {
-                            itemUnit = isBar ? barUnit : lineUnit;
+                            if (isBar || isMarker) {
+                                itemUnit = barUnit;
+                            } else {
+                                itemUnit = lineUnit;
+                            }
                         }
 
                         // Render different indicators based on type
                         const renderIndicator = () => {
-                            if (isLine) {
+                            if (isMarker) {
+                                // Render a horizontal line indicator for markers similar to chartLegend
+                                const markerStyle = markerConfig?.find(
+                                    (config) => config.dataKey === entry.dataKey || config.name === entry.name
+                                );
+                                return (
+                                    <div
+                                        style={{
+                                            width: 16,
+                                            height: 10,
+                                            position: 'relative',
+                                            marginRight: 8,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                width: '100%',
+                                                height: 2,
+                                                backgroundColor: 'transparent',
+                                                borderTop: markerStyle?.dashArray
+                                                    ? `2px dashed ${entry.color}`
+                                                    : `2px solid ${entry.color}`,
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            } else if (isLine) {
                                 // Render a line indicator similar to chartLegend
                                 return (
                                     <div
@@ -87,6 +130,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                                 );
                             } else {
                                 // Render a rectangle indicator for bars with black border and no border radius
+                                const isCrosshatched = entry.dataKey ? shouldCrosshatch(String(entry.dataKey)) : false;
                                 return (
                                     <div
                                         style={{
@@ -96,8 +140,39 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
                                             border: '1px solid black',
                                             marginRight: '8px',
                                             boxSizing: 'border-box',
+                                            position: 'relative',
+                                            overflow: 'hidden',
                                         }}
-                                    />
+                                    >
+                                        {isCrosshatched && (
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    background: `
+                                                        repeating-linear-gradient(
+                                                            45deg,
+                                                            transparent,
+                                                            transparent 2px,
+                                                            white 2px,
+                                                            white 3px
+                                                        ),
+                                                        repeating-linear-gradient(
+                                                            -45deg,
+                                                            transparent,
+                                                            transparent 2px,
+                                                            white 2px,
+                                                            white 3px
+                                                        )
+                                                    `,
+                                                    opacity: 0.6,
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                 );
                             }
                         };

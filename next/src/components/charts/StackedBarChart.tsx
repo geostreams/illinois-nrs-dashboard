@@ -32,6 +32,7 @@ interface StackedBarChartProps {
         max?: number;
         interval?: number;
     };
+    crosshatchingSubjects?: string[];
 }
 
 const StackedBarChart: React.FC<StackedBarChartProps> = ({
@@ -41,13 +42,24 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
     unit,
     yAxisLabel,
     yAxisInterval,
+    crosshatchingSubjects = [],
 }) => {
     // Function to convert data keys to readable legend names
     const getLegendName = (key: string): string => key;
 
     // Calculate total values for each key and sort them
     const sortedKeys = React.useMemo(() => {
-        const keys = Object.keys(chartData[0] || {}).filter((key) => key !== 'name');
+        // Collect all unique keys from all data points
+        const allKeys = new Set<string>();
+        chartData.forEach((item) => {
+            Object.keys(item).forEach((key) => {
+                if (key !== 'name') {
+                    allKeys.add(key);
+                }
+            });
+        });
+
+        const keys = Array.from(allKeys);
         const totals = keys.reduce(
             (acc, key) => {
                 acc[key] = chartData.reduce((sum, item) => sum + (Number(item[key]) || 0), 0);
@@ -59,10 +71,74 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
         return keys.sort((a, b) => totals[b] - totals[a]);
     }, [chartData]);
 
+    // Function to check if a key should have crosshatching
+    const shouldCrosshatch = (key: string): boolean => crosshatchingSubjects.includes(key);
+
+    // Custom bar shape component for crosshatching
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const CrosshatchedBar = (props: any) => {
+        const { x, y, width, height, fill } = props;
+        return (
+            <g>
+                {/* Base colored rectangle */}
+                <rect x={x} y={y} width={width} height={height} fill={fill} />
+                {/* Crosshatch overlay using diagonal lines with white and black */}
+                <g opacity="0.6">
+                    {Array.from({ length: Math.ceil(width / 4) }, (_, i) => (
+                        <line
+                            key={i}
+                            x1={x + i * 4}
+                            y1={y}
+                            x2={x + i * 4 + 4}
+                            y2={y + height}
+                            stroke="white"
+                            strokeWidth="1.5"
+                        />
+                    ))}
+                    {Array.from({ length: Math.ceil(height / 4) }, (_, i) => (
+                        <line
+                            key={`v-${i}`}
+                            x1={x}
+                            y1={y + i * 4}
+                            x2={x + width}
+                            y2={y + i * 4 + 4}
+                            stroke="white"
+                            strokeWidth="1.5"
+                        />
+                    ))}
+                    {/* Black lines offset for better contrast */}
+                    {Array.from({ length: Math.ceil(width / 4) }, (_, i) => (
+                        <line
+                            key={`black-${i}`}
+                            x1={x + i * 4 + 2}
+                            y1={y}
+                            x2={x + i * 4 + 6}
+                            y2={y + height}
+                            stroke="black"
+                            strokeWidth="0.5"
+                        />
+                    ))}
+                    {Array.from({ length: Math.ceil(height / 4) }, (_, i) => (
+                        <line
+                            key={`black-v-${i}`}
+                            x1={x}
+                            y1={y + i * 4 + 2}
+                            x2={x + width}
+                            y2={y + i * 4 + 6}
+                            stroke="black"
+                            strokeWidth="0.5"
+                        />
+                    ))}
+                </g>
+            </g>
+        );
+    };
+
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <BarChart
                 data={chartData}
+                accessibilityLayer={true}
                 // margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
             >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -78,6 +154,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                             ? {
                                   value: yAxisLabel,
                                   angle: -90,
+                                  offset: -0.5,
                                   position: 'insideLeft',
                                   style: {
                                       fontSize: '14px',
@@ -107,7 +184,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                     })()}
                 />
                 <Tooltip
-                    content={<CustomTooltip unit={unit} />}
+                    content={<CustomTooltip unit={unit} crosshatchingSubjects={crosshatchingSubjects} />}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',
@@ -125,6 +202,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                         name={getLegendName(key)}
                         isAnimationActive={false}
                         barSize={40}
+                        shape={shouldCrosshatch(key) ? CrosshatchedBar : undefined}
                     />
                 ))}
 

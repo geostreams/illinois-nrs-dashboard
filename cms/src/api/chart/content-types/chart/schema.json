@@ -26,7 +26,10 @@
         "bar_line",
         "stacked_bar_line",
         "cluster_bar_line",
-        "image"
+        "horizontal_cluster_bar",
+        "image",
+        "bar_marker",
+        "row_span_table"
       ]
     },
     "chartData": {
@@ -59,14 +62,14 @@
       "type": "text"
     },
     "chartImage": {
+      "type": "media",
+      "multiple": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }

@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
+import WrappedTick from './WrappedTick';
 
 interface BarChartProps {
     chartData: {
@@ -44,10 +45,11 @@ const BarChart: React.FC<BarChartProps> = ({
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <RechartsBarChart
                 data={chartData}
+                accessibilityLayer={true}
                 // margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
             >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <XAxis dataKey="name" tick={<WrappedTick />} height={60} interval={0} />
                 <YAxis
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => formatValueWithUnit(value, unit)}

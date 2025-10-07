@@ -278,7 +278,9 @@ export const Sidebar: React.FC = () => {
                                 </List>
                             </Collapse>
                         )}
-                        {index < sections.length - 1 && <Divider sx={{ backgroundColor: 'white' }} />}
+                        {index < sections.length - 1 && (
+                            <Divider aria-hidden="true" sx={{ backgroundColor: 'white' }} />
+                        )}
                     </React.Fragment>
                 ))}
             </List>

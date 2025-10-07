@@ -37,6 +37,17 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     const imageUrl = image.url ? `${baseImageUrl}${image.url}` : '';
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
+    const handleOpenLightbox = () => {
+        setIsLightboxOpen(true);
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleOpenLightbox();
+        }
+    };
+
     // Parse caption - everything before colon is bold
     let boldCaption = '';
     let regularCaption = '';
@@ -59,6 +70,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
 
     return (
         <Box
+            tabIndex={0}
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -68,7 +80,8 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                 height: 'auto',
                 cursor: 'pointer',
             }}
-            onClick={() => setIsLightboxOpen(true)}
+            onClick={handleOpenLightbox}
+            onKeyDown={handleKeyDown}
         >
             {caption && (
                 <Typography

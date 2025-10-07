@@ -13,9 +13,12 @@ import BarChart from './BarChart';
 import BarLineChart from './BarLineChart';
 import StackedBarLineChart from './StackedBarLineChart';
 import ClusterBarLineChart from './ClusterBarLineChart';
+import HorizontalClusterBarMarkerChart from './HorizontalClusterBarMarkerChart';
 import { FC } from 'react';
 import TableComponent from './Table';
 import { FullSpanImage } from '../PageContentGenerator/FullSpanImage';
+import BarMarkerChart from './BarMarkerChart';
+import RowSpanTable from './RowSpanTable';
 
 interface BaseChartProps {
     chartType: string;
@@ -82,6 +85,83 @@ const BaseChart: FC<BaseChartProps> = ({
 
     const open = Boolean(anchorEl);
 
+    const createCompositeImage = useCallback(async (imageUrl: string, title: string): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+
+            img.onload = () => {
+                try {
+                    // Create a canvas for the composite image
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) {
+                        reject(new Error('Could not get canvas context'));
+                        return;
+                    }
+
+                    // Set canvas dimensions (image width + padding for title)
+                    const padding = 60;
+                    const titleHeight = 100;
+                    canvas.width = img.width;
+                    canvas.height = img.height + titleHeight + padding;
+
+                    // Fill background with white
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // Draw the image
+                    ctx.drawImage(img, 0, titleHeight + padding / 2);
+
+                    // Draw the title
+                    ctx.fillStyle = '#0A3977';
+                    ctx.font =
+                        'bold 24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'top';
+
+                    // Split title into bold and regular parts if it contains a colon
+                    const titleParts = title.split(':');
+                    const boldPart = titleParts[0];
+                    const regularPart = titleParts[1];
+
+                    let x = 30;
+                    const y = 30;
+
+                    if (boldPart && regularPart) {
+                        // Draw bold part
+                        ctx.font =
+                            'bold 24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillText(boldPart + ':', x, y);
+                        x += ctx.measureText(boldPart + ': ').width;
+
+                        // Draw regular part
+                        ctx.font =
+                            '24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillText(regularPart, x, y);
+                    } else {
+                        // Draw the entire title
+                        ctx.font =
+                            'bold 24px "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                        ctx.fillText(title, x, y);
+                    }
+
+                    // Convert canvas to data URL
+                    const dataUrl = canvas.toDataURL('image/png');
+                    resolve(dataUrl);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            img.onerror = () => {
+                reject(new Error('Failed to load image'));
+            };
+
+            img.src = imageUrl;
+        });
+    }, []);
+
     const handleDownload = useCallback(async () => {
         if (chartType === 'image' && chartImage?.url) {
             setIsLoading(true);
@@ -89,15 +169,15 @@ const BaseChart: FC<BaseChartProps> = ({
                 const imageUrl = chartImage.url.startsWith('http')
                     ? chartImage.url
                     : `${process.env.CMS_API_URL}${chartImage.url}`;
-                const response = await fetch(imageUrl);
-                if (!response.ok) throw new Error('Download failed');
 
-                const blob = await response.blob();
+                // Create composite image with title
+                const compositeImageDataUrl = await createCompositeImage(imageUrl, heading || 'Chart');
+
+                // Download the composite image
                 const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
+                link.href = compositeImageDataUrl;
                 link.download = heading ? `${heading.toLowerCase().replace(/\s+/g, '-')}.png` : 'chart.png';
                 link.click();
-                window.URL.revokeObjectURL(link.href);
             } catch (error) {
                 console.error('Error downloading image:', error);
             } finally {
@@ -109,34 +189,211 @@ const BaseChart: FC<BaseChartProps> = ({
         if (!chartRef.current) return;
 
         setIsLoading(true);
-        setIsCapturing(true); // Hide button before capture
+        setIsCapturing(true);
+
+        // Wait for the state change to take effect (hide buttons)
+        await new Promise((resolve) => setTimeout(resolve, 50));
 
         try {
-            // Wait for state update to take effect
-            await new Promise((resolve) => setTimeout(resolve, 50));
+            const element = chartRef.current;
+            const isTableChart = chartType === 'row_span_table' || chartType === 'table';
 
-            const canvas = await html2canvas(chartRef.current, {
-                scale: 2,
-                backgroundColor: '#ffffff',
-                logging: false,
-                useCORS: true,
-            });
+            // Calculate heading parts inside the callback
+            const headingParts = heading?.split(':');
+            const boldHeading = headingParts?.[0];
+            const regularHeading = headingParts?.[1];
 
-            const link = document.createElement('a');
-            if (heading) {
-                link.download = `${heading.toLowerCase().replace(/\s+/g, '-')}.png`;
+            if (isTableChart) {
+                // Use iframe approach for tables (to handle scroll restrictions)
+                const iframe = document.createElement('iframe');
+                iframe.style.position = 'absolute';
+                iframe.style.left = '-9999px';
+                iframe.style.top = '-9999px';
+                iframe.style.width = '1200px';
+                iframe.style.height = '800px';
+                iframe.style.border = 'none';
+                document.body.appendChild(iframe);
+
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+                if (!iframeDoc) {
+                    document.body.removeChild(iframe);
+                    alert('Could not create export environment');
+                    return;
+                }
+
+                // Get the table content and heading for iframe
+                // Look for the Typography component that contains the caption
+                const captionElement = element.querySelector('p, [class*="MuiTypography"], h1, h2, h3, h4, h5, h6');
+                const tableContainer = element.querySelector('.MuiTableContainer-root');
+                const chartArea = element.querySelector('canvas, svg, [class*="recharts"], [role="img"]');
+
+                const mainContent = tableContainer || chartArea;
+
+                if (!mainContent) {
+                    document.body.removeChild(iframe);
+                    alert('Could not find chart or table content to export');
+                    return;
+                }
+
+                // Create a proper caption HTML if we have heading parts
+                let captionHTML = '';
+                if (captionElement) {
+                    captionHTML = captionElement.outerHTML;
+                } else if (boldHeading && regularHeading) {
+                    // Recreate the caption structure if element not found
+                    captionHTML = `<p style="font-size: 16px; color: #0A3977; text-align: left; font-style: italic; margin: 0 0 16px 0;">
+                        <strong>${boldHeading}:</strong>${regularHeading}
+                    </p>`;
+                } else if (heading) {
+                    captionHTML = `<p style="font-size: 16px; color: #0A3977; text-align: left; font-style: italic; margin: 0 0 16px 0;">
+                        ${heading}
+                    </p>`;
+                }
+
+                const contentHTML = mainContent.outerHTML;
+
+                // Get all stylesheets from the current page
+                const stylesheets = Array.from(document.styleSheets)
+                    .map((sheet) => {
+                        try {
+                            return Array.from(sheet.cssRules)
+                                .map((rule) => rule.cssText)
+                                .join('\n');
+                        } catch (e) {
+                            console.error('Error getting stylesheets:', e);
+                        }
+                    })
+                    .join('\n');
+
+                // Create the iframe page content
+                const pageHTML = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Table Export</title>
+                        <style>
+                            ${stylesheets}
+
+                            .MuiTableContainer-root {
+                                max-height: none !important;
+                                overflow: visible !important;
+                                height: auto !important;
+                            }
+
+                            button, [role="button"] {
+                                display: none !important;
+                            }
+
+                            body {
+                                margin: 0;
+                                padding: 10px;
+                                background: white;
+                                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                            }
+
+                            #export-content {
+                                display: inline-block;
+                                background: white;
+                                padding: 0;
+                                margin: 0;
+                            }
+
+                            * {
+                                max-height: none !important;
+                                overflow: visible !important;
+                            }
+                        </style>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+                    </head>
+                    <body>
+                        <div id="export-content">
+                            ${captionHTML}
+                            ${contentHTML}
+                        </div>
+                    </body>
+                    </html>
+                `;
+
+                // Write HTML to iframe and capture
+                iframeDoc.write(pageHTML);
+                iframeDoc.close();
+
+                iframe.onload = async () => {
+                    try {
+                        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                        const exportDiv = iframeDoc.getElementById('export-content');
+                        if (exportDiv) {
+                            const canvas = await html2canvas(exportDiv, {
+                                scale: 2,
+                                backgroundColor: '#ffffff',
+                                logging: false,
+                                useCORS: true,
+                                allowTaint: true,
+                            });
+
+                            const dataUrl = canvas.toDataURL('image/png');
+
+                            const link = document.createElement('a');
+                            link.download = `${heading ? heading.toLowerCase().replace(/\s+/g, '-') : 'chart'}.png`;
+                            link.href = dataUrl;
+                            link.click();
+
+                            document.body.removeChild(iframe);
+                        }
+                    } catch (error) {
+                        console.error('Error capturing table:', error);
+                        if (iframe && iframe.parentNode) {
+                            document.body.removeChild(iframe);
+                        }
+                    }
+                };
             } else {
-                link.download = 'chart.png';
+                // Direct capture for charts (works better with SVG/Canvas)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true,
+                    filter: (node: Node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            const elementNode = node as Element;
+
+                            // Filter out buttons and interactive elements
+                            if (
+                                elementNode.tagName === 'BUTTON' ||
+                                elementNode.getAttribute('role') === 'button' ||
+                                elementNode.classList?.contains('MuiButton-root') ||
+                                elementNode.classList?.contains('MuiIconButton-root') ||
+                                elementNode.getAttribute('aria-label') === 'info' ||
+                                elementNode.closest('button') ||
+                                elementNode.closest('[role="button"]') ||
+                                elementNode.closest('.MuiButton-root') ||
+                                elementNode.closest('.MuiIconButton-root')
+                            ) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    },
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } as any);
+
+                const dataUrl = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `${heading ? heading.toLowerCase().replace(/\s+/g, '-') : 'chart'}.png`;
+                link.href = dataUrl;
+                link.click();
             }
-            link.href = canvas.toDataURL('image/png');
-            link.click();
         } catch (error) {
             console.error('Error downloading chart:', error);
         } finally {
-            setIsCapturing(false); // Show button after capture
+            setIsCapturing(false);
             setIsLoading(false);
         }
-    }, [heading, chartType, chartImage?.url]);
+    }, [heading, chartType, chartImage?.url, createCompositeImage]);
 
     const handleDataDownload = useCallback(async () => {
         if (!dataFile?.url) return;
@@ -181,7 +438,14 @@ const BaseChart: FC<BaseChartProps> = ({
                 chartLabels={miscChartData?.chartLabels}
             />
         ),
-        line: <LineChart chartData={chartData} chartConfig={miscChartData?.chartConfig} unit={unit} />,
+        line: (
+            <LineChart
+                chartData={chartData}
+                chartConfig={miscChartData?.chartConfig}
+                unit={unit}
+                yAxisLabel={miscChartData?.yAxisLabel}
+            />
+        ),
         stacked_bar: (
             <StackedBarChart
                 chartData={chartData}
@@ -190,6 +454,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 unit={unit}
                 yAxisInterval={miscChartData?.yAxisInterval}
                 yAxisLabel={miscChartData?.yAxisLabel}
+                crosshatchingSubjects={miscChartData?.crosshatchingSubjects}
             />
         ),
         bar: (
@@ -237,6 +502,39 @@ const BaseChart: FC<BaseChartProps> = ({
                 yAxisLabel={miscChartData?.yAxisLabel}
             />
         ),
+        horizontal_cluster_bar: (
+            <HorizontalClusterBarMarkerChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                markerConfig={miscChartData?.markerConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                xAxisInterval={miscChartData?.xAxisInterval}
+                xAxisLabel={miscChartData?.xAxisLabel}
+            />
+        ),
+        bar_marker: (
+            <BarMarkerChart
+                chartData={chartData}
+                barConfig={miscChartData?.barConfig}
+                lineConfig={miscChartData?.lineConfig}
+                markerConfig={miscChartData?.markerConfig}
+                chartReferenceLines={miscChartData?.chartReferenceLines}
+                barUnit={barUnit}
+                lineUnit={lineUnit}
+                yAxisInterval={miscChartData?.yAxisInterval}
+                yAxisLabel={miscChartData?.yAxisLabel}
+            />
+        ),
+        row_span_table: (
+            <RowSpanTable
+                tableData={chartData}
+                boldenRows={miscChartData?.boldenRows}
+                rowSpanColumn={miscChartData?.rowSpanColumn}
+            />
+        ),
     }[chartType];
 
     return (
@@ -262,7 +560,7 @@ const BaseChart: FC<BaseChartProps> = ({
                     {regularHeading}
                 </Typography>
             </Box>
-            {chartType !== 'table' && chartType !== 'image' ? (
+            {chartType !== 'table' && chartType !== 'image' && chartType !== 'row_span_table' ? (
                 <Box
                     sx={{
                         width: '100%',
@@ -276,13 +574,24 @@ const BaseChart: FC<BaseChartProps> = ({
                                   aspectRatio: '1 / 1',
                                   maxHeight: '400px',
                               }
-                            : {
-                                  '&::before': {
-                                      content: '""',
-                                      display: 'block',
-                                      paddingTop: aspectRatio || '56.25%',
-                                  },
-                              }),
+                            : chartType === 'horizontal_cluster_bar'
+                              ? {
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        paddingTop: aspectRatio || '56.25%',
+                                    },
+                                    '@media (max-width: 1000px)': {
+                                        minHeight: '800px',
+                                    },
+                                }
+                              : {
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        paddingTop: aspectRatio || '56.25%',
+                                    },
+                                }),
                     }}
                     role="img"
                     aria-label={ariaLabel}
@@ -305,9 +614,17 @@ const BaseChart: FC<BaseChartProps> = ({
                         <FullSpanImage image={chartImage} imageWidth={100} caption={chartImage?.caption || ''} />
                     )}
                 </Box>
+            ) : chartType === 'row_span_table' ? (
+                <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
+                    <RowSpanTable
+                        tableData={chartData}
+                        boldenRows={miscChartData?.boldenRows || []}
+                        rowSpanColumn={miscChartData?.rowSpanColumn || ''}
+                    />
+                </Box>
             ) : (
                 <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
-                    <TableComponent tableData={chartData} />
+                    <TableComponent tableData={chartData} boldenRows={miscChartData?.boldenRows || []} />
                 </Box>
             )}
             <Box
@@ -407,19 +724,21 @@ const BaseChart: FC<BaseChartProps> = ({
                         >
                             {isLoading ? 'Downloading...' : 'Download Chart'}
                         </Button>
-                        <Button
-                            variant="outlined"
-                            startIcon={<DownloadIcon titleAccess="Download data" />}
-                            onClick={handleDataDownload}
-                            disabled={isLoading || !dataFile?.url}
-                            size="small"
-                            sx={{
-                                minWidth: 165,
-                                width: { xs: '100%', sm: 'auto' },
-                            }}
-                        >
-                            {isLoading ? 'Downloading...' : 'Download Data'}
-                        </Button>
+                        {dataFile?.url && (
+                            <Button
+                                variant="outlined"
+                                startIcon={<DownloadIcon titleAccess="Download data" />}
+                                onClick={handleDataDownload}
+                                disabled={isLoading}
+                                size="small"
+                                sx={{
+                                    minWidth: 165,
+                                    width: { xs: '100%', sm: 'auto' },
+                                }}
+                            >
+                                {isLoading ? 'Downloading...' : 'Download Data'}
+                            </Button>
+                        )}
                     </Box>
                 )}
             </Box>

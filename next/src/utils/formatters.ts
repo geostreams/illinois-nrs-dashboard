@@ -57,11 +57,7 @@ export const formatValueWithUnit = (value: number, unit?: string, decimals = 1):
  * formatNumberWithCommas(1234567) // "1,234,567"
  * formatNumberWithCommas(1234567.89, 2) // "1,234,567.89"
  */
-export const formatNumberWithCommas = (value: number, decimals = 0): string => {
+export const formatNumberWithCommas = (value: number): string => {
     if (!Number.isFinite(value)) return 'N/A';
-
-    return value.toLocaleString('en-US', {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals,
-    });
+    else return value.toLocaleString('en-US');
 };

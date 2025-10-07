@@ -18,6 +18,7 @@ export interface PhotoBlockProps {
     image: ImageData;
     imageWidth: number | null;
     imageHeight: number | null;
+    url?: string;
 }
 
 export interface InfoBlockProps {
