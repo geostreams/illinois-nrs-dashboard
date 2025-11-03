@@ -93,6 +93,17 @@ export default function InteractiveMapsPage() {
                 <Typography variant="h4" component="h1" sx={{ mb: 3, textAlign: 'center' }}>
                     {formattedTitle} Interactive Maps
                 </Typography>
+                <Typography
+                    variant="body1"
+                    component="p"
+                    sx={{
+                        mb: 3,
+                        textAlign: 'center',
+                        display: { xs: 'block', sm: 'block', md: 'none' },
+                    }}
+                >
+                    (Best viewed on desktop)
+                </Typography>
                 <div
                     ref={tableauRef}
                     className="tableau-container"
