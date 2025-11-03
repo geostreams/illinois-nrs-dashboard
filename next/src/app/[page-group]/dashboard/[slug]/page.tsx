@@ -4,6 +4,37 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
+function injectHtmlWithScripts(html: string, container: HTMLElement) {
+    container.innerHTML = '';
+
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    // Append non-script nodes first
+    const fragment = document.createDocumentFragment();
+    Array.from(doc.body.childNodes).forEach((node) => {
+        if (node.nodeName.toLowerCase() !== 'script') {
+            fragment.appendChild(node);
+        }
+    });
+    container.appendChild(fragment);
+
+    // Then execute scripts in order
+    const scripts = Array.from(doc.body.querySelectorAll('script'));
+    scripts.forEach((oldScript) => {
+        const src = oldScript.getAttribute('src');
+        if (src && document.querySelector(`script[src="${src}"]`)) {
+            return;
+        }
+
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach((attr) => {
+            newScript.setAttribute(attr.name, attr.value);
+        });
+        if (oldScript.textContent) newScript.text = oldScript.textContent;
+        container.appendChild(newScript);
+    });
+}
+
 export default function InteractiveMapsPage() {
     const { slug } = useParams();
     const tableauRef = useRef<HTMLDivElement>(null);
@@ -24,28 +55,13 @@ export default function InteractiveMapsPage() {
     const isTableauDashboard = slug && tableau_dashboard_dict[String(slug)];
 
     useEffect(() => {
-        if (isTableauDashboard && tableauRef.current) {
-            const embedCode = tableau_dashboard_dict[String(slug)!];
+        if (!isTableauDashboard || !tableauRef.current) return;
 
-            // Clear any existing content
-            tableauRef.current.innerHTML = '';
+        injectHtmlWithScripts(tableau_dashboard_dict[String(slug)!], tableauRef.current);
 
-            // Insert the entire Tableau embed code (HTML + script)
-            tableauRef.current.innerHTML = embedCode;
-
-            // Execute any script tags that were just inserted
-            const scripts = tableauRef.current.getElementsByTagName('script');
-            Array.from(scripts).forEach((script) => {
-                const newScript = document.createElement('script');
-                newScript.type = 'text/javascript';
-                if (script.src) {
-                    newScript.src = script.src;
-                } else {
-                    newScript.text = script.text;
-                }
-                script.parentNode?.replaceChild(newScript, script);
-            });
-        }
+        return () => {
+            if (tableauRef.current) tableauRef.current.innerHTML = '';
+        };
     }, [isTableauDashboard, slug]);
 
     if (isTableauDashboard) {
