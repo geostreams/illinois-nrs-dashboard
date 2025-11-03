@@ -58,7 +58,7 @@ export default function InteractiveMapsPage() {
     useEffect(() => {
         if (!isTableauDashboard || !tableauRef.current) return;
 
-        injectHtmlWithScripts(tableau_dashboard_dict[String(slug)!], tableauRef.current);
+        injectHtmlWithScripts(tableau_dashboard_dict[String(slug)], tableauRef.current);
 
         return () => {
             if (tableauRef.current) tableauRef.current.innerHTML = '';
