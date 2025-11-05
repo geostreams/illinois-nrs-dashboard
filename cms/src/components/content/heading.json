@@ -35,6 +35,9 @@
     "hideInSidebar": {
       "type": "boolean",
       "default": false
+    },
+    "headingStyle": {
+      "type": "json"
     }
   }
 }

@@ -48,6 +48,7 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
                     headingType={component.headingType}
                     headingIcon={component.headingIcon}
                     hideInSidebar={component.hideInSidebar}
+                    headingStyle={component.headingStyle}
                 />
             );
         case 'content.base-content-section':

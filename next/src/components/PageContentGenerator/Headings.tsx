@@ -5,6 +5,7 @@ import DollarIcon from '@/assets/icons/square-dollar.svg';
 import TreesIcon from '@/assets/icons/trees.svg';
 import UserIcon from '@/assets/icons/user.svg';
 import { Typography } from '@mui/material';
+import type { CSSProperties } from 'react';
 
 interface HeadingProps {
     headingText: string;
@@ -12,6 +13,7 @@ interface HeadingProps {
     headingType: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     headingIcon: 'user' | 'dollar' | 'trees' | 'droplet';
     hideInSidebar?: boolean;
+    headingStyle?: CSSProperties;
 }
 
 const styles = {
@@ -71,7 +73,14 @@ const styles = {
     },
 };
 
-const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSidebar }: HeadingProps) => {
+const Heading = ({
+    headingText,
+    headingColor,
+    headingType,
+    headingIcon,
+    hideInSidebar,
+    headingStyle,
+}: HeadingProps) => {
     let icon = null;
 
     // Adjust icon size based on heading type
@@ -170,53 +179,107 @@ const Heading = ({ headingText, headingColor, headingType, headingIcon, hideInSi
 
     switch (headingType) {
         case 'h1':
-            return createAnchorHeading(
-                <Typography
-                    variant="h1"
-                    component="h1"
-                    tabIndex={0}
-                    sx={{
-                        ...styles.heading1,
-                        ...styles.focusStyles,
-                        color: headingColor || styles.heading1.color,
-                    }}
-                >
-                    {icon}
-                    <span>{headingText}</span>
-                </Typography>
-            );
+            if (headingStyle) {
+                return createAnchorHeading(
+                    <Typography
+                        variant="h1"
+                        component="h1"
+                        tabIndex={0}
+                        sx={{
+                            ...headingStyle,
+                            ...styles.focusStyles,
+                            color: headingStyle?.color || headingColor || styles.heading1.color,
+                        }}
+                    >
+                        {icon}
+                        <span>{headingText}</span>
+                    </Typography>
+                );
+            } else {
+                return createAnchorHeading(
+                    <Typography
+                        variant="h1"
+                        component="h1"
+                        tabIndex={0}
+                        sx={{
+                            ...styles.heading1,
+                            ...styles.focusStyles,
+                            color: headingColor || styles.heading1.color,
+                        }}
+                    >
+                        {icon}
+                        <span>{headingText}</span>
+                    </Typography>
+                );
+            }
         case 'h2':
-            return createAnchorHeading(
-                <Typography
-                    variant="h2"
-                    component="h2"
-                    tabIndex={0}
-                    sx={{
-                        ...styles.heading2,
-                        ...styles.focusStyles,
-                        color: headingColor || styles.heading2.color,
-                    }}
-                >
-                    {icon}
-                    <span>{headingText}</span>
-                </Typography>
-            );
+            if (headingStyle) {
+                return createAnchorHeading(
+                    <Typography
+                        variant="h2"
+                        component="h2"
+                        tabIndex={0}
+                        sx={{
+                            ...headingStyle,
+                            ...styles.focusStyles,
+                            color: headingStyle?.color || headingColor || styles.heading2.color,
+                        }}
+                    >
+                        {icon}
+                        <span>{headingText}</span>
+                    </Typography>
+                );
+            } else {
+                return createAnchorHeading(
+                    <Typography
+                        variant="h2"
+                        component="h2"
+                        tabIndex={0}
+                        sx={{
+                            ...styles.heading2,
+                            ...styles.focusStyles,
+                            color: headingColor || styles.heading2.color,
+                        }}
+                    >
+                        {icon}
+                        <span>{headingText}</span>
+                    </Typography>
+                );
+            }
         case 'h3':
-            return createAnchorHeading(
-                <Typography
-                    variant="h3"
-                    component="h3"
-                    tabIndex={0}
-                    sx={{
-                        ...styles.heading3,
-                        ...styles.focusStyles,
-                        color: headingColor || styles.heading3.color,
-                    }}
-                >
-                    {icon}
-                    <span>{headingText}</span>
-                </Typography>
-            );
+            if (headingStyle) {
+                return createAnchorHeading(
+                    <Typography
+                        variant="h3"
+                        component="h3"
+                        tabIndex={0}
+                        sx={{
+                            ...headingStyle,
+                            ...styles.focusStyles,
+                            color: headingStyle?.color || headingColor || styles.heading3.color,
+                        }}
+                    >
+                        {icon}
+                        <span>{headingText}</span>
+                    </Typography>
+                );
+            } else {
+                return createAnchorHeading(
+                    <Typography
+                        variant="h3"
+                        component="h3"
+                        tabIndex={0}
+                        sx={{
+                            ...styles.heading3,
+                            ...styles.focusStyles,
+                            color: headingColor || styles.heading3.color,
+                        }}
+                    >
+                        {icon}
+                        <span>{headingText}</span>
+                    </Typography>
+                );
+            }
         case 'h4':
             return createAnchorHeading(
                 <Typography

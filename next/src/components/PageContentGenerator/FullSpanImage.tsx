@@ -52,12 +52,12 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     let boldCaption = '';
     let regularCaption = '';
 
-    // Break caption along colon, everything before colon is bold
+    // Break caption along first colon, everything before colon is bold
     if (caption) {
-        const captionParts = caption.split(':');
-        if (captionParts.length == 2) {
-            boldCaption = captionParts[0];
-            regularCaption = captionParts[1];
+        const colonIndex = caption.indexOf(':');
+        if (colonIndex !== -1) {
+            boldCaption = caption.substring(0, colonIndex);
+            regularCaption = caption.substring(colonIndex + 1);
         } else {
             regularCaption = caption;
         }
