@@ -624,7 +624,11 @@ const BaseChart: FC<BaseChartProps> = ({
                 </Box>
             ) : (
                 <Box sx={{ width: '100%' }} aria-label={ariaLabel}>
-                    <TableComponent tableData={chartData} boldenRows={miscChartData?.boldenRows || []} />
+                    <TableComponent
+                        tableData={chartData}
+                        boldenRows={miscChartData?.boldenRows || []}
+                        keepAsString={miscChartData?.keepAsString || []}
+                    />
                 </Box>
             )}
             <Box

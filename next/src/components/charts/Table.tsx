@@ -19,9 +19,10 @@ interface TableProps {
         columns: string[];
     };
     boldenRows: string[];
+    keepAsString: string[];
 }
 
-const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows }) => {
+const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows, keepAsString }) => {
     // Get all unique columns from the data for columns
     const columns = tableData.columns.slice(1);
     const indexColumn = tableData.columns[0];
@@ -93,7 +94,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows }) => {
                                 </TableCell>
                                 {columns.map((column) => (
                                     <TableCell key={column} align="center" style={boldCellStyle}>
-                                        {typeof row[column] === 'number'
+                                        {typeof row[column] === 'number' && !keepAsString.includes(column)
                                             ? formatNumberWithCommas(row[column])
                                             : row[column] || ''}
                                     </TableCell>
