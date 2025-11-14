@@ -42,8 +42,8 @@ const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight, url }: 
     const defaultHeight = 310;
 
     // Ensure we have valid numeric dimensions
-    const validWidth = typeof imageWidth === 'number' && imageWidth > 0 ? imageWidth : defaultWidth;
-    const validHeight = typeof imageHeight === 'number' && imageHeight > 0 ? imageHeight : defaultHeight;
+    const validWidth = imageWidth || defaultWidth;
+    const validHeight = imageHeight || defaultHeight;
     return (
         <PhotoBlockContainer>
             <Box
@@ -74,6 +74,7 @@ const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight, url }: 
                         width={validWidth}
                         height={validHeight}
                         priority
+                        style={{ width: '100%', height: 'auto' }}
                     />
                 </BlockImage>
             </Box>
