@@ -76,6 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                 margin: 0 auto;
                                 box-sizing: border-box;
                             }
+                            /* Old medium screen breakpoint (900px). New medium screen breakpoint (1152px). Keeping this just in case. */
                             @media (min-width: 900px) {
                                 .nlrs-footer-logos {
                                     height: 90px;
@@ -101,12 +102,15 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             }
                             /* ================================
                                IMAGE SIZING (FLUID)
+                               - widths and margins all scale
+                                 from 1152px
                                ================================ */
                             .nlrs-logo__img {
                                 height: auto;
                                 max-height: 71px;
                                 display: block;
                             }
+                            /* Widths scale with viewport, but are clamped so they don't get weird */
                             .nlrs-logo__img--iepa {
                                 width: clamp(88px, 15.28vw, 176px);
                             }
@@ -122,36 +126,45 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             /* ================================
                                PER-LOGO MARGINS (FLUID VIA vw)
                                ================================ */
+                            /* IEPA
+                               original: 20px 35.5px 8px 0 */
                             .nlrs-logo--iepa {
-                                margin-top: clamp(10px, 1.736vw, 20px);
-                                margin-right: clamp(16px, 3.082vw, 35.5px);
-                                margin-bottom: clamp(4px, 0.694vw, 8px);
-                                margin-left: 0;
+                                margin-top:    clamp(10px, 1.736vw, 20px);
+                                margin-right:  clamp(16px, 3.082vw, 35.5px);
+                                margin-bottom: clamp(4px,  0.694vw, 8px);
+                                margin-left:   0;
                                 justify-content: flex-start;
                             }
+                            /* Illinois Department of Agriculture
+                               original: 24.6px 31.36px 3.6px 35.5px */
                             .nlrs-logo--ida {
-                                margin-top: clamp(12px, 2.135vw, 24.6px);
-                                margin-right: clamp(14px, 2.722vw, 31.36px);
-                                margin-bottom: clamp(2px, 0.313vw, 3.6px);
-                                margin-left: clamp(16px, 3.082vw, 35.5px);
+                                margin-top:    clamp(12px, 2.135vw, 24.6px);
+                                margin-right:  clamp(14px, 2.722vw, 31.36px);
+                                margin-bottom: clamp(2px,  0.313vw, 3.6px);
+                                margin-left:   clamp(16px, 3.082vw, 35.5px);
                             }
+                            /* U of I / Extension / NCSA
+                               original: 29.6667px 27.19px 13.3333px 31.36px */
                             .nlrs-logo--uofi {
-                                margin-top: clamp(14px, 2.575vw, 29.6667px);
-                                margin-right: clamp(12px, 2.360vw, 27.19px);
-                                margin-bottom: clamp(6px, 1.157vw, 13.3333px);
-                                margin-left: clamp(14px, 2.722vw, 31.36px);
+                                margin-top:    clamp(14px, 2.575vw, 29.6667px);
+                                margin-right:  clamp(12px, 2.360vw, 27.19px);
+                                margin-bottom: clamp(6px,  1.157vw, 13.3333px);
+                                margin-left:   clamp(14px, 2.722vw, 31.36px);
                             }
+                            /* National Great Rivers (NGRREC)
+                               original: 10.33px 0 8.33px 27.19px */
                             .nlrs-logo--ngrrec {
-                                margin-top: clamp(5px, 0.897vw, 10.33px);
-                                margin-right: 0;
-                                margin-bottom: clamp(4px, 0.723vw, 8.33px);
-                                margin-left: clamp(12px, 2.360vw, 27.19px);
+                                margin-top:    clamp(5px,  0.897vw, 10.33px);
+                                margin-right:  0;
+                                margin-bottom: clamp(4px,  0.723vw, 8.33px);
+                                margin-left:   clamp(12px, 2.360vw, 27.19px);
                                 justify-content: flex-end;
                             }
                             /* ================================
                                RESPONSIVE BREAKPOINTS
                                ================================ */
-                            @media (max-width: 900px) and (min-width: 601px) {
+                            /* Medium screens – 2 logos per row */
+                            @media (max-width: 1152px) and (min-width: 601px) {
                                 .nlrs-footer-logos {
                                     height: auto;
                                 }
@@ -186,6 +199,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     max-width: 226px;
                                 }
                             }
+                            /* Small screens – 1 logo per row */
                             @media (max-width: 600px) {
                                 .nlrs-footer-logos__grid {
                                     grid-template-columns: 1fr;
@@ -210,12 +224,49 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     width: clamp(90px, 45vw, 226px);
                                 }
                             }
+                            /* ================================
+                               IMAGE MAP FALLBACK OVERLAY
+                               ================================ */
+                            .map-container {
+                                position: relative;
+                            }
+                            /* Base fallback link style */
+                            .map-fallback {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                height: 100%;
+                                width: 0;              /* overridden per region */
+                                pointer-events: none;  /* JS will turn this on only if map breaks */
+                                display: block;
+                            }
+                            /* U of I: left ~55.7% of the image, full height */
+                            .map-fallback.uofi {
+                                left: 0;
+                                width: 55.7%;
+                            }
+                            /* Right column (Extension + NCSA) width ~44.3% */
+                            .map-fallback.extension,
+                            .map-fallback.ncsa {
+                                left: 55.7%;
+                                width: 44.3%;
+                            }
+                            /* Extension: top half of right column */
+                            .map-fallback.extension {
+                                top: 0;
+                                height: 51%;   /* ~95/186 */
+                            }
+                            /* NCSA: bottom half of right column */
+                            .map-fallback.ncsa {
+                                top: 51%;
+                                height: 49%;   /* rest of the height */
+                            }
                         `}</style>
                         <footer className="nlrs-footer-logos" aria-label="Partner organization logos">
                             <div className="nlrs-footer-logos__grid">
                                 {/* Illinois EPA */}
                                 <div className="nlrs-logo nlrs-logo--iepa">
-                                    <a href="https://epa.illinois.gov/">
+                                    <a href="https://epa.illinois.gov/" target="_blank" rel="noopener noreferrer">
                                         <img
                                             src={`${cmsBaseUrl}/uploads/Illinois_EPA_Logo_4f9806ca73.png`}
                                             alt="Illinois Environmental Protection Agency"
@@ -227,7 +278,11 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
 
                                 {/* Illinois Department of Agriculture */}
                                 <div className="nlrs-logo nlrs-logo--ida">
-                                    <a href="https://www2.illinois.gov/sites/agr/Pages/default.aspx">
+                                    <a
+                                        href="https://www2.illinois.gov/sites/agr/Pages/default.aspx"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         <img
                                             src={`${cmsBaseUrl}/uploads/Illinois_Department_of_Agriculture_Logo_87b259ddfa.png`}
                                             alt="Illinois Department of Agriculture"
@@ -237,43 +292,73 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     </a>
                                 </div>
 
-                                {/* U of I / Extension / NCSA (image map setup) */}
-                                <div className="nlrs-logo nlrs-logo--uofi">
+                                {/* U of I / Extension / NCSA (image map + fallback) */}
+                                <div className="nlrs-logo nlrs-logo--uofi map-container">
                                     <img
                                         src={`${cmsBaseUrl}/uploads/Uof_I_Extension_NCSA_Logo_7165e6db9c.png`}
                                         alt="University of Illinois Urbana-Champaign, Illinois Extension, and NCSA"
                                         className="nlrs-logo__img nlrs-logo__img--uofi"
                                         useMap="#uofi-partners-map"
-                                        loading="lazy"
                                     />
                                     <map name="uofi-partners-map">
+                                        {/* U of I */}
                                         <area
                                             shape="rect"
                                             coords="0,1,769,186"
                                             href="https://illinois.edu/"
                                             alt="University of Illinois Urbana-Champaign"
-                                            aria-label="University of Illinois Urbana-Champaign"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                         />
+                                        {/* Extension */}
                                         <area
                                             shape="rect"
                                             coords="771,1,1380,95"
                                             href="https://extension.illinois.edu/"
                                             alt="Illinois Extension"
-                                            aria-label="Illinois Extension"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                         />
+                                        {/* NCSA */}
                                         <area
                                             shape="rect"
                                             coords="771,98,1380,185"
                                             href="https://ncsa.illinois.edu/"
                                             alt="National Center for Supercomputing Applications (NCSA)"
-                                            aria-label="National Center for Supercomputing Applications, NCSA"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                         />
                                     </map>
+                                    {/* FALLBACK OVERLAY LINKS (only active if map breaks) */}
+                                    <a
+                                        className="map-fallback uofi"
+                                        href="https://illinois.edu/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-hidden="true"
+                                        tabIndex={-1}
+                                    />
+                                    <a
+                                        className="map-fallback extension"
+                                        href="https://extension.illinois.edu/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-hidden="true"
+                                        tabIndex={-1}
+                                    />
+                                    <a
+                                        className="map-fallback ncsa"
+                                        href="https://ncsa.illinois.edu/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-hidden="true"
+                                        tabIndex={-1}
+                                    />
                                 </div>
 
                                 {/* NGRREC */}
                                 <div className="nlrs-logo nlrs-logo--ngrrec">
-                                    <a href="https://www.ngrrec.org/">
+                                    <a href="https://www.ngrrec.org/" target="_blank" rel="noopener noreferrer">
                                         <img
                                             src={`${cmsBaseUrl}/uploads/The_National_Great_Rivers_and_Research_Education_Center_Logo_759d326c69.png`}
                                             alt="National Great Rivers Research and Education Center"
@@ -289,64 +374,106 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             strategy="afterInteractive"
                             dangerouslySetInnerHTML={{
                                 __html: `
-                                    (function() {
-                                        function imageMapResize() {
-                                            const maps = document.querySelectorAll('map');
-                                            maps.forEach(function(mapEl) {
-                                                const mapName = mapEl.getAttribute('name');
-                                                if (!mapName) return;
+                                    /*! Image Map Resizer (imageMapResizer.min.js ) - v1.0.10 - 2019-04-10
+                                     *  Desc: Resize HTML imageMap to scaled image.
+                                     *  Copyright: (c) 2019 David J. Bradshaw - dave@bradshaw.net
+                                     *  License: MIT
+                                     */
+                                    !function(){"use strict";function r(){function e(){var r={width:u.width/u.naturalWidth,height:u.height/u.naturalHeight},a={width:parseInt(window.getComputedStyle(u,null).getPropertyValue("padding-left"),10),height:parseInt(window.getComputedStyle(u,null).getPropertyValue("padding-top"),10)};i.forEach(function(e,t){var n=0;o[t].coords=e.split(",").map(function(e){var t=1==(n=1-n)?"width":"height";return a[t]+Math.floor(Number(e)*r[t])}).join(",")})}function t(e){return e.coords.replace(/ *, */g,",").replace(/ +/g,",")}function n(){clearTimeout(d),d=setTimeout(e,250)}function r(e){return document.querySelector('img[usemap="'+e+'"]')}var a=this,o=null,i=null,u=null,d=null;"function"!=typeof a._resize?(o=a.getElementsByTagName("area"),i=Array.prototype.map.call(o,t),u=r("#"+a.name)||r(a.name),a._resize=e,u.addEventListener("load",e,!1),window.addEventListener("focus",e,!1),window.addEventListener("resize",n,!1),window.addEventListener("readystatechange",e,!1),document.addEventListener("fullscreenchange",e,!1),u.width===u.naturalWidth&&u.height===u.naturalHeight||e()):a._resize()}function e(){function t(e){e&&(!function(e){if(!e.tagName)throw new TypeError("Object is not a valid DOM element");if("MAP"!==e.tagName.toUpperCase())throw new TypeError("Expected <MAP> tag, found <"+e.tagName+">.")}(e),r.call(e),n.push(e))}var n;return function(e){switch(n=[],typeof e){case"undefined":case"string":Array.prototype.forEach.call(document.querySelectorAll(e||"map"),t);break;case"object":t(e);break;default:throw new TypeError("Unexpected data type ("+typeof e+").")}return n}}"function"==typeof define&&define.amd?define([],e):"object"==typeof module&&"object"==typeof module.exports?module.exports=e():window.imageMapResize=e(),"jQuery"in window&&(window.jQuery.fn.imageMapResize=function(){return this.filter("map").each(r).end()})}();
 
-                                                const img = document.querySelector('img[usemap="#' + mapName + '"], img[useMap="#' + mapName + '"]');
-                                                if (!img) return;
-
-                                                function resize() {
-                                                    if (img.naturalWidth === 0 || img.naturalHeight === 0) return;
-
-                                                    const scale = {
-                                                        width: img.width / img.naturalWidth,
-                                                        height: img.height / img.naturalHeight
-                                                    };
-
-                                                    const padding = {
-                                                        width: parseInt(window.getComputedStyle(img, null).getPropertyValue('padding-left'), 10) || 0,
-                                                        height: parseInt(window.getComputedStyle(img, null).getPropertyValue('padding-top'), 10) || 0
-                                                    };
-
-                                                    const areas = mapEl.querySelectorAll('area');
-                                                    areas.forEach(function(area) {
-                                                        const coords = area.getAttribute('coords');
-                                                        if (!coords) return;
-
-                                                        const coordArray = coords.split(',').map(Number);
-                                                        const newCoords = coordArray.map(function(coord, index) {
-                                                            const dimension = index % 2 === 0 ? 'width' : 'height';
-                                                            return padding[dimension] + Math.floor(coord * scale[dimension]);
-                                                        });
-
-                                                        area.setAttribute('coords', newCoords.join(','));
-                                                    });
-                                                }
-
-                                                if (img.complete) {
-                                                    resize();
-                                                } else {
-                                                    img.addEventListener('load', resize, { once: true });
-                                                }
-
-                                                window.addEventListener('resize', resize);
-                                                window.addEventListener('focus', resize);
-                                            });
-                                        }
-
-                                        if (document.readyState === 'loading') {
-                                            document.addEventListener('DOMContentLoaded', imageMapResize);
-                                        } else {
+                                    window.addEventListener('DOMContentLoaded', function () {
+                                        // This will auto-detect all <map> elements and rescale their <area> coords
+                                        if (typeof imageMapResize === 'function') {
                                             imageMapResize();
                                         }
+                                    });
 
-                                        window.addEventListener('resize', imageMapResize);
-                                        window.addEventListener('load', imageMapResize);
-                                    })();
+                                    // Safely (re)run imageMapResize only when images are measurable
+                                    function recalcImageMapsWhenReady() {
+                                        if (typeof imageMapResize !== 'function') return;
+
+                                        const imgs = document.querySelectorAll('img[usemap]');
+                                        if (!imgs.length) return;
+
+                                        let allReady = true;
+
+                                        imgs.forEach(img => {
+                                            if (!img.complete || !img.naturalWidth || !img.width) {
+                                                allReady = false;
+                                            }
+                                        });
+
+                                        if (!allReady) {
+                                            setTimeout(recalcImageMapsWhenReady, 200);
+                                            return;
+                                        }
+
+                                        imageMapResize();
+                                        updateFallbackLinks();
+                                    }
+
+                                    function mapIsBroken() {
+                                        const first = document.querySelector('map[name="uofi-partners-map"] area');
+                                        if (!first) return false;
+
+                                        const coords = first.coords.split(',').map(Number);
+
+                                        // If at least one coordinate is large, we assume the map is OK
+                                        const hasLarge = coords.some(n => !isNaN(n) && n >= 20);
+
+                                        console.log('[uofi map] coords:', coords, 'hasLarge:', hasLarge);
+
+                                        return !hasLarge;
+                                    }
+
+                                    function updateFallbackLinks() {
+                                        const fallbackLinks = document.querySelectorAll('.map-fallback');
+                                        const broken = mapIsBroken();
+
+                                        console.log('[uofi map] broken =', broken);
+
+                                        fallbackLinks.forEach(a => {
+                                            a.style.pointerEvents = broken ? 'auto' : 'none';
+                                        });
+                                    }
+
+                                    // Debug: log which element actually received the click
+                                    function attachDebugClickLogging() {
+                                        document
+                                            .querySelectorAll('map[name="uofi-partners-map"] area')
+                                            .forEach(area => {
+                                                area.addEventListener('click', () => {
+                                                    console.log('[click] AREA →', area.href);
+                                                });
+                                            });
+
+                                        document
+                                            .querySelectorAll('.map-fallback')
+                                            .forEach(a => {
+                                                a.addEventListener('click', () => {
+                                                    console.log('[click] FALLBACK →', a.href, 'class=', a.className);
+                                                });
+                                            });
+                                    }
+
+                                    window.addEventListener('DOMContentLoaded', () => {
+                                        recalcImageMapsWhenReady();
+                                        attachDebugClickLogging();
+                                    });
+
+                                    window.addEventListener('load', () => {
+                                        setTimeout(recalcImageMapsWhenReady, 300);
+                                    });
+
+                                    window.addEventListener('resize', () => {
+                                        setTimeout(recalcImageMapsWhenReady, 200);
+                                    });
+
+                                    document.addEventListener('visibilitychange', () => {
+                                        if (!document.hidden) {
+                                            setTimeout(recalcImageMapsWhenReady, 200);
+                                        }
+                                    });
                                 `,
                             }}
                         />
