@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography, Button, Container, Paper } from '@mui/material';
+import { Box, Typography, Container, Paper } from '@mui/material';
 import Image from 'next/image';
 import RichContentViewer from '@/components/RichComponentViewer';
 
@@ -24,8 +24,8 @@ export interface HeroData {
 }
 
 export const Hero = ({
-    buttonText = 'LEARN MORE',
-    buttonURL = '#',
+    // buttonText = 'LEARN MORE',
+    // buttonURL = '#',
     logoSection,
     heroRightImage,
     backgroundImage,
@@ -121,7 +121,7 @@ export const Hero = ({
 
                             {heroText && <RichContentViewer content={heroText} />}
 
-                            <Box
+                            {/* <Box
                                 sx={{
                                     textAlign: { xs: 'center', md: 'left' },
                                     mt: 2,
@@ -146,12 +146,19 @@ export const Hero = ({
                                 >
                                     {buttonText}
                                 </Button>
-                            </Box>
+                            </Box> */}
                         </Box>
 
                         {/* Right Image Section */}
                         {heroRightImage && (
-                            <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 30%' } }}>
+                            <Box
+                                sx={{
+                                    flex: { xs: '1 1 100%', md: '0 0 30%' },
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: { xs: 'center', md: 'flex-start' },
+                                }}
+                            >
                                 <Box
                                     sx={{
                                         position: 'relative',
@@ -175,7 +182,7 @@ export const Hero = ({
                                         sx={{
                                             display: 'block',
                                             mt: 1,
-                                            textAlign: 'left',
+                                            textAlign: { xs: 'center', md: 'left' },
                                             color: '#6E6E6E',
                                             fontSize: '0.75rem',
                                         }}
