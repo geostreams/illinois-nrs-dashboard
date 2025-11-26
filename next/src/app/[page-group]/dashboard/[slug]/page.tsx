@@ -118,12 +118,12 @@ export default function InteractiveMapsPage() {
                 />
                 {/* Feedback text */}
                 <Typography variant="body1" component="p" sx={{ textAlign: 'center', mt: 2 }}>
-                    If you have feedback or questions about the data or interactive map, please submit{' '}
+                    If you have feedback or questions about the data or interactive map,{' '}
                     <a
                         href="mailto:NLRS@illinois.edu?subject=NLRS%20Portal%20interactive%20map%20comments"
                         style={{ color: '#1976d2', textDecoration: 'underline' }}
                     >
-                        your comments
+                        please submit your comments
                     </a>
                     .
                 </Typography>

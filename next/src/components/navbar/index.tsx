@@ -16,11 +16,11 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
 import Image from 'next/image';
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+// import SearchIcon from '@mui/icons-material/Search';
+// import TextField from '@mui/material/TextField';
+// import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+// import { visuallyHidden } from '@mui/utils';
 
 type Props = {
     navbar: {
@@ -499,7 +499,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </Box>
 
                     {/* Search Bar */}
-                    <Box
+                    {/* <Box
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'none', md: 'flex' },
@@ -539,7 +539,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 ),
                             }}
                         />
-                    </Box>
+                    </Box> */}
                 </Toolbar>
 
                 {/* Bottom Section with Navigation */}
@@ -700,7 +700,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </List>
 
                     {/* Search Bar at the Bottom of the Drawer */}
-                    <Box sx={{ p: 2, mt: 'auto' }}>
+                    {/* <Box sx={{ p: 2, mt: 'auto' }}>
                         <Box component="label" sx={visuallyHidden} htmlFor="mobile-search">
                             Search the website
                         </Box>
@@ -731,11 +731,11 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     <InputAdornment position="start">
                                         <SearchIcon sx={{ color: 'black' }} />{' '}
                                         {/* Set icon color to black for visibility */}
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
+                    {/* </InputAdornment> */}
+                    {/* ),
+                            }} */}
+                    {/* /> */}
+                    {/*</Box> */}
                 </Box>
             </Drawer>
         </Box>
