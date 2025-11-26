@@ -23,11 +23,12 @@ interface MarkerConfig {
 interface ChartLegendProps extends LegendProps {
     lineConfig?: LineConfig[];
     markerConfig?: MarkerConfig[];
+    crosshatchingSubjects?: string[];
 }
 
 // We need to match the ContentType expected by Legend
 const ChartLegend = (props: ChartLegendProps): ReactNode => {
-    const { payload, lineConfig = [], markerConfig = [] } = props;
+    const { payload, lineConfig = [], markerConfig = [], crosshatchingSubjects = [] } = props;
     if (!payload || payload.length === 0) return null;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,6 +39,10 @@ const ChartLegend = (props: ChartLegendProps): ReactNode => {
         const isMarker = markerConfig.some((config) => config.dataKey === entry.dataKey || config.name === entry.value);
         const markerStyle = markerConfig.find(
             (config) => config.dataKey === entry.dataKey || config.name === entry.value
+        );
+        // Check if this entry should have crosshatching
+        const isCrosshatched = crosshatchingSubjects.some(
+            (subject) => subject === entry.dataKey || subject === entry.value
         );
 
         if (isMarker) {
@@ -96,6 +101,49 @@ const ChartLegend = (props: ChartLegendProps): ReactNode => {
                             backgroundColor: entry.color,
                             borderRadius: '50%',
                             transform: 'translate(50%, 0)',
+                        }}
+                    />
+                </div>
+            );
+        } else if (isCrosshatched) {
+            // Render a crosshatched rectangle indicator for bars using CSS gradients
+            return (
+                <div
+                    style={{
+                        width: 12,
+                        height: 12,
+                        backgroundColor: entry.color,
+                        border: '1px solid black',
+                        marginRight: 6,
+                        boxSizing: 'border-box',
+                        position: 'relative',
+                        overflow: 'hidden',
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            background: `
+                                repeating-linear-gradient(
+                                    45deg,
+                                    transparent,
+                                    transparent 2px,
+                                    white 2px,
+                                    white 3px
+                                ),
+                                repeating-linear-gradient(
+                                    -45deg,
+                                    transparent,
+                                    transparent 2px,
+                                    white 2px,
+                                    white 3px
+                                )
+                            `,
+                            opacity: 0.6,
                         }}
                     />
                 </div>

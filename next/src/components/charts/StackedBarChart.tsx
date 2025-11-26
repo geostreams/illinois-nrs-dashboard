@@ -190,7 +190,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend content={ChartLegend} />
+                <Legend content={(props) => <ChartLegend {...props} crosshatchingSubjects={crosshatchingSubjects} />} />
 
                 {/* Render Bars with sorted keys */}
                 {sortedKeys.map((key) => (
