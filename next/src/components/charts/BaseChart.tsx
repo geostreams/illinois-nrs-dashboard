@@ -3,7 +3,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Box, Button, Typography, Popover, IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import html2canvas from 'html2canvas';
 import FilledPieChart from './FilledPieChart';
@@ -19,6 +18,7 @@ import TableComponent from './Table';
 import { FullSpanImage } from '../PageContentGenerator/FullSpanImage';
 import BarMarkerChart from './BarMarkerChart';
 import RowSpanTable from './RowSpanTable';
+import CustomInfoIcon from '@/assets/icons/CustomInfoIcon';
 
 interface BaseChartProps {
     chartType: string;
@@ -663,7 +663,7 @@ const BaseChart: FC<BaseChartProps> = ({
                                         },
                                     }}
                                 >
-                                    <InfoIcon sx={{ fontSize: '1.8rem' }} titleAccess="Chart information" />
+                                    <CustomInfoIcon sx={{ fontSize: '1.8rem' }} titleAccess="Chart information" />
                                 </IconButton>
                                 <Popover
                                     open={open}

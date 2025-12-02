@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
+import CustomTooltip from './CustomTooltip';
 
 // Define types for the data structure
 interface DataPoint {
@@ -80,9 +81,7 @@ const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit, yAx
                     }
                 />
                 <Tooltip
-                    contentStyle={{ fontSize: 12 }}
-                    itemStyle={{ color: '#000000' }}
-                    formatter={(value) => formatValueWithUnit(value as number, unit)}
+                    content={<CustomTooltip unit={unit} lineConfig={lineConfig} />}
                     wrapperStyle={{
                         zIndex: 100,
                         outline: 'none',

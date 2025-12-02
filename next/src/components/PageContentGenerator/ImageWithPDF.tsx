@@ -4,8 +4,8 @@ import React, { useCallback, useState } from 'react';
 import Image from 'next/image';
 import { Box, Typography, Button, Popover, IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
+import CustomInfoIcon from '@/assets/icons/CustomInfoIcon';
 import { LightboxWrapper } from '../LightboxWrapper';
 
 interface ImageWithPDFProps {
@@ -196,7 +196,7 @@ export const ImageWithPDF: React.FC<ImageWithPDFProps> = ({
                                 },
                             }}
                         >
-                            <InfoIcon fontSize="small" titleAccess="Additional information" />
+                            <CustomInfoIcon fontSize="small" titleAccess="Additional information" />
                         </IconButton>
                         <Popover
                             open={open}

@@ -4,7 +4,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
@@ -21,6 +20,13 @@ import Image from 'next/image';
 // import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
 // import { visuallyHidden } from '@mui/utils';
+import { Syncopate } from 'next/font/google';
+
+const syncopate = Syncopate({
+    weight: ['400', '700'],
+    subsets: ['latin'],
+    display: 'swap',
+});
 
 type Props = {
     navbar: {
@@ -483,19 +489,81 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 style={{ objectFit: 'contain' }}
                             />
                         </Box>
-                        <Typography
-                            variant="h6"
-                            component="div"
-                            sx={{
-                                fontFamily: 'Montserrat, sans-serif',
-                                fontWeight: 'bold',
-                                fontSize: { xs: '1.0em', sm: '1.5em' },
-                                color: '#ffffff',
-                            }}
-                        >
-                            Illinois Nutrient Loss Reduction Strategy{' '}
-                            <span style={{ color: '#6FB9E4' }}>Data Portal</span>
-                        </Typography>
+                        <Box component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box
+                                component="span"
+                                className={syncopate.className}
+                                sx={{
+                                    fontWeight: 700,
+                                    color: '#81cdef',
+                                    fontSize: { xs: '18px', sm: '22px', md: 'clamp(22px, 3vw, 26px)' },
+                                    marginTop: '4px',
+                                    marginLeft: '10px',
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                Illinois
+                            </Box>
+                            {/* Desktop view - single line */}
+                            <Box
+                                component="span"
+                                sx={{
+                                    display: { xs: 'none', md: 'inline' },
+                                    fontFamily: "'Montserrat', sans-serif",
+                                    fontWeight: 700,
+                                    color: '#dedede',
+                                    fontSize: 'clamp(12px, 2.5vw, 24px)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '1px',
+                                    marginLeft: '8px',
+                                }}
+                            >
+                                Nutrient Loss Reduction Strategy
+                                <Box component="span" sx={{ color: '#ffffff', whiteSpace: 'nowrap' }}>
+                                    &nbsp;Data Portal
+                                </Box>
+                            </Box>
+                            {/* Mobile/Tablet view - two lines */}
+                            <Box
+                                sx={{
+                                    display: { xs: 'flex', md: 'none' },
+                                    flexDirection: 'column',
+                                    marginLeft: '8px',
+                                    lineHeight: 1.2,
+                                }}
+                            >
+                                <Box
+                                    component="span"
+                                    sx={{
+                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontWeight: 700,
+                                        color: '#dedede',
+                                        fontSize: { xs: '10px', sm: '14px' },
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px',
+                                    }}
+                                >
+                                    Nutrient Loss Reduction
+                                </Box>
+                                <Box
+                                    component="span"
+                                    sx={{
+                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontWeight: 700,
+                                        color: '#dedede',
+                                        fontSize: { xs: '10px', sm: '14px' },
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px',
+                                    }}
+                                >
+                                    Strategy
+                                    <Box component="span" sx={{ color: '#ffffff' }}>
+                                        {' '}
+                                        Data Portal
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
                     </Box>
 
                     {/* Search Bar */}
