@@ -13,6 +13,7 @@ import Hero from '@/components/Hero';
 import DownloadFile from '@/components/DownloadFile';
 import DualMap from './DualMap';
 import Accordion from '@/components/accordion';
+import { DualViewImage } from './DualViewImage';
 
 interface ComponentRendererProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -117,6 +118,14 @@ export const ComponentRenderer: React.FC<ComponentRendererProps> = ({ component 
             );
         case 'content.dual-map':
             return <DualMap leftMap={component.leftMap} rightMap={component.rightMap} />;
+        case 'content.dual-view-image':
+            return (
+                <DualViewImage
+                    DesktopView={component.DesktopView}
+                    MobileView={component.MobileView}
+                    caption={component.caption}
+                />
+            );
         default:
             console.log('Component not found');
             console.log(component);
