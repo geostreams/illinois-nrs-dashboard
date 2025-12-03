@@ -195,10 +195,13 @@ export const Hero = ({
                     </Paper>
                 </Container>
             </Box>
-            <Box sx={{ display: 'flex', width: '100%' }}>
-                <Box sx={{ height: 4, bgcolor: '#4492bb', width: '50%' }} />
-                <Box sx={{ height: 4, bgcolor: '#88B147', width: '50%' }} />
-            </Box>
+            <Box
+                sx={{
+                    height: 16,
+                    width: '100%',
+                    background: 'linear-gradient(to right, #7bc144 0%, #3391b1 50%, #385874 100%)',
+                }}
+            />
             <Typography
                 variant="caption"
                 sx={{

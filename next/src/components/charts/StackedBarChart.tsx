@@ -154,7 +154,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                             ? {
                                   value: yAxisLabel,
                                   angle: -90,
-                                  offset: -0.5,
+                                  offset: 0,
                                   position: 'insideLeft',
                                   style: {
                                       fontSize: '14px',

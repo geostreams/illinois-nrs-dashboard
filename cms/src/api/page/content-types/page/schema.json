@@ -29,7 +29,8 @@
         "content.download-file",
         "content.image-with-pdf",
         "content.dual-map",
-        "content.accordion"
+        "content.accordion",
+        "content.dual-view-image"
       ]
     },
     "slug": {
