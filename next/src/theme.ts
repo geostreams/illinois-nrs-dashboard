@@ -1,7 +1,6 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
-import { Source_Sans_3, Bebas_Neue } from 'next/font/google';
-import { Poppins } from 'next/font/google';
+import { Source_Sans_3, Bebas_Neue, Poppins, Montserrat } from 'next/font/google';
 
 const sourceSansPro = Source_Sans_3({
     weight: ['400', '600'],
@@ -17,6 +16,12 @@ const bebasNeue = Bebas_Neue({
 
 const poppins = Poppins({
     weight: ['400', '600', '700'],
+    subsets: ['latin'],
+    display: 'swap',
+});
+
+export const montserrat = Montserrat({
+    weight: ['400', '700'],
     subsets: ['latin'],
     display: 'swap',
 });
