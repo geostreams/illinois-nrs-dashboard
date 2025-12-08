@@ -21,6 +21,7 @@ import Image from 'next/image';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
 // import { visuallyHidden } from '@mui/utils';
 import { Syncopate } from 'next/font/google';
+import { montserrat } from '@/theme';
 
 const syncopate = Syncopate({
     weight: ['400', '700'],
@@ -497,6 +498,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     fontWeight: 700,
                                     color: '#81cdef',
                                     fontSize: { xs: '18px', sm: '22px', md: 'clamp(22px, 3vw, 26px)' },
+                                    marginTop: '4px',
                                     marginLeft: '10px',
                                     whiteSpace: 'nowrap',
                                 }}
@@ -508,7 +510,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 component="span"
                                 sx={{
                                     display: { xs: 'none', md: 'inline' },
-                                    fontFamily: "'Montserrat', sans-serif",
+                                    fontFamily: montserrat.style.fontFamily,
                                     fontWeight: 700,
                                     color: '#dedede',
                                     fontSize: 'clamp(12px, 2.5vw, 24px)',
@@ -534,7 +536,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 <Box
                                     component="span"
                                     sx={{
-                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontFamily: montserrat.style.fontFamily,
                                         fontWeight: 700,
                                         color: '#dedede',
                                         fontSize: { xs: '10px', sm: '14px' },
@@ -547,7 +549,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 <Box
                                     component="span"
                                     sx={{
-                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontFamily: montserrat.style.fontFamily,
                                         fontWeight: 700,
                                         color: '#dedede',
                                         fontSize: { xs: '10px', sm: '14px' },
