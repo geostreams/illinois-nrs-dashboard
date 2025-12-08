@@ -219,11 +219,11 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                                 fontSize: '12px',
                                 fontWeight: 'normal',
                                 paintOrder: 'stroke',
-                                stroke: '#ffffff',
-                                strokeWidth: '1px',
+                                stroke: 'rgba(255, 255, 255, 0.7)',
+                                strokeWidth: '5px',
                                 strokeLinejoin: 'round',
                                 strokeLinecap: 'round',
-                                fill: '#000000',
+                                fill: 'rgba(0, 0, 0)',
                             }}
                             stroke="#0A8754"
                             strokeWidth={2}

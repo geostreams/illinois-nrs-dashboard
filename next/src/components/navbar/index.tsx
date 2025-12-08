@@ -497,7 +497,6 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     fontWeight: 700,
                                     color: '#81cdef',
                                     fontSize: { xs: '18px', sm: '22px', md: 'clamp(22px, 3vw, 26px)' },
-                                    marginTop: '4px',
                                     marginLeft: '10px',
                                     whiteSpace: 'nowrap',
                                 }}
