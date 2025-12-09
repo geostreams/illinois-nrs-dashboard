@@ -102,22 +102,49 @@ export const Hero = ({
                                 marginLeft: { xs: 0, md: '100px' },
                             }}
                         >
-                            <Typography
-                                tabIndex={0}
-                                variant="h1"
-                                sx={{
-                                    fontSize: '2.5rem',
-                                    fontWeight: 700,
-                                    color: '#00507A',
-                                    lineHeight: 1.2,
-                                    fontFamily: 'Monsterrat, sans-serif',
-                                    mb: 2,
-                                }}
-                            >
-                                Illinois Nutrient Loss
-                                <br />
-                                Reduction Strategy
-                            </Typography>
+                            <Box component="h1" tabIndex={0} sx={{ mb: 2 }}>
+                                <Box
+                                    component="span"
+                                    sx={{
+                                        fontFamily: "'Syncopate', sans-serif",
+                                        fontWeight: 700,
+                                        color: '#4491ba',
+                                        fontSize: 'clamp(38px, 7vw, 70px)',
+                                        display: 'block',
+                                        lineHeight: 0.8,
+                                    }}
+                                >
+                                    Illinois
+                                </Box>
+                                <Box
+                                    component="span"
+                                    sx={{
+                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontWeight: 700,
+                                        color: '#929292',
+                                        fontSize: 'clamp(24px, 4.5vw, 46px)',
+                                        textTransform: 'uppercase',
+                                        display: 'block',
+                                        letterSpacing: '1px',
+                                    }}
+                                >
+                                    Nutrient Loss
+                                </Box>
+                                <Box
+                                    component="span"
+                                    sx={{
+                                        fontFamily: "'Montserrat', sans-serif",
+                                        fontWeight: 700,
+                                        color: '#929292',
+                                        fontSize: 'clamp(16px, 3vw, 31px)',
+                                        textTransform: 'uppercase',
+                                        display: 'block',
+                                        letterSpacing: '1px',
+                                    }}
+                                >
+                                    Reduction Strategy
+                                </Box>
+                            </Box>
 
                             {heroText && <RichContentViewer content={heroText} />}
 
