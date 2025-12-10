@@ -33,7 +33,7 @@ services:
 
   strapi:
     container_name: strapi
-    image: hub.ncsa.illinois.edu/il-nrs/strapi:0.1.0
+    image: hub.ncsa.illinois.edu/il-nrs/strapi:main
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -90,7 +90,7 @@ services:
       retries: 5
 
   frontend:
-    image: hub.ncsa.illinois.edu/il-nrs/frontend:0.1.0
+    image: hub.ncsa.illinois.edu/il-nrs/frontend:main
     depends_on:
       - strapi
     networks:
