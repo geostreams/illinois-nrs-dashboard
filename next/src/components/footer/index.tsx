@@ -24,7 +24,7 @@ type FooterProps = {
 };
 
 export const Footer: React.FC<FooterProps> = ({ footerData }) => {
-    const cmsBaseUrl = process.env.CMS_API_URL || 'https://strapi.illinois-nrs.ncsa.illinois.edu';
+    const cmsBaseUrl = process.env.CMS_API_URL || 'https://strapi.illinois-nlrs.ncsa.illinois.edu';
 
     return (
         <div

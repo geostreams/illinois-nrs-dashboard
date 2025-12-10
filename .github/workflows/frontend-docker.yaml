@@ -18,7 +18,7 @@ on:
 env:
   PLATFORM: "linux/amd64"
   REGISTRY: "hub.ncsa.illinois.edu"
-  CMS_API_URL: "https://strapi.illinois-nrs.ncsa.illinois.edu"
+  CMS_API_URL: "https://strapi.illinois-nlrs.ncsa.illinois.edu"
   NODE_ENV: "production"
 
 jobs:
