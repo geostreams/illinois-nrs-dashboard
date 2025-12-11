@@ -2,7 +2,7 @@
 const nextConfig = {
     output: 'standalone',
     images: {
-        domains: ['localhost', 'strapi.illinois-nrs.ncsa.illinois.edu'],
+        domains: ['localhost', 'strapi.illinois-nlrs.ncsa.illinois.edu'],
     },
     env: {
         CMS_API_URL: process.env.CMS_API_URL,
