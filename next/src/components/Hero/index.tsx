@@ -59,7 +59,7 @@ export const Hero = ({
                         <Box
                             sx={{
                                 position: 'absolute',
-                                top: 55,
+                                top: 64,
                                 left: 15,
                                 zIndex: 2,
                                 width: 120,
@@ -71,8 +71,8 @@ export const Hero = ({
                             <Image
                                 src={`${process.env.CMS_API_URL}${logoSection.url}`}
                                 alt={logoSection.alt || 'Logo'}
-                                width={120}
-                                height={120}
+                                width={138}
+                                height={138}
                             />
                         </Box>
                     )}
@@ -126,6 +126,7 @@ export const Hero = ({
                                         textTransform: 'uppercase',
                                         display: 'block',
                                         letterSpacing: '1px',
+                                        lineHeight: 1,
                                     }}
                                 >
                                     Nutrient Loss
@@ -140,6 +141,7 @@ export const Hero = ({
                                         textTransform: 'uppercase',
                                         display: 'block',
                                         letterSpacing: '1px',
+                                        lineHeight: 1,
                                     }}
                                 >
                                     Reduction Strategy
