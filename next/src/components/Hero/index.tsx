@@ -102,7 +102,7 @@ export const Hero = ({
                                 marginLeft: { xs: 0, md: '100px' },
                             }}
                         >
-                            <Box component="h1" tabIndex={0} sx={{ mb: 2 }}>
+                            <Box component="h1" tabIndex={0} sx={{ mb: 2, textAlign: { xs: 'center', md: 'left' } }}>
                                 <Box
                                     component="span"
                                     sx={{
