@@ -2,7 +2,7 @@ version: "3"
 services:
   traefik:
     container_name: traefik
-    image: traefik:v3.2
+    image: traefik:v3.6.4
     restart: unless-stopped
     command:
       - "--log.level=DEBUG"
@@ -99,11 +99,21 @@ services:
       - ilnrs
     labels:
       - traefik.enable=true
+      # Canonical router for the new host
       - traefik.http.routers.frontend.entrypoints=websecure
       - traefik.http.routers.frontend.rule=Host(`${SITE_URL}`) && PathPrefix(`/`)
       - traefik.http.services.frontend.loadbalancer.server.port=3000
       - traefik.http.routers.frontend.tls=true
       - traefik.http.routers.frontend.tls.certresolver=letsencrypt
+      # Redirect legacy host to the canonical host
+      - traefik.http.routers.frontend-legacy.entrypoints=websecure
+      - traefik.http.routers.frontend-legacy.rule=Host(`${OLD_SITE_URL}`)
+      - traefik.http.routers.frontend-legacy.tls=true
+      - traefik.http.routers.frontend-legacy.tls.certresolver=letsencrypt
+      - traefik.http.routers.frontend-legacy.middlewares=frontend-redirect
+      - traefik.http.middlewares.frontend-redirect.redirectregex.regex=^https?://${OLD_SITE_URL}/(.*)
+      - traefik.http.middlewares.frontend-redirect.redirectregex.replacement=https://${SITE_URL}/$${1}
+      - traefik.http.middlewares.frontend-redirect.redirectregex.permanent=true
 
 volumes:
   strapi-data:
