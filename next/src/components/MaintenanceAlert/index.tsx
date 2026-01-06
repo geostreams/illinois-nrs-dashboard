@@ -7,13 +7,14 @@ import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import RichContentViewer from '../RichComponentViewer';
 
 const STORAGE_KEY = 'maintenance-alert-dismissed';
 const DISMISSAL_DURATION_MS = 60 * 60 * 1000; // 1 hour in milliseconds
 
 type MaintenanceAlertProps = {
     title: string;
-    text: React.ReactNode;
+    text: string;
 };
 
 /**
@@ -85,7 +86,7 @@ export function MaintenanceAlert({ title, text }: MaintenanceAlertProps) {
                 >
                     <AlertTitle sx={{ fontWeight: 600, color: 'rgba(0, 0, 0, 0.87)' }}>{title}</AlertTitle>
                     <Box component="span" sx={{ color: 'rgba(0, 0, 0, 0.87)' }}>
-                        {text}
+                        <RichContentViewer content={text} />
                     </Box>
                 </Alert>
             </Box>

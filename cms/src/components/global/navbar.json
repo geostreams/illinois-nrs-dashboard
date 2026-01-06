@@ -13,8 +13,13 @@
     },
     "navbar_link_groups": {
       "type": "component",
-      "repeatable": true,
-      "component": "shared.link-groups"
+      "component": "shared.link-groups",
+      "repeatable": true
+    },
+    "SiteNotice": {
+      "type": "component",
+      "component": "global.web-alert",
+      "repeatable": false
     }
   }
 }

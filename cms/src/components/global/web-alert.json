@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_global_web_alerts",
+  "info": {
+    "displayName": "WebAlert",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "AlertTitle": {
+      "type": "string"
+    },
+    "AlertText": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    }
+  },
+  "config": {}
+}

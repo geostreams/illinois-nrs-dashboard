@@ -49,9 +49,11 @@ type Props = {
                 target: string;
             }[];
         }[];
+        SiteNotice?: {
+            AlertTitle: string;
+            AlertText: string;
+        };
     };
-    alertTitle?: string;
-    alertText?: React.ReactNode;
 };
 
 // Custom Menubar Components inspired by shadcn but using Material-UI styling
@@ -395,7 +397,7 @@ const MenubarItem: React.FC<{
     );
 };
 
-export const Navbar: React.FC<Props> = ({ navbar, alertTitle, alertText }) => {
+export const Navbar: React.FC<Props> = ({ navbar }) => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
     const [mounted, setMounted] = React.useState(false);
@@ -699,7 +701,9 @@ export const Navbar: React.FC<Props> = ({ navbar, alertTitle, alertText }) => {
             </AppBar>
 
             {/* Maintenance Alert - only shown if alertTitle and alertText are provided */}
-            {alertTitle && alertText && <MaintenanceAlert title={alertTitle} text={alertText} />}
+            {navbar.SiteNotice?.AlertTitle && navbar.SiteNotice?.AlertText && (
+                <MaintenanceAlert title={navbar.SiteNotice.AlertTitle} text={navbar.SiteNotice.AlertText} />
+            )}
 
             {/* Mobile Navigation Drawer */}
             <Drawer
