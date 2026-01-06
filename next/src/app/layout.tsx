@@ -76,7 +76,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                                 width: '100%',
                             }}
                         >
-                            <Navbar navbar={pageData?.navbar} />
+                            <Navbar
+                                navbar={pageData?.navbar}
+                                alertTitle="Scheduled Maintenance"
+                                alertText={
+                                    <>
+                                        The website will be down on <strong>Tuesday, January 13th, 2026</strong>, from{' '}
+                                        <strong>8:00 AM to 5:00 PM Central Time</strong> for scheduled maintenance. We
+                                        apologize for any inconvenience.
+                                    </>
+                                }
+                            />
                             <MainWrapper>{children}</MainWrapper>
                             <Footer footerData={pageData?.footer} />
                         </div>

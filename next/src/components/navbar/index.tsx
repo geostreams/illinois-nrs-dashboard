@@ -19,6 +19,7 @@ import Image from 'next/image';
 // import TextField from '@mui/material/TextField';
 // import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
+import { MaintenanceAlert } from '@/components/MaintenanceAlert';
 // import { visuallyHidden } from '@mui/utils';
 import { Syncopate } from 'next/font/google';
 import { montserrat } from '@/theme';
@@ -49,6 +50,8 @@ type Props = {
             }[];
         }[];
     };
+    alertTitle?: string;
+    alertText?: React.ReactNode;
 };
 
 // Custom Menubar Components inspired by shadcn but using Material-UI styling
@@ -392,7 +395,7 @@ const MenubarItem: React.FC<{
     );
 };
 
-export const Navbar: React.FC<Props> = ({ navbar }) => {
+export const Navbar: React.FC<Props> = ({ navbar, alertTitle, alertText }) => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
     const [mounted, setMounted] = React.useState(false);
@@ -694,6 +697,9 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </IconButton>
                 </Toolbar>
             </AppBar>
+
+            {/* Maintenance Alert - only shown if alertTitle and alertText are provided */}
+            {alertTitle && alertText && <MaintenanceAlert title={alertTitle} text={alertText} />}
 
             {/* Mobile Navigation Drawer */}
             <Drawer
