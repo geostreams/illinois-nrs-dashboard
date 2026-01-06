@@ -19,6 +19,7 @@ import Image from 'next/image';
 // import TextField from '@mui/material/TextField';
 // import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
+import { MaintenanceAlert } from '@/components/MaintenanceAlert';
 // import { visuallyHidden } from '@mui/utils';
 import { Syncopate } from 'next/font/google';
 import { montserrat } from '@/theme';
@@ -48,6 +49,10 @@ type Props = {
                 target: string;
             }[];
         }[];
+        SiteNotice?: {
+            AlertTitle: string;
+            AlertText: string;
+        };
     };
 };
 
@@ -694,6 +699,11 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </IconButton>
                 </Toolbar>
             </AppBar>
+
+            {/* Maintenance Alert - only shown if alertTitle and alertText are provided */}
+            {navbar.SiteNotice?.AlertTitle && navbar.SiteNotice?.AlertText && (
+                <MaintenanceAlert title={navbar.SiteNotice.AlertTitle} text={navbar.SiteNotice.AlertText} />
+            )}
 
             {/* Mobile Navigation Drawer */}
             <Drawer
