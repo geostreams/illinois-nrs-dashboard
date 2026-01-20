@@ -40,7 +40,7 @@ export const StayInformed = ({ subtitle, links = [] }: StayInformedData) => {
                     backgroundColor: '#002A47', // Dark blue background as shown in the image
                     color: 'white',
                     paddingTop: 8,
-                    paddingBottom: 7.6,
+                    paddingBottom: 8,
                     px: 2,
                 }}
             >

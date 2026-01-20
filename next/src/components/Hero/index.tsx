@@ -31,6 +31,9 @@ export const Hero = ({
     backgroundImage,
     heroText,
 }: HeroData) => {
+    const heroShapePath =
+        'M1 0 H99 A1 1 0 0 1 100 1 V99 A1 1 0 0 1 99 100 H5.75 A1 1 0 0 1 4.705 99.002 L0.025 0.998 A1 1 0 0 1 1 0 Z';
+
     return (
         <div>
             <Box
@@ -87,16 +90,32 @@ export const Hero = ({
                             alignItems: 'center',
                             gap: { xs: 4, md: 2 },
                             position: 'relative',
-                            // Apply polygon shape only on medium screens and up
-                            clipPath: {
-                                xs: 'none',
-                                md: 'polygon(0% 0, 100% 0, 100% 100%, 4.75% 100%)',
-                            },
+                            backgroundColor: { xs: 'background.paper', md: 'transparent' },
+                            boxShadow: { xs: 3, md: 'none' },
                         }}
                     >
+                        <Box
+                            component="svg"
+                            viewBox="0 0 100 100"
+                            preserveAspectRatio="none"
+                            aria-hidden="true"
+                            sx={{
+                                display: { xs: 'none', md: 'block' },
+                                position: 'absolute',
+                                inset: 0,
+                                width: '100%',
+                                height: '100%',
+                                pointerEvents: 'none',
+                                zIndex: 0,
+                            }}
+                        >
+                            <path d={heroShapePath} fill="#fff" filter="url(#hero-paper-shadow)" />
+                        </Box>
                         {/* Content Section */}
                         <Box
                             sx={{
+                                position: 'relative',
+                                zIndex: 1,
                                 flex: { xs: '1 1 100%', md: '1 1 60%' },
                                 pr: { md: 6 },
                                 marginLeft: { xs: 0, md: '100px' },
@@ -182,6 +201,8 @@ export const Hero = ({
                         {heroRightImage && (
                             <Box
                                 sx={{
+                                    position: 'relative',
+                                    zIndex: 1,
                                     flex: { xs: '1 1 100%', md: '0 0 30%' },
                                     display: 'flex',
                                     flexDirection: 'column',

@@ -161,6 +161,9 @@ const Menubar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         >
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Box
+                    component="nav"
+                    role="navigation"
+                    aria-label="Main navigation"
                     sx={{
                         display: { xs: 'none', md: 'flex' },
                         width: '100%',
@@ -225,6 +228,7 @@ const MenubarMenu: React.FC<{ children: React.ReactNode; menuId: string }> = ({ 
                             onClick: handleTriggerClick,
                             'aria-expanded': isOpen,
                             isActive: isOpen,
+                            menuId,
                         });
                     }
                     if (child.type === MenubarContent) {
@@ -258,6 +262,7 @@ const MenubarMenu: React.FC<{ children: React.ReactNode; menuId: string }> = ({ 
                                             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
                                             {React.cloneElement(child as React.ReactElement<any>, {
                                                 onItemClick: handleClose,
+                                                menuId,
                                             })}
                                         </Paper>
                                     </Fade>
@@ -277,11 +282,15 @@ const MenubarTrigger: React.FC<{
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
     'aria-expanded'?: boolean;
     isActive?: boolean;
-}> = ({ children, onClick, 'aria-expanded': ariaExpanded, isActive }) => (
+    menuId?: string;
+}> = ({ children, onClick, 'aria-expanded': ariaExpanded, isActive, menuId }) => (
     <Button
         color="inherit"
         onClick={onClick}
         aria-expanded={ariaExpanded}
+        aria-haspopup="menu"
+        aria-controls={menuId ? `${menuId}-menu` : undefined}
+        id={menuId ? `${menuId}-trigger` : undefined}
         sx={{
             color: 'inherit',
             height: '100%',
@@ -302,7 +311,8 @@ const MenubarTrigger: React.FC<{
 const MenubarContent: React.FC<{
     children: React.ReactNode;
     onItemClick?: () => void;
-}> = ({ children, onItemClick }) => {
+    menuId?: string;
+}> = ({ children, onItemClick, menuId }) => {
     const { setMenuItems, focusedIndex, setFocusedIndex } = React.useContext(MenubarContext);
 
     const stableOnItemClick = React.useCallback(() => {
@@ -311,25 +321,34 @@ const MenubarContent: React.FC<{
 
     React.useEffect(() => {
         const items: Array<{ onClick: () => void; text: string }> = [];
-        React.Children.forEach(children, (child) => {
-            if (React.isValidElement(child) && child.type === MenubarItem) {
-                const childProps = child.props as { onClick?: () => void; children: React.ReactNode };
-                items.push({
-                    onClick: () => {
-                        if (childProps.onClick) {
-                            childProps.onClick();
-                        }
-                        stableOnItemClick();
-                    },
-                    text: typeof childProps.children === 'string' ? childProps.children : '',
-                });
-            }
+        const itemChildren = React.Children.toArray(children).filter(
+            (child) => React.isValidElement(child) && child.type === MenubarItem
+        ) as React.ReactElement[];
+
+        itemChildren.forEach((child, index) => {
+            const childProps = child.props as { children: React.ReactNode };
+            items.push({
+                onClick: () => {
+                    stableOnItemClick();
+                    if (!menuId) return;
+                    const selector = `[data-menu-id="${menuId}"][data-menu-index="${index}"]`;
+                    const element = document.querySelector(selector) as HTMLElement | null;
+                    element?.click();
+                },
+                text: typeof childProps.children === 'string' ? childProps.children : '',
+            });
         });
         setMenuItems(items);
-    }, [children, stableOnItemClick, setMenuItems]);
+    }, [children, menuId, stableOnItemClick, setMenuItems]);
 
     return (
-        <Box role="menu" aria-orientation="vertical" sx={{ py: 1 }}>
+        <Box
+            role="menu"
+            aria-orientation="vertical"
+            id={menuId ? `${menuId}-menu` : undefined}
+            aria-labelledby={menuId ? `${menuId}-trigger` : undefined}
+            sx={{ py: 1 }}
+        >
             {React.Children.map(children, (child, index) => {
                 if (React.isValidElement(child) && child.type === MenubarItem) {
                     const childProps = child.props as { onClick?: () => void };
@@ -344,6 +363,7 @@ const MenubarContent: React.FC<{
                         onMouseEnter: () => setFocusedIndex(index),
                         isFocused: focusedIndex === index,
                         index,
+                        menuId,
                     });
                 }
                 return child;
@@ -354,15 +374,19 @@ const MenubarContent: React.FC<{
 
 const MenubarItem: React.FC<{
     children: React.ReactNode;
+    href?: string;
+    target?: string;
     onClick?: () => void;
     onMouseEnter?: () => void;
     isFocused?: boolean;
     index?: number;
-}> = ({ children, onClick, onMouseEnter, isFocused = false }) => {
-    const itemRef = React.useRef<HTMLButtonElement>(null);
+    menuId?: string;
+}> = ({ children, href, target, onClick, onMouseEnter, isFocused = false, index, menuId }) => {
+    const itemRef = React.useRef<HTMLAnchorElement | HTMLButtonElement>(null);
 
     React.useEffect(() => {
         if (isFocused && itemRef.current) {
+            itemRef.current.focus({ preventScroll: true });
             itemRef.current.scrollIntoView({ block: 'nearest' });
         }
     }, [isFocused]);
@@ -370,11 +394,16 @@ const MenubarItem: React.FC<{
     return (
         <Box
             ref={itemRef}
-            component="button"
+            component={href ? Link : 'button'}
+            href={href}
+            target={target}
+            rel={target === '_blank' ? 'noopener noreferrer' : undefined}
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             role="menuitem"
             tabIndex={-1}
+            data-menu-id={menuId}
+            data-menu-index={index}
             sx={{
                 display: 'block',
                 width: '100%',
@@ -383,6 +412,10 @@ const MenubarItem: React.FC<{
                 backgroundColor: isFocused ? '#1A1A1A' : 'transparent',
                 border: 'none',
                 color: 'inherit',
+                // fontFamily: 'inherit',
+                // fontWeight: 'inherit',
+                // letterSpacing: 'inherit',
+                textDecoration: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
                 outline: isFocused ? '2px solid #6FB9E4' : 'none',
@@ -400,11 +433,6 @@ const MenubarItem: React.FC<{
 export const Navbar: React.FC<Props> = ({ navbar }) => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
-    const [mounted, setMounted] = React.useState(false);
-
-    React.useEffect(() => {
-        setMounted(true);
-    }, []);
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
@@ -420,15 +448,6 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
             }
             return newSet;
         });
-    };
-
-    const handleNavigation = (url: string, target: string) => {
-        if (!mounted) return;
-        if (target === '_blank') {
-            window.open(url, target);
-        } else {
-            window.location.href = url;
-        }
     };
 
     const logoURL = `${process.env.CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
@@ -451,7 +470,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 },
             }}
         >
-            <AppBar position="static" color="default">
+            <AppBar position="static" color="default" elevation={0} sx={{ boxShadow: 'none' }}>
                 {/* Top Section with Logo */}
                 <Toolbar
                     sx={{
@@ -629,30 +648,25 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 >
                     <Menubar>
                         {/* Homepage Link */}
-                        <Box
+                        <Button
+                            component={Link}
+                            href="/"
+                            role="menuitem"
+                            color="inherit"
                             sx={{
-                                display: 'flex',
-                                alignItems: 'center',
+                                color: 'inherit',
                                 height: '100%',
+                                fontSize: '1.0em',
+                                textDecoration: 'none',
                                 paddingLeft: '15px',
                                 paddingRight: '15px',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                },
                             }}
                         >
-                            <Button
-                                color="inherit"
-                                onClick={() => handleNavigation('/', '_self')}
-                                sx={{
-                                    color: 'inherit',
-                                    height: '100%',
-                                    fontSize: '1.0em',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                    },
-                                }}
-                            >
-                                Home
-                            </Button>
-                        </Box>
+                            Home
+                        </Button>
                         <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
 
                         {/* Navigation Link Groups using custom Menubar */}
@@ -662,10 +676,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                     <MenubarTrigger>{group.group_name}</MenubarTrigger>
                                     <MenubarContent>
                                         {group.links.map((link, linkIndex) => (
-                                            <MenubarItem
-                                                key={linkIndex}
-                                                onClick={() => handleNavigation(link.URL, link.target)}
-                                            >
+                                            <MenubarItem key={linkIndex} href={link.URL} target={link.target}>
                                                 {link.text}
                                             </MenubarItem>
                                         ))}
@@ -762,7 +773,10 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         {group.links.map((link, linkIndex) => (
                                             <ListItemButton
                                                 key={linkIndex}
-                                                onClick={() => handleNavigation(link.URL, link.target)}
+                                                component={Link}
+                                                href={link.URL}
+                                                target={link.target}
+                                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
                                                 sx={{
                                                     pl: 4,
                                                     color: 'primary.contrastText',

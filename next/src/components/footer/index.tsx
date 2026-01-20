@@ -519,7 +519,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                 maxWidth: '1200px',
                                 width: '100%',
                                 mx: 'auto',
-                                padding: '24px',
                                 position: 'relative',
                             }}
                         >
