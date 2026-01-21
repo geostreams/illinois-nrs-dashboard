@@ -41,10 +41,10 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: '100% 55%',
-                WebkitMaskImage:
-                    'linear-gradient(to right, transparent, black 10%, black 90%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-                maskImage:
-                    'linear-gradient(to right, transparent, black 10%, black 90%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+                // WebkitMaskImage:
+                //     'linear-gradient(to right, transparent, black 10%, black 90%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+                // maskImage:
+                //     'linear-gradient(to right, transparent, black 10%, black 90%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
             }}
         >
             <Container maxWidth="lg">
