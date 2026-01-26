@@ -566,7 +566,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                     borderRadius: '8px',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    justifyContent: 'flex-end',
+                                    justifyContent: 'space-between',
                                     alignItems: 'flex-end',
                                     minHeight: '100%',
                                 }}
