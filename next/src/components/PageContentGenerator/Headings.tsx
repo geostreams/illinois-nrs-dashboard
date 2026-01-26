@@ -22,6 +22,9 @@ const styles = {
         fontFamily: "'Bebas Neue', 'Source Sans', sans-serif",
         fontSize: '80px',
         fontWeight: 500,
+        lineHeight: '1',
+        paddingBottom: '6.68px',
+        paddingTop: '6.68px',
         // textTransform: 'uppercase',
         display: 'flex',
         gap: '12px', // Adds consistent spacing between icon and text
