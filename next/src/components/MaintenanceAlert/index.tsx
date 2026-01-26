@@ -56,12 +56,8 @@ export function MaintenanceAlert({ title, text }: MaintenanceAlertProps) {
     }
 
     return (
-        <Collapse in={open}>
-            <Box
-                sx={{
-                    width: '100%',
-                }}
-            >
+        <Collapse in={open} sx={{ width: '100%' }}>
+            <Box component="section" role="status" sx={{ width: '100%' }}>
                 <Alert
                     severity="warning"
                     variant="filled"

@@ -524,7 +524,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 position: 'sticky',
                 top: 0,
                 zIndex: 1100,
-                height: { xs: '90px', md: '110px' },
+                height: 'auto',
+                minHeight: { xs: '90px', md: '110px' },
                 '@media print': {
                     position: 'static',
                     height: 'auto',
