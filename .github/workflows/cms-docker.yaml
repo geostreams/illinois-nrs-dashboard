@@ -18,6 +18,7 @@ on:
 env:
   PLATFORM: "linux/amd64"
   REGISTRY: "hub.ncsa.illinois.edu"
+  NODE_OPTIONS: "--max-old-space-size=4096"
 
 jobs:
   build-and-push:
