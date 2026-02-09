@@ -562,6 +562,7 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             <Box
                                 sx={{
                                     flex: 1,
+                                    marginTop: '16px',
                                     padding: '16px',
                                     borderRadius: '8px',
                                     display: 'flex',
