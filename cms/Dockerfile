@@ -20,7 +20,7 @@ RUN npm run build
 # ---- Stage 2: Production image ----
 FROM node:22-alpine AS production
 
-RUN apk update && apk add --no-cache vips-dev
+RUN apk update && apk add --no-cache vips
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
