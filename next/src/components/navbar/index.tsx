@@ -188,7 +188,6 @@ const Menubar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Box
                     component="nav"
-                    role="navigation"
                     aria-label="Main navigation"
                     sx={{
                         display: { xs: 'none', md: 'flex' },
@@ -414,7 +413,7 @@ const MenubarItem: React.FC<{
 
     React.useEffect(() => {
         if (isFocused && itemRef.current) {
-            itemRef.current.focus({ preventScroll: true });
+            itemRef.current.focus();
             itemRef.current.scrollIntoView({ block: 'nearest' });
         }
     }, [isFocused]);
@@ -441,9 +440,6 @@ const MenubarItem: React.FC<{
                 backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#4AA6DC' : 'transparent',
                 border: 'none',
                 color: 'inherit',
-                // fontFamily: 'inherit',
-                // fontWeight: 'inherit',
-                // letterSpacing: 'inherit',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
@@ -718,7 +714,6 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                         <Button
                             component={Link}
                             href="/"
-                            role="menuitem"
                             color="inherit"
                             sx={{
                                 color: 'inherit',

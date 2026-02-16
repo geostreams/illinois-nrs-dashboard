@@ -109,7 +109,7 @@ export const Hero = ({
                                 zIndex: 0,
                             }}
                         >
-                            <path d={heroShapePath} fill="#fff" filter="url(#hero-paper-shadow)" />
+                            <path d={heroShapePath} fill="#fff" />
                         </Box>
                         {/* Content Section */}
                         <Box
