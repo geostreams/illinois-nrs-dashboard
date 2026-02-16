@@ -51,10 +51,7 @@ services:
       NODE_ENV: ${STRAPI_NODE_ENV}
       LOG_LEVEL: debug
     volumes:
-    #   - ./cms/config:/opt/app/config
-    #   - ./cms/src:/opt/app/src
-    #   - ./cms/package.json:/opt/package.json
-      - ./cms/public:/opt/app/public
+      - strapi-uploads:/opt/app/public/uploads
     networks:
       - ilnrs
     depends_on:
@@ -117,6 +114,7 @@ services:
 
 volumes:
   strapi-data:
+  strapi-uploads:
 
 networks:
   ilnrs:
