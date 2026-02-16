@@ -519,7 +519,6 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                                 maxWidth: '1200px',
                                 width: '100%',
                                 mx: 'auto',
-                                padding: '24px',
                                 position: 'relative',
                             }}
                         >
@@ -563,11 +562,12 @@ export const Footer: React.FC<FooterProps> = ({ footerData }) => {
                             <Box
                                 sx={{
                                     flex: 1,
+                                    marginTop: '16px',
                                     padding: '16px',
                                     borderRadius: '8px',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    justifyContent: 'flex-end',
+                                    justifyContent: 'space-between',
                                     alignItems: 'flex-end',
                                     minHeight: '100%',
                                 }}

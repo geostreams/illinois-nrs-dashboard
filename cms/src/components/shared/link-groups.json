@@ -13,6 +13,9 @@
     },
     "group_name": {
       "type": "string"
+    },
+    "navbarGroupSlug": {
+      "type": "string"
     }
   }
 }

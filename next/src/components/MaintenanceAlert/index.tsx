@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import RichContentViewer from '../RichComponentViewer';
 
 const STORAGE_KEY = 'maintenance-alert-dismissed';
 const DISMISSAL_DURATION_MS = 60 * 60 * 1000; // 1 hour in milliseconds
@@ -56,15 +55,10 @@ export function MaintenanceAlert({ title, text }: MaintenanceAlertProps) {
     }
 
     return (
-        <Collapse in={open}>
-            <Box
-                sx={{
-                    width: '100%',
-                }}
-            >
+        <Collapse in={open} sx={{ width: '100%' }}>
+            <Box component="section" role="status" sx={{ width: '100%' }}>
                 <Alert
-                    severity="warning"
-                    variant="filled"
+                    severity="info"
                     action={
                         <IconButton aria-label="close" color="inherit" size="small" onClick={handleClose}>
                             <CloseIcon fontSize="inherit" />
@@ -72,22 +66,15 @@ export function MaintenanceAlert({ title, text }: MaintenanceAlertProps) {
                     }
                     sx={{
                         borderRadius: 0,
-                        backgroundColor: '#fff8e1',
-                        backdropFilter: 'blur(12px) saturate(180%)',
-                        color: 'rgba(0, 0, 0, 0.87)',
-                        '& .MuiAlert-message': {
-                            width: '100%',
-                            color: 'rgba(0, 0, 0, 0.87)',
-                        },
+                        backgroundColor: '#E5F6FD !important',
+                        color: '#014361',
                         '& .MuiAlert-icon': {
-                            color: 'rgba(0, 0, 0, 0.87)',
+                            color: '#0288D1',
                         },
                     }}
                 >
-                    <AlertTitle sx={{ fontWeight: 600, color: 'rgba(0, 0, 0, 0.87)' }}>{title}</AlertTitle>
-                    <Box component="span" sx={{ color: 'rgba(0, 0, 0, 0.87)' }}>
-                        <RichContentViewer content={text} />
-                    </Box>
+                    <AlertTitle sx={{ fontWeight: 600, color: 'inherit' }}>{title}</AlertTitle>
+                    <span dangerouslySetInnerHTML={{ __html: text }} />
                 </Alert>
             </Box>
         </Collapse>

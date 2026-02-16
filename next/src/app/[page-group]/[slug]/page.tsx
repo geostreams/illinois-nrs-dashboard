@@ -2,6 +2,7 @@ import fetchContentType from '@/utils/strapi/fetchContentType';
 import { fetchPageSlugs, fetchPageGroups } from '@/utils/strapi/fetchContentType';
 import Container from '@mui/material/Container';
 import { PageContentGenerator } from '@/components/PageContentGenerator';
+import { BreadcrumbsNav } from '@/components/breadcrumbs';
 import * as React from 'react';
 import { Sidebar } from '@/components/sidebar';
 import Box from '@mui/material/Box';
@@ -67,6 +68,16 @@ export default async function Page({ params }: { params: Promise<{ 'page-group':
                     maxWidth: { xs: '100%', md: '70%' },
                 }}
             >
+                {/* Breadcrumbs positioned to the left using negative margin */}
+                <Box
+                    sx={{
+                        ml: { xs: 0, md: 'calc(-7% - 24px)' }, // Pull left to cancel parent margin and padding
+                        pl: { xs: 0, md: 3 },
+                        mb: 2,
+                    }}
+                >
+                    <BreadcrumbsNav pageGroup={pageGroup} slug={slug} pageTitle={pageData?.title} />
+                </Box>
                 <Container maxWidth="lg" disableGutters sx={{ paddingLeft: { xs: 0, md: 12 } }}>
                     <PageContentGenerator pageContents={pageContents} />
                 </Container>

@@ -14,6 +14,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 // import SearchIcon from '@mui/icons-material/Search';
 // import TextField from '@mui/material/TextField';
@@ -30,6 +31,30 @@ const syncopate = Syncopate({
     display: 'swap',
 });
 
+const normalizePathname = (pathname: string) => {
+    if (!pathname) return '/';
+    const sanitized = pathname.split('?')[0].split('#')[0];
+    if (sanitized !== '/' && sanitized.endsWith('/')) {
+        return sanitized.slice(0, -1);
+    }
+    return sanitized;
+};
+
+const getPathSegments = (pathname: string) => normalizePathname(pathname).split('/').filter(Boolean);
+
+const getLastSegment = (pathname: string) => {
+    const segments = getPathSegments(pathname);
+    return segments.length ? segments[segments.length - 1] : null;
+};
+
+const resolveLinkPathname = (url: string) => {
+    try {
+        return normalizePathname(new URL(url, 'http://localhost').pathname);
+    } catch {
+        return normalizePathname(url);
+    }
+};
+
 type Props = {
     navbar: {
         logo: {
@@ -43,6 +68,7 @@ type Props = {
         };
         navbar_link_groups: {
             group_name: string;
+            navbarGroupSlug: string;
             links: {
                 text: string;
                 URL: string;
@@ -161,6 +187,8 @@ const Menubar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         >
             <ClickAwayListener onClickAway={handleClickAway}>
                 <Box
+                    component="nav"
+                    aria-label="Main navigation"
                     sx={{
                         display: { xs: 'none', md: 'flex' },
                         width: '100%',
@@ -225,6 +253,7 @@ const MenubarMenu: React.FC<{ children: React.ReactNode; menuId: string }> = ({ 
                             onClick: handleTriggerClick,
                             'aria-expanded': isOpen,
                             isActive: isOpen,
+                            menuId,
                         });
                     }
                     if (child.type === MenubarContent) {
@@ -258,6 +287,7 @@ const MenubarMenu: React.FC<{ children: React.ReactNode; menuId: string }> = ({ 
                                             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
                                             {React.cloneElement(child as React.ReactElement<any>, {
                                                 onItemClick: handleClose,
+                                                menuId,
                                             })}
                                         </Paper>
                                     </Fade>
@@ -277,11 +307,16 @@ const MenubarTrigger: React.FC<{
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
     'aria-expanded'?: boolean;
     isActive?: boolean;
-}> = ({ children, onClick, 'aria-expanded': ariaExpanded, isActive }) => (
+    isCurrent?: boolean;
+    menuId?: string;
+}> = ({ children, onClick, 'aria-expanded': ariaExpanded, isActive, isCurrent, menuId }) => (
     <Button
         color="inherit"
         onClick={onClick}
         aria-expanded={ariaExpanded}
+        aria-haspopup="menu"
+        aria-controls={menuId ? `${menuId}-menu` : undefined}
+        id={menuId ? `${menuId}-trigger` : undefined}
         sx={{
             color: 'inherit',
             height: '100%',
@@ -289,7 +324,7 @@ const MenubarTrigger: React.FC<{
             paddingLeft: '15px',
             paddingRight: '15px',
             borderRadius: 0,
-            backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : isCurrent ? '#4AA6DC' : 'transparent',
             '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
             },
@@ -302,7 +337,8 @@ const MenubarTrigger: React.FC<{
 const MenubarContent: React.FC<{
     children: React.ReactNode;
     onItemClick?: () => void;
-}> = ({ children, onItemClick }) => {
+    menuId?: string;
+}> = ({ children, onItemClick, menuId }) => {
     const { setMenuItems, focusedIndex, setFocusedIndex } = React.useContext(MenubarContext);
 
     const stableOnItemClick = React.useCallback(() => {
@@ -311,25 +347,34 @@ const MenubarContent: React.FC<{
 
     React.useEffect(() => {
         const items: Array<{ onClick: () => void; text: string }> = [];
-        React.Children.forEach(children, (child) => {
-            if (React.isValidElement(child) && child.type === MenubarItem) {
-                const childProps = child.props as { onClick?: () => void; children: React.ReactNode };
-                items.push({
-                    onClick: () => {
-                        if (childProps.onClick) {
-                            childProps.onClick();
-                        }
-                        stableOnItemClick();
-                    },
-                    text: typeof childProps.children === 'string' ? childProps.children : '',
-                });
-            }
+        const itemChildren = React.Children.toArray(children).filter(
+            (child) => React.isValidElement(child) && child.type === MenubarItem
+        ) as React.ReactElement[];
+
+        itemChildren.forEach((child, index) => {
+            const childProps = child.props as { children: React.ReactNode };
+            items.push({
+                onClick: () => {
+                    stableOnItemClick();
+                    if (!menuId) return;
+                    const selector = `[data-menu-id="${menuId}"][data-menu-index="${index}"]`;
+                    const element = document.querySelector(selector) as HTMLElement | null;
+                    element?.click();
+                },
+                text: typeof childProps.children === 'string' ? childProps.children : '',
+            });
         });
         setMenuItems(items);
-    }, [children, stableOnItemClick, setMenuItems]);
+    }, [children, menuId, stableOnItemClick, setMenuItems]);
 
     return (
-        <Box role="menu" aria-orientation="vertical" sx={{ py: 1 }}>
+        <Box
+            role="menu"
+            aria-orientation="vertical"
+            id={menuId ? `${menuId}-menu` : undefined}
+            aria-labelledby={menuId ? `${menuId}-trigger` : undefined}
+            sx={{ py: 1 }}
+        >
             {React.Children.map(children, (child, index) => {
                 if (React.isValidElement(child) && child.type === MenubarItem) {
                     const childProps = child.props as { onClick?: () => void };
@@ -344,6 +389,7 @@ const MenubarContent: React.FC<{
                         onMouseEnter: () => setFocusedIndex(index),
                         isFocused: focusedIndex === index,
                         index,
+                        menuId,
                     });
                 }
                 return child;
@@ -354,15 +400,20 @@ const MenubarContent: React.FC<{
 
 const MenubarItem: React.FC<{
     children: React.ReactNode;
+    href?: string;
+    target?: string;
     onClick?: () => void;
     onMouseEnter?: () => void;
     isFocused?: boolean;
+    isActive?: boolean;
     index?: number;
-}> = ({ children, onClick, onMouseEnter, isFocused = false }) => {
-    const itemRef = React.useRef<HTMLButtonElement>(null);
+    menuId?: string;
+}> = ({ children, href, target, onClick, onMouseEnter, isFocused = false, isActive = false, index, menuId }) => {
+    const itemRef = React.useRef<HTMLAnchorElement | HTMLButtonElement>(null);
 
     React.useEffect(() => {
         if (isFocused && itemRef.current) {
+            itemRef.current.focus();
             itemRef.current.scrollIntoView({ block: 'nearest' });
         }
     }, [isFocused]);
@@ -370,22 +421,29 @@ const MenubarItem: React.FC<{
     return (
         <Box
             ref={itemRef}
-            component="button"
+            component={href ? Link : 'button'}
+            href={href}
+            target={target}
+            rel={target === '_blank' ? 'noopener noreferrer' : undefined}
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             role="menuitem"
             tabIndex={-1}
+            aria-current={isActive ? 'page' : undefined}
+            data-menu-id={menuId}
+            data-menu-index={index}
             sx={{
                 display: 'block',
                 width: '100%',
                 textAlign: 'left',
                 padding: '8px 16px',
-                backgroundColor: isFocused ? '#1A1A1A' : 'transparent',
+                backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#4AA6DC' : 'transparent',
                 border: 'none',
                 color: 'inherit',
+                textDecoration: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
-                outline: isFocused ? '2px solid #6FB9E4' : 'none',
+                outline: isFocused ? '2px solid #4AA6DC' : isActive ? '2px solid #6FB9E4' : 'none',
                 outlineOffset: '-2px',
                 '&:hover': {
                     backgroundColor: '#1A1A1A',
@@ -400,11 +458,16 @@ const MenubarItem: React.FC<{
 export const Navbar: React.FC<Props> = ({ navbar }) => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
-    const [mounted, setMounted] = React.useState(false);
-
-    React.useEffect(() => {
-        setMounted(true);
-    }, []);
+    const pathname = usePathname();
+    const normalizedPathname = normalizePathname(pathname);
+    const lastPathnameRef = React.useRef(normalizedPathname);
+    const pathSegments = getPathSegments(normalizedPathname);
+    const isDashboardPage = pathSegments[1] === 'dashboard';
+    const isLearnMorePage = pathSegments[0] === 'learn-more';
+    const activeLinkLastSegment = isLearnMorePage ? getLastSegment(normalizedPathname) : null;
+    const activeLinkPathname = !isLearnMorePage && !isDashboardPage ? normalizedPathname : null;
+    const activeGroupSlug = isDashboardPage || isLearnMorePage ? 'nutrient-sources' : (pathSegments[0] ?? null);
+    const activeGroupIndex = navbar.navbar_link_groups.findIndex((group) => group.navbarGroupSlug === activeGroupSlug);
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
@@ -422,14 +485,32 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
         });
     };
 
-    const handleNavigation = (url: string, target: string) => {
-        if (!mounted) return;
-        if (target === '_blank') {
-            window.open(url, target);
-        } else {
-            window.location.href = url;
+    React.useEffect(() => {
+        if (activeGroupIndex < 0) return;
+        setExpandedGroups((prev) => {
+            if (prev.has(activeGroupIndex)) return prev;
+            const next = new Set(prev);
+            next.add(activeGroupIndex);
+            return next;
+        });
+    }, [activeGroupIndex]);
+
+    React.useEffect(() => {
+        if (normalizedPathname === lastPathnameRef.current) return;
+        lastPathnameRef.current = normalizedPathname;
+        if (drawerOpen) {
+            setDrawerOpen(false);
         }
-    };
+    }, [normalizedPathname, drawerOpen]);
+
+    React.useEffect(() => {
+        if (drawerOpen) return;
+        if (activeGroupIndex >= 0) {
+            setExpandedGroups(new Set([activeGroupIndex]));
+        } else {
+            setExpandedGroups(new Set());
+        }
+    }, [drawerOpen, activeGroupIndex]);
 
     const logoURL = `${process.env.CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
@@ -439,7 +520,8 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 position: 'sticky',
                 top: 0,
                 zIndex: 1100,
-                height: { xs: '90px', md: '110px' },
+                height: 'auto',
+                minHeight: { xs: '90px', md: '110px' },
                 '@media print': {
                     position: 'static',
                     height: 'auto',
@@ -451,7 +533,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 },
             }}
         >
-            <AppBar position="static" color="default">
+            <AppBar position="static" color="default" elevation={0} sx={{ boxShadow: 'none' }}>
                 {/* Top Section with Logo */}
                 <Toolbar
                     sx={{
@@ -629,58 +711,65 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 >
                     <Menubar>
                         {/* Homepage Link */}
-                        <Box
+                        <Button
+                            component={Link}
+                            href="/"
+                            color="inherit"
                             sx={{
-                                display: 'flex',
-                                alignItems: 'center',
+                                color: 'inherit',
                                 height: '100%',
+                                fontSize: '1.0em',
+                                textDecoration: 'none',
                                 paddingLeft: '15px',
                                 paddingRight: '15px',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                },
                             }}
                         >
-                            <Button
-                                color="inherit"
-                                onClick={() => handleNavigation('/', '_self')}
-                                sx={{
-                                    color: 'inherit',
-                                    height: '100%',
-                                    fontSize: '1.0em',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                    },
-                                }}
-                            >
-                                Home
-                            </Button>
-                        </Box>
+                            Home
+                        </Button>
                         <Divider orientation="vertical" flexItem sx={{ bgcolor: 'white' }} />
 
                         {/* Navigation Link Groups using custom Menubar */}
-                        {navbar.navbar_link_groups.map((group, index) => (
-                            <React.Fragment key={index}>
-                                <MenubarMenu menuId={`menu-${index}`}>
-                                    <MenubarTrigger>{group.group_name}</MenubarTrigger>
-                                    <MenubarContent>
-                                        {group.links.map((link, linkIndex) => (
-                                            <MenubarItem
-                                                key={linkIndex}
-                                                onClick={() => handleNavigation(link.URL, link.target)}
-                                            >
-                                                {link.text}
-                                            </MenubarItem>
-                                        ))}
-                                    </MenubarContent>
-                                </MenubarMenu>
-                                {index < navbar.navbar_link_groups.length - 1 && (
-                                    <Divider
-                                        aria-hidden="true"
-                                        orientation="vertical"
-                                        flexItem
-                                        sx={{ bgcolor: 'white' }}
-                                    />
-                                )}
-                            </React.Fragment>
-                        ))}
+                        {navbar.navbar_link_groups.map((group, index) => {
+                            const isActiveGroup = group.navbarGroupSlug === activeGroupSlug;
+                            return (
+                                <React.Fragment key={index}>
+                                    <MenubarMenu menuId={`menu-${index}`}>
+                                        <MenubarTrigger isCurrent={isActiveGroup}>{group.group_name}</MenubarTrigger>
+                                        <MenubarContent>
+                                            {group.links.map((link, linkIndex) => {
+                                                const linkPathname = resolveLinkPathname(link.URL);
+                                                const isActiveLink = activeLinkPathname
+                                                    ? linkPathname === activeLinkPathname
+                                                    : activeLinkLastSegment
+                                                      ? getLastSegment(linkPathname) === activeLinkLastSegment
+                                                      : false;
+                                                return (
+                                                    <MenubarItem
+                                                        key={linkIndex}
+                                                        href={link.URL}
+                                                        target={link.target}
+                                                        isActive={isActiveGroup && isActiveLink}
+                                                    >
+                                                        {link.text}
+                                                    </MenubarItem>
+                                                );
+                                            })}
+                                        </MenubarContent>
+                                    </MenubarMenu>
+                                    {index < navbar.navbar_link_groups.length - 1 && (
+                                        <Divider
+                                            aria-hidden="true"
+                                            orientation="vertical"
+                                            flexItem
+                                            sx={{ bgcolor: 'white' }}
+                                        />
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
                     </Menubar>
 
                     <IconButton
@@ -727,55 +816,89 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     }}
                 >
                     <List>
-                        {navbar.navbar_link_groups.map((group, index) => (
-                            <React.Fragment key={index}>
-                                <ListItemButton
-                                    onClick={() => toggleGroup(index)}
-                                    sx={{ color: 'primary.contrastText' }}
-                                >
-                                    <ListItemText
-                                        primary={group.group_name}
-                                        primaryTypographyProps={{
-                                            variant: 'h6',
-                                            fontWeight: 'bold',
-                                            sx: {
-                                                color: 'primary.contrastText',
-                                            },
+                        {navbar.navbar_link_groups.map((group, index) => {
+                            const isActiveGroup = group.navbarGroupSlug === activeGroupSlug;
+                            return (
+                                <React.Fragment key={index}>
+                                    <ListItemButton
+                                        onClick={() => toggleGroup(index)}
+                                        sx={{
+                                            color: 'primary.contrastText',
+                                            backgroundColor: isActiveGroup ? '#4AA6DC' : 'transparent',
                                         }}
-                                    />
-                                    {expandedGroups.has(index) ? (
-                                        <ExpandLess
-                                            sx={{
-                                                color: 'primary.contrastText',
+                                    >
+                                        <ListItemText
+                                            primary={group.group_name}
+                                            primaryTypographyProps={{
+                                                variant: 'h6',
+                                                fontWeight: 'bold',
+                                                sx: {
+                                                    color: 'primary.contrastText',
+                                                },
                                             }}
                                         />
-                                    ) : (
-                                        <ExpandMore
-                                            sx={{
-                                                color: 'primary.contrastText',
-                                            }}
-                                        />
-                                    )}
-                                </ListItemButton>
-                                <Collapse in={expandedGroups.has(index)} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        {group.links.map((link, linkIndex) => (
-                                            <ListItemButton
-                                                key={linkIndex}
-                                                onClick={() => handleNavigation(link.URL, link.target)}
+                                        {expandedGroups.has(index) ? (
+                                            <ExpandLess
                                                 sx={{
-                                                    pl: 4,
                                                     color: 'primary.contrastText',
                                                 }}
-                                            >
-                                                <ListItemText primary={link.text} />
-                                            </ListItemButton>
-                                        ))}
-                                    </List>
-                                </Collapse>
-                                <Divider sx={{ bgcolor: 'white' }} />
-                            </React.Fragment>
-                        ))}
+                                            />
+                                        ) : (
+                                            <ExpandMore
+                                                sx={{
+                                                    color: 'primary.contrastText',
+                                                }}
+                                            />
+                                        )}
+                                    </ListItemButton>
+                                    <Collapse in={expandedGroups.has(index)} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            {group.links.map((link, linkIndex) => {
+                                                const linkPathname = resolveLinkPathname(link.URL);
+                                                const isActiveLink = activeLinkPathname
+                                                    ? linkPathname === activeLinkPathname
+                                                    : activeLinkLastSegment
+                                                      ? getLastSegment(linkPathname) === activeLinkLastSegment
+                                                      : false;
+                                                return (
+                                                    <ListItemButton
+                                                        key={linkIndex}
+                                                        component={Link}
+                                                        href={link.URL}
+                                                        target={link.target}
+                                                        rel={
+                                                            link.target === '_blank' ? 'noopener noreferrer' : undefined
+                                                        }
+                                                        aria-current={
+                                                            isActiveGroup && isActiveLink ? 'page' : undefined
+                                                        }
+                                                        sx={{
+                                                            pl: 4,
+                                                            color: 'primary.contrastText',
+                                                            backgroundColor:
+                                                                isActiveGroup && isActiveLink
+                                                                    ? '#4AA6DC'
+                                                                    : 'transparent',
+                                                            borderTop:
+                                                                isActiveGroup && isActiveLink
+                                                                    ? '1px solid #ffffff'
+                                                                    : '1px solid transparent',
+                                                            borderBottom:
+                                                                isActiveGroup && isActiveLink
+                                                                    ? '1px solid #ffffff'
+                                                                    : '1px solid transparent',
+                                                        }}
+                                                    >
+                                                        <ListItemText primary={link.text} />
+                                                    </ListItemButton>
+                                                );
+                                            })}
+                                        </List>
+                                    </Collapse>
+                                    <Divider sx={{ bgcolor: 'white' }} />
+                                </React.Fragment>
+                            );
+                        })}
                     </List>
 
                     {/* Search Bar at the Bottom of the Drawer */}
