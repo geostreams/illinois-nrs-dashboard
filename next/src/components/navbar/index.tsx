@@ -42,6 +42,9 @@ const normalizePathname = (pathname: string) => {
 
 const getPathSegments = (pathname: string) => normalizePathname(pathname).split('/').filter(Boolean);
 
+/** Sentinel slug used when on homepage so no nav group matches (avoids highlighting when a group has null/undefined slug). */
+const HOMEPAGE_GROUP_SLUG = '__home__';
+
 const getLastSegment = (pathname: string) => {
     const segments = getPathSegments(pathname);
     return segments.length ? segments[segments.length - 1] : null;
@@ -462,11 +465,16 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
     const normalizedPathname = normalizePathname(pathname);
     const lastPathnameRef = React.useRef(normalizedPathname);
     const pathSegments = getPathSegments(normalizedPathname);
+    const isHomepage = normalizedPathname === '/' || pathSegments.length === 0;
     const isDashboardPage = pathSegments[1] === 'dashboard';
     const isLearnMorePage = pathSegments[0] === 'learn-more';
     const activeLinkLastSegment = isLearnMorePage ? getLastSegment(normalizedPathname) : null;
-    const activeLinkPathname = !isLearnMorePage && !isDashboardPage ? normalizedPathname : null;
-    const activeGroupSlug = isDashboardPage || isLearnMorePage ? 'nutrient-sources' : (pathSegments[0] ?? null);
+    const activeLinkPathname = isHomepage || isLearnMorePage || isDashboardPage ? null : normalizedPathname;
+    const activeGroupSlug = isHomepage
+        ? HOMEPAGE_GROUP_SLUG
+        : isDashboardPage || isLearnMorePage
+          ? 'nutrient-sources'
+          : (pathSegments[0] ?? null);
     const activeGroupIndex = navbar.navbar_link_groups.findIndex((group) => group.navbarGroupSlug === activeGroupSlug);
 
     const handleDrawerToggle = () => {

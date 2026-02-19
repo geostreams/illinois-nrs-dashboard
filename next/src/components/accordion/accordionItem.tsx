@@ -52,7 +52,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ item, isFirst, isL
                 }}
             >
                 <Typography
-                    variant="h6"
+                    variant="h4"
                     sx={{
                         display: 'block',
                         pointerEvents: 'none',
