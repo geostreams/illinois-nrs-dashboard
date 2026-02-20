@@ -67,3 +67,4 @@ jobs:
           build-args: |
             CMS_API_URL=${{ env.CMS_API_URL }}
             NODE_ENV=${{ env.NODE_ENV }}
+            NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
