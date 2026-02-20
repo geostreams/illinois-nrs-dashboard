@@ -42,9 +42,6 @@ const normalizePathname = (pathname: string) => {
 
 const getPathSegments = (pathname: string) => normalizePathname(pathname).split('/').filter(Boolean);
 
-/** Sentinel slug used when on homepage so no nav group matches (avoids highlighting when a group has null/undefined slug). */
-const HOMEPAGE_GROUP_SLUG = '__home__';
-
 const getLastSegment = (pathname: string) => {
     const segments = getPathSegments(pathname);
     return segments.length ? segments[segments.length - 1] : null;
@@ -465,17 +462,23 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
     const normalizedPathname = normalizePathname(pathname);
     const lastPathnameRef = React.useRef(normalizedPathname);
     const pathSegments = getPathSegments(normalizedPathname);
-    const isHomepage = normalizedPathname === '/' || pathSegments.length === 0;
     const isDashboardPage = pathSegments[1] === 'dashboard';
-    const isLearnMorePage = pathSegments[0] === 'learn-more';
-    const activeLinkLastSegment = isLearnMorePage ? getLastSegment(normalizedPathname) : null;
-    const activeLinkPathname = isHomepage || isLearnMorePage || isDashboardPage ? null : normalizedPathname;
-    const activeGroupSlug = isHomepage
-        ? HOMEPAGE_GROUP_SLUG
-        : isDashboardPage || isLearnMorePage
-          ? 'nutrient-sources'
-          : (pathSegments[0] ?? null);
-    const activeGroupIndex = navbar.navbar_link_groups.findIndex((group) => group.navbarGroupSlug === activeGroupSlug);
+    const activeLinkLastSegment = isDashboardPage ? getLastSegment(normalizedPathname) : null;
+    const activeLinkPathname = !isDashboardPage ? normalizedPathname : null;
+
+    // Derive active group by finding which group owns links whose first path segment
+    // matches the current page's first path segment. This works without relying on
+    // navbarGroupSlug being populated in the CMS.
+    const currentFirstSegment = pathSegments[0] ?? null;
+    const activeGroupIndex =
+        currentFirstSegment !== null
+            ? navbar.navbar_link_groups.findIndex((group) =>
+                  group.links.some((link) => {
+                      const linkSegments = getPathSegments(resolveLinkPathname(link.URL));
+                      return linkSegments[0] === currentFirstSegment;
+                  })
+              )
+            : -1;
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
@@ -741,7 +744,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
                         {/* Navigation Link Groups using custom Menubar */}
                         {navbar.navbar_link_groups.map((group, index) => {
-                            const isActiveGroup = group.navbarGroupSlug === activeGroupSlug;
+                            const isActiveGroup = index === activeGroupIndex;
                             return (
                                 <React.Fragment key={index}>
                                     <MenubarMenu menuId={`menu-${index}`}>
@@ -825,7 +828,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 >
                     <List>
                         {navbar.navbar_link_groups.map((group, index) => {
-                            const isActiveGroup = group.navbarGroupSlug === activeGroupSlug;
+                            const isActiveGroup = index === activeGroupIndex;
                             return (
                                 <React.Fragment key={index}>
                                     <ListItemButton
