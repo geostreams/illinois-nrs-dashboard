@@ -19,6 +19,7 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
+    "@next/third-parties": "^16.1.6",
     "@types/dompurify": "^3.2.0",
     "ckeditor5": "^44.1.0",
     "dompurify": "^3.2.3",
