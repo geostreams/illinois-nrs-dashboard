@@ -3,6 +3,7 @@
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import './lightbox.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
 
 interface LightboxWrapperProps {
     isOpen: boolean;

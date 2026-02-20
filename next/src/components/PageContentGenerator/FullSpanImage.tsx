@@ -63,7 +63,7 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
         }
     }
 
-    const grayCaption = image.caption ? image.caption : null;
+    const blackCaption = image.caption ? image.caption : null;
     // Default dimensions if not provided
     const defaultWidth = 1200;
     const defaultHeight = 800;
@@ -122,16 +122,16 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
                     quality={75}
                 />
             </div>
-            {grayCaption && (
+            {blackCaption && (
                 <Typography
                     sx={{
                         fontSize: '14px',
-                        color: 'gray',
+                        color: 'black',
                         textAlign: 'left',
                         fontWeight: 'bold',
                     }}
                 >
-                    {grayCaption}
+                    {blackCaption}
                 </Typography>
             )}
 
