@@ -62,8 +62,8 @@ export const FullSpanImage: React.FC<FullSpanImageProps> = ({
             regularCaption = caption;
         }
     }
-
-    const blackCaption = image.caption ? image.caption : null;
+    // If the caption starts with "Lightbox: ", remove the caption
+    const blackCaption = image.caption?.startsWith('Lightbox: ') ? '' : image.caption ? image.caption : null;
     // Default dimensions if not provided
     const defaultWidth = 1200;
     const defaultHeight = 800;

@@ -56,7 +56,7 @@ export const ImageWithPDF: React.FC<ImageWithPDFProps> = ({
         }
     }
 
-    const grayCaption = image.caption ? image.caption : null;
+    const blackCaption = image.caption ? image.caption : null;
 
     // Default dimensions if not provided
     const defaultWidth = 1200;
@@ -157,17 +157,17 @@ export const ImageWithPDF: React.FC<ImageWithPDFProps> = ({
                 />
             </Box>
 
-            {grayCaption && (
+            {blackCaption && (
                 <Typography
                     sx={{
                         fontSize: '14px',
-                        color: 'gray',
+                        color: 'black',
                         textAlign: 'left',
                         fontWeight: 'bold',
                         marginTop: 1,
                     }}
                 >
-                    {grayCaption}
+                    {blackCaption}
                 </Typography>
             )}
 

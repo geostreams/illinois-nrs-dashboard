@@ -318,13 +318,14 @@ const MenubarTrigger: React.FC<{
         aria-controls={menuId ? `${menuId}-menu` : undefined}
         id={menuId ? `${menuId}-trigger` : undefined}
         sx={{
-            color: 'inherit',
+            color: isCurrent && !isActive ? '#002849' : 'inherit',
             height: '100%',
             fontSize: '1.0em',
+            fontWeight: 'bold',
             paddingLeft: '15px',
             paddingRight: '15px',
             borderRadius: 0,
-            backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : isCurrent ? '#4AA6DC' : 'transparent',
+            backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : isCurrent ? '#9fd7ed' : 'transparent',
             '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
             },
@@ -437,13 +438,14 @@ const MenubarItem: React.FC<{
                 width: '100%',
                 textAlign: 'left',
                 padding: '8px 16px',
-                backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#4AA6DC' : 'transparent',
+                backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#9fd7ed' : 'transparent',
                 border: 'none',
                 color: 'inherit',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
-                outline: isFocused ? '2px solid #4AA6DC' : isActive ? '2px solid #6FB9E4' : 'none',
+                fontWeight: 'bold',
+                outline: isFocused ? '2px solid #9fd7ed' : isActive ? '2px solid #6FB9E4' : 'none',
                 outlineOffset: '-2px',
                 '&:hover': {
                     backgroundColor: '#1A1A1A',
@@ -730,6 +732,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 color: 'inherit',
                                 height: '100%',
                                 fontSize: '1.0em',
+                                fontWeight: 'bold',
                                 textDecoration: 'none',
                                 paddingLeft: '15px',
                                 paddingRight: '15px',
@@ -835,7 +838,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                         onClick={() => toggleGroup(index)}
                                         sx={{
                                             color: 'primary.contrastText',
-                                            backgroundColor: isActiveGroup ? '#4AA6DC' : 'transparent',
+                                            backgroundColor: isActiveGroup ? '#9fd7ed' : 'transparent',
                                         }}
                                     >
                                         <ListItemText
