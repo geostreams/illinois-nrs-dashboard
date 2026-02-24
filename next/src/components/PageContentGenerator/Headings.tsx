@@ -147,7 +147,7 @@ const Heading = ({
         .replace(/\s+/g, '-')
         .replace(/[^\w-]+/g, '');
 
-    // Create anchor link for h1, h2, and h3
+    // Create anchor link for h1, h2, h3, h4, and h5
     const createAnchorHeading = (typographyElement: React.ReactNode) => {
         if (['h1', 'h2', 'h3', 'h4', 'h5'].includes(headingType)) {
             return (
