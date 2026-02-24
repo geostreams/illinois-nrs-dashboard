@@ -4,6 +4,8 @@ FROM node:22-alpine AS builder
 # Keep build tooling in builder only.
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
 
+ENV NODE_ENV=production
+
 WORKDIR /opt/
 COPY package.json ./
 RUN npm install -g node-gyp
@@ -13,7 +15,6 @@ ENV PATH=/opt/node_modules/.bin:$PATH
 WORKDIR /opt/app
 COPY . .
 
-ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
 
