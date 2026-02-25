@@ -114,9 +114,15 @@ const RowSpanTable: React.FC<RowSpanTableProps> = ({ tableData, boldenRows, rowS
                 <TableBody>
                     {Object.entries(groupedData).map(([groupKey, groupRows]) => (
                         <React.Fragment key={groupKey}>
-                            {/* Subheading row */}
+                            {/* Section caption row – header for the following row group (accessibility) */}
                             <TableRow>
-                                <TableCell colSpan={columns.length + 1} style={subheadingStyle} align="left">
+                                <TableCell
+                                    component="th"
+                                    scope="rowgroup"
+                                    colSpan={columns.length + 1}
+                                    style={subheadingStyle}
+                                    align="left"
+                                >
                                     {groupKey}
                                 </TableCell>
                             </TableRow>

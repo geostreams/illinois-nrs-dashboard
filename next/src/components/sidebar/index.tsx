@@ -168,7 +168,7 @@ export const Sidebar: React.FC = () => {
                 backgroundColor: '#003D6D',
                 borderRight: `1px solid ${theme.palette.divider}`,
                 scrollbarWidth: 'thin',
-                scrollbarColor: '#4AA6DC #003D6D',
+                scrollbarColor: '#9fd7ed #003D6D',
                 '&::-webkit-scrollbar': {
                     width: '8px',
                 },
@@ -176,7 +176,7 @@ export const Sidebar: React.FC = () => {
                     backgroundColor: '#003D6D',
                 },
                 '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#4AA6DC',
+                    backgroundColor: '#9fd7ed',
                     borderRadius: '4px',
                 },
                 '@media print': {
@@ -202,24 +202,29 @@ export const Sidebar: React.FC = () => {
                             selected={activeSection === section.id}
                             onClick={() => handleClick(section.id)}
                             sx={{
+                                color: 'white',
                                 '&.Mui-selected': {
-                                    backgroundColor: '#4AA6DC',
-                                    color: 'white',
+                                    backgroundColor: '#9fd7ed',
+                                    color: '#002849',
                                     '&:hover': {
-                                        backgroundColor: '#4AA6DC',
+                                        backgroundColor: '#9fd7ed',
+                                        color: '#002849 !important',
                                     },
                                 },
                                 '&:hover': {
-                                    backgroundColor: '#4AA6DC',
+                                    backgroundColor: '#9fd7ed',
+                                    color: '#002849 !important',
                                 },
                             }}
                         >
                             <ListItemText
                                 primary={section.title}
-                                sx={{
-                                    fontSize: '0.9rem',
-                                    color: 'white',
-                                    fontWeight: '100',
+                                primaryTypographyProps={{
+                                    sx: {
+                                        fontSize: '0.9rem',
+                                        color: 'inherit',
+                                        fontWeight: '100',
+                                    },
                                 }}
                             />
                             {section.children.length > 0 && (
@@ -253,24 +258,28 @@ export const Sidebar: React.FC = () => {
                                             onClick={() => handleClick(childSection.id)}
                                             sx={{
                                                 pl: 4,
+                                                color: 'white',
                                                 '&.Mui-selected': {
-                                                    backgroundColor: '#4AA6DC',
-                                                    color: 'white',
+                                                    backgroundColor: '#9fd7ed',
+                                                    color: '#002849',
                                                     '&:hover': {
-                                                        backgroundColor: '#4AA6DC',
+                                                        backgroundColor: '#9fd7ed',
                                                     },
                                                 },
                                                 '&:hover': {
-                                                    backgroundColor: '#4AA6DC',
+                                                    color: '#002849 !important',
+                                                    backgroundColor: '#9fd7ed',
                                                 },
                                             }}
                                         >
                                             <ListItemText
                                                 primary={childSection.title.replace('#', '')}
-                                                sx={{
-                                                    fontSize: '0.85rem',
-                                                    color: 'white',
-                                                    fontWeight: '100',
+                                                primaryTypographyProps={{
+                                                    sx: {
+                                                        fontSize: '0.85rem',
+                                                        color: 'inherit',
+                                                        fontWeight: '100',
+                                                    },
                                                 }}
                                             />
                                         </ListItemButton>

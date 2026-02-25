@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +10,8 @@ import fetchContentType from '@/utils/strapi/fetchContentType';
 import { Footer } from '@/components/footer';
 import { Metadata, Viewport } from 'next';
 import { MainWrapper } from '@/components/MainWrapper';
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
     title: 'Illinois NLRS Data Portal',
@@ -83,6 +86,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     </ThemeProvider>
                 </AppRouterCacheProvider>
             </body>
+            {process.env.NODE_ENV === 'production' && GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
         </html>
     );
 }
