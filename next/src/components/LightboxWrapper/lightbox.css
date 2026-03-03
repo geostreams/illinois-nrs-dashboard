@@ -20,3 +20,19 @@
         padding: 0.5rem;
     }
 }
+
+.lightbox-text-descriptor,
+.lightbox-text-descriptor * {
+    pointer-events: auto;
+}
+
+.lightbox-text-descriptor a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.lightbox-text-descriptor a:hover,
+.lightbox-text-descriptor a:focus,
+.lightbox-text-descriptor a:focus-visible {
+    color: #4DA3FF;
+}

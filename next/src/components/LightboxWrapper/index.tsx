@@ -60,19 +60,7 @@ export const LightboxWrapper: React.FC<LightboxWrapperProps> = ({ isOpen, onClos
                 },
             ]}
             captions={{}}
-            styles={{
-                root: {
-                    '--yarl__color_backdrop': 'rgba(0, 0, 0, 0.7)',
-                },
-                container: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                },
-                button: {
-                    margin: '0.75rem',
-                    padding: '0.75rem',
-                },
-            }}
-            className="custom-lightbox"
+            className="lightbox-text-descriptor"
         />
     );
 };

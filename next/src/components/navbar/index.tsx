@@ -440,7 +440,7 @@ const MenubarItem: React.FC<{
                 padding: '8px 16px',
                 backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#9fd7ed' : 'transparent',
                 border: 'none',
-                color: 'inherit',
+                color: isFocused ? 'white' : isActive ? '#002849' : 'white',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
