@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
                     fields: ['title^3', 'headings^2', 'searchableText', 'excerpt'],
                     type: 'best_fields',
                     fuzziness: 'AUTO',
+                    prefix_length: 3,
                 },
             },
             highlight: {

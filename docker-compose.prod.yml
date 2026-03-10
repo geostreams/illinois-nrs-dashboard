@@ -113,8 +113,8 @@ services:
       - elasticsearch
     networks:
       - ilnrs
-    # environment:
-    #   - ELASTICSEARCH_URL=http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200
+    environment:
+      - ELASTICSEARCH_URL=http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200
     labels:
       - traefik.enable=true
       # Canonical router for the new host

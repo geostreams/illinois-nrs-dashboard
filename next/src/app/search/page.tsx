@@ -21,6 +21,22 @@ const PAGE_GROUP_LABELS: Record<string, string> = {
     'learn-more': 'Nutrient Sources',
 };
 
+/**
+ * Builds the href for a search result link.
+ * - Appends ?highlight=<query> so mark.js can scroll+highlight on the destination page.
+ * - Appends #:~:text=<snippet> for native Text Fragment support in Chromium browsers.
+ *   The snippet is taken from the first highlighted excerpt (more precise than the raw query).
+ */
+const buildSearchHref = (result: SearchResult, query: string): string => {
+    const highlightParam = encodeURIComponent(query.trim());
+
+    const rawSnippet = result.highlights.searchableText[0] ?? result.highlights.title ?? query;
+    const plainSnippet = rawSnippet.trim().slice(0, 150);
+    const textFragment = encodeURIComponent(plainSnippet || query.trim());
+
+    return `${result.urlPath}?highlight=${highlightParam}#:~:text=${textFragment}`;
+};
+
 const toTitleCase = (value: string): string =>
     value
         .split(/[-_]/g)
@@ -193,7 +209,7 @@ function SearchResults() {
                             </Typography>
                         </Box>
 
-                        <Link href={result.urlPath} style={{ textDecoration: 'none' }}>
+                        <Link href={buildSearchHref(result, query)} style={{ textDecoration: 'none' }}>
                             <Typography
                                 variant="h6"
                                 sx={{

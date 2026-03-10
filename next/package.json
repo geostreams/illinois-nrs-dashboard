@@ -27,6 +27,7 @@
     "eslint-plugin-react": "^7.37.3",
     "html2canvas": "^1.4.1",
     "isomorphic-dompurify": "^2.19.0",
+    "mark.js": "^8.11.1",
     "next": "15.1.11",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -37,6 +38,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.17.0",
     "@svgr/webpack": "^8.1.0",
+    "@types/mark.js": "^8.11.12",
     "@types/node": "latest",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
@@ -51,6 +53,6 @@
   "overrides": {
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
-    "undici": "^6.0.0"
+    "undici": "^7.0.0"
   }
 }
