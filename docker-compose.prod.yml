@@ -90,13 +90,31 @@ services:
       timeout: 5s
       retries: 5
 
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.2.6
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - ilnrs
+
   frontend:
     container_name: frontend
     image: hub.ncsa.illinois.edu/il-nrs/frontend:main
     depends_on:
       - strapi
+      - elasticsearch
     networks:
       - ilnrs
+    # environment:
+    #   - ELASTICSEARCH_URL=http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200
     labels:
       - traefik.enable=true
       # Canonical router for the new host
@@ -115,8 +133,9 @@ services:
       - traefik.http.middlewares.frontend-redirect.redirectregex.replacement=https://${SITE_URL}/$${1}
       - traefik.http.middlewares.frontend-redirect.redirectregex.permanent=true
 
+
 volumes:
   strapi-data:
-
+  es-data:
 networks:
   ilnrs:

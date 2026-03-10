@@ -5,3 +5,6 @@ cms/.env
 letsencrypt/
 .DS_Store
 cms/public/
+scripts/elasticsearch/__pycache__/
+scripts/elasticsearch/*.pyc
+scripts/elasticsearch/.venv/

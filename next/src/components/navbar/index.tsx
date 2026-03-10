@@ -14,14 +14,14 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-// import SearchIcon from '@mui/icons-material/Search';
-// import TextField from '@mui/material/TextField';
-// import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
 import { MaintenanceAlert } from '@/components/MaintenanceAlert';
-// import { visuallyHidden } from '@mui/utils';
+import { visuallyHidden } from '@mui/utils';
 import { Syncopate } from 'next/font/google';
 import { montserrat } from '@/theme';
 
@@ -460,6 +460,8 @@ const MenubarItem: React.FC<{
 export const Navbar: React.FC<Props> = ({ navbar }) => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const router = useRouter();
     const pathname = usePathname();
     const normalizedPathname = normalizePathname(pathname);
     const lastPathnameRef = React.useRef(normalizedPathname);
@@ -484,6 +486,15 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
+    };
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+            setSearchQuery('');
+            if (drawerOpen) setDrawerOpen(false);
+        }
     };
 
     const toggleGroup = (groupIndex: number) => {
@@ -668,7 +679,9 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </Box>
 
                     {/* Search Bar */}
-                    {/* <Box
+                    <Box
+                        component="form"
+                        onSubmit={handleSearch}
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'none', md: 'flex' },
@@ -683,7 +696,9 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
-                            aria-label="Search form"
+                            aria-label="Search the website"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             sx={{
                                 backgroundColor: 'transparent',
                                 borderRadius: '20px',
@@ -703,12 +718,19 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon sx={{ color: 'white' }} />
+                                        <IconButton
+                                            type="submit"
+                                            aria-label="Submit search"
+                                            size="small"
+                                            sx={{ color: 'white' }}
+                                        >
+                                            <SearchIcon />
+                                        </IconButton>
                                     </InputAdornment>
                                 ),
                             }}
                         />
-                    </Box> */}
+                    </Box>
                 </Toolbar>
 
                 {/* Bottom Section with Navigation */}
@@ -916,7 +938,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </List>
 
                     {/* Search Bar at the Bottom of the Drawer */}
-                    {/* <Box sx={{ p: 2, mt: 'auto' }}>
+                    <Box component="form" onSubmit={handleSearch} sx={{ p: 2, mt: 'auto' }}>
                         <Box component="label" sx={visuallyHidden} htmlFor="mobile-search">
                             Search the website
                         </Box>
@@ -925,7 +947,10 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
-                            aria-label="Search form"
+                            fullWidth
+                            aria-label="Search the website"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             sx={{
                                 backgroundColor: 'white', // Set background to white
                                 borderRadius: '20px', // Make the background rounded
@@ -945,13 +970,19 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon sx={{ color: 'black' }} />{' '}
-                                        {/* Set icon color to black for visibility */}
-                    {/* </InputAdornment> */}
-                    {/* ),
-                            }} */}
-                    {/* /> */}
-                    {/*</Box> */}
+                                        <IconButton
+                                            type="submit"
+                                            aria-label="Submit search"
+                                            size="small"
+                                            sx={{ color: 'black' }}
+                                        >
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
                 </Box>
             </Drawer>
         </Box>
