@@ -104,6 +104,8 @@ services:
       - es-data:/usr/share/elasticsearch/data
     networks:
       - ilnrs
+    ports:
+      - "9200:9200"
 
   frontend:
     container_name: frontend
