@@ -146,7 +146,7 @@ function SearchResults() {
                 variant="h1"
                 sx={{
                     fontFamily: 'Bebas Neue, sans-serif',
-                    fontSize: { xs: '2rem', md: '2.5rem' },
+                    fontSize: { xs: '3.5rem', md: '4.5rem' },
                     color: 'primary.main',
                     mb: 3,
                 }}
@@ -160,7 +160,7 @@ function SearchResults() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="Search..."
-                    aria-label="Search the website"
+                    inputProps={{ 'aria-label': 'Search the website' }}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -186,7 +186,7 @@ function SearchResults() {
             )}
 
             {!loading && !error && query && (
-                <Typography sx={{ mb: 3, color: 'text.secondary' }}>
+                <Typography sx={{ mb: 3, color: 'rgba(0, 0, 0, 0.8)' }}>
                     {total} {total === 1 ? 'result' : 'results'} for &ldquo;{query}&rdquo;
                 </Typography>
             )}
@@ -204,16 +204,20 @@ function SearchResults() {
                         }}
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
+                            <Typography variant="body2" sx={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: '0.8rem' }}>
                                 {getBreadcrumb(result)}
                             </Typography>
                         </Box>
 
                         <Link href={buildSearchHref(result, query)} style={{ textDecoration: 'none' }}>
                             <Typography
-                                variant="h6"
+                                variant="h2"
+                                component="h2"
                                 sx={{
                                     color: 'primary.main',
+                                    fontFamily:
+                                        'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI",Roboto, "Helvetica Neue", Helvetica, sans-serif',
+                                    fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 0.5,
                                     '&:hover': { textDecoration: 'underline' },
@@ -234,7 +238,7 @@ function SearchResults() {
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    color: 'text.secondary',
+                                    color: 'rgba(0, 0, 0, 0.8)',
                                     fontStyle: 'italic',
                                     mb: 0.5,
                                     '& mark': {
@@ -271,7 +275,7 @@ function SearchResults() {
                     <Typography variant="h6" sx={{ mb: 1 }}>
                         No results found
                     </Typography>
-                    <Typography color="text.secondary">Try different keywords or check your spelling.</Typography>
+                    <Typography color="rgba(0, 0, 0, 0.8)">Try different keywords or check your spelling.</Typography>
                 </Box>
             )}
         </Container>
