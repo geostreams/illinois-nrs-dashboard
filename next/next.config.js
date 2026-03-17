@@ -6,7 +6,6 @@ const nextConfig = {
     },
     env: {
         CMS_API_URL: process.env.CMS_API_URL,
-        ELASTICSEARCH_URL: process.env.ELASTICSEARCH_URL,
     },
     webpack: (config) => {
         config.module.rules.push({
