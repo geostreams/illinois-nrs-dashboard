@@ -31,7 +31,15 @@ const buildSearchHref = (result: SearchResult, query: string): string => {
     const highlightParam = encodeURIComponent(query.trim());
 
     const rawSnippet = result.highlights.searchableText[0] ?? result.highlights.title ?? query;
-    const plainSnippet = rawSnippet.trim().slice(0, 150);
+    const plainSnippet = rawSnippet
+        .replace(/<[^>]+>/g, '')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .trim()
+        .slice(0, 150);
     const textFragment = encodeURIComponent(plainSnippet || query.trim());
 
     return `${result.urlPath}?highlight=${highlightParam}#:~:text=${textFragment}`;

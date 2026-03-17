@@ -23,22 +23,29 @@ function scrollToHashTarget() {
     el.scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
 
+/** Minimum and maximum character lengths considered safe to pass to mark.js. */
+const HIGHLIGHT_MIN_LENGTH = 2;
+const HIGHLIGHT_MAX_LENGTH = 200;
+
 /**
  * Reads the ?highlight= query param, uses mark.js to highlight all matching text
  * in the page, then smoothly scrolls to the first match. Accounts for the sticky
- * navbar (~120px) by applying a scroll-margin-top offset. Cleans up the param
- * from the URL afterwards to avoid stale highlights on back-navigation.
+ * navbar (~120px) by applying a scroll-margin-top offset.
  */
 async function highlightAndScroll() {
     const params = new URLSearchParams(window.location.search);
-    const highlightText = params.get('highlight');
-    if (!highlightText) return;
+    const highlightText = params.get('highlight')?.trim() ?? '';
 
-    // Remove the ?highlight= param from the address bar without triggering navigation.
+    // Always strip the param from the URL first so stale values never linger,
+    // even when the input is rejected by the length guards below.
     params.delete('highlight');
     const newSearch = params.toString();
     const newUrl = window.location.pathname + (newSearch ? `?${newSearch}` : '') + window.location.hash;
     window.history.replaceState(null, '', newUrl);
+
+    // Skip highlighting for empty, single-character, or suspiciously long values
+    // to avoid unnecessary DOM traversal and potential jank.
+    if (highlightText.length < HIGHLIGHT_MIN_LENGTH || highlightText.length > HIGHLIGHT_MAX_LENGTH) return;
 
     const Mark = (await import('mark.js')).default;
 
