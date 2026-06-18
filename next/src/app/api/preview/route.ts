@@ -20,6 +20,10 @@ export async function GET(request: Request) {
         return new Response('Invalid token', { status: 401 });
     }
 
+    if (!url.startsWith('/') || url.startsWith('//')) {
+        return new Response('Invalid url', { status: 400 });
+    }
+
     const draft = await draftMode();
     if (status === 'published') {
         draft.disable();

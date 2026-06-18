@@ -36,10 +36,11 @@ export default ({ env }) => {
       promoteEE: env.bool('FLAG_PROMOTE_EE', true),
     },
     preview: {
-      enabled: true,
+      enabled: Boolean(clientUrl && previewSecret),
       config: {
         allowedOrigins: clientUrl,
         async handler(uid: string, { documentId, status }: { documentId: string; status: string }) {
+          if (!clientUrl || !previewSecret) return null;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const document = await strapi.documents(uid as any).findOne({ documentId });
           const pathname = getPreviewPathname(uid, { document });

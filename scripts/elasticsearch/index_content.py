@@ -61,9 +61,9 @@ def fetch_home() -> dict:
 def populate_elasticsearch():
     print(f"Connecting to Elasticsearch at {ELASTICSEARCH_URL}")
     es = Elasticsearch(
-    ELASTICSEARCH_URL,
-    basic_auth=(ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD),
-)
+        ELASTICSEARCH_URL,
+        basic_auth=(ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD),
+    )
 
     # Verify connection
     info = es.info()
