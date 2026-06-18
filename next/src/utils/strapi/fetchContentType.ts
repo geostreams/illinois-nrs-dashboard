@@ -1,12 +1,13 @@
-import { draftMode } from 'next/headers';
+import { draftMode, headers } from 'next/headers';
 
 /**
  * Sourced from https://github.com/strapi/LaunchPad/blob/main/next/lib/strapi/fetchContentType.ts
  * Fetches data for a specified Strapi content type.
  *
- * When Next.js draft mode is active (i.e. an editor clicked "Open preview" in
- * Strapi), appends `status=draft` and an Authorization header so Strapi returns
- * unpublished entries.
+ * When Next.js draft mode is active and the request is inside Strapi's preview
+ * iframe, appends `status=draft` and an Authorization header so Strapi returns
+ * unpublished entries. A stale draft cookie on normal top-level browsing is
+ * ignored unless Sec-Fetch-Dest is "iframe".
  *
  * @param contentType - The Strapi plural API ID (e.g. "pages", "home").
  * @param params - Query string parameters to append (without leading "?").
@@ -40,7 +41,9 @@ export default async function fetchContentType(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
     try {
-        const { isEnabled: isDraftMode } = await draftMode();
+        const { isEnabled: draftModeEnabled } = await draftMode();
+        const fetchDest = (await headers()).get('sec-fetch-dest');
+        const isDraftMode = draftModeEnabled && fetchDest === 'iframe';
 
         const url = new URL(`api/${contentType}`, process.env.CMS_URL);
 
@@ -48,11 +51,12 @@ export default async function fetchContentType(
         const fetchHeaders: HeadersInit = {};
 
         if (isDraftMode) {
-            // For pages and home page, we need to fetch the draft version
             query = query ? `${query}&status=draft` : 'status=draft';
-            if (process.env.CMS_READ_ONLY_TOKEN) {
-                fetchHeaders['Authorization'] = `Bearer ${process.env.CMS_READ_ONLY_TOKEN}`;
+            const token = process.env.CMS_READ_ONLY_TOKEN;
+            if (!token) {
+                throw new Error('CMS_READ_ONLY_TOKEN must be set to fetch draft content when draft mode is enabled.');
             }
+            fetchHeaders['Authorization'] = `Bearer ${token}`;
         }
 
         const fullUrl = query ? `${url.href}?${query}` : url.href;
