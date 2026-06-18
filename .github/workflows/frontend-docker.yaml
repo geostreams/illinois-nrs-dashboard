@@ -9,11 +9,6 @@ on:
       - v*
     paths:
       - 'next/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'next/**'
 
 env:
   PLATFORM: "linux/amd64"
