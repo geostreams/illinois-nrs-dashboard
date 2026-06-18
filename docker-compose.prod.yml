@@ -66,6 +66,8 @@ services:
       - traefik.http.services.strapi.loadbalancer.server.port=1337
       - traefik.http.routers.strapi.tls=true
       - traefik.http.routers.strapi.tls.certresolver=letsencrypt
+    # ports:
+    #   - "1337:1337"
 
 
   strapiDB:
@@ -87,6 +89,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    # ports:
+    #   - "5432:5432"
 
   elasticsearch:
     container_name: elasticsearch
@@ -102,11 +106,12 @@ services:
       - es-data:/usr/share/elasticsearch/data
     networks:
       - ilnrs
-    ports:
-      - "9200:9200"
+    # ports:
+    #   - "9200:9200"
 
   frontend:
     container_name: frontend
+    restart: always
     image: hub.ncsa.illinois.edu/il-nrs/frontend:main
     depends_on:
       - strapi

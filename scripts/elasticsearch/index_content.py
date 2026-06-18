@@ -8,6 +8,8 @@ Usage:
 Environment variables:
     STRAPI_URL          - Strapi API base URL (default: http://localhost:1337)
     ELASTICSEARCH_URL   - Elasticsearch URL (default: http://localhost:9200)
+    ELASTICSEARCH_USERNAME - Elasticsearch username (default: elastic)
+    ELASTICSEARCH_PASSWORD - Elasticsearch password (default: "")
 """
 
 from datetime import datetime, timezone
@@ -15,7 +17,7 @@ from datetime import datetime, timezone
 import requests
 from elasticsearch import Elasticsearch
 
-from config import STRAPI_BASE_URL, ELASTICSEARCH_URL, INDEX_NAME, INDEX_MAPPING
+from config import STRAPI_BASE_URL, ELASTICSEARCH_URL, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD, INDEX_NAME, INDEX_MAPPING
 from text_extractors import extract_from_page
 
 def fetch_all_pages() -> list:
@@ -58,7 +60,10 @@ def fetch_home() -> dict:
 
 def populate_elasticsearch():
     print(f"Connecting to Elasticsearch at {ELASTICSEARCH_URL}")
-    es = Elasticsearch(ELASTICSEARCH_URL)
+    es = Elasticsearch(
+    ELASTICSEARCH_URL,
+    basic_auth=(ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD),
+)
 
     # Verify connection
     info = es.info()
