@@ -30,7 +30,7 @@ interface FullSpanImageProps {
 export const FullSpanImage: React.FC<FullSpanImageProps> = ({
     image,
     caption,
-    baseImageUrl = process.env.CMS_API_URL,
+    baseImageUrl = process.env.CMS_URL,
     imageWidth = 75,
     bordered = false,
 }) => {

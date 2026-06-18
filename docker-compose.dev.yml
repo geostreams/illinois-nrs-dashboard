@@ -57,7 +57,7 @@ services:
   #     context: ./next
   #     dockerfile: Dockerfile
   #     args:
-  #       CMS_API_URL: ${CMS_API_URL}
+  #       CMS_URL: ${CMS_URL}
   #       NODE_ENV: ${NODE_ENV}
   #       NEXT_PUBLIC_GA_MEASUREMENT_ID: ${NEXT_PUBLIC_GA_MEASUREMENT_ID}
   #   environment:

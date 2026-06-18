@@ -36,7 +36,7 @@ interface ChartWithQuoteProps {
 
 export const ChartWithQuote: React.FC<ChartWithQuoteProps> = ({
     chart,
-    baseImageUrl = process.env.CMS_API_URL,
+    baseImageUrl = process.env.CMS_URL,
     image,
     pullQuote,
 }) => {

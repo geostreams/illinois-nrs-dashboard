@@ -38,7 +38,7 @@ interface BaseContentSectionProps {
 
 export const BaseContentSection: React.FC<BaseContentSectionProps> = ({
     textContent,
-    baseImageUrl = process.env.CMS_API_URL,
+    baseImageUrl = process.env.CMS_URL,
     image,
     pullQuote,
     quotePlacement = 'above',

@@ -69,7 +69,7 @@ const PhotoBlock = ({ title, blockColor, image, imageWidth, imageHeight, url }: 
                     }}
                 >
                     <Image
-                        src={`${process.env.CMS_API_URL || ''}${image.url}`}
+                        src={`${process.env.CMS_URL || ''}${image.url}`}
                         alt={image.alternativeText || title}
                         width={validWidth}
                         height={validHeight}

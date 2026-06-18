@@ -536,7 +536,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
         }
     }, [drawerOpen, activeGroupIndex]);
 
-    const logoURL = `${process.env.CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
+    const logoURL = `${process.env.CMS_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
     return (
         <Box

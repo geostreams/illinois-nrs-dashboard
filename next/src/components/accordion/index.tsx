@@ -18,7 +18,7 @@ export const Accordion: React.FC<AccordionProps> = ({ accordionGroupID }) => {
                 setError(null);
 
                 const response = await fetch(
-                    `${process.env.CMS_API_URL}/api/accordion-items?filters[accordionGroup][$eq]=${accordionGroupID}`
+                    `${process.env.CMS_URL}/api/accordion-items?filters[accordionGroup][$eq]=${accordionGroupID}`
                 );
 
                 if (!response.ok) {
