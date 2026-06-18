@@ -50,8 +50,8 @@ export default async function fetchContentType(
         if (isDraftMode) {
             // For pages and home page, we need to fetch the draft version
             query = query ? `${query}&status=draft` : 'status=draft';
-            if (process.env.CMS_API_TOKEN) {
-                fetchHeaders['Authorization'] = `Bearer ${process.env.CMS_API_TOKEN}`;
+            if (process.env.CMS_READ_ONLY_TOKEN) {
+                fetchHeaders['Authorization'] = `Bearer ${process.env.CMS_READ_ONLY_TOKEN}`;
             }
         }
 
