@@ -2,6 +2,8 @@ import os
 
 STRAPI_BASE_URL = os.environ.get("STRAPI_URL", "http://localhost:1337")
 ELASTICSEARCH_URL = os.environ.get("ELASTICSEARCH_URL", "http://localhost:9200")
+ELASTICSEARCH_USERNAME = os.environ.get("ELASTICSEARCH_USERNAME", "elastic")
+ELASTICSEARCH_PASSWORD = os.environ.get("ELASTICSEARCH_PASSWORD", "")
 INDEX_NAME = "ilnlrs-content"
 
 INDEX_MAPPING = {

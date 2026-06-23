@@ -102,7 +102,7 @@ export const StayInformed = ({ subtitle, links = [] }: StayInformedData) => {
                                 {link.icon && (
                                     <Box sx={{ width: 24, height: 24 }}>
                                         <Image
-                                            src={`${process.env.CMS_API_URL}${link.icon.url}`}
+                                            src={`${process.env.CMS_URL}${link.icon.url}`}
                                             alt=""
                                             width={24}
                                             height={24}

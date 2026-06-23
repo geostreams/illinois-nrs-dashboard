@@ -34,7 +34,7 @@ services:
 
   strapi:
     container_name: strapi
-    image: hub.ncsa.illinois.edu/il-nrs/strapi:main
+    image: hub.ncsa.illinois.edu/il-nrs/strapi:pr-113
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -50,6 +50,8 @@ services:
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${STRAPI_NODE_ENV}
       LOG_LEVEL: debug
+      CLIENT_URL: https://${SITE_URL}
+      PREVIEW_SECRET: ${PREVIEW_SECRET}
     volumes:
     #   - ./cms/config:/opt/app/config
     #   - ./cms/src:/opt/app/src
@@ -66,6 +68,8 @@ services:
       - traefik.http.services.strapi.loadbalancer.server.port=1337
       - traefik.http.routers.strapi.tls=true
       - traefik.http.routers.strapi.tls.certresolver=letsencrypt
+    # ports:
+    #   - "1337:1337"
 
 
   strapiDB:
@@ -87,6 +91,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    # ports:
+    #   - "5432:5432"
 
   elasticsearch:
     container_name: elasticsearch
@@ -102,12 +108,13 @@ services:
       - es-data:/usr/share/elasticsearch/data
     networks:
       - ilnrs
-    ports:
-      - "9200:9200"
+    # ports:
+    #   - "9200:9200"
 
   frontend:
     container_name: frontend
-    image: hub.ncsa.illinois.edu/il-nrs/frontend:main
+    restart: always
+    image: hub.ncsa.illinois.edu/il-nrs/frontend:pr-113
     depends_on:
       - strapi
       - elasticsearch
@@ -115,6 +122,8 @@ services:
       - ilnrs
     environment:
       - ELASTICSEARCH_URL=http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200
+      - CMS_READ_ONLY_TOKEN=${CMS_READ_ONLY_TOKEN}
+      - PREVIEW_SECRET=${PREVIEW_SECRET}
     labels:
       - traefik.enable=true
       # Canonical router for the new host

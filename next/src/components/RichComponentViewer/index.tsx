@@ -9,7 +9,7 @@ interface RichContentViewerProps {
     baseImageUrl?: string;
 }
 
-const RichContentViewer: React.FC<RichContentViewerProps> = ({ content, baseImageUrl = process.env.CMS_API_URL }) => {
+const RichContentViewer: React.FC<RichContentViewerProps> = ({ content, baseImageUrl = process.env.CMS_URL }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Add tabIndex to headings

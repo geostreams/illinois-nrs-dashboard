@@ -32,7 +32,7 @@ export const DualViewImage: React.FC<DualViewImageProps> = ({
     DesktopView,
     MobileView,
     caption,
-    baseImageUrl = process.env.CMS_API_URL,
+    baseImageUrl = process.env.CMS_URL,
 }) => {
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [activeImage, setActiveImage] = useState<ImageData | null>(null);

@@ -36,7 +36,7 @@ const InfoBlock: React.FC<InfoBlockProps> = ({
                 backgroundColor: 'white',
                 backgroundImage: {
                     xs: 'none',
-                    md: `url(${process.env.CMS_API_URL}/uploads/image_data_33b14aa42e.png)`,
+                    md: `url(${process.env.CMS_URL}/uploads/image_data_33b14aa42e.png)`,
                 },
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

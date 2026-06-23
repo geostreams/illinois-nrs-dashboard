@@ -32,7 +32,7 @@ export const ImageWithPDF: React.FC<ImageWithPDFProps> = ({
     infoText,
     image,
     pdf,
-    baseImageUrl = process.env.CMS_API_URL,
+    baseImageUrl = process.env.CMS_URL,
     imageWidth = 75,
     bordered = false,
 }) => {

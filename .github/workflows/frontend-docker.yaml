@@ -9,16 +9,11 @@ on:
       - v*
     paths:
       - 'next/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'next/**'
 
 env:
   PLATFORM: "linux/amd64"
   REGISTRY: "hub.ncsa.illinois.edu"
-  CMS_API_URL: "https://strapi.illinois-nlrs.ncsa.illinois.edu"
+  CMS_URL: "https://strapi.illinois-nlrs.ncsa.illinois.edu"
   NODE_ENV: "production"
 
 jobs:
@@ -65,6 +60,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            CMS_API_URL=${{ env.CMS_API_URL }}
+            CMS_URL=${{ env.CMS_URL }}
             NODE_ENV=${{ env.NODE_ENV }}
             NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}

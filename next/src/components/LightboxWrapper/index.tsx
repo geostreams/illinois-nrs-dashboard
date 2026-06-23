@@ -28,7 +28,7 @@ interface LightboxWrapperProps {
 
 export const LightboxWrapper: React.FC<LightboxWrapperProps> = ({ isOpen, onClose, image }) => {
     // Get the highest quality image URL available
-    const imageUrl = `${process.env.CMS_API_URL}${image.url}`;
+    const imageUrl = `${process.env.CMS_URL}${image.url}`;
 
     // If the caption starts with "Lightbox: ", remove the prefix without mutating props
     const rawCaption = image.caption?.startsWith('Lightbox: ') ? image.caption.substring(10) : (image.caption ?? '');
