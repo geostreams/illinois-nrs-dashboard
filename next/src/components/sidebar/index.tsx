@@ -21,13 +21,39 @@ interface Section {
     children: Section[];
 }
 
+const NAVBAR_HEIGHT = 110;
+
 export const Sidebar: React.FC = () => {
     const theme = useTheme();
     const [activeSection, setActiveSection] = React.useState<string>('');
     const [sections, setSections] = React.useState<Section[]>([]);
     const [openSections, setOpenSections] = React.useState<Set<string>>(new Set());
+    const [alertHeight, setAlertHeight] = React.useState(0);
+    const headerHeight = NAVBAR_HEIGHT + alertHeight;
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>({});
+
+    // Measure the alert banner height once after mount.
+    // Delayed 350ms so the banner's useEffect and MUI Collapse animation (~300ms) finish first.
+    React.useEffect(() => {
+        const id = setTimeout(() => {
+            const header = document.querySelector<HTMLElement>('[data-header-root]');
+            if (header) {
+                const extra = header.getBoundingClientRect().height - NAVBAR_HEIGHT;
+                if (extra > 0) setAlertHeight(extra);
+            }
+        }, 350);
+        return () => clearTimeout(id);
+    }, []);
+
+    // Reset alert height when the banner is dismissed (after its close animation finishes).
+    React.useEffect(() => {
+        const handleAlertClosed = () => {
+            setTimeout(() => setAlertHeight(0), 350);
+        };
+        window.addEventListener('maintenance-alert-closed', handleAlertClosed);
+        return () => window.removeEventListener('maintenance-alert-closed', handleAlertClosed);
+    }, []);
 
     React.useEffect(() => {
         const createSections = () => {
@@ -84,7 +110,7 @@ export const Sidebar: React.FC = () => {
 
     React.useEffect(() => {
         const handleScroll = () => {
-            const scrollPosition = window.scrollY + 120 + 200;
+            const scrollPosition = window.scrollY + headerHeight + 200;
             let foundActiveSection = false;
 
             for (const section of sections) {
@@ -124,7 +150,7 @@ export const Sidebar: React.FC = () => {
     const handleClick = (sectionId: string) => {
         const section = findSection(sections, sectionId);
         if (section) {
-            const offset = 110;
+            const offset = headerHeight;
             window.scrollTo({
                 top: section.start - offset,
                 behavior: 'smooth',
@@ -161,7 +187,7 @@ export const Sidebar: React.FC = () => {
             ref={sidebarRef}
             sx={{
                 position: 'sticky',
-                top: 110,
+                top: headerHeight,
                 width: 240,
                 height: 'calc(100vh + 65px)', // Plus margin-bottom of 75px offset
                 overflowY: 'auto',
