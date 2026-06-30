@@ -29,7 +29,7 @@ export const Sidebar: React.FC = () => {
     const [sections, setSections] = React.useState<Section[]>([]);
     const [openSections, setOpenSections] = React.useState<Set<string>>(new Set());
     const [alertHeight, setAlertHeight] = React.useState(0);
-    const headerHeight = NAVBAR_HEIGHT + alertHeight;
+    const headerHeight = NAVBAR_HEIGHT + alertHeight + 10; // 10px padding for aesthetic purposes
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const activeSectionRef = React.useRef<Record<string, HTMLElement | null>>({});
 
