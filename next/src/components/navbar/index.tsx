@@ -540,6 +540,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
     return (
         <Box
+            data-header-root
             sx={{
                 position: 'sticky',
                 top: 0,
