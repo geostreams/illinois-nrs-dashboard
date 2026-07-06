@@ -13,7 +13,8 @@ on:
 env:
   PLATFORM: "linux/amd64"
   REGISTRY: "hub.ncsa.illinois.edu"
-  CMS_URL: "https://strapi.illinois-nlrs.ncsa.illinois.edu"
+  CMS_URL_PROD: "https://strapi.illinois-nlrs.ncsa.illinois.edu"
+  CMS_URL_DEV: "https://strapi.ilnlrs-dev.ncsa.illinois.edu"
   NODE_ENV: "production"
 
 jobs:
@@ -23,19 +24,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Docker metadata
+      - name: Docker metadata (prod)
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/il-nrs/frontend
+
+      - name: Docker metadata (dev)
+        id: meta-dev
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/il-nrs/frontend
+          tags: |
+            type=raw,value=dev-main
 
       - name: Print metadata
         run: |
           echo "REGISTRY: ${{ env.REGISTRY }}"
           echo "PLATFORM: ${{ env.PLATFORM }}"
           echo "IMAGE: ${{ env.REGISTRY }}/il-nrs/frontend"
-          echo "TAGS: ${{ steps.meta.outputs.tags }}"
-          echo "LABELS: ${{ steps.meta.outputs.labels }}"
+          echo "PROD TAGS: ${{ steps.meta.outputs.tags }}"
+          echo "DEV TAGS: ${{ steps.meta-dev.outputs.tags }}"
 
       - name: Login to the NCSA HUB registry
         uses: docker/login-action@v3
@@ -49,7 +58,7 @@ jobs:
         with:
           platforms: ${{ env.PLATFORM }}
 
-      - name: Build and push Docker image
+      - name: Build and push prod Docker image
         uses: docker/build-push-action@v6
         with:
           context: next/.
@@ -60,6 +69,21 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            CMS_URL=${{ env.CMS_URL }}
+            CMS_URL=${{ env.CMS_URL_PROD }}
+            NODE_ENV=${{ env.NODE_ENV }}
+            NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+
+      - name: Build and push dev Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: next/.
+          platforms: ${{ env.PLATFORM }}
+          push: true
+          tags: ${{ steps.meta-dev.outputs.tags }}
+          labels: ${{ steps.meta-dev.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            CMS_URL=${{ env.CMS_URL_DEV }}
             NODE_ENV=${{ env.NODE_ENV }}
             NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
