@@ -7,7 +7,7 @@ Exports a Strapi backup archive and uploads it to a Box folder using JWT (servic
 ## Prerequisites
 
 - Python 3.9+
-- Node.js and npm available on the server (same environment Strapi runs in)
+- Host Node.js/npm on `PATH` (if using nvm, set cron `PATH` — see below)
 - A Box app configured with JWT authentication (see below)
 
 ---
@@ -87,8 +87,8 @@ python backup_strapi.py
 ### 1. Find the absolute paths you need
 
 ```bash
-which python3          # or: /path/to/.venv/bin/python
-pwd                    # confirm you're in the box_backups directory
+which python3   # prefer: .../box_backups/.venv/bin/python
+which npm       # nvm: ~/.nvm/versions/node/.../bin/npm
 ```
 
 ### 2. Open the crontab editor
@@ -99,15 +99,14 @@ crontab -e
 
 ### 3. Add the cron entry
 
-The example below runs the backup every day at 2:00 AM server time and logs output to a file:
+Cron does not load nvm. Put npm’s `bin` on `PATH` and log under your home directory:
 
 ```cron
-0 2 * * * /home/deploy/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/.venv/bin/python \
-    /home/deploy/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/backup_strapi.py \
-    >> /var/log/strapi-backup.log 2>&1
+PATH=/home/deploy/.nvm/versions/node/v21.7.3/bin:/usr/bin:/bin
+0 2 * * * /home/deploy/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/.venv/bin/python /home/deploy/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/backup_strapi.py >> /home/deploy/logs/strapi-backup.log 2>&1
 ```
 
-> **Adjust paths** to match your actual server paths. Using the venv's Python directly means you don't need to activate it first.
+> Adjust paths (`dirname $(which npm)` for `PATH`). Use the venv Python so you don’t need to activate it.
 
 ### 4. Cron schedule reference
 
@@ -133,10 +132,8 @@ crontab -l
 
 ## Log Output
 
-Each run logs to wherever you redirect it in the crontab line. To view recent logs:
-
 ```bash
-tail -f /var/log/strapi-backup.log
+tail -f ~/logs/strapi-backup.log
 ```
 
 ---
