@@ -17,12 +17,28 @@ from pathlib import Path
 from boxsdk import JWTAuth, Client
 from dotenv import load_dotenv
 
-# Load .env from the same directory as this script
-load_dotenv(Path(__file__).parent / ".env")
+def load_config() -> tuple[str, str, Path]:
+    """Loads required env vars (from the environment or a .env file in this
+    script's directory) and returns them.
 
-BOX_JWT_CONFIG_PATH = os.environ["BOX_JWT_CONFIG_PATH"]
-BOX_FOLDER_ID = os.environ["BOX_FOLDER_ID"]
-CMS_DIR = Path(os.environ["CMS_DIR"])
+    Raises a RuntimeError with a clean message (caught by main's caller) if
+    a required var is missing, instead of letting a KeyError propagate at
+    import time.
+    """
+    load_dotenv(Path(__file__).parent / ".env")
+
+    required_vars = ("BOX_JWT_CONFIG_PATH", "BOX_FOLDER_ID", "CMS_DIR")
+    missing = [name for name in required_vars if name not in os.environ]
+    if missing:
+        raise RuntimeError(
+            f"Missing required env var(s): {', '.join(missing)} "
+            f"(set them in the environment or in a .env file in {Path(__file__).parent})"
+        )
+
+    box_jwt_config_path = os.environ["BOX_JWT_CONFIG_PATH"]
+    box_folder_id = os.environ["BOX_FOLDER_ID"]
+    cms_dir = Path(os.environ["CMS_DIR"])
+    return box_jwt_config_path, box_folder_id, cms_dir
 
 
 def run_strapi_export(cms_dir: Path, filename_stem: str) -> Path:
@@ -74,19 +90,21 @@ def delete_local_export(archive_path: Path) -> None:
 
 
 def main() -> None:
+    box_jwt_config_path, box_folder_id, cms_dir = load_config()
+
     date_str = datetime.now().strftime("%Y-%m-%d")
     filename_stem = f"strapi-backup-{date_str}"
 
-    archive_path = run_strapi_export(CMS_DIR, filename_stem)
+    archive_path = run_strapi_export(cms_dir, filename_stem)
     print(f"Export produced: {archive_path}")
 
-    auth = JWTAuth.from_settings_file(BOX_JWT_CONFIG_PATH)
+    auth = JWTAuth.from_settings_file(box_jwt_config_path)
     client = Client(auth)
 
     me = client.user().get()
     print(f"Authenticated as Box user: {me.login}")
 
-    upload_to_box(client, BOX_FOLDER_ID, archive_path)
+    upload_to_box(client, box_folder_id, archive_path)
     delete_local_export(archive_path)
 
     print("Backup complete.")
