@@ -20,9 +20,7 @@ const DownloadFile: FC<DownloadFileProps> = ({ displayText, fileData }) => {
 
         setIsLoading(true);
         try {
-            const fileUrl = fileData.url.startsWith('http')
-                ? fileData.url
-                : `${process.env.CMS_API_URL}${fileData.url}`;
+            const fileUrl = fileData.url.startsWith('http') ? fileData.url : `${process.env.CMS_URL}${fileData.url}`;
 
             const response = await fetch(fileUrl);
             if (!response.ok) throw new Error('Download failed');

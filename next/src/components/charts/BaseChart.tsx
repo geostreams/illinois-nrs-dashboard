@@ -168,7 +168,7 @@ const BaseChart: FC<BaseChartProps> = ({
             try {
                 const imageUrl = chartImage.url.startsWith('http')
                     ? chartImage.url
-                    : `${process.env.CMS_API_URL}${chartImage.url}`;
+                    : `${process.env.CMS_URL}${chartImage.url}`;
 
                 // Create composite image with title
                 const compositeImageDataUrl = await createCompositeImage(imageUrl, heading || 'Chart');
@@ -400,9 +400,7 @@ const BaseChart: FC<BaseChartProps> = ({
 
         setIsLoading(true);
         try {
-            const fileUrl = dataFile.url.startsWith('http')
-                ? dataFile.url
-                : `${process.env.CMS_API_URL}${dataFile.url}`;
+            const fileUrl = dataFile.url.startsWith('http') ? dataFile.url : `${process.env.CMS_URL}${dataFile.url}`;
             const response = await fetch(fileUrl);
             if (!response.ok) throw new Error('Download failed');
 

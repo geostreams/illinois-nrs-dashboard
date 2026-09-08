@@ -3,8 +3,9 @@ FROM node:22-alpine AS builder
 
 # Keep build tooling in builder only.
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
-
-ENV NODE_ENV=production
+RUN npm install -g npm@11.16.0
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /opt/
 COPY package.json ./

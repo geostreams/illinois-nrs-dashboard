@@ -34,7 +34,7 @@ services:
 
   strapi:
     container_name: strapi
-    image: hub.ncsa.illinois.edu/il-nrs/strapi:main
+    image: hub.ncsa.illinois.edu/il-nrs/strapi:pr-113
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -50,6 +50,8 @@ services:
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${STRAPI_NODE_ENV}
       LOG_LEVEL: debug
+      CLIENT_URL: https://${SITE_URL}
+      PREVIEW_SECRET: ${PREVIEW_SECRET}
     volumes:
       - ./cms/public:/opt/app/public
     networks:
@@ -63,6 +65,8 @@ services:
       - traefik.http.services.strapi.loadbalancer.server.port=1337
       - traefik.http.routers.strapi.tls=true
       - traefik.http.routers.strapi.tls.certresolver=letsencrypt
+    # ports:
+    #   - "1337:1337"
 
 
   strapiDB:
@@ -74,8 +78,6 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
-    ports:
-      - "5432:5432"
     volumes:
       - strapi-data:/var/lib/postgresql/data/ #using a volume
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
@@ -86,14 +88,39 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.2.6
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - ilnrs
+    # ports:
+    #   - "9200:9200"
 
   frontend:
     container_name: frontend
-    image: hub.ncsa.illinois.edu/il-nrs/frontend:main
+    restart: always
+    image: hub.ncsa.illinois.edu/il-nrs/frontend:dev-main
     depends_on:
       - strapi
+      - elasticsearch
     networks:
       - ilnrs
+    environment:
+      - ELASTICSEARCH_URL=http://elastic:${ELASTIC_PASSWORD}@elasticsearch:9200
+      - CMS_READ_ONLY_TOKEN=${CMS_READ_ONLY_TOKEN}
+      - PREVIEW_SECRET=${PREVIEW_SECRET}
     labels:
       - traefik.enable=true
       # Canonical router for the new host
@@ -112,9 +139,11 @@ services:
       - traefik.http.middlewares.frontend-redirect.redirectregex.replacement=https://${SITE_URL}/$${1}
       - traefik.http.middlewares.frontend-redirect.redirectregex.permanent=true
 
+
 volumes:
   strapi-data:
   strapi-uploads:
+  es-data:
 
 networks:
   ilnrs:

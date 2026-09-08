@@ -12,11 +12,14 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Set environment variable for build time
-ARG CMS_API_URL
-ENV CMS_API_URL=${CMS_API_URL}
+ARG CMS_URL
+ENV CMS_URL=${CMS_URL}
 
 ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
+
+ARG NEXT_PUBLIC_GA_MEASUREMENT_ID
+ENV NEXT_PUBLIC_GA_MEASUREMENT_ID=${NEXT_PUBLIC_GA_MEASUREMENT_ID}
 
 # Build application
 RUN yarn build

@@ -2,10 +2,10 @@
 const nextConfig = {
     output: 'standalone',
     images: {
-        domains: ['localhost', 'strapi.illinois-nlrs.ncsa.illinois.edu'],
+        domains: ['localhost', 'strapi.illinois-nlrs.ncsa.illinois.edu', 'strapi.ilnlrs-dev.ncsa.illinois.edu'],
     },
     env: {
-        CMS_API_URL: process.env.CMS_API_URL,
+        CMS_URL: process.env.CMS_URL,
     },
     webpack: (config) => {
         config.module.rules.push({

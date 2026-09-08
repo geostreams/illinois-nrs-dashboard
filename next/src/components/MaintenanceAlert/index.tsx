@@ -45,8 +45,8 @@ export function MaintenanceAlert({ title, text }: MaintenanceAlertProps) {
 
     const handleClose = () => {
         setOpen(false);
-        // Persist dismissal timestamp to localStorage (expires after 1 hour)
         localStorage.setItem(STORAGE_KEY, Date.now().toString());
+        window.dispatchEvent(new CustomEvent('maintenance-alert-closed'));
     };
 
     // Don't render until mounted to avoid hydration mismatch

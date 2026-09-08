@@ -14,14 +14,14 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-// import SearchIcon from '@mui/icons-material/Search';
-// import TextField from '@mui/material/TextField';
-// import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import { ListItemButton, Paper, Popper, Fade, ClickAwayListener } from '@mui/material';
 import { MaintenanceAlert } from '@/components/MaintenanceAlert';
-// import { visuallyHidden } from '@mui/utils';
+import { visuallyHidden } from '@mui/utils';
 import { Syncopate } from 'next/font/google';
 import { montserrat } from '@/theme';
 
@@ -318,13 +318,14 @@ const MenubarTrigger: React.FC<{
         aria-controls={menuId ? `${menuId}-menu` : undefined}
         id={menuId ? `${menuId}-trigger` : undefined}
         sx={{
-            color: 'inherit',
+            color: isCurrent && !isActive ? '#002849' : 'inherit',
             height: '100%',
             fontSize: '1.0em',
+            fontWeight: 'bold',
             paddingLeft: '15px',
             paddingRight: '15px',
             borderRadius: 0,
-            backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : isCurrent ? '#4AA6DC' : 'transparent',
+            backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : isCurrent ? '#9fd7ed' : 'transparent',
             '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
             },
@@ -437,13 +438,14 @@ const MenubarItem: React.FC<{
                 width: '100%',
                 textAlign: 'left',
                 padding: '8px 16px',
-                backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#4AA6DC' : 'transparent',
+                backgroundColor: isFocused ? '#1A1A1A' : isActive ? '#9fd7ed' : 'transparent',
                 border: 'none',
-                color: 'inherit',
+                color: isFocused ? 'white' : isActive ? '#002849' : 'white',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
-                outline: isFocused ? '2px solid #4AA6DC' : isActive ? '2px solid #6FB9E4' : 'none',
+                fontWeight: 'bold',
+                outline: isFocused ? '2px solid #9fd7ed' : isActive ? '2px solid #6FB9E4' : 'none',
                 outlineOffset: '-2px',
                 '&:hover': {
                     backgroundColor: '#1A1A1A',
@@ -458,19 +460,41 @@ const MenubarItem: React.FC<{
 export const Navbar: React.FC<Props> = ({ navbar }) => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [expandedGroups, setExpandedGroups] = React.useState<Set<number>>(new Set());
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const router = useRouter();
     const pathname = usePathname();
     const normalizedPathname = normalizePathname(pathname);
     const lastPathnameRef = React.useRef(normalizedPathname);
     const pathSegments = getPathSegments(normalizedPathname);
     const isDashboardPage = pathSegments[1] === 'dashboard';
-    const isLearnMorePage = pathSegments[0] === 'learn-more';
-    const activeLinkLastSegment = isLearnMorePage ? getLastSegment(normalizedPathname) : null;
-    const activeLinkPathname = !isLearnMorePage && !isDashboardPage ? normalizedPathname : null;
-    const activeGroupSlug = isDashboardPage || isLearnMorePage ? 'nutrient-sources' : (pathSegments[0] ?? null);
-    const activeGroupIndex = navbar.navbar_link_groups.findIndex((group) => group.navbarGroupSlug === activeGroupSlug);
+    const activeLinkLastSegment = isDashboardPage ? getLastSegment(normalizedPathname) : null;
+    const activeLinkPathname = !isDashboardPage ? normalizedPathname : null;
+
+    // Derive active group by finding which group owns links whose first path segment
+    // matches the current page's first path segment. This works without relying on
+    // navbarGroupSlug being populated in the CMS.
+    const currentFirstSegment = pathSegments[0] ?? null;
+    const activeGroupIndex =
+        currentFirstSegment !== null
+            ? navbar.navbar_link_groups.findIndex((group) =>
+                  group.links.some((link) => {
+                      const linkSegments = getPathSegments(resolveLinkPathname(link.URL));
+                      return linkSegments[0] === currentFirstSegment;
+                  })
+              )
+            : -1;
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
+    };
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+            setSearchQuery('');
+            if (drawerOpen) setDrawerOpen(false);
+        }
     };
 
     const toggleGroup = (groupIndex: number) => {
@@ -512,10 +536,11 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
         }
     }, [drawerOpen, activeGroupIndex]);
 
-    const logoURL = `${process.env.CMS_API_URL}${navbar.logo.image.formats.thumbnail.url}`;
+    const logoURL = `${process.env.CMS_URL}${navbar.logo.image.formats.thumbnail.url}`;
 
     return (
         <Box
+            data-header-root
             sx={{
                 position: 'sticky',
                 top: 0,
@@ -655,7 +680,9 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </Box>
 
                     {/* Search Bar */}
-                    {/* <Box
+                    <Box
+                        component="form"
+                        onSubmit={handleSearch}
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'none', md: 'flex' },
@@ -670,7 +697,9 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
-                            aria-label="Search form"
+                            aria-label="Search the website"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             sx={{
                                 backgroundColor: 'transparent',
                                 borderRadius: '20px',
@@ -690,12 +719,19 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon sx={{ color: 'white' }} />
+                                        <IconButton
+                                            type="submit"
+                                            aria-label="Submit search"
+                                            size="small"
+                                            sx={{ color: 'white' }}
+                                        >
+                                            <SearchIcon />
+                                        </IconButton>
                                     </InputAdornment>
                                 ),
                             }}
                         />
-                    </Box> */}
+                    </Box>
                 </Toolbar>
 
                 {/* Bottom Section with Navigation */}
@@ -719,6 +755,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                                 color: 'inherit',
                                 height: '100%',
                                 fontSize: '1.0em',
+                                fontWeight: 'bold',
                                 textDecoration: 'none',
                                 paddingLeft: '15px',
                                 paddingRight: '15px',
@@ -733,7 +770,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
 
                         {/* Navigation Link Groups using custom Menubar */}
                         {navbar.navbar_link_groups.map((group, index) => {
-                            const isActiveGroup = group.navbarGroupSlug === activeGroupSlug;
+                            const isActiveGroup = index === activeGroupIndex;
                             return (
                                 <React.Fragment key={index}>
                                     <MenubarMenu menuId={`menu-${index}`}>
@@ -817,14 +854,14 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                 >
                     <List>
                         {navbar.navbar_link_groups.map((group, index) => {
-                            const isActiveGroup = group.navbarGroupSlug === activeGroupSlug;
+                            const isActiveGroup = index === activeGroupIndex;
                             return (
                                 <React.Fragment key={index}>
                                     <ListItemButton
                                         onClick={() => toggleGroup(index)}
                                         sx={{
                                             color: 'primary.contrastText',
-                                            backgroundColor: isActiveGroup ? '#4AA6DC' : 'transparent',
+                                            backgroundColor: isActiveGroup ? '#9fd7ed' : 'transparent',
                                         }}
                                     >
                                         <ListItemText
@@ -902,7 +939,7 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                     </List>
 
                     {/* Search Bar at the Bottom of the Drawer */}
-                    {/* <Box sx={{ p: 2, mt: 'auto' }}>
+                    <Box component="form" onSubmit={handleSearch} sx={{ p: 2, mt: 'auto' }}>
                         <Box component="label" sx={visuallyHidden} htmlFor="mobile-search">
                             Search the website
                         </Box>
@@ -911,7 +948,10 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             variant="outlined"
                             placeholder="SEARCH..."
                             size="small"
-                            aria-label="Search form"
+                            fullWidth
+                            aria-label="Search the website"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             sx={{
                                 backgroundColor: 'white', // Set background to white
                                 borderRadius: '20px', // Make the background rounded
@@ -931,13 +971,19 @@ export const Navbar: React.FC<Props> = ({ navbar }) => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon sx={{ color: 'black' }} />{' '}
-                                        {/* Set icon color to black for visibility */}
-                    {/* </InputAdornment> */}
-                    {/* ),
-                            }} */}
-                    {/* /> */}
-                    {/*</Box> */}
+                                        <IconButton
+                                            type="submit"
+                                            aria-label="Submit search"
+                                            size="small"
+                                            sx={{ color: 'black' }}
+                                        >
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
                 </Box>
             </Drawer>
         </Box>

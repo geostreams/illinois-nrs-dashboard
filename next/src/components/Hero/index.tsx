@@ -47,9 +47,7 @@ export const Hero = ({
                     alignItems: 'center',
                     color: 'black',
                     py: { xs: 4, md: 6 },
-                    backgroundImage: backgroundImage
-                        ? `url(${process.env.CMS_API_URL}${backgroundImage.url})`
-                        : undefined,
+                    backgroundImage: backgroundImage ? `url(${process.env.CMS_URL}${backgroundImage.url})` : undefined,
                     backgroundAttachment: 'fixed',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -72,7 +70,7 @@ export const Hero = ({
                             }}
                         >
                             <Image
-                                src={`${process.env.CMS_API_URL}${logoSection.url}`}
+                                src={`${process.env.CMS_URL}${logoSection.url}`}
                                 alt={logoSection.alt || 'Logo'}
                                 width={138}
                                 height={138}
@@ -217,7 +215,7 @@ export const Hero = ({
                                     }}
                                 >
                                     <Image
-                                        src={`${process.env.CMS_API_URL}${heroRightImage.url}`}
+                                        src={`${process.env.CMS_URL}${heroRightImage.url}`}
                                         alt={heroRightImage.alt || 'Illinois waterway'}
                                         fill
                                         style={{
