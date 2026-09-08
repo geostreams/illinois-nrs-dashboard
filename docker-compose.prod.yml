@@ -53,9 +53,6 @@ services:
       CLIENT_URL: https://${SITE_URL}
       PREVIEW_SECRET: ${PREVIEW_SECRET}
     volumes:
-    #   - ./cms/config:/opt/app/config
-    #   - ./cms/src:/opt/app/src
-    #   - ./cms/package.json:/opt/package.json
       - ./cms/public:/opt/app/public
     networks:
       - ilnrs
@@ -146,5 +143,6 @@ services:
 volumes:
   strapi-data:
   es-data:
+
 networks:
   ilnrs:

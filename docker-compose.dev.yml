@@ -5,6 +5,7 @@ services:
     # image: il-nrs-strapi
     build:
       context: ./cms
+      target: development
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -51,7 +52,39 @@ services:
     networks:
       - strapi
 
-  # Uncomment this for local testing of image
+  # To test the production image locally, run:
+  #   docker compose -f docker-compose.dev.yml --profile prod up --build strapi-prod strapiDB
+  # strapi-prod:
+  #   container_name: strapi-prod
+  #   profiles: ["prod"]
+  #   build:
+  #     context: ./cms
+  #     target: production
+  #   restart: unless-stopped
+  #   environment:
+  #     DATABASE_CLIENT: ${DATABASE_CLIENT}
+  #     DATABASE_HOST: strapiDB
+  #     DATABASE_PORT: ${DATABASE_PORT}
+  #     DATABASE_NAME: ${DATABASE_NAME}
+  #     DATABASE_USERNAME: ${DATABASE_USERNAME}
+  #     DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+  #     JWT_SECRET: ${JWT_SECRET}
+  #     ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+  #     APP_KEYS: ${APP_KEYS}
+  #     API_TOKEN_SALT: ${API_TOKEN_SALT}
+  #     TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+  #     NODE_ENV: production
+  #     LOG_LEVEL: debug
+  #   volumes:
+  #     - ./cms/public/uploads:/opt/app/public/uploads
+  #   ports:
+  #     - "1337:1337"
+  #   networks:
+  #     - strapi
+  #   depends_on:
+  #     - strapiDB
+
+  # Uncomment this for local testing of frontend image
   # frontend:
   #   build:
   #     context: ./next
