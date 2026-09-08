@@ -142,7 +142,6 @@ services:
 
 volumes:
   strapi-data:
-  strapi-uploads:
   es-data:
 
 networks:
