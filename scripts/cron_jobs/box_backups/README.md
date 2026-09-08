@@ -102,8 +102,9 @@ crontab -e
 Cron does not load nvm. Put npm’s `bin` on `PATH` and log under your home directory:
 
 ```cron
-PATH=/home/deploy/.nvm/versions/node/v21.7.3/bin:/usr/bin:/bin
-0 2 * * * /home/deploy/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/.venv/bin/python /home/deploy/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/backup_strapi.py >> /home/deploy/logs/strapi-backup.log 2>&1
+PATH=/home/mohanar2/.nvm/versions/node/v21.7.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin
+
+0 11 * * 2 /home/mohanar2/illinois-nrs-dashboard/ilnlrs_vm/bin/python3 /home/mohanar2/illinois-nrs-dashboard/scripts/cron_jobs/box_backups/backup_strapi.py >> /home/mohanar2/logs/strapi-backup.log 2>&1
 ```
 
 > Adjust paths (`dirname $(which npm)` for `PATH`). Use the venv Python so you don’t need to activate it.
