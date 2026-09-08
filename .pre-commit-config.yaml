@@ -11,6 +11,6 @@ repos:
     hooks:
       - id: eslint
         name: eslint
-        entry: bash -c "cd next && yarn lint:fix"
+        entry: bash -c "cd next && npm run lint:fix"
         language: system
         files: ^next/src/.*\.(js|jsx|ts|tsx)$
