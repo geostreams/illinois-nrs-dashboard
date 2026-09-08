@@ -91,8 +91,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "127.0.0.1:5432:5432"
 
   elasticsearch:
     container_name: elasticsearch
@@ -114,7 +114,7 @@ services:
   frontend:
     container_name: frontend
     restart: always
-    image: hub.ncsa.illinois.edu/il-nrs/frontend:pr-113
+    image: hub.ncsa.illinois.edu/il-nrs/frontend:dev-main
     depends_on:
       - strapi
       - elasticsearch

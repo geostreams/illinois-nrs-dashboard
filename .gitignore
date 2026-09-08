@@ -7,4 +7,7 @@ letsencrypt/
 cms/public/
 scripts/elasticsearch/__pycache__/
 scripts/elasticsearch/*.pyc
-scripts/elasticsearch/.venv/
+scripts/.venv/
+box_config.json
+scripts/cron_jobs/box_backups/token.json
+scripts/cron_jobs/box_backups/__pycache__/
