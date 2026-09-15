@@ -5,8 +5,7 @@ import Captions from 'yet-another-react-lightbox/plugins/captions';
 import 'yet-another-react-lightbox/styles.css';
 import './lightbox.css';
 import 'yet-another-react-lightbox/plugins/captions.css';
-import * as DOMPurifyModule from 'dompurify';
-const DOMPurify = DOMPurifyModule.default ?? DOMPurifyModule;
+import DOMPurify from 'isomorphic-dompurify';
 
 interface LightboxWrapperProps {
     isOpen: boolean;

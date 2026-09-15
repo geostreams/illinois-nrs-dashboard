@@ -2,24 +2,28 @@
 const nextConfig = {
     output: 'standalone',
     images: {
-        domains: ['localhost', 'strapi.illinois-nlrs.ncsa.illinois.edu', 'strapi.ilnlrs-dev.ncsa.illinois.edu'],
+        remotePatterns: [
+            { protocol: 'http', hostname: 'localhost' },
+            { protocol: 'https', hostname: 'strapi.illinois-nlrs.ncsa.illinois.edu' },
+            { protocol: 'https', hostname: 'strapi.ilnlrs-dev.ncsa.illinois.edu' },
+        ],
+        // CMS_URL points at the local Strapi container (localhost) in dev; the
+        // production remotePatterns above only ever resolve to public hosts.
+        dangerouslyAllowLocalIP: true,
     },
     env: {
         CMS_URL: process.env.CMS_URL,
     },
-    webpack: (config) => {
-        config.module.rules.push({
-            test: /\.svg$/,
-            use: ['@svgr/webpack'],
-        });
-
-        // PNG file handling
-        config.module.rules.push({
-            test: /\.png$/,
-            type: 'asset/resource',
-        });
-
-        return config;
+    turbopack: {
+        rules: {
+            '*.svg': {
+                loaders: ['@svgr/webpack'],
+                as: '*.js',
+            },
+            '*.png': {
+                type: 'asset',
+            },
+        },
     },
 };
 

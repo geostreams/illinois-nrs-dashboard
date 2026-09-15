@@ -350,7 +350,7 @@ const BaseChart: FC<BaseChartProps> = ({
                 };
             } else {
                 // Direct capture for charts (works better with SVG/Canvas)
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
                 const canvas = await html2canvas(element, {
                     scale: 2,
                     backgroundColor: '#ffffff',

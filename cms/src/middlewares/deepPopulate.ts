@@ -17,10 +17,16 @@ interface Options {
 
 const { CREATED_BY_ATTRIBUTE, UPDATED_BY_ATTRIBUTE } = contentTypes.constants;
 
-const extractPathSegment = (url: string) => url.match(/\/([^/?]+)(?:\?|$)/)?.[1] || '';
+const extractPathSegment = (url: string) => url.match(/\/([^/?]+)\/?(?:\?|$)/)?.[1] || '';
 
 const getDeepPopulate = (uid: UID.Schema, opts: Options = {}) => {
     const model = strapi.getModel(uid);
+
+    if (!model?.attributes) {
+        strapi.log.warn(`deepPopulate: no model found for uid "${uid}"`);
+        return {};
+    }
+
     const attributes = Object.entries(model.attributes);
 
     return attributes.reduce((acc: any, [attributeName, attribute]) => {
@@ -87,6 +93,11 @@ export default (config, { strapi }: { strapi: Core.Strapi }) => {
             strapi.log.info('Using custom Dynamic-Zone population Middleware...');
 
             const contentType = extractPathSegment(ctx.request.url);
+
+            if (!contentType) {
+                return next();
+            }
+
             const singular = pluralize.singular(contentType)
             const uid = `api::${singular}.${singular}`;
 
