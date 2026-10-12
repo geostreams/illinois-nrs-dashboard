@@ -16,6 +16,7 @@ import {
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
 import CustomTooltip from './CustomTooltip';
+import WrappedTick from './WrappedTick';
 
 interface BarConfig {
     dataKey: string;
@@ -84,7 +85,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
             <ComposedChart data={chartData} barCategoryGap={barCategoryGap} barGap={barGap} accessibilityLayer={true}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} interval={0} />
+                <XAxis dataKey="name" tick={<WrappedTick />} height={60} interval={0} />
 
                 <YAxis
                     yAxisId="left"

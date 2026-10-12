@@ -11,6 +11,7 @@ repos:
     hooks:
       - id: eslint
         name: eslint
-        entry: bash -c "cd next && npm run lint:fix"
+        # Load nvm if present: GUI git clients (VS Code, Copilot) don't source shell rc files, so npm isn't on PATH
+        entry: bash -c 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; [ -s /opt/homebrew/opt/nvm/nvm.sh ] && . /opt/homebrew/opt/nvm/nvm.sh; cd next && npm run lint:fix'
         language: system
         files: ^next/src/.*\.(js|jsx|ts|tsx)$
