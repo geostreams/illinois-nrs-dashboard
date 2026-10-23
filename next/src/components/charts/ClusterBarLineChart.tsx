@@ -5,6 +5,7 @@ import {
     ComposedChart,
     Bar,
     Line,
+    Scatter,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -35,6 +36,14 @@ interface LineConfig {
     connectNulls?: boolean;
 }
 
+interface MarkerConfig {
+    dataKey: string;
+    name: string;
+    color: string;
+    strokeWidth?: number;
+    dashArray?: string; // For dashed lines, e.g., "5 5"
+}
+
 interface ClusterBarLineChartProps {
     chartData: {
         name: string;
@@ -42,6 +51,7 @@ interface ClusterBarLineChartProps {
     }[];
     barConfig: BarConfig[];
     lineConfig?: LineConfig[];
+    markerConfig?: MarkerConfig[];
     chartReferenceLines?: {
         label: string;
         value: number;
@@ -63,6 +73,7 @@ interface ClusterBarLineChartProps {
     };
     barCategoryGap?: string | number;
     barGap?: number;
+    referenceLine?: number;
     yAxisLabel?: {
         left?: string;
         right?: string;
@@ -73,6 +84,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
     chartData,
     barConfig,
     lineConfig = [],
+    markerConfig = [],
     chartReferenceLines = [],
     barUnit,
     lineUnit,
@@ -80,6 +92,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
     barCategoryGap = '20%',
     barGap = 0,
     yAxisLabel,
+    referenceLine,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -182,6 +195,7 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                             lineUnit={lineUnit}
                             barConfig={barConfig}
                             lineConfig={lineConfig}
+                            markerConfig={markerConfig}
                         />
                     }
                     wrapperStyle={{
@@ -189,7 +203,9 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                         outline: 'none',
                     }}
                 />
-                <Legend content={(props) => <ChartLegend {...props} lineConfig={lineConfig} />} />
+                <Legend
+                    content={(props) => <ChartLegend {...props} lineConfig={lineConfig} markerConfig={markerConfig} />}
+                />
 
                 {barConfig.map((config) => (
                     <Bar
@@ -220,6 +236,66 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                     />
                 ))}
 
+                {markerConfig
+                    .filter((config) =>
+                        chartData.some(
+                            (dataPoint) =>
+                                dataPoint[config.dataKey] !== null &&
+                                dataPoint[config.dataKey] !== undefined &&
+                                dataPoint[config.dataKey] !== ''
+                        )
+                    )
+                    .map((config) => {
+                        // Create custom shape for horizontal line markers
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const CustomLineMarker = (props: any) => {
+                            const { cx, cy, fill, stroke, payload, xAxis } = props;
+
+                            // Don't render if value is invalid
+                            const value = payload[config.dataKey];
+                            if (value === null || value === undefined || value === '') {
+                                return null;
+                            }
+
+                            const lineWidth = config.strokeWidth || 4;
+                            // Mirrors recharts' getBarPosition so the marker matches the rendered cluster width
+                            const bandSize = xAxis?.scale?.bandwidth?.() ?? 0;
+                            const barsWidth = barConfig.reduce((sum, bar) => sum + (bar.barSize || 40), 0);
+                            const gapsWidth = (barConfig.length - 1) * barGap;
+                            let lineLength = barsWidth + gapsWidth;
+                            if (bandSize > 0 && lineLength >= bandSize) {
+                                lineLength = barsWidth >= bandSize ? bandSize * 0.9 : barsWidth;
+                            }
+
+                            return (
+                                <line
+                                    x1={cx - lineLength / 4}
+                                    y1={cy}
+                                    x2={cx + lineLength / 4}
+                                    y2={cy}
+                                    stroke={stroke || fill}
+                                    strokeWidth={lineWidth}
+                                    strokeDasharray={config.dashArray || undefined}
+                                />
+                            );
+                        };
+
+                        return (
+                            <Scatter
+                                key={`marker-${config.dataKey}`}
+                                yAxisId="left"
+                                dataKey={config.dataKey}
+                                name={config.name}
+                                fill={config.color}
+                                stroke={config.color}
+                                strokeWidth={config.strokeWidth || 4}
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                shape={CustomLineMarker as any}
+                                isAnimationActive={false}
+                            />
+                        );
+                    })}
+
                 {chartReferenceLines.map((line, index) => (
                     <ReferenceLine
                         key={`${line.value}-${index}`}
@@ -235,6 +311,8 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                         strokeDasharray="5 5"
                     />
                 ))}
+
+                {typeof referenceLine === 'number' && <ReferenceLine y={referenceLine} yAxisId="left" />}
             </ComposedChart>
         </ResponsiveContainer>
     );

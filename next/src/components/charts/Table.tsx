@@ -22,6 +22,15 @@ interface TableProps {
     keepAsString: string[];
 }
 
+// Quotes are added upstream to preserve leading zeros (e.g. USGS IDs)
+const QUOTED_NUMERIC_STRING = /^(['"])(\d.*)\1$/;
+
+const formatCellValue = (value: string | number | undefined, keepAsString: boolean): string | number => {
+    if (typeof value === 'number' && !keepAsString) return formatNumberWithCommas(value);
+    if (typeof value === 'string') return value.replace(QUOTED_NUMERIC_STRING, '$2');
+    return value || '';
+};
+
 const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows, keepAsString }) => {
     // Get all unique columns from the data for columns
     const columns = tableData.columns.slice(1);
@@ -94,9 +103,7 @@ const TableComponent: React.FC<TableProps> = ({ tableData, boldenRows, keepAsStr
                                 </TableCell>
                                 {columns.map((column) => (
                                     <TableCell key={column} align="center" style={boldCellStyle}>
-                                        {typeof row[column] === 'number' && !keepAsString.includes(column)
-                                            ? formatNumberWithCommas(row[column])
-                                            : row[column] || ''}
+                                        {formatCellValue(row[column], keepAsString.includes(column))}
                                     </TableCell>
                                 ))}
                             </TableRow>
