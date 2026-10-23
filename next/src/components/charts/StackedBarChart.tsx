@@ -26,6 +26,7 @@ interface StackedBarChartProps {
     }[];
     chartColors: { [key: string]: string };
     unit?: string;
+    referenceLine?: number;
     yAxisLabel?: string;
     yAxisInterval?: {
         min?: number;
@@ -43,6 +44,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
     yAxisLabel,
     yAxisInterval,
     crosshatchingSubjects = [],
+    referenceLine,
 }) => {
     // Function to convert data keys to readable legend names
     const getLegendName = (key: string): string => key;
@@ -229,6 +231,8 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({
                             strokeWidth={2}
                         />
                     ))}
+
+                {typeof referenceLine === 'number' && <ReferenceLine y={referenceLine} />}
             </BarChart>
         </ResponsiveContainer>
     );

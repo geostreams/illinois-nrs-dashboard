@@ -72,6 +72,7 @@ interface ClusterBarLineChartProps {
     };
     barCategoryGap?: string | number;
     barGap?: number;
+    referenceLine?: number;
     xAxisLabel?: {
         top?: string;
         bottom?: string;
@@ -90,6 +91,7 @@ const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
     barCategoryGap = '20%',
     barGap = 0,
     xAxisLabel,
+    referenceLine,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -329,6 +331,8 @@ const HorizontalClusterBarMarkerChart: React.FC<ClusterBarLineChartProps> = ({
                         strokeDasharray="5 5"
                     />
                 ))}
+
+                {typeof referenceLine === 'number' && <ReferenceLine x={referenceLine} xAxisId="left" yAxisId="left" />}
             </ComposedChart>
         </ResponsiveContainer>
     );
