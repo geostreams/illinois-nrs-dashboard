@@ -262,16 +262,18 @@ const ClusterBarLineChart: React.FC<ClusterBarLineChartProps> = ({
                             const bandSize = xAxis?.scale?.bandwidth?.() ?? 0;
                             const barsWidth = barConfig.reduce((sum, bar) => sum + (bar.barSize || 40), 0);
                             const gapsWidth = (barConfig.length - 1) * barGap;
-                            let lineLength = barsWidth + gapsWidth;
-                            if (bandSize > 0 && lineLength >= bandSize) {
-                                lineLength = barsWidth >= bandSize ? bandSize * 0.9 : barsWidth;
+                            let clusterWidth = barsWidth + gapsWidth;
+                            if (bandSize > 0 && clusterWidth >= bandSize) {
+                                clusterWidth = barsWidth >= bandSize ? bandSize * 0.9 : barsWidth;
                             }
+                            // Marker spans the middle half of the cluster
+                            const halfLineLength = clusterWidth / 4;
 
                             return (
                                 <line
-                                    x1={cx - lineLength / 4}
+                                    x1={cx - halfLineLength}
                                     y1={cy}
-                                    x2={cx + lineLength / 4}
+                                    x2={cx + halfLineLength}
                                     y2={cy}
                                     stroke={stroke || fill}
                                     strokeWidth={lineWidth}
