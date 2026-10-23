@@ -439,6 +439,7 @@ const BaseChart: FC<BaseChartProps> = ({
         line: (
             <LineChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 chartConfig={miscChartData?.chartConfig}
                 unit={unit}
                 yAxisLabel={miscChartData?.yAxisLabel}
@@ -447,6 +448,7 @@ const BaseChart: FC<BaseChartProps> = ({
         stacked_bar: (
             <StackedBarChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 chartColors={miscChartData?.chartColors}
                 unit={unit}
@@ -458,6 +460,7 @@ const BaseChart: FC<BaseChartProps> = ({
         bar: (
             <BarChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 chartColors={miscChartData?.chartColors}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 unit={unit}
@@ -467,6 +470,7 @@ const BaseChart: FC<BaseChartProps> = ({
         bar_line: (
             <BarLineChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
@@ -479,6 +483,7 @@ const BaseChart: FC<BaseChartProps> = ({
         stacked_bar_line: (
             <StackedBarLineChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
@@ -491,8 +496,10 @@ const BaseChart: FC<BaseChartProps> = ({
         cluster_bar_line: (
             <ClusterBarLineChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
+                markerConfig={miscChartData?.markerConfig}
                 chartReferenceLines={miscChartData?.chartReferenceLines}
                 barUnit={barUnit}
                 lineUnit={lineUnit}
@@ -503,6 +510,7 @@ const BaseChart: FC<BaseChartProps> = ({
         horizontal_cluster_bar: (
             <HorizontalClusterBarMarkerChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
                 markerConfig={miscChartData?.markerConfig}
@@ -516,6 +524,7 @@ const BaseChart: FC<BaseChartProps> = ({
         bar_marker: (
             <BarMarkerChart
                 chartData={chartData}
+                referenceLine={miscChartData?.referenceLine}
                 barConfig={miscChartData?.barConfig}
                 lineConfig={miscChartData?.lineConfig}
                 markerConfig={miscChartData?.markerConfig}
