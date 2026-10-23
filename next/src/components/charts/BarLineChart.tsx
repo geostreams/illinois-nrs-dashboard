@@ -60,7 +60,6 @@ interface BarLineChartProps {
             interval?: number;
         };
     };
-    referenceLine?: number;
     yAxisLabel?: {
         left?: string;
         right?: string;
@@ -76,7 +75,6 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
     lineUnit,
     yAxisInterval,
     yAxisLabel,
-    referenceLine,
 }) => {
     return (
         <ResponsiveContainer width="100%" height="100%" debounce={1}>
@@ -232,8 +230,6 @@ const BarLineChart: React.FC<BarLineChartProps> = ({
                         stroke="red"
                     />
                 ))}
-
-                {typeof referenceLine === 'number' && <ReferenceLine y={referenceLine} yAxisId="left" />}
             </ComposedChart>
         </ResponsiveContainer>
     );

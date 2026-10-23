@@ -61,7 +61,6 @@ interface StackedBarLineChartProps {
             interval?: number;
         };
     };
-    referenceLine?: number;
     yAxisLabel?: {
         left?: string;
         right?: string;
@@ -77,7 +76,6 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
     lineUnit,
     yAxisInterval,
     yAxisLabel,
-    referenceLine,
 }) => {
     // Sort bar data keys by their total values for better visualization
     const sortedBarConfig = React.useMemo(() => {
@@ -264,8 +262,6 @@ const StackedBarLineChart: React.FC<StackedBarLineChartProps> = ({
                         strokeWidth={2}
                     />
                 ))}
-
-                {typeof referenceLine === 'number' && <ReferenceLine y={referenceLine} yAxisId="left" />}
             </ComposedChart>
         </ResponsiveContainer>
     );
