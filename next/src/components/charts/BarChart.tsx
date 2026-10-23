@@ -27,7 +27,6 @@ interface BarChartProps {
     }[];
     barSize?: number;
     unit?: string;
-    referenceLine?: number;
     yAxisLabel?: string;
 }
 
@@ -38,7 +37,6 @@ const BarChart: React.FC<BarChartProps> = ({
     barSize = 60,
     unit,
     yAxisLabel,
-    referenceLine,
 }) => {
     const dataKey = Object.keys(chartData[0]).find((key) => key !== 'name') || '';
     const barColor = chartColors[dataKey] || '#8884d8';
@@ -96,8 +94,6 @@ const BarChart: React.FC<BarChartProps> = ({
                         stroke="red"
                     />
                 ))}
-
-                {typeof referenceLine === 'number' && <ReferenceLine y={referenceLine} />}
             </RechartsBarChart>
         </ResponsiveContainer>
     );

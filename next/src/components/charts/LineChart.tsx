@@ -10,7 +10,6 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-    ReferenceLine,
 } from 'recharts';
 import { formatValueWithUnit } from '@/utils/formatters';
 import ChartLegend from './chartLegend';
@@ -36,11 +35,10 @@ interface LineChartProps {
     chartData: DataPoint[];
     chartConfig: { [key: string]: LineConfig };
     unit?: string;
-    referenceLine?: number;
     yAxisLabel?: string;
 }
 
-const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit, yAxisLabel, referenceLine }) => {
+const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit, yAxisLabel }) => {
     // Convert chartConfig to lineConfig format so that the legend shows lines instead of squares
     const lineConfig = Object.entries(chartConfig).map(([key, config]) => ({
         dataKey: key,
@@ -103,8 +101,6 @@ const LineChart: React.FC<LineChartProps> = ({ chartData, chartConfig, unit, yAx
                         isAnimationActive={false}
                     />
                 ))}
-
-                {typeof referenceLine === 'number' && <ReferenceLine y={referenceLine} />}
             </RechartsLineChart>
         </ResponsiveContainer>
     );
